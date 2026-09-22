@@ -93,6 +93,7 @@
   // ───────────── Scroll: reading progress, current contents entry, back-to-top
   const fill = document.getElementById("progress-fill");
   const toTop = document.getElementById("to-top");
+  const menu = document.querySelector(".menu");
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -100,6 +101,9 @@
     fill.style.height = `${(progress * 100).toFixed(1)}%`;
 
     toTop.classList.toggle("visible", window.scrollY > 400);
+
+    // Contents and progress pill appear once the menu bar is fixed to the top
+    root.classList.toggle("menu-stuck", window.scrollY > 0 && menu.getBoundingClientRect().top <= 0);
 
     // Current entry: the last one whose top has passed the reading line
     const line = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) + 120;
