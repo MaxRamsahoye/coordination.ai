@@ -58,12 +58,17 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
   /* Fill the whole screen so the text sits at its exact middle;
      the header overlays the top edge. */
   min-height: 100vh;
   min-height: 100svh;
   padding: 96px 24px;
+}
+
+.hero-inner {
+  /* Centred on screen as a block; text inside is left-aligned */
+  text-align: left;
+  max-width: 100%;
 }
 
 .hero h1 {
@@ -77,8 +82,6 @@ body {
 .hero-description {
   margin: 20px 0 0;
   max-width: 36em;
-  margin-left: auto;
-  margin-right: auto;
   color: var(--ink-2);
   font-size: clamp(18px, 2.2vw, 22px);
 }
