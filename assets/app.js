@@ -157,6 +157,48 @@
     }
   });
 
+  // ───────────── Custom cursor: a dot that tracks the pointer exactly and a
+  // ring that eases after it. Only for fine pointers (mouse, trackpad).
+  function initCursor() {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(forced-colors: active)").matches) return;
+
+    const dot = document.querySelector(".cursor-dot");
+    const ring = document.querySelector(".cursor-ring");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const CLICKABLE = "a, button, [role='button'], label, select, summary";
+
+    let x = -100, y = -100, rx = -100, ry = -100, started = false;
+
+    root.classList.add("has-custom-cursor", "cursor-away");
+
+    document.addEventListener("mousemove", (e) => {
+      x = e.clientX;
+      y = e.clientY;
+      if (!started) {
+        rx = x;
+        ry = y;
+        started = true;
+      }
+      root.classList.remove("cursor-away");
+      dot.style.translate = `${x}px ${y}px`;
+      root.classList.toggle("cursor-hover", !!e.target.closest?.(CLICKABLE));
+    });
+
+    document.addEventListener("mousedown", () => root.classList.add("cursor-down"));
+    document.addEventListener("mouseup", () => root.classList.remove("cursor-down"));
+    document.documentElement.addEventListener("mouseleave", () => root.classList.add("cursor-away"));
+    window.addEventListener("blur", () => root.classList.remove("cursor-down"));
+
+    (function follow() {
+      const ease = reduceMotion.matches ? 1 : 0.2;
+      rx += (x - rx) * ease;
+      ry += (y - ry) * ease;
+      ring.style.translate = `${rx.toFixed(2)}px ${ry.toFixed(2)}px`;
+      requestAnimationFrame(follow);
+    })();
+  }
+
   // ───────────── Routing: #<page>, defaulting to Statements
   const PAGES = ["statements"];
   const DEFAULT_PAGE = "statements";
@@ -172,6 +214,7 @@
   }
 
   renderStatements();
+  initCursor();
   showPage();
   onScroll();
   placeToc();

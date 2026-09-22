@@ -399,6 +399,64 @@ a { color: inherit; }
 }
 .to-top:hover { color: var(--accent); border-color: var(--accent); }
 
+/* ───────────── Custom cursor (mouse and trackpad only; see app.js) */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0;
+  translate: -100px -100px;
+  will-change: translate;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--accent);
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--ink);
+}
+
+/* Position (set by JS) uses `translate`, which applies before `scale`, so the
+   size effects below never shift the cursor off the pointer */
+.cursor-dot { scale: 1; transition: scale 0.2s ease, opacity 0.2s ease, background-color 0.2s ease; }
+.cursor-ring { scale: 1; transition: scale 0.25s ease, opacity 0.2s ease, border-color 0.2s ease, background-color 0.2s ease; }
+
+.has-custom-cursor,
+.has-custom-cursor * { cursor: none !important; }
+.has-custom-cursor .cursor-dot,
+.has-custom-cursor .cursor-ring { opacity: 1; }
+.has-custom-cursor.cursor-away .cursor-dot,
+.has-custom-cursor.cursor-away .cursor-ring { opacity: 0; }
+
+/* Hover over anything clickable: ring grows and takes the accent, dot shrinks */
+.cursor-hover .cursor-ring {
+  scale: 1.6;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.cursor-hover .cursor-dot { scale: 0.5; }
+
+/* Click: ring snaps in, dot swells */
+.cursor-down .cursor-ring { scale: 0.75; }
+.cursor-down.cursor-hover .cursor-ring { scale: 1.25; }
+.cursor-down .cursor-dot { scale: 1.8; }
+
+@media (forced-colors: active) {
+  .cursor-dot, .cursor-ring { display: none; }
+  .has-custom-cursor, .has-custom-cursor * { cursor: auto !important; }
+}
+
 /* ───────────── Phones */
 @media (max-width: 640px) {
   :root { --header-h: 72px; }
