@@ -1,8 +1,10 @@
-/* coordinationconsole.ai — page routing and the statements timeline. */
+/* coordinationconsole.ai — page routing, statements timeline, contents,
+   reading progress, theme/accent toggles and keyboard shortcuts. */
 (function () {
   "use strict";
 
   const STATEMENTS = window.CC_STATEMENTS || [];
+  const root = document.documentElement;
 
   const TYPES = {
     letter: "Open letter",
@@ -14,6 +16,11 @@
 
   const esc = (s) =>
     String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
+  };
 
   function formatDate(d) {
     const [y, m, day] = d.split("-");
@@ -28,16 +35,16 @@
     return `${y}-${m}-${day}`;
   };
 
+  const sorted = STATEMENTS.slice().sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
+
   // ───────────── Statements timeline (newest first)
   function renderStatements() {
-    const list = STATEMENTS.slice().sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
-    const years = list.map((s) => s.date.slice(0, 4));
-
+    const years = sorted.map((s) => s.date.slice(0, 4));
     document.getElementById("statements-intro").textContent =
-      `${list.length} statements on AI, ${years[years.length - 1]}–${years[0]}. Newest first.`;
+      `${sorted.length} statements on AI, ${years[years.length - 1]}–${years[0]}. Newest first.`;
 
     const groups = [];
-    for (const s of list) {
+    for (const s of sorted) {
       const y = s.date.slice(0, 4);
       if (!groups.length || groups[groups.length - 1].year !== y) groups.push({ year: y, items: [] });
       groups[groups.length - 1].items.push(s);
@@ -50,6 +57,12 @@
           <h3 class="tl-year-label">${g.year}</h3>
           <ol class="tl-list">${g.items.map(statementItem).join("")}</ol>
         </section>`
+      )
+      .join("");
+
+    document.getElementById("statements-toc").innerHTML = sorted
+      .map(
+        (s) => `<li><a href="#statement-${esc(s.id)}" data-target="statement-${esc(s.id)}">${esc(s.title)} <span class="toc-date">(${esc(formatDate(s.date))})</span></a></li>`
       )
       .join("");
   }
@@ -69,6 +82,74 @@
       </li>`;
   }
 
+  // Contents links scroll to the entry without touching the page hash
+  document.getElementById("statements-toc").addEventListener("click", (e) => {
+    const a = e.target.closest("a[data-target]");
+    if (!a) return;
+    e.preventDefault();
+    document.getElementById(a.dataset.target)?.scrollIntoView({ block: "start" });
+  });
+
+  // ───────────── Scroll: reading progress, current contents entry, back-to-top
+  const fill = document.getElementById("progress-fill");
+  const toTop = document.getElementById("to-top");
+
+  function onScroll() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    fill.style.height = `${(progress * 100).toFixed(1)}%`;
+
+    toTop.classList.toggle("visible", window.scrollY > 400);
+
+    // Current entry: the last one whose top has passed the reading line
+    const line = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) + 120;
+    let current = null;
+    document.querySelectorAll(".tl-item").forEach((el) => {
+      if (el.getBoundingClientRect().top <= line) current = el.id;
+    });
+    document.querySelectorAll(".toc-list a").forEach((a) => {
+      if (a.dataset.target === current) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }
+
+  // ───────────── Theme and accent
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  const currentTheme = () => root.getAttribute("data-theme") || (prefersDark.matches ? "dark" : "light");
+
+  function toggleTheme() {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    store.set("cc-theme", next);
+  }
+
+  function toggleAccent() {
+    const next = root.getAttribute("data-accent") === "orange" ? "blue" : "orange";
+    root.setAttribute("data-accent", next);
+    store.set("cc-accent", next);
+  }
+
+  function toTopNow() {
+    window.scrollTo({ top: 0 });
+  }
+
+  document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+  document.getElementById("accent-toggle").addEventListener("click", toggleAccent);
+  toTop.addEventListener("click", toTopNow);
+
+  // Shortcuts: T theme, C accent, Backspace back to top
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if (e.key === "t" || e.key === "T") toggleTheme();
+    else if (e.key === "c" || e.key === "C") toggleAccent();
+    else if (e.key === "Backspace") {
+      e.preventDefault();
+      toTopNow();
+    }
+  });
+
   // ───────────── Routing: #<page>, defaulting to Statements
   const PAGES = ["statements"];
   const DEFAULT_PAGE = "statements";
@@ -85,5 +166,8 @@
 
   renderStatements();
   showPage();
+  onScroll();
   window.addEventListener("hashchange", showPage);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
 })();
