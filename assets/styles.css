@@ -26,6 +26,12 @@ body {
 
 /* Header */
 .site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
 
@@ -34,7 +40,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   height: 64px;
-  padding: 0 24px;
+  padding: 0 48px;
 }
 
 .site-title {
@@ -53,9 +59,11 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: calc(100vh - 65px);
-  min-height: calc(100svh - 65px);
-  padding: 48px 24px;
+  /* Fill the whole screen so the text sits at its exact middle;
+     the header overlays the top edge. */
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 96px 24px;
 }
 
 .hero h1 {
@@ -77,6 +85,6 @@ body {
 
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
-  .header-inner { padding: 0 16px; }
-  .hero { padding: 40px 16px; }
+  .header-inner { padding: 0 24px; }
+  .hero { padding: 88px 16px; }
 }
