@@ -312,17 +312,22 @@ a { color: inherit; }
 }
 
 .tl-item {
+  --tl-indent: 32px;
   position: relative;
-  padding: 0 0 80px 32px;
+  padding: 0 0 80px var(--tl-indent);
   scroll-margin-top: calc(var(--header-h) + 24px);
 }
 .tl-item:last-child { padding-bottom: 32px; }
 
-.tl-item::before {
+/* The dot sits on the timeline line, level with the middle of the
+   title's first line (line-height 1.2, so 0.6em down) */
+.tl-title { position: relative; }
+
+.tl-title::before {
   content: "";
   position: absolute;
-  left: -5px;
-  top: 7px;
+  left: calc(-1 * var(--tl-indent) - 5px);
+  top: calc(0.6em - 4.5px);
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -484,7 +489,7 @@ a { color: inherit; }
   .hero { padding-top: calc(var(--header-h) + 56px); padding-bottom: 48px; }
   .tl-year { grid-template-columns: 1fr; }
   .tl-year-label { position: static; margin-bottom: 20px; }
-  .tl-item { padding: 0 0 56px 24px; }
+  .tl-item { --tl-indent: 24px; padding-bottom: 56px; }
   .tl-title { font-size: 23px; }
   .to-top { right: 16px; bottom: 24px; }
 }
