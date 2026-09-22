@@ -8,22 +8,41 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=3547ab1f">
+  <link rel="stylesheet" href="assets/styles.css?v=8c5d71c2">
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a class="site-title" href="/">coordinationconsole.ai</a>
+      <a class="site-title" href="./">coordinationconsole.ai</a>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="hero-inner">
+      <div class="container">
         <h1>AI Coordination</h1>
         <p class="hero-description">Tracking the positioning of individuals, institutions and events at the frontier.</p>
       </div>
     </section>
+
+    <nav class="menu" aria-label="Sections">
+      <div class="container menu-inner">
+        <a href="#statements" data-page="statements">Statements</a>
+      </div>
+    </nav>
+
+    <section id="page-statements" class="page" aria-labelledby="statements-heading" hidden>
+      <div class="container">
+        <div class="page-head">
+          <h2 id="statements-heading">Statements</h2>
+          <p class="page-intro" id="statements-intro"></p>
+        </div>
+        <div class="timeline" id="statements-timeline"></div>
+      </div>
+    </section>
   </main>
+
+  <script src="data/statements.js?v=5405100e"></script>
+  <script src="assets/app.js?v=0c40d4a4"></script>
 </body>
 </html>
