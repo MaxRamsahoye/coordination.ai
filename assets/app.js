@@ -6,12 +6,8 @@
 
   const TYPES = {
     letter: "Open letter",
-    declaration: "Intergovernmental",
-    scientific: "Scientific consensus",
-    industry: "Industry",
-    government: "Government",
-    remarks: "Remarks",
-    essay: "Essay",
+    declaration: "Declaration",
+    joint: "Joint statement",
   };
 
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -38,7 +34,7 @@
     const years = list.map((s) => s.date.slice(0, 4));
 
     document.getElementById("statements-intro").textContent =
-      `${list.length} open letters, declarations, commitments and remarks on AI, ${years[years.length - 1]}–${years[0]}. Newest first.`;
+      `${list.length} statements on AI, ${years[years.length - 1]}–${years[0]}. Newest first.`;
 
     const groups = [];
     for (const s of list) {
