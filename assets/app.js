@@ -113,6 +113,13 @@
     });
   }
 
+  // Keep the contents sidebar in the vertical middle of the screen
+  const toc = document.querySelector(".toc");
+  function placeToc() {
+    const h = toc.offsetHeight;
+    if (h) root.style.setProperty("--toc-top", `${Math.max(0, (window.innerHeight - h) / 2)}px`);
+  }
+
   // ───────────── Theme and accent
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
   const currentTheme = () => root.getAttribute("data-theme") || (prefersDark.matches ? "dark" : "light");
@@ -167,7 +174,13 @@
   renderStatements();
   showPage();
   onScroll();
+  placeToc();
   window.addEventListener("hashchange", showPage);
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
+  window.addEventListener("resize", () => {
+    onScroll();
+    placeToc();
+  });
+  // Web fonts change the sidebar's height once they load
+  document.fonts?.ready.then(placeToc);
 })();

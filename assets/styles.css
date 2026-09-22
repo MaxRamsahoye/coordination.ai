@@ -201,16 +201,16 @@ a { color: inherit; }
 }
 .page-intro { margin: 8px 0 0; color: var(--ink-2); }
 
-/* Contents sidebar */
+/* Contents sidebar, centred in the left column. Its sticky top is set in
+   app.js from its height, so it sits in the vertical middle of the screen. */
 .toc {
   position: sticky;
-  top: calc(var(--header-h) + 40px);
+  top: var(--toc-top, calc(var(--header-h) + 40px));
   align-self: start;
-  justify-self: end;
-  width: 100%;
-  max-width: 280px;
-  padding: 0 24px 0 32px;
-  max-height: calc(100vh - var(--header-h) - 80px);
+  justify-self: center;
+  max-width: min(260px, 100%);
+  padding: 0 24px;
+  max-height: calc(100vh - 2 * var(--header-h));
   overflow-y: auto;
 }
 
@@ -243,8 +243,9 @@ a { color: inherit; }
 
 /* Progress pill, centred in the space right of the text column */
 .progress-col {
+  --pill-h: min(540px, calc(100vh - 2 * var(--header-h) - 40px));
   position: sticky;
-  top: calc(50vh - 90px);
+  top: calc(50vh - var(--pill-h) / 2);
   align-self: start;
   justify-self: center;
 }
@@ -252,7 +253,7 @@ a { color: inherit; }
 .progress-pill {
   position: relative;
   width: 6px;
-  height: 180px;
+  height: var(--pill-h);
   border-radius: 999px;
   background: var(--line);
   overflow: hidden;
