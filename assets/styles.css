@@ -34,6 +34,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   height: 64px;
+  padding: 0 24px;
 }
 
 .site-title {
@@ -47,8 +48,14 @@ body {
 
 /* Hero */
 .hero {
-  padding-top: 96px;
-  padding-bottom: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: calc(100vh - 65px);
+  min-height: calc(100svh - 65px);
+  padding: 48px 24px;
 }
 
 .hero h1 {
@@ -62,11 +69,14 @@ body {
 .hero-description {
   margin: 20px 0 0;
   max-width: 36em;
+  margin-left: auto;
+  margin-right: auto;
   color: var(--ink-2);
   font-size: clamp(18px, 2.2vw, 22px);
 }
 
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
-  .hero { padding-top: 56px; padding-bottom: 56px; }
+  .header-inner { padding: 0 16px; }
+  .hero { padding: 40px 16px; }
 }
