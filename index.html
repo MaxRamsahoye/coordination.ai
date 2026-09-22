@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coordination Console</title>
+  <meta name="description" content="Tracking coordination on frontier AI: a timeline of events and a map of who stands where on pacing the frontier and a coordinated slowdown.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23184f95'/%3E%3Cpath d='M8 20h4v4H8zM14 14h4v10h-4zM20 8h4v16h-4z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script>
+    // Apply the saved theme before first paint.
+    try {
+      var t = localStorage.getItem("cc-theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>Coordination Console</h1>
+          <p class="tagline">Tracking coordination on frontier AI — who is pushing to pace it, who is racing, and what has happened.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="asof" id="asof"></span>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="wrap tabs" aria-label="Sections">
+      <a href="#overview" data-tab="overview">Overview</a>
+      <a href="#timeline" data-tab="timeline">Timeline</a>
+      <a href="#actors" data-tab="actors">Actors</a>
+      <a href="#method" data-tab="method">Method</a>
+    </nav>
+  </header>
+
+  <main id="main" class="wrap">
+    <!-- ───────────── Overview -->
+    <section id="panel-overview" class="panel" aria-labelledby="h-overview">
+      <h2 id="h-overview" class="sr-only">Overview</h2>
+      <div class="kpis" id="kpis"></div>
+
+      <div class="grid-2">
+        <article class="card">
+          <header class="card-head">
+            <div>
+              <h3>Where actors stand, by sector</h3>
+              <p class="card-sub">Share of tracked actors at each position on a coordinated slowdown.</p>
+            </div>
+            <button class="link-btn" type="button" data-table-toggle="stance-chart">Show table</button>
+          </header>
+          <div class="legend" id="stance-legend"></div>
+          <div id="stance-chart" class="chart"></div>
+        </article>
+
+        <article class="card">
+          <header class="card-head">
+            <div>
+              <h3>Direction of events, by year</h3>
+              <p class="card-sub">Events moving toward coordination and pacing (up) versus toward racing and deregulation (down).</p>
+            </div>
+            <button class="link-btn" type="button" data-table-toggle="signal-chart">Show table</button>
+          </header>
+          <div class="legend" id="signal-legend"></div>
+          <div id="signal-chart" class="chart"></div>
+        </article>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <header class="card-head">
+            <div>
+              <h3>Latest developments</h3>
+              <p class="card-sub">Most recent entries in the timeline.</p>
+            </div>
+            <a class="link-btn" href="#timeline">Full timeline →</a>
+          </header>
+          <ol class="mini-list" id="latest"></ol>
+        </article>
+        <article class="card">
+          <header class="card-head">
+            <div>
+              <h3>Live processes</h3>
+              <p class="card-sub">Negotiations, bills, lawsuits and campaigns still in motion.</p>
+            </div>
+          </header>
+          <ol class="mini-list" id="ongoing"></ol>
+        </article>
+      </div>
+    </section>
+
+    <!-- ───────────── Timeline -->
+    <section id="panel-timeline" class="panel" aria-labelledby="h-timeline" hidden>
+      <div class="section-head">
+        <h2 id="h-timeline">Timeline</h2>
+        <p class="muted" id="timeline-count"></p>
+      </div>
+      <div class="filters" role="search">
+        <label class="field grow">
+          <span class="sr-only">Search events</span>
+          <input type="search" id="ev-q" placeholder="Search events, actors…" autocomplete="off">
+        </label>
+        <label class="field">
+          <span class="field-label">Category</span>
+          <select id="ev-cat"></select>
+        </label>
+        <label class="field">
+          <span class="field-label">Direction</span>
+          <select id="ev-sig">
+            <option value="">All</option>
+            <option value="1">Toward coordination</option>
+            <option value="0">Mixed / neutral</option>
+            <option value="-1">Toward racing</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field-label">Status</span>
+          <select id="ev-status">
+            <option value="">All</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="past">Concluded</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field-label">Actor</span>
+          <select id="ev-actor"></select>
+        </label>
+        <button class="btn" type="button" id="ev-sort" aria-pressed="false">Newest first</button>
+        <button class="link-btn" type="button" id="ev-reset">Reset</button>
+      </div>
+      <div id="timeline-list" class="timeline"></div>
+    </section>
+
+    <!-- ───────────── Actors -->
+    <section id="panel-actors" class="panel" aria-labelledby="h-actors" hidden>
+      <div class="section-head">
+        <h2 id="h-actors">Actors</h2>
+        <p class="muted" id="actors-count"></p>
+      </div>
+      <div class="filters" role="search">
+        <label class="field grow">
+          <span class="sr-only">Search actors</span>
+          <input type="search" id="ac-q" placeholder="Search people and institutions…" autocomplete="off">
+        </label>
+        <label class="field">
+          <span class="field-label">Type</span>
+          <select id="ac-kind">
+            <option value="">All</option>
+            <option value="individual">Individuals</option>
+            <option value="institution">Institutions</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field-label">Sector</span>
+          <select id="ac-sector"></select>
+        </label>
+        <label class="field">
+          <span class="field-label">Position</span>
+          <select id="ac-stance"></select>
+        </label>
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" data-view="board" aria-pressed="true">Spectrum</button>
+          <button type="button" data-view="table" aria-pressed="false">Table</button>
+        </div>
+        <button class="link-btn" type="button" id="ac-reset">Reset</button>
+      </div>
+      <div id="actors-view"></div>
+    </section>
+
+    <!-- ───────────── Method -->
+    <section id="panel-method" class="panel prose" aria-labelledby="h-method" hidden>
+      <h2 id="h-method">Method</h2>
+      <p>
+        Coordination Console tracks one question: <strong>will the actors building and governing frontier AI coordinate to pace its development, or race?</strong>
+        It pairs a timeline of events with a map of positions held by individuals and institutions across government, industry, civil society, academia and multilateral bodies.
+      </p>
+
+      <h3>Position scale</h3>
+      <p>Each actor is placed on a five-point scale describing their <em>current stated position</em> on a coordinated slowdown of frontier development.</p>
+      <dl class="scale-defs" id="scale-defs"></dl>
+      <p>
+        Where stated positions and conduct diverge — a lab endorsing a slowdown while shipping faster, a government calling for governance while rejecting restraint — the actor profile carries a <strong>tension</strong> note rather than averaging the two.
+        Positions reflect public statements and actions as of the dataset date and will change; each is backed by dated evidence.
+      </p>
+
+      <h3>Event direction</h3>
+      <p>
+        Every event is tagged <span class="sig sig-up">▲ toward coordination</span> if it moves the world toward shared limits, verification, pacing or binding oversight,
+        <span class="sig sig-down">▼ toward racing</span> if it removes constraints or intensifies competition, and <span class="sig sig-flat">● mixed</span> otherwise.
+        This is an editorial judgement about direction, not about whether the event is good or bad.
+      </p>
+
+      <h3>Sources and corrections</h3>
+      <p>
+        Entries link to primary sources or reputable reporting where available. The data lives in plain files
+        (<code>data/events.js</code>, <code>data/actors.js</code>) so corrections and additions can be proposed as pull requests.
+        Recent entries — especially those from the past few weeks — describe fast-moving stories and should be read alongside the latest reporting.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Coordination Console · Data current to <span id="asof-foot"></span> · Positions are editorial summaries of public statements; see Method.</p>
+    </div>
+  </footer>
+
+  <dialog id="actor-dialog" aria-labelledby="ad-name">
+    <div class="dialog-inner" id="actor-dialog-body"></div>
+  </dialog>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+
+  <script src="data/meta.js"></script>
+  <script src="data/events.js"></script>
+  <script src="data/actors.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
