@@ -390,6 +390,13 @@ a { color: inherit; }
   transition: opacity 0.2s, visibility 0.2s;
 }
 .to-top.visible { opacity: 1; visibility: visible; }
+
+/* U+27D1 (AND WITH DOT); symbol fonts first, as most text fonts lack it */
+.to-top-glyph {
+  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Math", "STIX Two Math", "Cambria Math", "DejaVu Sans", sans-serif;
+  font-size: 22px;
+  line-height: 1;
+}
 .to-top:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ───────────── Phones */
