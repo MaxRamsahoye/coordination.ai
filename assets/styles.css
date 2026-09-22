@@ -39,7 +39,7 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: 64px;
+  height: 88px;
   padding: 0 48px;
 }
 
@@ -62,7 +62,7 @@ body {
      the header overlays the top edge. */
   min-height: 100vh;
   min-height: 100svh;
-  padding: 96px 24px;
+  padding: 120px 24px;
 }
 
 .hero-inner {
@@ -88,6 +88,6 @@ body {
 
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
-  .header-inner { padding: 0 24px; }
-  .hero { padding: 88px 16px; }
+  .header-inner { height: 72px; padding: 0 24px; }
+  .hero { padding: 96px 16px; }
 }
