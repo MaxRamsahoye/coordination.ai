@@ -119,7 +119,6 @@
   const toTop = document.getElementById("to-top");
   const menu = document.querySelector(".menu");
   const hero = document.querySelector(".hero");
-  const MORPH_DISTANCE = 200;
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -128,16 +127,10 @@
 
     toTop.classList.toggle("visible", window.scrollY > 400);
 
-    // Menu bar → top-left tab, driven by scroll position: --p goes from 0 to
-    // 1 over the first MORPH_DISTANCE px after the bar reaches the top (its
-    // natural position is the bottom of the hero), eased so it starts and
-    // ends gently. The contents sidebar and progress pill appear once the
-    // bar reaches the top.
+    // Once scrolled to the menu bar, the contents sidebar and progress pill
+    // appear (and, on narrower windows, the site title gets a backing)
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
-    const t = Math.min(1, Math.max(0, (window.scrollY - barTop) / MORPH_DISTANCE));
-    root.style.setProperty("--p", (t * t * (3 - 2 * t)).toFixed(4));
-    root.classList.toggle("menu-stuck", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
-    root.classList.toggle("menu-tabbed", t > 0.6);   // mostly a tab: the bar no longer sits behind the site title
+    root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
 
     // Current entry: the last one whose switch-over point has been reached
     // (half-pixel tolerance for fractional scroll positions)
@@ -154,25 +147,6 @@
   function placeToc() {
     const h = toc.offsetHeight;
     if (h) root.style.setProperty("--toc-top", `${Math.max(0, (window.innerHeight - h) / 2)}px`);
-  }
-
-  // Menu tab geometry for the stuck state: the tab hugs the selected item in
-  // the top-left corner (label --tab-pad from the left edge, 32px after it),
-  // and the item slides from its place in the full bar into the tab.
-  // offsetLeft/Top ignore the transform, so this measures the full-bar position.
-  function placeMenuTab() {
-    const item = menu.querySelector('a[aria-current="page"]');
-    if (!item) return;
-    const inner = menu.querySelector(".menu-inner");
-    const cs = getComputedStyle(root);
-    const tabH = parseFloat(cs.getPropertyValue("--tab-h"));
-    const padL = parseFloat(cs.getPropertyValue("--tab-pad"));
-    const tabW = padL + item.offsetWidth + 32;
-    const itemX = inner.offsetLeft + item.offsetLeft;
-    const itemY = inner.offsetTop + item.offsetTop + item.offsetHeight / 2;
-    menu.style.setProperty("--tab-w", `${tabW}px`);
-    menu.style.setProperty("--tab-dx", `${padL - itemX}px`);
-    menu.style.setProperty("--tab-dy", `${tabH / 2 - itemY}px`);
   }
 
   // ───────────── Theme and accent
@@ -325,22 +299,19 @@
   initCursor();
   centreToTopGlyph();
   showPage();
-  placeMenuTab();
   onScroll();
   placeToc();
   fitHeroArt();
   window.addEventListener("hashchange", showPage);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
-    placeMenuTab();
-    onScroll();
+      onScroll();
     placeToc();
     fitHeroArt();
   });
   // Web fonts change the sidebar's height once they load
   document.fonts?.ready.then(() => {
-    placeMenuTab();
-    placeToc();
+      placeToc();
     fitHeroArt();
   });
 })();
