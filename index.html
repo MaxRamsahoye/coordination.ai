@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=dfcc4bcb">
+  <link rel="stylesheet" href="assets/styles.css?v=932fd2d2">
 </head>
 <body>
   <header class="site-header">
@@ -40,11 +40,13 @@
   <main>
     <section class="hero">
       <div class="container">
-        <div class="hero-art">
-          <!-- Uses assets/hero.gif when present; falls back to the still assets/hero.webp -->
-          <img src="assets/hero.gif" alt="" width="540" height="540" onerror="this.onerror=null;this.src='assets/hero.webp'">
+        <div class="hero-lockup">
+          <div class="hero-art" aria-hidden="true">
+            <!-- Live wireframe drawn by assets/terrain.js; replaced by assets/hero.gif if present -->
+            <canvas></canvas>
+          </div>
+          <h1>AI Coordination</h1>
         </div>
-        <h1>AI Coordination</h1>
         <p class="hero-description">Tracking the positioning of individuals, institutions and events at the frontier.</p>
       </div>
     </section>
@@ -77,15 +79,21 @@
     </section>
   </main>
 
+  <footer class="site-footer">
+    <p>AI Coordination</p>
+  </footer>
+
   <button type="button" class="to-top" id="to-top" aria-keyshortcuts="Backspace" title="Back to top (Backspace)">
     <span class="to-top-glyph" aria-hidden="true">&#x27D1;</span>
     <span class="sr-only">Back to top</span>
   </button>
 
   <div class="cursor-ring" aria-hidden="true"></div>
+  <div class="cursor-ripples" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
 
   <script src="data/statements.js?v=aa5fbd22"></script>
-  <script src="assets/app.js?v=b9589985"></script>
+  <script src="assets/terrain.js?v=ea92b724"></script>
+  <script src="assets/app.js?v=0ac9ade3"></script>
 </body>
 </html>

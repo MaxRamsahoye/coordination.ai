@@ -216,7 +216,15 @@
       root.classList.toggle("cursor-hover", !!e.target.closest?.(CLICKABLE));
     });
 
-    document.addEventListener("mousedown", () => root.classList.add("cursor-down"));
+    const ripples = document.querySelector(".cursor-ripples");
+    document.addEventListener("mousedown", (e) => {
+      root.classList.add("cursor-down");
+      const r = document.createElement("span");
+      r.className = "cursor-ripple";
+      r.style.translate = `${e.clientX}px ${e.clientY}px`;
+      r.addEventListener("animationend", () => r.remove());
+      ripples.appendChild(r);
+    });
     document.addEventListener("mouseup", () => root.classList.remove("cursor-down"));
     document.documentElement.addEventListener("mouseleave", () => root.classList.add("cursor-away"));
     window.addEventListener("blur", () => root.classList.remove("cursor-down"));

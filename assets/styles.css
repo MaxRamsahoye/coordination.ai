@@ -135,17 +135,27 @@ a { color: inherit; }
   padding-bottom: 48px;
 }
 
-/* Wireframe terrain above the title. The artwork is dark lines on white:
-   multiply drops the white in light mode; in dark mode it's inverted to
-   light lines on black and screen drops the black. */
+/* Title lockup: its width is the title's width, so the artwork above
+   (width 100%) matches the length of "AI Coordination" */
+.hero-lockup { width: fit-content; max-width: 100%; }
+
 .hero-art {
-  width: min(460px, 100%);
-  aspect-ratio: 2 / 1;          /* crops the empty space above and below the mesh */
-  margin: 0 0 24px -3%;
-  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  margin-bottom: 16px;
+  color: var(--ink);            /* the canvas strokes in this colour */
 }
 
-.hero-art img {
+.hero-art canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The original GIF, if added as assets/hero.gif: dark lines on white.
+   Multiply drops the white in light mode; in dark mode it's inverted to
+   light lines on black and screen drops the black. */
+.hero-gif {
   display: block;
   width: 100%;
   height: 100%;
@@ -153,16 +163,9 @@ a { color: inherit; }
   object-position: 50% 58%;
   mix-blend-mode: multiply;
 }
-
-:root[data-theme="dark"] .hero-art img {
-  filter: invert(1);
-  mix-blend-mode: screen;
-}
+:root[data-theme="dark"] .hero-gif { filter: invert(1); mix-blend-mode: screen; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .hero-art img {
-    filter: invert(1);
-    mix-blend-mode: screen;
-  }
+  :root:not([data-theme="light"]) .hero-gif { filter: invert(1); mix-blend-mode: screen; }
 }
 
 .hero h1 {
@@ -417,6 +420,17 @@ a { color: inherit; }
 }
 .tl-source:hover { color: var(--accent); }
 
+/* ───────────── Footer */
+.site-footer {
+  padding: 56px 24px 64px;
+  text-align: center;
+}
+.site-footer p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink);
+}
+
 /* ───────────── Back to top */
 .to-top {
   position: fixed;
@@ -487,21 +501,51 @@ a { color: inherit; }
 .has-custom-cursor.cursor-away .cursor-dot,
 .has-custom-cursor.cursor-away .cursor-ring { opacity: 0; }
 
-/* Hover over anything clickable: ring grows and takes the accent, dot shrinks */
+/* Hover over anything clickable: the dot disappears into a larger,
+   accent-tinted ring */
 .cursor-hover .cursor-ring {
-  scale: 1.6;
+  scale: 1.7;
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
 }
-.cursor-hover .cursor-dot { scale: 0.5; }
+.cursor-hover .cursor-dot { scale: 0; }
 
-/* Click: ring snaps in, dot swells */
-.cursor-down .cursor-ring { scale: 0.75; }
-.cursor-down.cursor-hover .cursor-ring { scale: 1.25; }
-.cursor-down .cursor-dot { scale: 1.8; }
+/* Click: the ring snaps shut into a solid accent disc, and a ripple
+   (added by app.js) spreads out from the click point */
+.cursor-down .cursor-ring,
+.cursor-down.cursor-hover .cursor-ring {
+  scale: 0.45;
+  border-color: var(--accent);
+  background: var(--accent);
+  transition-duration: 0.08s;
+}
+.cursor-down .cursor-dot { scale: 0; }
+
+.cursor-ripples { position: fixed; inset: 0; z-index: 99; pointer-events: none; }
+
+.cursor-ripple {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  animation: cursor-ripple 0.5s ease-out forwards;
+}
+
+@keyframes cursor-ripple {
+  from { scale: 0.4; opacity: 0.9; }
+  to { scale: 2.6; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-ripple { display: none; }
+}
 
 @media (forced-colors: active) {
-  .cursor-dot, .cursor-ring { display: none; }
+  .cursor-dot, .cursor-ring, .cursor-ripples { display: none; }
   .has-custom-cursor, .has-custom-cursor * { cursor: auto !important; }
 }
 
