@@ -54,8 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Links use the accent colour; hover adds or thickens an underline */
-a { color: var(--accent); }
+a { color: inherit; }
 [hidden] { display: none !important; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
@@ -139,7 +138,7 @@ a { color: var(--accent); }
 }
 
 .site-title {
-  color: var(--accent);
+  color: var(--ink);
   text-decoration: none;
   font-weight: 400;
   font-size: 15px;
@@ -225,13 +224,14 @@ a { color: var(--accent); }
   display: block;
   padding: 6px 0 4px;
   border-bottom: 2px solid transparent;
-  color: var(--accent);
+  color: var(--ink-2);
   text-decoration: none;
   font-size: 15px;
   white-space: nowrap;
 }
-.menu a:hover { border-bottom-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.menu a:hover { color: var(--ink); }
 .menu a[aria-current="page"] {
+  color: var(--ink);
   font-weight: 500;
   border-bottom-color: var(--accent);
 }
@@ -283,14 +283,14 @@ a { color: var(--accent); }
   display: block;
   padding: 6px 0 6px 12px;
   border-left: 2px solid var(--line);
-  color: var(--accent);
+  color: var(--ink-2);
   text-decoration: none;
   font-size: 13.5px;
   line-height: 1.4;
 }
-.toc-list a:hover { text-decoration: underline; }
+.toc-list a:hover { color: var(--ink); }
 .toc-list a[aria-current="true"] {
-  font-weight: 500;
+  color: var(--ink);
   border-left-color: var(--accent);
 }
 .toc-date { white-space: nowrap; }
@@ -437,7 +437,7 @@ a { color: var(--accent); }
   display: inline-block;
   margin-top: 16px;
   font-size: 14px;
-  color: var(--accent);
+  color: var(--accent);        /* links within entries use the accent colour */
 }
 .tl-source:hover { text-decoration-thickness: 2px; }
 
