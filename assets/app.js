@@ -238,7 +238,7 @@
     })();
   }
 
-  // ───────────── Hero artwork: match the length of the title's longest line
+  // ───────────── Hero artwork: no wider than the title's longest line
   const heroArt = document.querySelector(".hero-art");
   const heroTitle = document.querySelector(".hero h1");
   function fitHeroArt() {
