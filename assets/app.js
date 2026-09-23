@@ -249,6 +249,18 @@
     root.setAttribute("data-accent", next);
   }
 
+  // Font toggles IBM Plex Sans Arabic (default) ⇄ ET Bembo; not remembered
+  function toggleFont() {
+    if (root.getAttribute("data-font") === "bembo") root.removeAttribute("data-font");
+    else root.setAttribute("data-font", "bembo");
+    // Text heights change with the font, so re-measure what depends on them
+    document.fonts.ready.then(() => {
+      fitHeroArt();
+      placeToc();
+      onScroll();
+    });
+  }
+
   function toTopNow() {
     window.scrollTo({ top: 0 });
   }
@@ -281,15 +293,17 @@
 
   document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
   document.getElementById("accent-toggle").addEventListener("click", toggleAccent);
+  document.getElementById("font-toggle").addEventListener("click", toggleFont);
   toTop.addEventListener("click", toTopNow);
 
-  // Shortcuts: T theme, C accent, Backspace back to top
+  // Shortcuts: T theme, C accent, F font, Backspace back to top
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
     if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
     if (e.key === "t" || e.key === "T") toggleTheme();
     else if (e.key === "c" || e.key === "C") toggleAccent();
+    else if (e.key === "f" || e.key === "F") toggleFont();
     else if (e.key === "Backspace") {
       e.preventDefault();
       if (toTop.classList.contains("visible")) pressFeedback(toTop);

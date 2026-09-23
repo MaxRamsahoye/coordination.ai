@@ -1,3 +1,31 @@
+/* ───────────── Alternative font: ET Bembo (Edward Tufte's free Bembo, via
+   github.com/DavidBarts/ET_Bembo; MIT licence in assets/fonts). Its x-height
+   is smaller than Plex's, so it is scaled up to read at a similar size. */
+@font-face {
+  font-family: "ET Bembo";
+  src: url("fonts/et-bembo-roman.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 112%;
+}
+@font-face {
+  font-family: "ET Bembo";
+  src: url("fonts/et-bembo-semibold.woff2") format("woff2");
+  font-weight: 500 700;   /* the only bold cut, so it serves medium too */
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 112%;
+}
+@font-face {
+  font-family: "ET Bembo";
+  src: url("fonts/et-bembo-italic.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+  size-adjust: 112%;
+}
+
 /* ───────────── Theme tokens */
 :root {
   color-scheme: light;
@@ -9,10 +37,12 @@
   --accent: #c8102e;   /* crimson (default) */
   --on-accent: #ffffff; /* text on an accent-coloured background */
   --font: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-alt: "ET Bembo", Georgia, "Times New Roman", serif;
   --header-h: 88px;
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
   --column: 880px;     /* central text column, including its 24px padding */
 }
+:root[data-font="bembo"] { --font: var(--font-alt); }
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
 :root[data-accent="orange"] { --accent: #c2410c; }   /* ember orange */
 :root[data-accent="mono"] { --accent: #000000; }     /* black (white in dark mode) */
@@ -129,7 +159,7 @@ a { color: inherit; }
     visibility 0.9s;
 }
 .controls-toggle { max-width: 36px; margin-right: 6px; }
-.control-set { max-width: 90px; transform-origin: left center; }
+.control-set { max-width: 132px; transform-origin: left center; }
 
 /* Before the tuck, only the controls show */
 .page-controls[data-state="initial"] .controls-toggle {
@@ -186,6 +216,18 @@ a { color: inherit; }
   height: 16px;
   border-radius: 50%;
   background: var(--accent);
+}
+
+/* "Aa" set in the font you'd switch to */
+.font-sample {
+  font-family: var(--font-alt);
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 400;
+}
+:root[data-font="bembo"] .font-sample {
+  font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  font-size: 14px;
 }
 
 .site-title {

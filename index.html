@@ -10,10 +10,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
-  <link rel="stylesheet" href="assets/styles.css?v=cdbeef03">
+  <link rel="stylesheet" href="assets/styles.css?v=80f8c728">
 </head>
 <body>
-  <!-- Top-left controls sit in the page (not the fixed header), so they scroll away -->
+  <!-- Top-left controls (theme, accent, font) sit in the page (not the fixed header), so they scroll away -->
   <div class="page-controls" data-state="initial">
     <!-- Appears a second after load, when the controls tuck away; opens and closes them -->
     <button type="button" class="icon-btn controls-toggle" id="controls-toggle" aria-controls="control-set" aria-expanded="true" title="Show or hide theme and colour controls">
@@ -29,6 +29,10 @@
       <button type="button" class="icon-btn" id="accent-toggle" aria-keyshortcuts="c" title="Switch accent colour: crimson, blue, orange, black/white (C)">
         <span class="accent-swatch" aria-hidden="true"></span>
         <span class="sr-only">Switch accent colour</span>
+      </button>
+      <button type="button" class="icon-btn" id="font-toggle" aria-keyshortcuts="f" title="Switch font: IBM Plex Sans / ET Bembo (F)">
+        <span class="font-sample" aria-hidden="true">Aa</span>
+        <span class="sr-only">Switch font</span>
       </button>
     </div>
   </div>
@@ -126,6 +130,6 @@
 
   <script src="data/incidents.js?v=5c172bd9"></script>
   <script src="data/statements.js?v=aa5fbd22"></script>
-  <script src="assets/app.js?v=9031165f"></script>
+  <script src="assets/app.js?v=525537a3"></script>
 </body>
 </html>
