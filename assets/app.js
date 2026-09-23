@@ -161,8 +161,9 @@
     store.set("cc-theme", next);
   }
 
-  // Accent cycles blue → orange → mono (black, or white in dark mode)
-  const ACCENTS = ["blue", "orange", "mono"];
+  // Accent cycles crimson (default) → blue → orange → mono (black, or white
+  // in dark mode). No data-accent attribute means crimson.
+  const ACCENTS = ["red", "blue", "orange", "mono"];
   function toggleAccent() {
     const current = ACCENTS.indexOf(root.getAttribute("data-accent"));
     const next = ACCENTS[(Math.max(0, current) + 1) % ACCENTS.length];

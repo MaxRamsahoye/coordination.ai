@@ -6,12 +6,13 @@
   --ink-strong: #000000;
   --ink-2: #555555;
   --line: #e5e5e5;
-  --accent: #1d4ed8;   /* signal blue */
+  --accent: #c8102e;   /* crimson (default) */
   --on-accent: #ffffff; /* text on an accent-coloured background */
   --font: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
   --header-h: 88px;
   --column: 880px;     /* central text column, including its 24px padding */
 }
+:root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
 :root[data-accent="orange"] { --accent: #c2410c; }   /* ember orange */
 :root[data-accent="mono"] { --accent: #000000; }     /* black (white in dark mode) */
 
@@ -23,9 +24,10 @@
     --ink-strong: #ffffff;
     --ink-2: #a3a3a3;
     --line: #2a2a2a;
-    --accent: #7aa2ff;
+    --accent: #eb3a55;
     --on-accent: #0f0f0f;
   }
+  :root:not([data-theme="light"])[data-accent="blue"] { --accent: #7aa2ff; }
   :root:not([data-theme="light"])[data-accent="orange"] { --accent: #ff9159; }
   :root:not([data-theme="light"])[data-accent="mono"] { --accent: #ffffff; }
 }
@@ -36,9 +38,10 @@
   --ink-strong: #ffffff;
   --ink-2: #a3a3a3;
   --line: #2a2a2a;
-  --accent: #7aa2ff;
+  --accent: #eb3a55;
   --on-accent: #0f0f0f;
 }
+:root[data-theme="dark"][data-accent="blue"] { --accent: #7aa2ff; }
 :root[data-theme="dark"][data-accent="orange"] { --accent: #ff9159; }
 :root[data-theme="dark"][data-accent="mono"] { --accent: #ffffff; }
 

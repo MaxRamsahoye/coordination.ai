@@ -11,7 +11,7 @@
       var t = localStorage.getItem("cc-theme");
       if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
       var a = localStorage.getItem("cc-accent");
-      if (a === "blue" || a === "orange" || a === "mono") document.documentElement.setAttribute("data-accent", a);
+      if (a === "red" || a === "blue" || a === "orange" || a === "mono") document.documentElement.setAttribute("data-accent", a);
     } catch (e) {}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
-  <link rel="stylesheet" href="assets/styles.css?v=97fa035b">
+  <link rel="stylesheet" href="assets/styles.css?v=16134c98">
 </head>
 <body>
   <!-- Top-left controls sit in the page (not the fixed header), so they scroll away -->
@@ -29,7 +29,7 @@
       <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
       <span class="sr-only">Toggle light or dark theme</span>
     </button>
-    <button type="button" class="icon-btn" id="accent-toggle" aria-keyshortcuts="c" title="Switch accent colour: blue, orange, black/white (C)">
+    <button type="button" class="icon-btn" id="accent-toggle" aria-keyshortcuts="c" title="Switch accent colour: crimson, blue, orange, black/white (C)">
       <span class="accent-swatch" aria-hidden="true"></span>
       <span class="sr-only">Switch accent colour</span>
     </button>
@@ -96,6 +96,6 @@
   <div class="cursor-dot" aria-hidden="true"></div>
 
   <script src="data/statements.js?v=aa5fbd22"></script>
-  <script src="assets/app.js?v=e47d34d7"></script>
+  <script src="assets/app.js?v=c0f1af80"></script>
 </body>
 </html>
