@@ -122,11 +122,11 @@ a { color: inherit; }
 .controls-toggle,
 .control-set {
   transition:
-    max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.3s ease,
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0.45s;
+    max-width 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.6s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.9s;
 }
 .controls-toggle { max-width: 36px; margin-right: 6px; }
 .control-set { max-width: 90px; transform-origin: left center; }
@@ -149,7 +149,7 @@ a { color: inherit; }
   pointer-events: none;
 }
 
-.controls-toggle .arrow-glyph { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.controls-toggle .arrow-glyph { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
 .page-controls[data-state="tucking"] .arrow-glyph,
 .page-controls[data-state="open"] .arrow-glyph { transform: rotate(-90deg); }   /* left */
 .page-controls[data-state="closed"] .arrow-glyph { transform: rotate(90deg); }   /* right */
@@ -565,6 +565,14 @@ a { color: inherit; }
 }
 .to-top:hover { color: var(--accent); }
 
+/* Pressed: by mouse (:active) or by its Backspace shortcut (.is-pressed,
+   which also gets the cursor's click ripple from app.js) */
+.to-top .arrow-glyph { transition: scale 0.15s ease; }
+.to-top:active,
+.to-top.is-pressed { color: var(--accent); }
+.to-top:active .arrow-glyph,
+.to-top.is-pressed .arrow-glyph { scale: 0.8; }
+
 /* ───────────── Custom cursor (mouse and trackpad only; see app.js) */
 .cursor-dot,
 .cursor-ring {
@@ -644,8 +652,26 @@ a { color: inherit; }
   to { scale: 2.6; opacity: 0; }
 }
 
+/* Keyboard stand-in for the cursor ring snapping shut on a click */
+.cursor-press {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: cursor-press 0.35s ease-out forwards;
+}
+
+@keyframes cursor-press {
+  from { scale: 0.45; opacity: 1; }
+  to { scale: 0.45; opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cursor-ripple { display: none; }
+  .cursor-ripple, .cursor-press { display: none; }
 }
 
 @media (forced-colors: active) {

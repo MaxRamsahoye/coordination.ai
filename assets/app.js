@@ -172,6 +172,32 @@
     window.scrollTo({ top: 0 });
   }
 
+  // Click feedback, shared by the custom cursor and keyboard shortcuts: a
+  // ripple spreading from (x, y), plus a solid accent disc when `disc` is set
+  // (the disc stands in for the cursor ring snapping shut on a real click)
+  const rippleLayer = document.querySelector(".cursor-ripples");
+  function spawnRipple(x, y, disc = false) {
+    for (const cls of disc ? ["cursor-ripple", "cursor-press"] : ["cursor-ripple"]) {
+      const r = document.createElement("span");
+      r.className = cls;
+      r.style.translate = `${x}px ${y}px`;
+      r.addEventListener("animationend", () => r.remove());
+      rippleLayer.appendChild(r);
+    }
+  }
+
+  // Make a button look as if it had been clicked: accent colour, a brief
+  // press, and the cursor's click ripple from its centre
+  function pressFeedback(el) {
+    const r = el.getBoundingClientRect();
+    if (!r.width) return;
+    spawnRipple(r.left + r.width / 2, r.top + r.height / 2, true);
+    el.classList.remove("is-pressed");
+    void el.offsetWidth;   // restart the press animation on repeated presses
+    el.classList.add("is-pressed");
+    setTimeout(() => el.classList.remove("is-pressed"), 350);
+  }
+
   document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
   document.getElementById("accent-toggle").addEventListener("click", toggleAccent);
   toTop.addEventListener("click", toTopNow);
@@ -185,6 +211,7 @@
     else if (e.key === "c" || e.key === "C") toggleAccent();
     else if (e.key === "Backspace") {
       e.preventDefault();
+      if (toTop.classList.contains("visible")) pressFeedback(toTop);
       toTopNow();
     }
   });
@@ -217,14 +244,9 @@
       root.classList.toggle("cursor-hover", !!e.target.closest?.(CLICKABLE));
     });
 
-    const ripples = document.querySelector(".cursor-ripples");
     document.addEventListener("mousedown", (e) => {
       root.classList.add("cursor-down");
-      const r = document.createElement("span");
-      r.className = "cursor-ripple";
-      r.style.translate = `${e.clientX}px ${e.clientY}px`;
-      r.addEventListener("animationend", () => r.remove());
-      ripples.appendChild(r);
+      spawnRipple(e.clientX, e.clientY);
     });
     document.addEventListener("mouseup", () => root.classList.remove("cursor-down"));
     document.documentElement.addEventListener("mouseleave", () => root.classList.add("cursor-away"));
@@ -309,7 +331,7 @@
         return;
       }
       setState("tucking");                       // arrow appears pointing left
-      setTimeout(() => setState("closed"), 450); // …then turns to point right
+      setTimeout(() => setState("closed"), 900); // …then turns to point right
     };
     setTimeout(tuck, 1000);
 
