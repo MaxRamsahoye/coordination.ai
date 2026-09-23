@@ -247,7 +247,8 @@ a { color: inherit; }
 }
 
 /* Once scrolled past, the bar shrinks to a tab across the left column only,
-   rounded on its right side, showing just the selected item. The outer bar
+   hanging from the top edge with a rounded bottom-right corner, showing just
+   the selected item. The outer bar
    keeps its height (so nothing below jumps) but turns transparent and lets
    clicks through to the page. */
 .menu,
@@ -267,16 +268,22 @@ a { color: inherit; }
   margin: 0;
   padding: 0 32px 0 24px;
   background: var(--accent);
-  border-radius: 0 calc(var(--header-h) / 2) calc(var(--header-h) / 2) 0;
+  border-radius: 0 0 20px 0;   /* square at the top, softly rounded at the bottom right */
 }
 
 .menu-stuck .menu a:not([aria-current="page"]) { display: none; }
 
-/* With the full-width bar gone, the header gets a plain band in the page
-   colour so scrolled content doesn't show behind the site title; the tab
-   is drawn above it */
-.menu-stuck .site-header { background: var(--bg); }
-.menu-stuck .menu { z-index: 12; }
+/* Content scrolls freely across the top of the screen. Where the text
+   column runs under the site title (narrower windows), the title gets a
+   small backing in the page colour so it stays readable. */
+@media (max-width: 1100px) {
+  .menu-stuck .site-title {
+    margin-right: -8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: var(--bg);
+  }
+}
 
 /* ───────────── Page layout: contents | text column | progress */
 .page { padding: 80px 0 120px; }
