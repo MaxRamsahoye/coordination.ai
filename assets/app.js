@@ -161,8 +161,11 @@
     store.set("cc-theme", next);
   }
 
+  // Accent cycles blue → orange → mono (black, or white in dark mode)
+  const ACCENTS = ["blue", "orange", "mono"];
   function toggleAccent() {
-    const next = root.getAttribute("data-accent") === "orange" ? "blue" : "orange";
+    const current = ACCENTS.indexOf(root.getAttribute("data-accent"));
+    const next = ACCENTS[(Math.max(0, current) + 1) % ACCENTS.length];
     root.setAttribute("data-accent", next);
     store.set("cc-accent", next);
   }
