@@ -243,7 +243,7 @@ a { color: inherit; }
    page heading (e.g. "Statements") has scrolled off the top (app.js) */
 .page-title-fixed {
   color: var(--ink);
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 500;
   opacity: 0;
   transform: translateY(-6px);
@@ -482,7 +482,26 @@ a { color: inherit; }
   margin: -40px 0 48px;   /* sits close under the menu box */
 }
 
+/* Each row: a small label, then its pills scrolling sideways */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.filter-row + .filter-row { margin-top: 2px; }
+.filter-label {
+  flex: none;
+  width: 80px;
+  padding-bottom: 6px;   /* line up with the pills above the scrollbar space */
+  color: var(--ink-2);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .filter-scroll {
+  flex: 1;
+  min-width: 0;
   display: flex;
   gap: 8px;
   overflow-x: auto;
@@ -800,7 +819,11 @@ a { color: inherit; }
   .control-set { gap: 4px; }
   .controls-toggle { margin-right: 4px; }
   .icon-btn { width: 32px; height: 32px; }
-  .site-title, .page-title-fixed { font-size: 13px; }
+  .site-title { font-size: 13px; }
+  .page-title-fixed { font-size: 17px; }
+  .filter-row { flex-direction: column; align-items: stretch; gap: 2px; }
+  .filter-row + .filter-row { margin-top: 10px; }
+  .filter-label { width: auto; padding: 0 2px; }
   .hero { padding-top: calc(var(--header-h) + 24px); padding-bottom: 24px; }
   .tl-year { grid-template-columns: 1fr; }
   .tl-year-label { position: static; margin-bottom: 20px; }

@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
-  <link rel="stylesheet" href="assets/styles.css?v=80f8c728">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" id="favicon">
+  <link rel="stylesheet" href="assets/styles.css?v=3f68c09e">
 </head>
 <body>
   <!-- Top-left controls (theme, accent, font) sit in the page (not the fixed header), so they scroll away -->
@@ -98,8 +99,15 @@
         </aside>
 
         <div class="page-main">
-          <div class="filter-bar" role="toolbar" aria-label="Filter incidents by developer">
-            <div class="filter-scroll" id="incidents-filters"></div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Filter incidents by category">
+              <span class="filter-label" aria-hidden="true">Category</span>
+              <div class="filter-scroll" id="incidents-filters-category"></div>
+            </div>
+            <div class="filter-row" role="toolbar" aria-label="Filter incidents by developer">
+              <span class="filter-label" aria-hidden="true">Developer</span>
+              <div class="filter-scroll" id="incidents-filters-orgs"></div>
+            </div>
           </div>
           <div class="page-head">
             <h2 id="incidents-heading">Incidents</h2>
@@ -128,8 +136,8 @@
   <div class="cursor-ripples" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
 
-  <script src="data/incidents.js?v=5c172bd9"></script>
+  <script src="data/incidents.js?v=a5a119d0"></script>
   <script src="data/statements.js?v=aa5fbd22"></script>
-  <script src="assets/app.js?v=525537a3"></script>
+  <script src="assets/app.js?v=b6caa955"></script>
 </body>
 </html>

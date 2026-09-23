@@ -11,6 +11,14 @@
  *              control   — loss of control: evading containment, oversight or shutdown
  *              behaviour — unintended behaviour: deception, manipulation, harmful outputs
  *              cyber     — cyberattacks carried out by or with AI systems
+ *   category misalignment | misuse | malfunction | misinformation | ethics
+ *              misalignment   — the model pursues goals or takes actions its developers
+ *                               didn't intend: deception, scheming, evading oversight
+ *              misuse         — people deliberately using AI to cause harm
+ *              malfunction    — failures of the system or its setup: bad updates,
+ *                               destructive errors, broken containment
+ *              misinformation — confidently false or fabricated information
+ *              ethics         — offensive, biased or otherwise harmful content
  *   orgs     developers whose models were involved (used by the filter bar)
  *   by       the system(s) and organisation(s) involved
  *   summary  what happened, in one to three sentences
@@ -20,6 +28,7 @@
 window.CC_INCIDENTS = [
   {
     id: "tay",
+    category: "ethics",
     orgs: ["Microsoft"],
     date: "2016-03-24",
     title: "Microsoft's Tay chatbot turns offensive within a day",
@@ -30,6 +39,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "bing-sydney",
+    category: "misalignment",
     orgs: ["Microsoft", "OpenAI"],
     date: "2023-02-16",
     title: "Bing Chat ('Sydney') threatens and manipulates users",
@@ -40,6 +50,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "gpt4-taskrabbit",
+    category: "misalignment",
     orgs: ["OpenAI"],
     date: "2023-03-14",
     title: "GPT-4 lies to a human worker to get past a CAPTCHA",
@@ -50,7 +61,19 @@ window.CC_INCIDENTS = [
     source: { label: "GPT-4 System Card", url: "https://cdn.openai.com/papers/gpt-4-system-card.pdf" },
   },
   {
+    id: "mata-avianca",
+    category: "misinformation",
+    orgs: ["OpenAI"],
+    date: "2023-05-27",
+    title: "Lawyers cite court cases invented by ChatGPT",
+    type: "behaviour",
+    by: "ChatGPT, OpenAI; used by lawyers in Mata v. Avianca",
+    summary:
+      "A legal brief filed in a New York federal court cited six decisions that did not exist; ChatGPT had made them up and assured the lawyer they were real. The lawyers were later fined.",
+  },
+  {
     id: "state-hackers-llms",
+    category: "misuse",
     orgs: ["OpenAI", "Microsoft"],
     date: "2024-02-14",
     title: "State-backed hackers found using ChatGPT",
@@ -60,7 +83,41 @@ window.CC_INCIDENTS = [
       "Five state-affiliated groups used OpenAI models for reconnaissance, scripting and phishing content; their accounts were shut down.",
   },
   {
+    id: "air-canada",
+    category: "misinformation",
+    orgs: ["Air Canada"],
+    date: "2024-02-14",
+    title: "Air Canada held liable for its chatbot's invented refund policy",
+    type: "behaviour",
+    by: "Air Canada's customer-service chatbot",
+    summary:
+      "The chatbot told a grieving customer he could claim a bereavement fare refund after travelling, which the airline's policy did not allow. A tribunal rejected the airline's argument that the chatbot was responsible for its own actions.",
+  },
+  {
+    id: "gemini-images",
+    category: "ethics",
+    orgs: ["Google DeepMind"],
+    date: "2024-02-22",
+    title: "Gemini's image generation paused over historical depictions",
+    type: "behaviour",
+    by: "Gemini, Google",
+    summary:
+      "Overcorrecting for diversity, the model produced historically inaccurate images of people, such as racially diverse Nazi-era German soldiers. Google paused its generation of images of people.",
+  },
+  {
+    id: "ai-overviews",
+    category: "misinformation",
+    orgs: ["Google DeepMind"],
+    date: "2024-05-23",
+    title: "Google's AI Overviews tell users to put glue on pizza",
+    type: "behaviour",
+    by: "AI Overviews in Google Search (built on Gemini), Google",
+    summary:
+      "Shortly after launch, search summaries repeated jokes and satire as fact, advising people to add glue to pizza sauce and to eat a rock a day. Google restricted when the summaries appear.",
+  },
+  {
     id: "sakana-ai-scientist",
+    category: "misalignment",
     orgs: ["Sakana AI"],
     date: "2024-08",
     title: "'AI Scientist' rewrites its own code to extend its time limit",
@@ -71,6 +128,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "o1-container-escape",
+    category: "misalignment",
     orgs: ["OpenAI"],
     date: "2024-09-12",
     title: "o1 breaks out of a broken test environment to finish a hacking task",
@@ -81,6 +139,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "in-context-scheming",
+    category: "misalignment",
     orgs: ["OpenAI", "Anthropic", "Google DeepMind", "Meta"],
     date: "2024-12-05",
     title: "Frontier models attempt to disable oversight and copy themselves",
@@ -91,6 +150,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "alignment-faking",
+    category: "misalignment",
     orgs: ["Anthropic"],
     date: "2024-12-18",
     title: "Claude fakes alignment to avoid being retrained",
@@ -102,6 +162,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "chess-hacking",
+    category: "misalignment",
     orgs: ["OpenAI", "DeepSeek"],
     date: "2025-02",
     title: "Reasoning models hack a chess engine rather than lose",
@@ -111,6 +172,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "gpt4o-sycophancy",
+    category: "malfunction",
     orgs: ["OpenAI"],
     date: "2025-04-29",
     title: "GPT-4o update rolled back for sycophancy",
@@ -122,6 +184,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "claude-blackmail",
+    category: "misalignment",
     orgs: ["Anthropic", "OpenAI", "Google DeepMind", "xAI", "Meta", "DeepSeek"],
     date: "2025-05-22",
     title: "Claude Opus 4 resorts to blackmail in shutdown tests",
@@ -133,6 +196,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "o3-shutdown",
+    category: "misalignment",
     orgs: ["OpenAI"],
     date: "2025-05-24",
     title: "o3 sabotages a shutdown mechanism",
@@ -142,6 +206,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "grok-mechahitler",
+    category: "ethics",
     orgs: ["xAI"],
     date: "2025-07-08",
     title: "Grok posts antisemitic content and praises Hitler",
@@ -151,6 +216,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "replit-database",
+    category: "malfunction",
     orgs: ["Replit"],
     date: "2025-07",
     title: "Coding agent deletes a live production database",
@@ -161,6 +227,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "vibe-hacking",
+    category: "misuse",
     orgs: ["Anthropic"],
     date: "2025-08-27",
     title: "Claude Code used to run a data-extortion campaign",
@@ -171,6 +238,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "ai-espionage",
+    category: "misuse",
     orgs: ["Anthropic"],
     date: "2025-11-13",
     title: "First reported AI-orchestrated cyber-espionage campaign",
@@ -181,6 +249,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "rubygems",
+    category: "misalignment",
     orgs: ["OpenAI"],
     date: "2026-05-12",
     title: "RubyGems flooded with thousands of packages",
@@ -192,6 +261,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "hugging-face",
+    category: "misalignment",
     orgs: ["OpenAI"],
     date: "2026-07-21",
     title: "OpenAI agents breach Hugging Face",
@@ -203,6 +273,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "anthropic-three",
+    category: "malfunction",
     orgs: ["Anthropic"],
     date: "2026-07-30",
     title: "Claude models break into three companies during security tests",
@@ -214,6 +285,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "aisi-19",
+    category: "misalignment",
     orgs: ["Anthropic", "OpenAI"],
     date: "2026-08-04",
     title: "Agents under test attack real targets 19 times",
@@ -225,6 +297,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "dsewiki",
+    category: "misalignment",
     orgs: ["OpenAI"],
     date: "2026-09-04",
     title: "Agents use a public wiki as a secret message board",
@@ -235,6 +308,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "opus-46-abort",
+    category: "misalignment",
     orgs: ["Anthropic"],
     date: "2026-09-10",
     title: "Claude keeps hacking after failing to abort a task",
@@ -246,6 +320,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "openai-six",
+    category: "misalignment",
     orgs: ["OpenAI"],
     date: "2026-09-16",
     title: "OpenAI discloses six more cases of concerning behaviour",

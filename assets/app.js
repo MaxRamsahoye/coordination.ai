@@ -17,12 +17,21 @@
     },
     incidents: {
       items: window.CC_INCIDENTS || [],
-      filterBy: "orgs",   // filter bar: one pill per developer, plus "All"
-      filter: "All",
+      // Filter rows: one pill per value of the field, plus "All"; they combine.
+      // `order` fixes the pill order (otherwise most common first) and
+      // `labels` gives display names.
+      filters: [
+        { by: "category", value: "All", order: ["misalignment", "misuse", "malfunction", "misinformation", "ethics"],
+          labels: { misalignment: "Misalignment", misuse: "Misuse", malfunction: "Malfunction", misinformation: "Misinformation", ethics: "Ethics" } },
+        { by: "orgs", value: "All" },
+      ],
       types: { control: "Loss of control", behaviour: "Unintended behaviour", cyber: "Cyberattack" },
       prefix: "incident",
-      intro: (n, span, filter) =>
-        `${n} incident${n === 1 ? "" : "s"} of loss of control, unintended behaviour and AI cyberattacks${filter === "All" ? "" : ` involving ${filter} models`}, ${span}. Dated by when each became public; newest first.`,
+      intro: (n, span, [category, org]) => {
+        const s = n === 1 ? "" : "s";
+        const what = category === "All" ? `incident${s} of loss of control, unintended behaviour and AI cyberattacks` : `${category.toLowerCase()} incident${s}`;
+        return `${n} ${what}${org === "All" ? "" : ` involving ${org} models`}, ${span}. Dated by when each became public; newest first.`;
+      },
     },
   };
 
@@ -51,12 +60,19 @@
   // ───────────── Timelines (newest first, grouped by year)
   function renderTimeline(key) {
     const t = TIMELINES[key];
-    const shown = t.filterBy && t.filter !== "All" ? t.items.filter((s) => (s[t.filterBy] || []).includes(t.filter)) : t.items;
+    const filters = t.filters || [];
+    const shown = t.items.filter((s) => filters.every((f) => f.value === "All" || fieldValues(s, f.by).includes(f.value)));
     const sorted = shown.slice().sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
-    if (!sorted.length) return;
+    const intro = document.getElementById(`${key}-intro`);
+    if (!sorted.length) {
+      intro.textContent = "No incidents match both filters. Choose All in either row to widen the list.";
+      document.getElementById(`${key}-timeline`).innerHTML = "";
+      document.getElementById(`${key}-toc`).innerHTML = "";
+      return;
+    }
     const years = sorted.map((s) => s.date.slice(0, 4));
     const span = years[0] === years[years.length - 1] ? years[0] : `${years[years.length - 1]}–${years[0]}`;
-    document.getElementById(`${key}-intro`).textContent = t.intro(sorted.length, span, t.filter);
+    intro.textContent = t.intro(sorted.length, span, filters.map((f) => (f.value === "All" ? "All" : filterLabel(f, f.value))));
 
     const groups = [];
     for (const s of sorted) {
@@ -82,26 +98,37 @@
       .join("");
   }
 
-  // ───────────── Filter bar: "All" plus each value of the filter field, most
-  // common first, with counts. Choosing one re-renders the timeline.
+  // A field may hold one value or a list of them
+  const fieldValues = (s, by) => [].concat(s[by] ?? []);
+  const filterLabel = (f, v) => (f.labels && f.labels[v]) || v;
+
+  // ───────────── Filter bars: "All" plus each value of the filter field, with
+  // counts. Choosing one re-renders the timeline.
   function renderFilters(key) {
+    (TIMELINES[key].filters || []).forEach((f) => renderFilterRow(key, f));
+  }
+
+  function renderFilterRow(key, f) {
     const t = TIMELINES[key];
-    const bar = document.getElementById(`${key}-filters`);
-    if (!t.filterBy || !bar) return;
+    const bar = document.getElementById(`${key}-filters-${f.by}`);
+    if (!bar) return;
     const counts = new Map();
-    t.items.forEach((s) => (s[t.filterBy] || []).forEach((v) => counts.set(v, (counts.get(v) || 0) + 1)));
-    const options = [["All", t.items.length], ...[...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))];
+    t.items.forEach((s) => fieldValues(s, f.by).forEach((v) => counts.set(v, (counts.get(v) || 0) + 1)));
+    const values = f.order
+      ? f.order.filter((v) => counts.has(v)).map((v) => [v, counts.get(v)])
+      : [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    const options = [["All", t.items.length], ...values];
     bar.innerHTML = options
       .map(
         ([v, n]) =>
-          `<button type="button" class="filter-pill" data-value="${esc(v)}" aria-pressed="${v === t.filter}">${esc(v)} <span class="filter-count">${n}</span></button>`
+          `<button type="button" class="filter-pill" data-value="${esc(v)}" aria-pressed="${v === f.value}">${esc(filterLabel(f, v))} <span class="filter-count">${n}</span></button>`
       )
       .join("");
 
     bar.addEventListener("click", (e) => {
       const b = e.target.closest(".filter-pill");
-      if (!b || b.dataset.value === t.filter) return;
-      t.filter = b.dataset.value;
+      if (!b || b.dataset.value === f.value) return;
+      f.value = b.dataset.value;
       bar.querySelectorAll(".filter-pill").forEach((p) => p.setAttribute("aria-pressed", String(p === b)));
       b.scrollIntoView({ block: "nearest", inline: "nearest" });
       renderTimeline(key);
@@ -120,11 +147,13 @@
   }
 
   function timelineItem(s, t) {
+    const catFilter = s.category && (t.filters || []).find((f) => f.by === "category");
+    const kind = [t.types[s.type] || s.type, catFilter && filterLabel(catFilter, s.category)].filter(Boolean).join(" · ");
     return `
       <li class="tl-item" id="${t.prefix}-${esc(s.id)}">
         <div class="tl-meta">
           <time datetime="${esc(s.date)}">${esc(formatDate(s.date))}</time>
-          <span class="tl-type">${esc(t.types[s.type] || s.type)}</span>
+          <span class="tl-type">${esc(kind)}</span>
         </div>
         <h4 class="tl-title">${esc(s.title)}</h4>
         <p class="tl-by">${esc(s.by)}</p>
@@ -247,6 +276,23 @@
     const current = ACCENTS.indexOf(root.getAttribute("data-accent"));
     const next = ACCENTS[(Math.max(0, current) + 1) % ACCENTS.length];
     root.setAttribute("data-accent", next);
+    updateFavicon(next);
+  }
+
+  // Favicon: a "C" in IBM Plex Sans Arabic in the accent colour. The browser's
+  // tab strip doesn't follow the site's theme, so colours use their stronger
+  // light-theme values, and mono is black or white to suit the browser.
+  const FAVICON_C = document.getElementById("favicon") && fetch(document.getElementById("favicon").href).then((r) => r.text()).catch(() => null);
+  const FAVICON_FILLS = { red: "#c8102e", blue: "#1d4ed8", orange: "#c2410c" };
+  async function updateFavicon(accent) {
+    const link = document.getElementById("favicon");
+    const svg = link && (await FAVICON_C);
+    if (!svg) return;
+    const fill = FAVICON_FILLS[accent];
+    const out = fill
+      ? svg.replace(/fill="[^"]*"/, `fill="${fill}"`)
+      : svg.replace(/fill="[^"]*"/, 'class="c"').replace(/<path/, "<style>.c{fill:#000}@media (prefers-color-scheme:dark){.c{fill:#fff}}</style><path");
+    link.href = `data:image/svg+xml,${encodeURIComponent(out)}`;
   }
 
   // Font toggles IBM Plex Sans Arabic (default) ⇄ ET Bembo; not remembered
