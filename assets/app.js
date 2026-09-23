@@ -11,13 +11,26 @@
   const TIMELINES = {
     statements: {
       items: window.CC_STATEMENTS || [],
-      types: { letter: "Open letter", declaration: "Declaration", joint: "Joint statement" },
+      // One category at a time, Main by default (no "All" pill); the chosen
+      // category is implied, so it isn't repeated in each entry's label
+      filters: [
+        { by: "category", value: "main", all: false, tag: false, order: ["main", "academic", "governmental", "religious"],
+          labels: { main: "Main", academic: "Academic", governmental: "Governmental", religious: "Religious" } },
+      ],
+      types: {
+        letter: "Open letter", declaration: "Declaration", joint: "Joint statement", principles: "Principles",
+        paper: "Paper", consensus: "Consensus statement", report: "Report", resolution: "Resolution",
+        treaty: "Treaty", order: "Executive order", code: "Code of conduct", address: "Address",
+        note: "Doctrinal note", encyclical: "Encyclical",
+      },
       prefix: "statement",
-      intro: (n, span) => `${n} statements on AI, ${span}. Newest first.`,
+      intro: (n, span, [category]) =>
+        `${n} ${category === "Main" ? "" : `${category.toLowerCase()} `}statement${n === 1 ? "" : "s"} on AI, ${span}. Newest first.`,
     },
     incidents: {
       items: window.CC_INCIDENTS || [],
-      // Filter rows: one pill per value of the field, plus "All"; they combine.
+      // Filter rows: one pill per value of the field, plus "All" (unless
+      // `all: false`); they combine.
       // `order` fixes the pill order (otherwise most common first) and
       // `labels` gives display names.
       filters: [
@@ -117,7 +130,7 @@
     const values = f.order
       ? f.order.filter((v) => counts.has(v)).map((v) => [v, counts.get(v)])
       : [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-    const options = [["All", t.items.length], ...values];
+    const options = f.all === false ? values : [["All", t.items.length], ...values];
     bar.innerHTML = options
       .map(
         ([v, n]) =>
@@ -147,7 +160,7 @@
   }
 
   function timelineItem(s, t) {
-    const catFilter = s.category && (t.filters || []).find((f) => f.by === "category");
+    const catFilter = s.category && (t.filters || []).find((f) => f.by === "category" && f.tag !== false);
     const kind = [t.types[s.type] || s.type, catFilter && filterLabel(catFilter, s.category)].filter(Boolean).join(" · ");
     return `
       <li class="tl-item" id="${t.prefix}-${esc(s.id)}">
