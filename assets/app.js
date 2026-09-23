@@ -146,6 +146,26 @@
     if (h) root.style.setProperty("--toc-top", `${Math.max(0, (window.innerHeight - h) / 2)}px`);
   }
 
+  // Menu tab geometry for the stuck state: the tab spans the left column (or
+  // hugs the selected item on narrow screens), and the selected item slides
+  // from its place in the full bar to the centre of the tab. offsetLeft/Top
+  // ignore the transform, so this measures the full-bar position.
+  function placeMenuTab() {
+    const item = menu.querySelector('a[aria-current="page"]');
+    if (!item) return;
+    const inner = menu.querySelector(".menu-inner");
+    const cs = getComputedStyle(root);
+    const column = parseFloat(cs.getPropertyValue("--column"));
+    const tabH = parseFloat(cs.getPropertyValue("--tab-h"));
+    const leftColumn = (menu.clientWidth - column) / 2;
+    const tabW = Math.max(leftColumn, item.offsetWidth + 56);
+    const itemX = inner.offsetLeft + item.offsetLeft + item.offsetWidth / 2;
+    const itemY = inner.offsetTop + item.offsetTop + item.offsetHeight / 2;
+    menu.style.setProperty("--tab-w", `${tabW}px`);
+    menu.style.setProperty("--tab-dx", `${tabW / 2 - itemX}px`);
+    menu.style.setProperty("--tab-dy", `${tabH / 2 - itemY}px`);
+  }
+
   // ───────────── Theme and accent
   // Dark is the default (set on <html>); choices last only until the page
   // is reloaded
@@ -296,18 +316,21 @@
   initCursor();
   centreToTopGlyph();
   showPage();
+  placeMenuTab();
   onScroll();
   placeToc();
   fitHeroArt();
   window.addEventListener("hashchange", showPage);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
+    placeMenuTab();
     onScroll();
     placeToc();
     fitHeroArt();
   });
   // Web fonts change the sidebar's height once they load
   document.fonts?.ready.then(() => {
+    placeMenuTab();
     placeToc();
     fitHeroArt();
   });
