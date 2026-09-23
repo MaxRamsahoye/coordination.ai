@@ -72,8 +72,8 @@ a { color: var(--accent); }
 }
 
 /* ───────────── Header */
-/* Fixed and transparent, so the controls and site title stay in the top
-   corners and share one bar with the menu once the menu reaches the top */
+/* Fixed and transparent, so the site title stays in the top-right corner
+   and shares one bar with the menu once the menu reaches the top */
 .site-header {
   position: fixed;
   top: 0;
@@ -87,13 +87,26 @@ a { color: var(--accent); }
 
 .header-inner {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   height: var(--header-h);
   padding: 0 48px;
 }
 
-.header-controls { display: flex; gap: 6px; margin-left: -9px; }
+/* Theme and accent controls: positioned in the page's top-left corner, so
+   they scroll away with the hero rather than staying on screen */
+.page-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--header-h);
+  padding: 0 48px;
+}
+.page-controls .icon-btn:first-child { margin-left: -9px; }
 
 .icon-btn {
   display: inline-grid;
@@ -137,14 +150,15 @@ a { color: var(--accent); }
 .hero {
   /* Fill the first screen above the menu bar (which is as tall as the
      header), so the menu sits at the bottom of the screen on load; the
-     artwork, title and subtitle sit just above it */
+     artwork, title and subtitle are centred in the space between the
+     header and the menu */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   min-height: calc(100vh - var(--header-h));
   min-height: calc(100svh - var(--header-h));
-  padding-top: calc(var(--header-h) + 48px);
-  padding-bottom: 48px;
+  padding-top: calc(var(--header-h) + 24px);
+  padding-bottom: 24px;
 }
 .hero > .container { width: 100%; }   /* keep the shared left edge inside the flex column */
 
@@ -156,8 +170,8 @@ a { color: var(--accent); }
   width: 100%;
   /* Never upscaled past its native 478px; on short screens it shrinks so
      the artwork, title, subtitle and menu still fit on the first screen
-     (466px is everything in that screen except the artwork's height) */
-  max-width: max(160px, min(478px, calc((100svh - 466px) * 478 / 346)));
+     (418px is everything in that screen except the artwork's height) */
+  max-width: max(160px, min(478px, calc((100svh - 418px) * 478 / 346)));
   aspect-ratio: 478 / 346;
   margin-bottom: 16px;
 }
@@ -574,12 +588,11 @@ a { color: var(--accent); }
   .container { padding: 0 16px; }
   .page-main { padding: 0 16px; }
   .header-inner { padding: 0 16px; }
-  .header-controls { gap: 4px; margin-left: -6px; }
+  .page-controls { gap: 4px; padding: 0 16px; }
+  .page-controls .icon-btn:first-child { margin-left: -6px; }
   .icon-btn { width: 32px; height: 32px; }
   .site-title { font-size: 13px; }
-  /* Keep the Statements tab clear of the header controls once the menu is stuck */
-  .menu-inner { padding-left: 88px; }
-  .hero { padding-top: calc(var(--header-h) + 56px); padding-bottom: 48px; }
+  .hero { padding-top: calc(var(--header-h) + 24px); padding-bottom: 24px; }
   .tl-year { grid-template-columns: 1fr; }
   .tl-year-label { position: static; margin-bottom: 20px; }
   .tl-item { --tl-indent: 24px; padding-bottom: 56px; }
