@@ -434,9 +434,9 @@ a { color: inherit; }
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 50%;
-  background: var(--bg);
+  background: transparent;
   color: var(--ink);
   cursor: pointer;
   opacity: 0;
@@ -453,17 +453,17 @@ a { color: inherit; }
 }
 
 /* app.js measures the glyph's actual shape and redraws it as a mask centred
-   in this box, so it sits in the exact middle of the ring in any font. The
+   in this box, so it sits in the exact middle of the button in any font. The
    mask is filled with the text colour, so hover and theme colours still apply. */
 .to-top-glyph.is-centred {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   font-size: 0;
   background: currentColor;
   -webkit-mask: var(--glyph) center / contain no-repeat;
   mask: var(--glyph) center / contain no-repeat;
 }
-.to-top:hover { color: var(--accent); border-color: var(--accent); }
+.to-top:hover { color: var(--accent); }
 
 /* ───────────── Custom cursor (mouse and trackpad only; see app.js) */
 .cursor-dot,
