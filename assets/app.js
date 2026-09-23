@@ -250,14 +250,15 @@
     if (widest > 0) heroArt.style.width = `${Math.round(widest)}px`;
   }
 
-  // ───────────── Back-to-top glyph: fonts place U+1F891 off-centre in its text
-  // box, so draw it onto a canvas centred on its actual ink bounds and use that
-  // as a mask (filled with the button's text colour)
-  async function centreToTopGlyph() {
-    const el = document.querySelector(".to-top-glyph");
-    if (!el) return;
-    const ch = el.textContent.trim();
-    const family = getComputedStyle(el).fontFamily;
+  // ───────────── Arrowhead glyphs (back-to-top and the controls toggle): fonts
+  // place U+1F891 off-centre in its text box, so draw it onto a canvas centred
+  // on its actual ink bounds and use that as a mask (filled with the button's
+  // text colour)
+  async function centreArrowGlyphs() {
+    const els = document.querySelectorAll(".arrow-glyph");
+    if (!els.length) return;
+    const ch = els[0].textContent.trim();
+    const family = getComputedStyle(els[0]).fontFamily;
     try {
       await document.fonts.load(`100px ${family}`, ch);
     } catch (e) { /* draw with whatever font is available */ }
@@ -277,8 +278,44 @@
     ctx.setTransform(k, 0, 0, k, SIZE / 2, SIZE / 2);
     ctx.fillText(ch, -(m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2, (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2);
 
-    el.style.setProperty("--glyph", `url(${c.toDataURL()})`);
-    el.classList.add("is-centred");
+    const url = `url(${c.toDataURL()})`;
+    els.forEach((el) => {
+      el.style.setProperty("--glyph", url);
+      el.classList.add("is-centred");
+    });
+  }
+
+  // ───────────── Theme/colour controls tuck into an arrow a second after load,
+  // and the arrow opens and closes them. If the pointer or keyboard focus is on
+  // the controls at that moment, wait until it leaves.
+  function initControlsToggle() {
+    const wrap = document.querySelector(".page-controls");
+    const toggle = document.getElementById("controls-toggle");
+    const set = document.getElementById("control-set");
+    if (!wrap || !toggle || !set) return;
+
+    const setState = (state) => {
+      wrap.dataset.state = state;
+      const open = state === "open" || state === "initial";
+      toggle.setAttribute("aria-expanded", String(open));
+      set.inert = !open;
+    };
+
+    const tuck = () => {
+      if (wrap.dataset.state !== "initial") return;
+      if (set.matches(":hover") || wrap.matches(":focus-within")) {
+        set.addEventListener("mouseleave", tuck, { once: true });
+        wrap.addEventListener("focusout", () => setTimeout(tuck, 0), { once: true });
+        return;
+      }
+      setState("tucking");                       // arrow appears pointing left
+      setTimeout(() => setState("closed"), 450); // …then turns to point right
+    };
+    setTimeout(tuck, 1000);
+
+    toggle.addEventListener("click", () => {
+      setState(wrap.dataset.state === "open" ? "closed" : "open");
+    });
   }
 
   // ───────────── Routing: #<page>, defaulting to Statements
@@ -297,7 +334,8 @@
 
   renderStatements();
   initCursor();
-  centreToTopGlyph();
+  centreArrowGlyphs();
+  initControlsToggle();
   showPage();
   onScroll();
   placeToc();

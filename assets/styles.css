@@ -108,11 +108,55 @@ a { color: inherit; }
   z-index: 11;
   display: flex;
   align-items: center;
-  gap: 6px;
   height: var(--header-h);
-  padding: 0 48px;
+  padding: 0 48px 0 39px;   /* 48px to the icons themselves, less the buttons' 9px inset */
 }
-.page-controls .icon-btn:first-child { margin-left: -9px; }
+
+.control-set { display: flex; gap: 6px; }
+
+/* A second after load (app.js) the controls tuck away into an arrowhead:
+   it appears pointing left, then turns to point right. Clicking it opens
+   the controls (arrow points left) or closes them again (arrow points
+   right). The arrow is U+1F891, the same glyph as the back-to-top button,
+   rotated. States: initial → tucking → closed ⇄ open. */
+.controls-toggle,
+.control-set {
+  transition:
+    max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.45s;
+}
+.controls-toggle { max-width: 36px; margin-right: 6px; }
+.control-set { max-width: 90px; transform-origin: left center; }
+
+/* Before the tuck, only the controls show */
+.page-controls[data-state="initial"] .controls-toggle {
+  max-width: 0;
+  margin-right: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Closed (and while tucking): controls shrink away into the arrow */
+.page-controls[data-state="tucking"] .control-set,
+.page-controls[data-state="closed"] .control-set {
+  max-width: 0;
+  opacity: 0;
+  transform: scale(0.6);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.controls-toggle .arrow-glyph { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.page-controls[data-state="tucking"] .arrow-glyph,
+.page-controls[data-state="open"] .arrow-glyph { transform: rotate(-90deg); }   /* left */
+.page-controls[data-state="closed"] .arrow-glyph { transform: rotate(90deg); }   /* right */
+
+@media (prefers-reduced-motion: reduce) {
+  .controls-toggle, .control-set, .controls-toggle .arrow-glyph { transition: none; }
+}
 
 .icon-btn {
   display: inline-grid;
@@ -500,8 +544,9 @@ a { color: inherit; }
 }
 .to-top.visible { opacity: 1; visibility: visible; }
 
-/* U+1F891 (UPWARDS TRIANGLE ARROWHEAD), from Noto Sans Symbols 2 */
-.to-top-glyph {
+/* U+1F891 (UPWARDS TRIANGLE ARROWHEAD), from Noto Sans Symbols 2; used for
+   the back-to-top button and, rotated, the controls toggle */
+.arrow-glyph {
   font-family: "Noto Sans Symbols 2", "Segoe UI Symbol", "Apple Symbols", sans-serif;
   font-size: 28px;
   line-height: 1;
@@ -510,7 +555,7 @@ a { color: inherit; }
 /* app.js measures the glyph's actual shape and redraws it as a mask centred
    in this box, so it sits in the exact middle of the button in any font. The
    mask is filled with the text colour, so hover and theme colours still apply. */
-.to-top-glyph.is-centred {
+.arrow-glyph.is-centred {
   width: 16px;
   height: 16px;
   font-size: 0;
@@ -614,8 +659,9 @@ a { color: inherit; }
   .container { padding: 0 16px; }
   .page-main { padding: 0 16px; }
   .header-inner { padding: 0 16px; }
-  .page-controls { gap: 4px; padding: 0 16px; }
-  .page-controls .icon-btn:first-child { margin-left: -6px; }
+  .page-controls { padding: 0 16px 0 10px; }
+  .control-set { gap: 4px; }
+  .controls-toggle { margin-right: 4px; }
   .icon-btn { width: 32px; height: 32px; }
   .site-title { font-size: 13px; }
   .hero { padding-top: calc(var(--header-h) + 24px); padding-bottom: 24px; }
