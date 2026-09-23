@@ -448,8 +448,20 @@ a { color: inherit; }
 /* U+1F891 (UPWARDS TRIANGLE ARROWHEAD), from Noto Sans Symbols 2 */
 .to-top-glyph {
   font-family: "Noto Sans Symbols 2", "Segoe UI Symbol", "Apple Symbols", sans-serif;
-  font-size: 22px;
+  font-size: 28px;
   line-height: 1;
+}
+
+/* app.js measures the glyph's actual shape and redraws it as a mask centred
+   in this box, so it sits in the exact middle of the ring in any font. The
+   mask is filled with the text colour, so hover and theme colours still apply. */
+.to-top-glyph.is-centred {
+  width: 22px;
+  height: 22px;
+  font-size: 0;
+  background: currentColor;
+  -webkit-mask: var(--glyph) center / contain no-repeat;
+  mask: var(--glyph) center / contain no-repeat;
 }
 .to-top:hover { color: var(--accent); border-color: var(--accent); }
 

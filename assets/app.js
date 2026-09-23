@@ -249,6 +249,37 @@
     if (widest > 0) heroArt.style.width = `${Math.round(widest)}px`;
   }
 
+  // ───────────── Back-to-top glyph: fonts place U+1F891 off-centre in its text
+  // box, so draw it onto a canvas centred on its actual ink bounds and use that
+  // as a mask (filled with the button's text colour)
+  async function centreToTopGlyph() {
+    const el = document.querySelector(".to-top-glyph");
+    if (!el) return;
+    const ch = el.textContent.trim();
+    const family = getComputedStyle(el).fontFamily;
+    try {
+      await document.fonts.load(`100px ${family}`, ch);
+    } catch (e) { /* draw with whatever font is available */ }
+
+    const SIZE = 128;
+    const c = document.createElement("canvas");
+    c.width = c.height = SIZE;
+    const ctx = c.getContext("2d");
+    ctx.font = `100px ${family}`;
+    const m = ctx.measureText(ch);
+    const w = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+    const h = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+    if (!(w > 0 && h > 0)) return;
+
+    // Scale so the larger side of the glyph fills 90% of the canvas
+    const k = (SIZE * 0.9) / Math.max(w, h);
+    ctx.setTransform(k, 0, 0, k, SIZE / 2, SIZE / 2);
+    ctx.fillText(ch, -(m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2, (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2);
+
+    el.style.setProperty("--glyph", `url(${c.toDataURL()})`);
+    el.classList.add("is-centred");
+  }
+
   // ───────────── Routing: #<page>, defaulting to Statements
   const PAGES = ["statements"];
   const DEFAULT_PAGE = "statements";
@@ -265,6 +296,7 @@
 
   renderStatements();
   initCursor();
+  centreToTopGlyph();
   showPage();
   onScroll();
   placeToc();
