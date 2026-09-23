@@ -131,8 +131,38 @@ a { color: inherit; }
 
 /* ───────────── Hero */
 .hero {
-  padding-top: calc(var(--header-h) + 96px);
+  padding-top: calc(var(--header-h) + 48px);
   padding-bottom: 48px;
+}
+
+/* Wireframe terrain above the title. The artwork is dark lines on white:
+   multiply drops the white in light mode; in dark mode it's inverted to
+   light lines on black and screen drops the black. */
+.hero-art {
+  width: min(460px, 100%);
+  aspect-ratio: 2 / 1;          /* crops the empty space above and below the mesh */
+  margin: 0 0 24px -3%;
+  overflow: hidden;
+}
+
+.hero-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 58%;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="dark"] .hero-art img {
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero-art img {
+    filter: invert(1);
+    mix-blend-mode: screen;
+  }
 }
 
 .hero h1 {
