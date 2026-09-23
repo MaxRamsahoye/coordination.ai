@@ -257,39 +257,44 @@ a { color: inherit; }
 }
 
 /* ───────────── Menu bar */
-/* A full-width bar in the accent colour at the bottom of the first screen.
-   It sits in the page and scrolls away with it. */
+/* An outline box in the accent colour at the bottom of the first screen,
+   spanning the text column (plus its padding) with a gap below it so its
+   bottom edge isn't flush with the screen. It sits in the page and scrolls
+   away with it. The whole block, box plus gap, is --menu-h tall. */
 .menu {
+  --menu-gap: 32px;
   position: relative;
   z-index: 5;
-  background: var(--accent);
-  color: var(--on-accent);
-  transition: background-color 0.2s ease;
+  height: var(--menu-h);
+  padding-bottom: var(--menu-gap);
 }
 
 .menu-inner {
   display: flex;
   align-items: center;
   gap: 32px;
-  height: var(--menu-h);
+  height: 100%;
+  border: 1.5px solid var(--accent);
+  border-radius: 8px;
+  padding-inline: 22.5px;   /* 24px column padding less the border, so labels align with the text above */
   overflow-x: auto;
+  transition: border-color 0.2s ease;
 }
 
 .menu a {
   display: block;
   padding: 6px 0 4px;
   border-bottom: 2px solid transparent;
-  color: var(--on-accent);
-  opacity: 0.75;
+  color: var(--ink-2);
   text-decoration: none;
   font-size: 18px;
   white-space: nowrap;
 }
-.menu a:hover { opacity: 1; }
+.menu a:hover { color: var(--ink); }
 .menu a[aria-current="page"] {
-  opacity: 1;
+  color: var(--ink);
   font-weight: 500;
-  border-bottom-color: var(--on-accent);
+  border-bottom-color: var(--accent);
 }
 
 /* Content scrolls freely across the top of the screen. Where the text
@@ -682,6 +687,9 @@ a { color: inherit; }
 /* ───────────── Phones */
 @media (max-width: 640px) {
   :root { --header-h: 72px; --menu-h: 88px; }
+  .menu { --menu-gap: 16px; }
+  /* Inset the box from the screen edges, keeping its text on the column edge */
+  .menu .menu-inner { margin: 0 8px; padding-inline: 6.5px; }
   .container { padding: 0 16px; }
   .page-main { padding: 0 16px; }
   .header-inner { padding: 0 16px; }
