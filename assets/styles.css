@@ -246,8 +246,37 @@ a { color: inherit; }
   border-bottom-color: var(--on-accent);
 }
 
-/* Once the menu bar is fixed to the top, the site title sits on it */
-.menu-stuck .site-title { color: var(--on-accent); }
+/* Once scrolled past, the bar shrinks to a tab across the left column only,
+   rounded on its right side, showing just the selected item. The outer bar
+   keeps its height (so nothing below jumps) but turns transparent and lets
+   clicks through to the page. */
+.menu,
+.menu-inner { transition: background-color 0.2s ease, border-radius 0.2s ease; }
+
+.menu-stuck .menu {
+  background: transparent;
+  pointer-events: none;
+}
+
+.menu-stuck .menu-inner {
+  pointer-events: auto;
+  justify-content: center;
+  width: max-content;
+  min-width: calc((100% - var(--column)) / 2);   /* the left column */
+  max-width: none;
+  margin: 0;
+  padding: 0 32px 0 24px;
+  background: var(--accent);
+  border-radius: 0 calc(var(--header-h) / 2) calc(var(--header-h) / 2) 0;
+}
+
+.menu-stuck .menu a:not([aria-current="page"]) { display: none; }
+
+/* With the full-width bar gone, the header gets a plain band in the page
+   colour so scrolled content doesn't show behind the site title; the tab
+   is drawn above it */
+.menu-stuck .site-header { background: var(--bg); }
+.menu-stuck .menu { z-index: 12; }
 
 /* ───────────── Page layout: contents | text column | progress */
 .page { padding: 80px 0 120px; }
