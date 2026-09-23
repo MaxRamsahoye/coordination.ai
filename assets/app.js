@@ -279,7 +279,7 @@
     updateFavicon(next);
   }
 
-  // Favicon: a "C" in IBM Plex Sans Arabic in the accent colour. The browser's
+  // Favicon: a "C" in ET Bembo in the accent colour. The browser's
   // tab strip doesn't follow the site's theme, so colours use their stronger
   // light-theme values, and mono is black or white to suit the browser.
   const FAVICON_C = document.getElementById("favicon") && fetch(document.getElementById("favicon").href).then((r) => r.text()).catch(() => null);
@@ -295,10 +295,10 @@
     link.href = `data:image/svg+xml,${encodeURIComponent(out)}`;
   }
 
-  // Font toggles IBM Plex Sans Arabic (default) ⇄ ET Bembo; not remembered
+  // Font toggles ET Bembo (default) ⇄ IBM Plex Sans Arabic; not remembered
   function toggleFont() {
-    if (root.getAttribute("data-font") === "bembo") root.removeAttribute("data-font");
-    else root.setAttribute("data-font", "bembo");
+    if (root.getAttribute("data-font") === "plex") root.removeAttribute("data-font");
+    else root.setAttribute("data-font", "plex");
     // Text heights change with the font, so re-measure what depends on them
     document.fonts.ready.then(() => {
       fitHeroArt();

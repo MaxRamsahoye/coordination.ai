@@ -1,4 +1,4 @@
-/* ───────────── Alternative font: ET Bembo (Edward Tufte's free Bembo, via
+/* ───────────── Default font: ET Bembo (Edward Tufte's free Bembo, via
    github.com/DavidBarts/ET_Bembo; MIT licence in assets/fonts). Its x-height
    is smaller than Plex's, so it is scaled up to read at a similar size. */
 @font-face {
@@ -36,13 +36,14 @@
   --line: #e5e5e5;
   --accent: #c8102e;   /* crimson (default) */
   --on-accent: #ffffff; /* text on an accent-coloured background */
-  --font: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-alt: "ET Bembo", Georgia, "Times New Roman", serif;
+  --font-bembo: "ET Bembo", Georgia, "Times New Roman", serif;
+  --font-plex: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: var(--font-bembo);   /* default; the F toggle switches to Plex */
   --header-h: 88px;
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
   --column: 880px;     /* central text column, including its 24px padding */
 }
-:root[data-font="bembo"] { --font: var(--font-alt); }
+:root[data-font="plex"] { --font: var(--font-plex); }
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
 :root[data-accent="orange"] { --accent: #c2410c; }   /* ember orange */
 :root[data-accent="mono"] { --accent: #000000; }     /* black (white in dark mode) */
@@ -220,14 +221,14 @@ a { color: inherit; }
 
 /* "Aa" set in the font you'd switch to */
 .font-sample {
-  font-family: var(--font-alt);
-  font-size: 17px;
+  font-family: var(--font-plex);
+  font-size: 14px;
   line-height: 1;
   font-weight: 400;
 }
-:root[data-font="bembo"] .font-sample {
-  font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
-  font-size: 14px;
+:root[data-font="plex"] .font-sample {
+  font-family: var(--font-bembo);
+  font-size: 17px;
 }
 
 .site-title {
@@ -312,10 +313,10 @@ a { color: inherit; }
 }
 
 /* ───────────── Menu bar */
-/* An outline box in the accent colour at the bottom of the first screen,
-   spanning the text column (plus its padding) with a gap below it so its
-   bottom edge isn't flush with the screen. It sits in the page and scrolls
-   away with it. The whole block, box plus gap, is --menu-h tall. */
+/* A row of translucent accent pills at the bottom of the first screen, one
+   per page, with a gap below so they aren't flush with the screen edge. It
+   sits in the page and scrolls away with it. The whole block, pills plus
+   gap, is --menu-h tall. */
 .menu {
   --menu-gap: 32px;
   position: relative;
@@ -327,30 +328,30 @@ a { color: inherit; }
 .menu-inner {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 20px;
   height: 100%;
-  border: 1.5px solid var(--accent);
-  border-radius: 8px;
-  padding-inline: 22.5px;   /* 24px column padding less the border, so labels align with the text above */
   overflow-x: auto;
-  transition: border-color 0.2s ease;
 }
 
+/* Accent tint that deepens on hover and more on press; the current page's
+   pill starts a step deeper */
 .menu a {
+  --tint: 14%;
   display: block;
-  padding: 6px 0 4px;
-  border-bottom: 2px solid transparent;
+  padding: 10px 24px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) var(--tint), transparent);
   color: var(--ink-2);
   text-decoration: none;
   font-size: 18px;
+  line-height: 1.3;
   white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-.menu a:hover { color: var(--ink); }
-.menu a[aria-current="page"] {
-  color: var(--ink);
-  font-weight: 500;
-  border-bottom-color: var(--accent);
-}
+.menu a[aria-current="page"] { --tint: 26%; color: var(--ink); font-weight: 500; }
+.menu a:hover { --tint: 30%; color: var(--ink); }
+.menu a[aria-current="page"]:hover { --tint: 38%; }
+.menu a:active { --tint: 55%; transition-duration: 0.05s; }
 
 /* Content scrolls freely across the top of the screen. Where the text
    column runs under the site title (narrower windows), the title gets a
@@ -479,7 +480,7 @@ a { color: inherit; }
 /* ───────────── Filter bar (Incidents): a row of pills that scrolls sideways
    when it doesn't fit, with "All" selected by default */
 .filter-bar {
-  margin: -40px 0 48px;   /* sits close under the menu box */
+  margin: -40px 0 48px;   /* sits close under the menu */
 }
 
 /* Each row: a small label, then its pills scrolling sideways */
@@ -811,7 +812,8 @@ a { color: inherit; }
   :root { --header-h: 72px; --menu-h: 88px; }
   .menu { --menu-gap: 16px; }
   /* Inset the box from the screen edges, keeping its text on the column edge */
-  .menu .menu-inner { margin: 0 8px; padding-inline: 6.5px; }
+  .menu .menu-inner { gap: 12px; }
+  .menu a { padding: 9px 20px; font-size: 17px; }
   .container { padding: 0 16px; }
   .page-main { padding: 0 16px; }
   .header-inner { padding: 0 16px; }
