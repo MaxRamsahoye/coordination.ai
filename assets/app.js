@@ -27,11 +27,18 @@
       intro: (n, span, [category]) =>
         `${n} ${category === "Main" ? "" : `${category.toLowerCase()} `}statement${n === 1 ? "" : "s"} on AI, ${span}. Newest first.`,
     },
-    scenarios: {
-      items: window.CC_SCENARIOS || [],
+    materials: {
+      items: window.CC_MATERIALS || [],
+      filters: [
+        { by: "category", value: "scenario", all: false, tag: false, order: ["scenario", "essay"],
+          labels: { scenario: "Scenarios", essay: "Essays" } },
+      ],
       types: { forecast: "Forecast", plan: "Plan", essay: "Essay" },
-      prefix: "scenario",
-      intro: (n, span) => `${n} scenarios for how advanced AI could unfold and plans for steering it, ${span}. Newest first.`,
+      prefix: "material",
+      intro: (n, span, [category]) =>
+        category === "Scenarios"
+          ? `${n} scenario${n === 1 ? "" : "s"} for how advanced AI could unfold and plans for steering it, ${span}. Newest first.`
+          : `${n} essay${n === 1 ? "" : "s"} on the future of AI, ${span}. Newest first.`,
     },
     incidents: {
       items: window.CC_INCIDENTS || [],
@@ -501,7 +508,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Statements
-  const PAGES = ["statements", "scenarios", "incidents"];
+  const PAGES = ["statements", "materials", "incidents"];
   const DEFAULT_PAGE = "statements";
 
   function showPage() {

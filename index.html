@@ -66,7 +66,7 @@
     <nav class="menu" aria-label="Sections">
       <div class="container menu-inner">
         <a href="#statements" data-page="statements">Statements</a>
-        <a href="#scenarios" data-page="scenarios">Scenarios</a>
+        <a href="#materials" data-page="materials">Materials</a>
         <a href="#incidents" data-page="incidents">Incidents</a>
       </div>
     </nav>
@@ -98,19 +98,25 @@
       </div>
     </section>
 
-    <section id="page-scenarios" class="page" aria-labelledby="scenarios-heading" hidden>
+    <section id="page-materials" class="page" aria-labelledby="materials-heading" hidden>
       <div class="page-layout">
         <aside class="toc" aria-label="Timeline">
           <p class="toc-title">Timeline</p>
-          <ol class="toc-list" id="scenarios-toc"></ol>
+          <ol class="toc-list" id="materials-toc"></ol>
         </aside>
 
         <div class="page-main">
-          <div class="page-head">
-            <h2 id="scenarios-heading">Scenarios</h2>
-            <p class="page-intro" id="scenarios-intro"></p>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Choose a category of materials">
+              <span class="filter-label" aria-hidden="true">Category</span>
+              <div class="filter-scroll" id="materials-filters-category"></div>
+            </div>
           </div>
-          <div class="timeline" id="scenarios-timeline"></div>
+          <div class="page-head">
+            <h2 id="materials-heading">Materials</h2>
+            <p class="page-intro" id="materials-intro"></p>
+          </div>
+          <div class="timeline" id="materials-timeline"></div>
         </div>
 
         <div class="progress-col" aria-hidden="true">
@@ -165,8 +171,8 @@
   <div class="cursor-dot" aria-hidden="true"></div>
 
   <script src="data/incidents.js?v=a5a119d0"></script>
-  <script src="data/scenarios.js?v=e333f40d"></script>
+  <script src="data/materials.js?v=1008492a"></script>
   <script src="data/statements.js?v=38a35923"></script>
-  <script src="assets/app.js?v=8bf4484d"></script>
+  <script src="assets/app.js?v=a7ca2156"></script>
 </body>
 </html>

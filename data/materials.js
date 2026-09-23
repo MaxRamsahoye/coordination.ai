@@ -1,24 +1,37 @@
 /*
- * Scenarios — detailed stories and forecasts of how the arrival of advanced
- * AI could unfold, and plans for steering it.
+ * Materials — scenarios (detailed stories, forecasts and plans for how the
+ * arrival of advanced AI could unfold) and essays.
  *
- * Each scenario:
+ * Each item:
  *   id       unique slug
+ *   category scenario | essay (the category pills)
  *   date     when it was published: "YYYY-MM-DD", or "YYYY-MM" when only the
  *            month is known
- *   title    name of the scenario
+ *   title    name of the piece
  *   type     forecast | plan | essay (labels in app.js)
  *              forecast — what the authors think is likely to happen
  *              plan     — what the authors think should happen
  *              essay    — an argued account of a possible future
  *   by       authors and publisher
- *   summary  what happens, in one to three sentences
+ *   summary  what it says or what happens, in one to three sentences
  *   quote    optional — a short verbatim line
  *   source   optional — { label, url }
  */
-window.CC_SCENARIOS = [
+window.CC_MATERIALS = [
+  {
+    id: "we-must-pace-the-frontier",
+    category: "essay",
+    date: "2026-09-12",
+    title: "We Must Pace the Frontier",
+    type: "essay",
+    by: "Dario Amodei, Anthropic",
+    summary:
+      "Argues the industry should slow the rate at which AI capabilities increase — pacing, not pausing — to leave time for alignment and safety work. Proposes three steps: third-party evaluators embedded in labs, which Anthropic committed to unilaterally; common safety standards and limits among companies in democracies; and coordination with authoritarian governments where it can be verified.",
+    source: { label: "darioamodei.com", url: "https://darioamodei.com/post/we-must-pace-the-frontier" },
+  },
   {
     id: "ai-2040-plan-a",
+    category: "scenario",
     date: "2026-07-09",
     title: "AI 2040: Plan A",
     type: "plan",
@@ -29,6 +42,7 @@ window.CC_SCENARIOS = [
   },
   {
     id: "europe-2031",
+    category: "scenario",
     date: "2026-06",
     title: "Europe 2031",
     type: "forecast",
@@ -39,6 +53,7 @@ window.CC_SCENARIOS = [
   },
   {
     id: "ai-2027",
+    category: "scenario",
     date: "2025-04-03",
     title: "AI 2027",
     type: "forecast",
@@ -49,6 +64,7 @@ window.CC_SCENARIOS = [
   },
   {
     id: "gradual-disempowerment",
+    category: "essay",
     date: "2025-01",
     title: "Gradual Disempowerment",
     type: "essay",
@@ -59,6 +75,7 @@ window.CC_SCENARIOS = [
   },
   {
     id: "machines-of-loving-grace",
+    category: "essay",
     date: "2024-10-11",
     title: "Machines of Loving Grace",
     type: "essay",
@@ -70,6 +87,7 @@ window.CC_SCENARIOS = [
   },
   {
     id: "a-narrow-path",
+    category: "scenario",
     date: "2024-10",
     title: "A Narrow Path",
     type: "plan",
@@ -80,6 +98,7 @@ window.CC_SCENARIOS = [
   },
   {
     id: "situational-awareness",
+    category: "scenario",
     date: "2024-06-04",
     title: "Situational Awareness: The Decade Ahead",
     type: "forecast",
