@@ -445,9 +445,9 @@ a { color: inherit; }
 }
 .to-top.visible { opacity: 1; visibility: visible; }
 
-/* U+27D1 (AND WITH DOT); symbol fonts first, as most text fonts lack it */
+/* U+1F891 (UPWARDS TRIANGLE ARROWHEAD), from Noto Sans Symbols 2 */
 .to-top-glyph {
-  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Math", "STIX Two Math", "Cambria Math", "DejaVu Sans", sans-serif;
+  font-family: "Noto Sans Symbols 2", "Segoe UI Symbol", "Apple Symbols", sans-serif;
   font-size: 22px;
   line-height: 1;
 }
