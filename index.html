@@ -11,9 +11,14 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=5912c403">
+  <link rel="stylesheet" href="assets/styles.css?v=eaa21235">
 </head>
 <body>
+  <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
+  <div class="loader" aria-hidden="true">
+    <img src="assets/hero-landscape.webp?v=08e6fc0a" alt="" width="478" height="346" fetchpriority="high">
+  </div>
+  <noscript><style>.loader { display: none; }</style></noscript>
   <!-- Top-left controls (theme, accent, font) sit in the page (not the fixed header), so they scroll away -->
   <div class="page-controls" data-state="initial">
     <!-- Appears a second after load, when the controls tuck away; opens and closes them -->
@@ -177,6 +182,6 @@
   <script src="data/incidents.js?v=a5a119d0"></script>
   <script src="data/materials.js?v=1008492a"></script>
   <script src="data/statements.js?v=38a35923"></script>
-  <script src="assets/app.js?v=249838b4"></script>
+  <script src="assets/app.js?v=2eb1e58d"></script>
 </body>
 </html>

@@ -428,19 +428,37 @@
     })();
   }
 
+  // ───────────── Loading screen: lifts once everything has loaded (fonts,
+  // images), shown for at least 1.2s so it doesn't just flash, and at most
+  // 8s in case something stalls. Resolves once it has started to fade.
+  const revealed = new Promise((resolve) => {
+    const MIN = 1200, MAX = 8000;
+    let done = false;
+    const reveal = () => {
+      if (done) return;
+      done = true;
+      root.classList.add("loaded");
+      resolve();
+    };
+    const whenLoaded = () => setTimeout(reveal, Math.max(0, MIN - performance.now()));
+    if (document.readyState === "complete") whenLoaded();
+    else window.addEventListener("load", whenLoaded, { once: true });
+    setTimeout(reveal, MAX);
+  });
+
   // ───────────── Hero subtitle: cycle through its sentences on one line
   function initHeroCycle() {
     const lines = [...document.querySelectorAll(".hero-cycle > span")];
     if (lines.length < 2) return;
     let i = 0;
-    setInterval(() => {
+    revealed.then(() => setInterval(() => {
       if (document.hidden) return;
       const prev = lines[i];
       i = (i + 1) % lines.length;
       prev.classList.replace("is-current", "is-leaving");
       setTimeout(() => prev.classList.remove("is-leaving"), 700);
       lines[i].classList.add("is-current");
-    }, 3500);
+    }, 3500));
   }
 
   // ───────────── Hero artwork: no wider than the title's longest line
@@ -515,7 +533,7 @@
       setState("tucking");                       // arrow appears pointing left
       setTimeout(() => setState("closed"), 900); // …then turns to point right
     };
-    setTimeout(tuck, 1000);
+    revealed.then(() => setTimeout(tuck, 1000));   // a second after the loading screen lifts
 
     toggle.addEventListener("click", () => {
       setState(wrap.dataset.state === "open" ? "closed" : "open");
