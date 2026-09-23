@@ -82,12 +82,41 @@
       </li>`;
   }
 
-  // Contents links scroll to the entry without touching the page hash
+  // ───────────── Contents: which entry is current, and where each link scrolls to.
+  // An entry becomes current once its top passes a reading line near the top of
+  // the screen. Entries near the end of the page can never scroll that far, so
+  // their switch-over points are spread evenly across the last stretch of
+  // scrolling, with the final entry becoming current at the very bottom.
+  function tocStops() {
+    const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
+    const line = headerH + 120;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const items = [...document.querySelectorAll(".tl-item")].map((el) => {
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      return { id: el.id, at: top - line, landing: top - headerH - 24 };
+    });
+    const firstUnreachable = items.findIndex((it) => it.at > maxScroll);
+    if (firstUnreachable === -1) return { items, maxScroll };
+
+    const lastReachable = firstUnreachable - 1;
+    const from = lastReachable >= 0 ? Math.max(0, items[lastReachable].at) : 0;
+    const steps = items.length - lastReachable - 1;
+    for (let i = firstUnreachable; i < items.length; i++) {
+      items[i].at = from + ((maxScroll - from) * (i - lastReachable)) / steps;
+      items[i].landing = items[i].at;
+    }
+    return { items, maxScroll };
+  }
+
+  // Contents links scroll to where their entry becomes current, without
+  // touching the page hash
   document.getElementById("statements-toc").addEventListener("click", (e) => {
     const a = e.target.closest("a[data-target]");
     if (!a) return;
     e.preventDefault();
-    document.getElementById(a.dataset.target)?.scrollIntoView({ block: "start" });
+    const { items, maxScroll } = tocStops();
+    const stop = items.find((it) => it.id === a.dataset.target);
+    if (stop) window.scrollTo({ top: Math.min(maxScroll, Math.max(0, Math.ceil(stop.landing))) });
   });
 
   // ───────────── Scroll: reading progress, current contents entry, back-to-top
@@ -105,12 +134,10 @@
     // Contents and progress pill appear once the menu bar is fixed to the top
     root.classList.toggle("menu-stuck", window.scrollY > 0 && menu.getBoundingClientRect().top <= 0);
 
-    // Current entry: the last one whose top has passed the reading line
-    const line = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) + 120;
+    // Current entry: the last one whose switch-over point has been reached
+    // (half-pixel tolerance for fractional scroll positions)
     let current = null;
-    document.querySelectorAll(".tl-item").forEach((el) => {
-      if (el.getBoundingClientRect().top <= line) current = el.id;
-    });
+    for (const it of tocStops().items) if (window.scrollY + 0.5 >= it.at) current = it.id;
     document.querySelectorAll(".toc-list a").forEach((a) => {
       if (a.dataset.target === current) a.setAttribute("aria-current", "true");
       else a.removeAttribute("aria-current");
