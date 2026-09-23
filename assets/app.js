@@ -1,16 +1,32 @@
-/* coordinationconsole.ai — page routing, statements timeline, contents,
-   reading progress, theme/accent toggles and keyboard shortcuts. */
+/* coordinationconsole.ai — page routing, the Statements and Incidents
+   timelines, their contents sidebars and reading progress, theme/accent
+   toggles and keyboard shortcuts. */
 (function () {
   "use strict";
 
-  const STATEMENTS = window.CC_STATEMENTS || [];
   const root = document.documentElement;
 
-  const TYPES = {
-    letter: "Open letter",
-    declaration: "Declaration",
-    joint: "Joint statement",
+  // Each timeline page: its data, the labels for its entry types, the prefix
+  // for entry ids, and its intro line
+  const TIMELINES = {
+    statements: {
+      items: window.CC_STATEMENTS || [],
+      types: { letter: "Open letter", declaration: "Declaration", joint: "Joint statement" },
+      prefix: "statement",
+      intro: (n, from, to) => `${n} statements on AI, ${from}–${to}. Newest first.`,
+    },
+    incidents: {
+      items: window.CC_INCIDENTS || [],
+      types: { control: "Loss of control", behaviour: "Unintended behaviour", cyber: "Cyberattack" },
+      prefix: "incident",
+      intro: (n, from, to) =>
+        `${n} incidents of loss of control, unintended behaviour and AI cyberattacks, ${from}–${to}. Dated by when each became public; newest first.`,
+    },
   };
+
+  // The page currently shown (set by showPage); scroll handling works within it
+  let activePage = "statements";
+  const activeScope = () => document.getElementById(`page-${activePage}`);
 
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -30,13 +46,13 @@
     return `${y}-${m}-${day}`;
   };
 
-  const sorted = STATEMENTS.slice().sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
-
-  // ───────────── Statements timeline (newest first)
-  function renderStatements() {
+  // ───────────── Timelines (newest first, grouped by year)
+  function renderTimeline(key) {
+    const t = TIMELINES[key];
+    const sorted = t.items.slice().sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
+    if (!sorted.length) return;
     const years = sorted.map((s) => s.date.slice(0, 4));
-    document.getElementById("statements-intro").textContent =
-      `${sorted.length} statements on AI, ${years[years.length - 1]}–${years[0]}. Newest first.`;
+    document.getElementById(`${key}-intro`).textContent = t.intro(sorted.length, years[years.length - 1], years[0]);
 
     const groups = [];
     for (const s of sorted) {
@@ -45,29 +61,29 @@
       groups[groups.length - 1].items.push(s);
     }
 
-    document.getElementById("statements-timeline").innerHTML = groups
+    document.getElementById(`${key}-timeline`).innerHTML = groups
       .map(
         (g) => `
         <section class="tl-year" aria-label="${g.year}">
           <h3 class="tl-year-label">${g.year}</h3>
-          <ol class="tl-list">${g.items.map(statementItem).join("")}</ol>
+          <ol class="tl-list">${g.items.map((s) => timelineItem(s, t)).join("")}</ol>
         </section>`
       )
       .join("");
 
-    document.getElementById("statements-toc").innerHTML = sorted
+    document.getElementById(`${key}-toc`).innerHTML = sorted
       .map(
-        (s) => `<li><a href="#statement-${esc(s.id)}" data-target="statement-${esc(s.id)}">${esc(s.title)} <span class="toc-date">(${esc(formatDate(s.date))})</span></a></li>`
+        (s) => `<li><a href="#${t.prefix}-${esc(s.id)}" data-target="${t.prefix}-${esc(s.id)}">${esc(s.title)} <span class="toc-date">(${esc(formatDate(s.date))})</span></a></li>`
       )
       .join("");
   }
 
-  function statementItem(s) {
+  function timelineItem(s, t) {
     return `
-      <li class="tl-item" id="statement-${esc(s.id)}">
+      <li class="tl-item" id="${t.prefix}-${esc(s.id)}">
         <div class="tl-meta">
           <time datetime="${esc(s.date)}">${esc(formatDate(s.date))}</time>
-          <span class="tl-type">${esc(TYPES[s.type] || s.type)}</span>
+          <span class="tl-type">${esc(t.types[s.type] || s.type)}</span>
         </div>
         <h4 class="tl-title">${esc(s.title)}</h4>
         <p class="tl-by">${esc(s.by)}</p>
@@ -86,7 +102,7 @@
     const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
     const line = headerH + 120;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const items = [...document.querySelectorAll(".tl-item")].map((el) => {
+    const items = [...activeScope().querySelectorAll(".tl-item")].map((el) => {
       const top = el.getBoundingClientRect().top + window.scrollY;
       return { id: el.id, at: top - line, landing: top - headerH - 24 };
     });
@@ -105,17 +121,18 @@
 
   // Contents links scroll to where their entry becomes current, without
   // touching the page hash
-  document.getElementById("statements-toc").addEventListener("click", (e) => {
-    const a = e.target.closest("a[data-target]");
-    if (!a) return;
-    e.preventDefault();
-    const { items, maxScroll } = tocStops();
-    const stop = items.find((it) => it.id === a.dataset.target);
-    if (stop) window.scrollTo({ top: Math.min(maxScroll, Math.max(0, Math.ceil(stop.landing))) });
-  });
+  document.querySelectorAll(".toc-list").forEach((list) =>
+    list.addEventListener("click", (e) => {
+      const a = e.target.closest("a[data-target]");
+      if (!a) return;
+      e.preventDefault();
+      const { items, maxScroll } = tocStops();
+      const stop = items.find((it) => it.id === a.dataset.target);
+      if (stop) window.scrollTo({ top: Math.min(maxScroll, Math.max(0, Math.ceil(stop.landing))) });
+    })
+  );
 
   // ───────────── Scroll: reading progress, current contents entry, back-to-top
-  const fill = document.getElementById("progress-fill");
   const toTop = document.getElementById("to-top");
   const menu = document.querySelector(".menu");
   const hero = document.querySelector(".hero");
@@ -123,7 +140,8 @@
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-    fill.style.height = `${(progress * 100).toFixed(1)}%`;
+    const fill = activeScope().querySelector(".progress-fill");
+    if (fill) fill.style.height = `${(progress * 100).toFixed(1)}%`;
 
     toTop.classList.toggle("visible", window.scrollY > 400);
 
@@ -136,16 +154,28 @@
     // (half-pixel tolerance for fractional scroll positions)
     let current = null;
     for (const it of tocStops().items) if (window.scrollY + 0.5 >= it.at) current = it.id;
-    document.querySelectorAll(".toc-list a").forEach((a) => {
-      if (a.dataset.target === current) a.setAttribute("aria-current", "true");
-      else a.removeAttribute("aria-current");
+    let currentLink = null;
+    activeScope().querySelectorAll(".toc-list a").forEach((a) => {
+      if (a.dataset.target === current) {
+        a.setAttribute("aria-current", "true");
+        currentLink = a;
+      } else a.removeAttribute("aria-current");
     });
+
+    // Long lists scroll inside the sidebar: keep the current entry in view
+    const toc = activeScope().querySelector(".toc");
+    if (currentLink && toc && toc.scrollHeight > toc.clientHeight) {
+      const top = currentLink.getBoundingClientRect().top - toc.getBoundingClientRect().top + toc.scrollTop;
+      const bottom = top + currentLink.offsetHeight;
+      if (top < toc.scrollTop + 40) toc.scrollTop = Math.max(0, top - 40);
+      else if (bottom > toc.scrollTop + toc.clientHeight - 40) toc.scrollTop = bottom - toc.clientHeight + 40;
+    }
   }
 
   // Keep the contents sidebar in the vertical middle of the screen
-  const toc = document.querySelector(".toc");
   function placeToc() {
-    const h = toc.offsetHeight;
+    const toc = activeScope().querySelector(".toc");
+    const h = toc ? toc.offsetHeight : 0;
     if (h) root.style.setProperty("--toc-top", `${Math.max(0, (window.innerHeight - h) / 2)}px`);
   }
 
@@ -341,37 +371,39 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Statements
-  const PAGES = ["statements"];
+  const PAGES = ["statements", "incidents"];
   const DEFAULT_PAGE = "statements";
 
   function showPage() {
     const requested = location.hash.slice(1);
     const page = PAGES.includes(requested) ? requested : DEFAULT_PAGE;
+    activePage = page;
     PAGES.forEach((p) => (document.getElementById(`page-${p}`).hidden = p !== page));
     document.querySelectorAll(".menu a[data-page]").forEach((a) => {
       if (a.dataset.page === page) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     });
+    // The newly shown page has its own sidebar and length
+    onScroll();
+    placeToc();
   }
 
-  renderStatements();
+  Object.keys(TIMELINES).forEach(renderTimeline);
   initCursor();
   centreArrowGlyphs();
   initControlsToggle();
   showPage();
-  onScroll();
-  placeToc();
   fitHeroArt();
   window.addEventListener("hashchange", showPage);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
-      onScroll();
+    onScroll();
     placeToc();
     fitHeroArt();
   });
   // Web fonts change the sidebar's height once they load
   document.fonts?.ready.then(() => {
-      placeToc();
+    placeToc();
     fitHeroArt();
   });
 })();
