@@ -291,6 +291,7 @@ a { color: inherit; }
 .toc-list a:hover { color: var(--ink); }
 .toc-list a[aria-current="true"] {
   color: var(--ink);
+  font-weight: 500;
   border-left-color: var(--accent);
 }
 .toc-date { white-space: nowrap; }
