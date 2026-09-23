@@ -13,14 +13,16 @@
       items: window.CC_STATEMENTS || [],
       types: { letter: "Open letter", declaration: "Declaration", joint: "Joint statement" },
       prefix: "statement",
-      intro: (n, from, to) => `${n} statements on AI, ${from}–${to}. Newest first.`,
+      intro: (n, span) => `${n} statements on AI, ${span}. Newest first.`,
     },
     incidents: {
       items: window.CC_INCIDENTS || [],
+      filterBy: "orgs",   // filter bar: one pill per developer, plus "All"
+      filter: "All",
       types: { control: "Loss of control", behaviour: "Unintended behaviour", cyber: "Cyberattack" },
       prefix: "incident",
-      intro: (n, from, to) =>
-        `${n} incidents of loss of control, unintended behaviour and AI cyberattacks, ${from}–${to}. Dated by when each became public; newest first.`,
+      intro: (n, span, filter) =>
+        `${n} incident${n === 1 ? "" : "s"} of loss of control, unintended behaviour and AI cyberattacks${filter === "All" ? "" : ` involving ${filter} models`}, ${span}. Dated by when each became public; newest first.`,
     },
   };
 
@@ -49,10 +51,12 @@
   // ───────────── Timelines (newest first, grouped by year)
   function renderTimeline(key) {
     const t = TIMELINES[key];
-    const sorted = t.items.slice().sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
+    const shown = t.filterBy && t.filter !== "All" ? t.items.filter((s) => (s[t.filterBy] || []).includes(t.filter)) : t.items;
+    const sorted = shown.slice().sort((a, b) => sortKey(b.date).localeCompare(sortKey(a.date)));
     if (!sorted.length) return;
     const years = sorted.map((s) => s.date.slice(0, 4));
-    document.getElementById(`${key}-intro`).textContent = t.intro(sorted.length, years[years.length - 1], years[0]);
+    const span = years[0] === years[years.length - 1] ? years[0] : `${years[years.length - 1]}–${years[0]}`;
+    document.getElementById(`${key}-intro`).textContent = t.intro(sorted.length, span, t.filter);
 
     const groups = [];
     for (const s of sorted) {
@@ -76,6 +80,43 @@
         (s) => `<li><a href="#${t.prefix}-${esc(s.id)}" data-target="${t.prefix}-${esc(s.id)}">${esc(s.title)} <span class="toc-date">(${esc(formatDate(s.date))})</span></a></li>`
       )
       .join("");
+  }
+
+  // ───────────── Filter bar: "All" plus each value of the filter field, most
+  // common first, with counts. Choosing one re-renders the timeline.
+  function renderFilters(key) {
+    const t = TIMELINES[key];
+    const bar = document.getElementById(`${key}-filters`);
+    if (!t.filterBy || !bar) return;
+    const counts = new Map();
+    t.items.forEach((s) => (s[t.filterBy] || []).forEach((v) => counts.set(v, (counts.get(v) || 0) + 1)));
+    const options = [["All", t.items.length], ...[...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))];
+    bar.innerHTML = options
+      .map(
+        ([v, n]) =>
+          `<button type="button" class="filter-pill" data-value="${esc(v)}" aria-pressed="${v === t.filter}">${esc(v)} <span class="filter-count">${n}</span></button>`
+      )
+      .join("");
+
+    bar.addEventListener("click", (e) => {
+      const b = e.target.closest(".filter-pill");
+      if (!b || b.dataset.value === t.filter) return;
+      t.filter = b.dataset.value;
+      bar.querySelectorAll(".filter-pill").forEach((p) => p.setAttribute("aria-pressed", String(p === b)));
+      b.scrollIntoView({ block: "nearest", inline: "nearest" });
+      renderTimeline(key);
+      // If the list now ends above the reader, bring its top back into view
+      const head = document.getElementById(`page-${key}`).querySelector(".page-head");
+      if (head.getBoundingClientRect().top < 0) window.scrollTo({ top: head.getBoundingClientRect().top + window.scrollY - 140 });
+      onScroll();
+      placeToc();
+    });
+
+    // Fade the right edge only while there is more to scroll to
+    const edge = () => bar.classList.toggle("at-end", bar.scrollLeft + bar.clientWidth >= bar.scrollWidth - 2);
+    bar.addEventListener("scroll", edge, { passive: true });
+    window.addEventListener("resize", edge);
+    edge();
   }
 
   function timelineItem(s, t) {
@@ -398,7 +439,10 @@
     placeToc();
   }
 
-  Object.keys(TIMELINES).forEach(renderTimeline);
+  Object.keys(TIMELINES).forEach((key) => {
+    renderTimeline(key);
+    renderFilters(key);
+  });
   initCursor();
   centreArrowGlyphs();
   initControlsToggle();

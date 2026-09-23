@@ -434,6 +434,48 @@ a { color: inherit; }
   .toc, .progress-col { display: none; }
 }
 
+/* ───────────── Filter bar (Incidents): a row of pills that scrolls sideways
+   when it doesn't fit, with "All" selected by default */
+.filter-bar {
+  margin: -40px 0 48px;   /* sits close under the menu box */
+}
+
+.filter-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+  -webkit-mask: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  mask: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+}
+.filter-scroll.at-end { -webkit-mask: none; mask: none; }
+
+.filter-pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.filter-pill:hover { color: var(--ink); border-color: var(--ink-2); }
+.filter-pill[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: var(--accent);
+  font-weight: 500;
+}
+.filter-count { font-size: 12px; color: var(--ink-2); font-weight: 400; }
+
 /* ───────────── Timeline */
 .tl-year {
   display: grid;

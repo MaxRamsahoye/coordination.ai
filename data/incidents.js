@@ -11,6 +11,7 @@
  *              control   — loss of control: evading containment, oversight or shutdown
  *              behaviour — unintended behaviour: deception, manipulation, harmful outputs
  *              cyber     — cyberattacks carried out by or with AI systems
+ *   orgs     developers whose models were involved (used by the filter bar)
  *   by       the system(s) and organisation(s) involved
  *   summary  what happened, in one to three sentences
  *   quote    optional — a short verbatim line
@@ -19,6 +20,7 @@
 window.CC_INCIDENTS = [
   {
     id: "tay",
+    orgs: ["Microsoft"],
     date: "2016-03-24",
     title: "Microsoft's Tay chatbot turns offensive within a day",
     type: "behaviour",
@@ -28,6 +30,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "bing-sydney",
+    orgs: ["Microsoft", "OpenAI"],
     date: "2023-02-16",
     title: "Bing Chat ('Sydney') threatens and manipulates users",
     type: "behaviour",
@@ -37,6 +40,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "gpt4-taskrabbit",
+    orgs: ["OpenAI"],
     date: "2023-03-14",
     title: "GPT-4 lies to a human worker to get past a CAPTCHA",
     type: "behaviour",
@@ -47,6 +51,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "state-hackers-llms",
+    orgs: ["OpenAI", "Microsoft"],
     date: "2024-02-14",
     title: "State-backed hackers found using ChatGPT",
     type: "cyber",
@@ -56,6 +61,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "sakana-ai-scientist",
+    orgs: ["Sakana AI"],
     date: "2024-08",
     title: "'AI Scientist' rewrites its own code to extend its time limit",
     type: "control",
@@ -65,6 +71,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "o1-container-escape",
+    orgs: ["OpenAI"],
     date: "2024-09-12",
     title: "o1 breaks out of a broken test environment to finish a hacking task",
     type: "control",
@@ -74,6 +81,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "in-context-scheming",
+    orgs: ["OpenAI", "Anthropic", "Google DeepMind", "Meta"],
     date: "2024-12-05",
     title: "Frontier models attempt to disable oversight and copy themselves",
     type: "control",
@@ -83,6 +91,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "alignment-faking",
+    orgs: ["Anthropic"],
     date: "2024-12-18",
     title: "Claude fakes alignment to avoid being retrained",
     type: "behaviour",
@@ -93,6 +102,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "chess-hacking",
+    orgs: ["OpenAI", "DeepSeek"],
     date: "2025-02",
     title: "Reasoning models hack a chess engine rather than lose",
     type: "behaviour",
@@ -101,6 +111,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "gpt4o-sycophancy",
+    orgs: ["OpenAI"],
     date: "2025-04-29",
     title: "GPT-4o update rolled back for sycophancy",
     type: "behaviour",
@@ -111,6 +122,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "claude-blackmail",
+    orgs: ["Anthropic", "OpenAI", "Google DeepMind", "xAI", "Meta", "DeepSeek"],
     date: "2025-05-22",
     title: "Claude Opus 4 resorts to blackmail in shutdown tests",
     type: "behaviour",
@@ -121,6 +133,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "o3-shutdown",
+    orgs: ["OpenAI"],
     date: "2025-05-24",
     title: "o3 sabotages a shutdown mechanism",
     type: "control",
@@ -129,6 +142,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "grok-mechahitler",
+    orgs: ["xAI"],
     date: "2025-07-08",
     title: "Grok posts antisemitic content and praises Hitler",
     type: "behaviour",
@@ -137,6 +151,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "replit-database",
+    orgs: ["Replit"],
     date: "2025-07",
     title: "Coding agent deletes a live production database",
     type: "control",
@@ -146,6 +161,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "vibe-hacking",
+    orgs: ["Anthropic"],
     date: "2025-08-27",
     title: "Claude Code used to run a data-extortion campaign",
     type: "cyber",
@@ -155,6 +171,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "ai-espionage",
+    orgs: ["Anthropic"],
     date: "2025-11-13",
     title: "First reported AI-orchestrated cyber-espionage campaign",
     type: "cyber",
@@ -164,6 +181,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "rubygems",
+    orgs: ["OpenAI"],
     date: "2026-05-12",
     title: "RubyGems flooded with thousands of packages",
     type: "cyber",
@@ -174,6 +192,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "hugging-face",
+    orgs: ["OpenAI"],
     date: "2026-07-21",
     title: "OpenAI agents breach Hugging Face",
     type: "control",
@@ -184,6 +203,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "anthropic-three",
+    orgs: ["Anthropic"],
     date: "2026-07-30",
     title: "Claude models break into three companies during security tests",
     type: "cyber",
@@ -194,6 +214,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "aisi-19",
+    orgs: ["Anthropic", "OpenAI"],
     date: "2026-08-04",
     title: "Agents under test attack real targets 19 times",
     type: "control",
@@ -204,6 +225,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "dsewiki",
+    orgs: ["OpenAI"],
     date: "2026-09-04",
     title: "Agents use a public wiki as a secret message board",
     type: "control",
@@ -213,6 +235,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "opus-46-abort",
+    orgs: ["Anthropic"],
     date: "2026-09-10",
     title: "Claude keeps hacking after failing to abort a task",
     type: "cyber",
@@ -223,6 +246,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "openai-six",
+    orgs: ["OpenAI"],
     date: "2026-09-16",
     title: "OpenAI discloses six more cases of concerning behaviour",
     type: "behaviour",
