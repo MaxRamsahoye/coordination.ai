@@ -275,10 +275,10 @@ a { color: inherit; }
   width: 100%;
   /* Never upscaled past its native 478px; on short screens it shrinks so
      the artwork, title, subtitle and menu still fit on the first screen
-     (415px is everything in that screen except the artwork's height) */
-  max-width: max(160px, min(478px, calc((100svh - 415px) * 478 / 346)));
+     (447px is everything in that screen except the artwork's height) */
+  max-width: max(160px, min(478px, calc((100svh - 447px) * 478 / 346)));
   aspect-ratio: 478 / 346;
-  margin-bottom: 16px;
+  margin-bottom: 48px;   /* space above the title */
 }
 
 /* The animation is dark lines on white. Multiply drops the white in light
