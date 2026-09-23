@@ -428,6 +428,21 @@
     })();
   }
 
+  // ───────────── Hero subtitle: cycle through its sentences on one line
+  function initHeroCycle() {
+    const lines = [...document.querySelectorAll(".hero-cycle > span")];
+    if (lines.length < 2) return;
+    let i = 0;
+    setInterval(() => {
+      if (document.hidden) return;
+      const prev = lines[i];
+      i = (i + 1) % lines.length;
+      prev.classList.replace("is-current", "is-leaving");
+      setTimeout(() => prev.classList.remove("is-leaving"), 700);
+      lines[i].classList.add("is-current");
+    }, 3500);
+  }
+
   // ───────────── Hero artwork: no wider than the title's longest line
   const heroArt = document.querySelector(".hero-art");
   const heroTitle = document.querySelector(".hero h1");
@@ -534,6 +549,7 @@
   initControlsToggle();
   showPage();
   fitHeroArt();
+  initHeroCycle();
   window.addEventListener("hashchange", showPage);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {

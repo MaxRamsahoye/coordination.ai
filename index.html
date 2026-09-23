@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI Coordination · coordinationconsole.ai</title>
+  <title>Coordination on AI · coordinationconsole.ai</title>
   <meta name="description" content="Tracking individuals, institutions and incidents at the frontier. Mapping the positions of all actors on a coordinated slowdown. Mitigating existential risk from the AI race narrative.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=05976d23">
+  <link rel="stylesheet" href="assets/styles.css?v=1949d076">
 </head>
 <body>
   <!-- Top-left controls (theme, accent, font) sit in the page (not the fixed header), so they scroll away -->
@@ -53,12 +53,16 @@
           <div class="hero-art" aria-hidden="true">
             <img src="assets/hero-landscape.webp?v=09711f8e" alt="" width="478" height="346">
           </div>
-          <h1>AI Coordination</h1>
+          <h1>Coordination on AI</h1>
         </div>
+        <!-- One line at a time, cycling (app.js); screen readers get all three -->
         <p class="hero-description">
-          <span>Tracking individuals, institutions and incidents at the frontier.</span>
-          <span>Mapping the positions of all actors on a coordinated slowdown.</span>
-          <span>Mitigating existential risk from the AI race narrative.</span>
+          <span class="sr-only">Tracking individuals, institutions and incidents at the frontier. Mapping the positions of all actors on a coordinated slowdown. Mitigating existential risk from the AI race narrative.</span>
+          <span class="hero-cycle" aria-hidden="true">
+            <span class="is-current">Tracking individuals, institutions and incidents at the frontier.</span>
+            <span>Mapping the positions of all actors on a coordinated slowdown.</span>
+            <span>Mitigating existential risk from the AI race narrative.</span>
+          </span>
         </p>
       </div>
     </section>
@@ -158,7 +162,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>AI Coordination</p>
+    <p>Coordination on AI</p>
   </footer>
 
   <button type="button" class="to-top" id="to-top" aria-keyshortcuts="Backspace" title="Back to top (Backspace)">
@@ -173,6 +177,6 @@
   <script src="data/incidents.js?v=a5a119d0"></script>
   <script src="data/materials.js?v=1008492a"></script>
   <script src="data/statements.js?v=38a35923"></script>
-  <script src="assets/app.js?v=a7ca2156"></script>
+  <script src="assets/app.js?v=249838b4"></script>
 </body>
 </html>

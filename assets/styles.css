@@ -275,8 +275,8 @@ a { color: inherit; }
   width: 100%;
   /* Never upscaled past its native 478px; on short screens it shrinks so
      the artwork, title, subtitle and menu still fit on the first screen
-     (475px is everything in that screen except the artwork's height) */
-  max-width: max(160px, min(478px, calc((100svh - 475px) * 478 / 346)));
+     (415px is everything in that screen except the artwork's height) */
+  max-width: max(160px, min(478px, calc((100svh - 415px) * 478 / 346)));
   aspect-ratio: 478 / 346;
   margin-bottom: 16px;
 }
@@ -303,7 +303,21 @@ a { color: inherit; }
   letter-spacing: -0.02em;
 }
 
-.hero-description span { display: block; }   /* one sentence per line */
+/* The three sentences share one line, stacked in the same grid cell so the
+   line is as tall as the longest; the current one rises into place and the
+   previous one drifts up and out */
+.hero-cycle { display: grid; }
+.hero-cycle > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(0.5em);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-cycle > .is-current { opacity: 1; transform: none; }
+.hero-cycle > .is-leaving { opacity: 0; transform: translateY(-0.5em); }
+@media (prefers-reduced-motion: reduce) {
+  .hero-cycle > span { transform: none; transition: opacity 0.4s ease; }
+}
 
 .hero-description {
   margin: 20px 0 0;
