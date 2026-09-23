@@ -146,23 +146,22 @@
     if (h) root.style.setProperty("--toc-top", `${Math.max(0, (window.innerHeight - h) / 2)}px`);
   }
 
-  // Menu tab geometry for the stuck state: the tab spans the left column (or
-  // hugs the selected item on narrow screens), and the selected item slides
-  // from its place in the full bar to the centre of the tab. offsetLeft/Top
-  // ignore the transform, so this measures the full-bar position.
+  // Menu tab geometry for the stuck state: the tab hugs the selected item in
+  // the top-left corner (label --tab-pad from the left edge, 32px after it),
+  // and the item slides from its place in the full bar into the tab.
+  // offsetLeft/Top ignore the transform, so this measures the full-bar position.
   function placeMenuTab() {
     const item = menu.querySelector('a[aria-current="page"]');
     if (!item) return;
     const inner = menu.querySelector(".menu-inner");
     const cs = getComputedStyle(root);
-    const column = parseFloat(cs.getPropertyValue("--column"));
     const tabH = parseFloat(cs.getPropertyValue("--tab-h"));
-    const leftColumn = (menu.clientWidth - column) / 2;
-    const tabW = Math.max(leftColumn, item.offsetWidth + 56);
-    const itemX = inner.offsetLeft + item.offsetLeft + item.offsetWidth / 2;
+    const padL = parseFloat(cs.getPropertyValue("--tab-pad"));
+    const tabW = padL + item.offsetWidth + 32;
+    const itemX = inner.offsetLeft + item.offsetLeft;
     const itemY = inner.offsetTop + item.offsetTop + item.offsetHeight / 2;
     menu.style.setProperty("--tab-w", `${tabW}px`);
-    menu.style.setProperty("--tab-dx", `${tabW / 2 - itemX}px`);
+    menu.style.setProperty("--tab-dx", `${padL - itemX}px`);
     menu.style.setProperty("--tab-dy", `${tabH / 2 - itemY}px`);
   }
 

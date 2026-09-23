@@ -11,7 +11,9 @@
   --font: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
   --header-h: 88px;
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
-  --tab-h: 64px;       /* left-column tab, once scrolled past */
+  --tab-h: 64px;       /* top-left tab, once scrolled past */
+  --tab-pad: 48px;     /* the tab's label sits this far from the left edge,
+                          matching the site title's distance from the right */
   --column: 880px;     /* central text column, including its 24px padding */
 }
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
@@ -204,6 +206,8 @@ a { color: inherit; }
   letter-spacing: -0.02em;
 }
 
+.hero-description span { display: block; }   /* one sentence per line */
+
 .hero-description {
   margin: 20px 0 0;
   max-width: 36em;
@@ -214,9 +218,10 @@ a { color: inherit; }
 /* ───────────── Menu bar */
 /* Before scrolling: a full-width bar in the accent colour, taller than the
    header. Once it reaches the top of the screen (.menu-stuck, set in app.js)
-   its colour shrinks smoothly into a shorter tab across the left column,
-   hanging square from the top edge with a rounded bottom-right corner, and
-   the selected item slides into it while the others fade out.
+   its colour shrinks smoothly into a shorter tab in the top-left corner,
+   just wide enough for the selected item, hanging square from the top edge
+   with a rounded bottom-right corner. The selected item slides into it
+   while the others fade out.
 
    The colour is a separate layer (::before) so it can animate its width and
    height; the outer bar keeps its height so nothing below it jumps, and
@@ -659,7 +664,7 @@ a { color: inherit; }
 
 /* ───────────── Phones */
 @media (max-width: 640px) {
-  :root { --header-h: 72px; --menu-h: 88px; --tab-h: 56px; }
+  :root { --header-h: 72px; --menu-h: 88px; --tab-h: 56px; --tab-pad: 16px; }
   .container { padding: 0 16px; }
   .page-main { padding: 0 16px; }
   .header-inner { padding: 0 16px; }
