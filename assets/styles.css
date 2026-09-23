@@ -131,9 +131,18 @@ a { color: inherit; }
 
 /* ───────────── Hero */
 .hero {
+  /* Fill the first screen above the menu bar (which is as tall as the
+     header), so the menu sits at the bottom of the screen on load; the
+     artwork, title and subtitle sit just above it */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
   padding-top: calc(var(--header-h) + 48px);
   padding-bottom: 48px;
 }
+.hero > .container { width: 100%; }   /* keep the shared left edge inside the flex column */
 
 /* Title lockup: the artwork is capped at the title's longest line
    (set in app.js) and at its own native width */
@@ -141,7 +150,10 @@ a { color: inherit; }
 
 .hero-art {
   width: 100%;
-  max-width: 478px;             /* the animation's native width: never upscaled */
+  /* Never upscaled past its native 478px; on short screens it shrinks so
+     the artwork, title, subtitle and menu still fit on the first screen
+     (466px is everything in that screen except the artwork's height) */
+  max-width: max(160px, min(478px, calc((100svh - 466px) * 478 / 346)));
   aspect-ratio: 478 / 346;
   margin-bottom: 16px;
 }
