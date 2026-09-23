@@ -7,6 +7,7 @@
   --ink-2: #555555;
   --line: #e5e5e5;
   --accent: #1d4ed8;   /* signal blue */
+  --on-accent: #ffffff; /* text on an accent-coloured background */
   --font: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
   --header-h: 88px;
   --column: 880px;     /* central text column, including its 24px padding */
@@ -23,6 +24,7 @@
     --ink-2: #a3a3a3;
     --line: #2a2a2a;
     --accent: #7aa2ff;
+    --on-accent: #0f0f0f;
   }
   :root:not([data-theme="light"])[data-accent="orange"] { --accent: #ff9159; }
   :root:not([data-theme="light"])[data-accent="mono"] { --accent: #ffffff; }
@@ -35,6 +37,7 @@
   --ink-2: #a3a3a3;
   --line: #2a2a2a;
   --accent: #7aa2ff;
+  --on-accent: #0f0f0f;
 }
 :root[data-theme="dark"][data-accent="orange"] { --accent: #ff9159; }
 :root[data-theme="dark"][data-accent="mono"] { --accent: #ffffff; }
@@ -205,11 +208,14 @@ a { color: inherit; }
 }
 
 /* ───────────── Menu bar */
+/* A full-width bar in the accent colour, with text in the contrasting
+   on-accent colour */
 .menu {
   position: sticky;
   top: 0;
   z-index: 5;
-  background: var(--bg);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 .menu-inner {
@@ -224,17 +230,21 @@ a { color: inherit; }
   display: block;
   padding: 6px 0 4px;
   border-bottom: 2px solid transparent;
-  color: var(--ink-2);
+  color: var(--on-accent);
+  opacity: 0.75;
   text-decoration: none;
   font-size: 15px;
   white-space: nowrap;
 }
-.menu a:hover { color: var(--ink); }
+.menu a:hover { opacity: 1; }
 .menu a[aria-current="page"] {
-  color: var(--ink);
+  opacity: 1;
   font-weight: 500;
-  border-bottom-color: var(--accent);
+  border-bottom-color: var(--on-accent);
 }
+
+/* Once the menu bar is fixed to the top, the site title sits on it */
+.menu-stuck .site-title { color: var(--on-accent); }
 
 /* ───────────── Page layout: contents | text column | progress */
 .page { padding: 32px 0 120px; }
