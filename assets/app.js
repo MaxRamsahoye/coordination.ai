@@ -118,6 +118,8 @@
   const fill = document.getElementById("progress-fill");
   const toTop = document.getElementById("to-top");
   const menu = document.querySelector(".menu");
+  const hero = document.querySelector(".hero");
+  const MORPH_DISTANCE = 200;
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -126,8 +128,16 @@
 
     toTop.classList.toggle("visible", window.scrollY > 400);
 
-    // Contents and progress pill appear once the menu bar is fixed to the top
-    root.classList.toggle("menu-stuck", window.scrollY > 0 && menu.getBoundingClientRect().top <= 0);
+    // Menu bar → top-left tab, driven by scroll position: --p goes from 0 to
+    // 1 over the first MORPH_DISTANCE px after the bar reaches the top (its
+    // natural position is the bottom of the hero), eased so it starts and
+    // ends gently. The contents sidebar and progress pill appear once the
+    // bar reaches the top.
+    const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
+    const t = Math.min(1, Math.max(0, (window.scrollY - barTop) / MORPH_DISTANCE));
+    root.style.setProperty("--p", (t * t * (3 - 2 * t)).toFixed(4));
+    root.classList.toggle("menu-stuck", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
+    root.classList.toggle("menu-tabbed", t > 0.6);   // mostly a tab: the bar no longer sits behind the site title
 
     // Current entry: the last one whose switch-over point has been reached
     // (half-pixel tolerance for fractional scroll positions)

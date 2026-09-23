@@ -217,19 +217,19 @@ a { color: inherit; }
 
 /* ───────────── Menu bar */
 /* Before scrolling: a full-width bar in the accent colour, taller than the
-   header. Once it reaches the top of the screen (.menu-stuck, set in app.js)
-   its colour shrinks smoothly into a shorter tab in the top-left corner,
-   just wide enough for the selected item, hanging square from the top edge
-   with a rounded bottom-right corner. The selected item slides into it
-   while the others fade out.
+   header. After it reaches the top of the screen it turns into a shorter tab
+   in the top-left corner, just wide enough for the selected item, hanging
+   square from the top edge with a rounded bottom-right corner.
 
-   The colour is a separate layer (::before) so it can animate its width and
-   height; the outer bar keeps its height so nothing below it jumps, and
-   stops catching clicks once stuck. app.js sets --tab-w (tab width) and
-   --tab-dx / --tab-dy (how far the selected item moves). */
+   The change is tied to scroll position, not a timed animation: app.js sets
+   --p from 0 (full bar) to 1 (tab) over the first 200px of scrolling after
+   the bar reaches the top, so it follows the scroll exactly in both
+   directions. app.js also sets --tab-w (tab width) and --tab-dx / --tab-dy
+   (how far the selected item travels into the tab).
+
+   The colour is a separate layer (::before) so its size can change; the
+   outer bar keeps its height so nothing below it moves. */
 .menu {
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --morph: 0.55s;
   position: sticky;
   top: 0;
   z-index: 5;
@@ -242,15 +242,11 @@ a { color: inherit; }
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - (100% - var(--tab-w, 184px)) * var(--p, 0));
+  height: calc(var(--menu-h) - (var(--menu-h) - var(--tab-h)) * var(--p, 0));
   background: var(--accent);
-  border-bottom-right-radius: 0;
-  transition:
-    width var(--morph) var(--ease),
-    height var(--morph) var(--ease),
-    border-bottom-right-radius var(--morph) var(--ease),
-    background-color 0.2s ease;
+  border-bottom-right-radius: calc(20px * var(--p, 0));
+  transition: background-color 0.2s ease;
 }
 
 .menu-inner {
@@ -260,7 +256,7 @@ a { color: inherit; }
   gap: 32px;
   height: 100%;
   overflow-x: auto;
-  transition: transform var(--morph) var(--ease);
+  transform: translate(calc(var(--tab-dx, 0px) * var(--p, 0)), calc(var(--tab-dy, 0px) * var(--p, 0)));
 }
 
 .menu a {
@@ -272,7 +268,6 @@ a { color: inherit; }
   text-decoration: none;
   font-size: 18px;
   white-space: nowrap;
-  transition: opacity 0.3s ease;
 }
 .menu a:hover { opacity: 1; }
 .menu a[aria-current="page"] {
@@ -281,38 +276,28 @@ a { color: inherit; }
   border-bottom-color: var(--on-accent);
 }
 
+/* Other items fade out as the bar becomes the tab */
+.menu a:not([aria-current="page"]) { opacity: calc(0.75 * (1 - var(--p, 0))); }
+
+/* Once the bar is at the top, only the selected item catches clicks */
 .menu-stuck .menu { pointer-events: none; }
-
-.menu-stuck .menu::before {
-  width: var(--tab-w, 280px);
-  height: var(--tab-h);
-  border-bottom-right-radius: 20px;
-}
-
-.menu-stuck .menu-inner { transform: translate(var(--tab-dx, 0px), var(--tab-dy, 0px)); }
-
-.menu-stuck .menu a:not([aria-current="page"]) { opacity: 0; }
 .menu-stuck .menu a[aria-current="page"] { pointer-events: auto; }
 
-/* The fixed header shrinks to the tab's height, so the site title stays
-   level with the tab's label */
-.header-inner { transition: height var(--morph, 0.55s) cubic-bezier(0.22, 1, 0.36, 1); }
-.menu-stuck .header-inner { height: var(--tab-h); }
-
-@media (prefers-reduced-motion: reduce) {
-  .menu::before, .menu-inner, .menu a, .header-inner { transition: none; }
-}
+/* The fixed header shrinks with the bar, so the site title stays level with
+   the tab's label */
+.header-inner { height: calc(var(--header-h) - (var(--header-h) - var(--tab-h)) * var(--p, 0)); }
 
 /* Content scrolls freely across the top of the screen. Where the text
    column runs under the site title (narrower windows), the title gets a
    small backing in the page colour so it stays readable. */
 @media (max-width: 1100px) {
-  .menu-stuck .site-title {
+  .site-title {
     margin-right: -8px;
     padding: 4px 8px;
     border-radius: 6px;
-    background: var(--bg);
+    transition: background-color 0.2s ease;
   }
+  .menu-tabbed .site-title { background: var(--bg); }
 }
 
 /* ───────────── Page layout: contents | text column | progress */
