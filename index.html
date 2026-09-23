@@ -66,6 +66,7 @@
     <nav class="menu" aria-label="Sections">
       <div class="container menu-inner">
         <a href="#statements" data-page="statements">Statements</a>
+        <a href="#scenarios" data-page="scenarios">Scenarios</a>
         <a href="#incidents" data-page="incidents">Incidents</a>
       </div>
     </nav>
@@ -89,6 +90,27 @@
             <p class="page-intro" id="statements-intro"></p>
           </div>
           <div class="timeline" id="statements-timeline"></div>
+        </div>
+
+        <div class="progress-col" aria-hidden="true">
+          <div class="progress-pill"><span class="progress-fill"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-scenarios" class="page" aria-labelledby="scenarios-heading" hidden>
+      <div class="page-layout">
+        <aside class="toc" aria-label="Timeline">
+          <p class="toc-title">Timeline</p>
+          <ol class="toc-list" id="scenarios-toc"></ol>
+        </aside>
+
+        <div class="page-main">
+          <div class="page-head">
+            <h2 id="scenarios-heading">Scenarios</h2>
+            <p class="page-intro" id="scenarios-intro"></p>
+          </div>
+          <div class="timeline" id="scenarios-timeline"></div>
         </div>
 
         <div class="progress-col" aria-hidden="true">
@@ -143,7 +165,8 @@
   <div class="cursor-dot" aria-hidden="true"></div>
 
   <script src="data/incidents.js?v=a5a119d0"></script>
+  <script src="data/scenarios.js?v=e333f40d"></script>
   <script src="data/statements.js?v=38a35923"></script>
-  <script src="assets/app.js?v=730ec165"></script>
+  <script src="assets/app.js?v=8bf4484d"></script>
 </body>
 </html>

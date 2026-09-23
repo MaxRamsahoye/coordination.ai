@@ -27,6 +27,12 @@
       intro: (n, span, [category]) =>
         `${n} ${category === "Main" ? "" : `${category.toLowerCase()} `}statement${n === 1 ? "" : "s"} on AI, ${span}. Newest first.`,
     },
+    scenarios: {
+      items: window.CC_SCENARIOS || [],
+      types: { forecast: "Forecast", plan: "Plan", essay: "Essay" },
+      prefix: "scenario",
+      intro: (n, span) => `${n} scenarios for how advanced AI could unfold and plans for steering it, ${span}. Newest first.`,
+    },
     incidents: {
       items: window.CC_INCIDENTS || [],
       // Filter rows: one pill per value of the field, plus "All" (unless
@@ -495,7 +501,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Statements
-  const PAGES = ["statements", "incidents"];
+  const PAGES = ["statements", "scenarios", "incidents"];
   const DEFAULT_PAGE = "statements";
 
   function showPage() {
