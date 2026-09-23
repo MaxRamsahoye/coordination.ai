@@ -17,11 +17,6 @@
   const esc = (s) =>
     String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-  const store = {
-    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
-    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
-  };
-
   function formatDate(d) {
     const [y, m, day] = d.split("-");
     if (!m) return y;
@@ -152,13 +147,13 @@
   }
 
   // ───────────── Theme and accent
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-  const currentTheme = () => root.getAttribute("data-theme") || (prefersDark.matches ? "dark" : "light");
+  // Dark is the default (set on <html>); choices last only until the page
+  // is reloaded
+  const currentTheme = () => root.getAttribute("data-theme") || "dark";
 
   function toggleTheme() {
     const next = currentTheme() === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);
-    store.set("cc-theme", next);
   }
 
   // Accent cycles crimson (default) → blue → orange → mono (black, or white
@@ -168,7 +163,6 @@
     const current = ACCENTS.indexOf(root.getAttribute("data-accent"));
     const next = ACCENTS[(Math.max(0, current) + 1) % ACCENTS.length];
     root.setAttribute("data-accent", next);
-    store.set("cc-accent", next);
   }
 
   function toTopNow() {
