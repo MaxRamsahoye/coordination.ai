@@ -135,37 +135,35 @@ a { color: inherit; }
   padding-bottom: 48px;
 }
 
-/* Title lockup: its width is the title's width, so the artwork above
-   (width 100%) matches the length of "AI Coordination" */
+/* Title lockup: its width follows the title, and app.js sets the artwork
+   to the length of the title's longest line */
 .hero-lockup { width: fit-content; max-width: 100%; }
 
 .hero-art {
+  /* Crop box around the area the mesh covers across the whole loop:
+     x 30–508, y 96–442 of the 540 × 540 frame */
+  position: relative;
   width: 100%;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 478 / 346;
   margin-bottom: 16px;
-  color: var(--ink);            /* the canvas strokes in this colour */
+  overflow: hidden;
 }
 
-.hero-art canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* The original GIF, if added as assets/hero.gif: dark lines on white.
-   Multiply drops the white in light mode; in dark mode it's inverted to
-   light lines on black and screen drops the black. */
-.hero-gif {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 58%;
+/* The animation is dark lines on white. Multiply drops the white in light
+   mode; in dark mode it's inverted to light lines on black and screen
+   drops the black. */
+.hero-art img {
+  position: absolute;
+  left: calc(-100% * 30 / 478);
+  top: calc(-100% * 96 / 346);
+  width: calc(100% * 540 / 478);
+  height: auto;
+  max-width: none;
   mix-blend-mode: multiply;
 }
-:root[data-theme="dark"] .hero-gif { filter: invert(1); mix-blend-mode: screen; }
+:root[data-theme="dark"] .hero-art img { filter: invert(1); mix-blend-mode: screen; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .hero-gif { filter: invert(1); mix-blend-mode: screen; }
+  :root:not([data-theme="light"]) .hero-art img { filter: invert(1); mix-blend-mode: screen; }
 }
 
 .hero h1 {

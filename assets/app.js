@@ -238,6 +238,17 @@
     })();
   }
 
+  // ───────────── Hero artwork: match the length of the title's longest line
+  const heroArt = document.querySelector(".hero-art");
+  const heroTitle = document.querySelector(".hero h1");
+  function fitHeroArt() {
+    if (!heroArt || !heroTitle) return;
+    const range = document.createRange();
+    range.selectNodeContents(heroTitle);
+    const widest = Math.max(...[...range.getClientRects()].map((r) => r.width));
+    if (widest > 0) heroArt.style.width = `${Math.round(widest)}px`;
+  }
+
   // ───────────── Routing: #<page>, defaulting to Statements
   const PAGES = ["statements"];
   const DEFAULT_PAGE = "statements";
@@ -257,12 +268,17 @@
   showPage();
   onScroll();
   placeToc();
+  fitHeroArt();
   window.addEventListener("hashchange", showPage);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
     onScroll();
     placeToc();
+    fitHeroArt();
   });
   // Web fonts change the sidebar's height once they load
-  document.fonts?.ready.then(placeToc);
+  document.fonts?.ready.then(() => {
+    placeToc();
+    fitHeroArt();
+  });
 })();
