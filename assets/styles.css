@@ -93,7 +93,7 @@ a { color: inherit; }
 
 .header-inner {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   height: var(--header-h);
   padding: 0 48px;
@@ -195,6 +195,19 @@ a { color: inherit; }
   font-size: 15px;
 }
 .site-title:hover { text-decoration: underline; }
+.site-title { margin-left: auto; }
+
+/* The current page's title in the top-left corner, faded in once the
+   page heading (e.g. "Statements") has scrolled off the top (app.js) */
+.page-title-fixed {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+}
+.title-past .page-title-fixed { opacity: 1; transform: none; }
 
 /* ───────────── Hero */
 .hero {
@@ -308,6 +321,12 @@ a { color: inherit; }
     transition: background-color 0.2s ease;
   }
   .past-menu .site-title { background: var(--bg); }
+  .page-title-fixed {
+    margin-left: -8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  .title-past .page-title-fixed { background: var(--bg); }
 }
 
 /* ───────────── Page layout: contents | text column | progress */
@@ -697,7 +716,7 @@ a { color: inherit; }
   .control-set { gap: 4px; }
   .controls-toggle { margin-right: 4px; }
   .icon-btn { width: 32px; height: 32px; }
-  .site-title { font-size: 13px; }
+  .site-title, .page-title-fixed { font-size: 13px; }
   .hero { padding-top: calc(var(--header-h) + 24px); padding-bottom: 24px; }
   .tl-year { grid-template-columns: 1fr; }
   .tl-year-label { position: static; margin-bottom: 20px; }

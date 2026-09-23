@@ -136,6 +136,7 @@
   const toTop = document.getElementById("to-top");
   const menu = document.querySelector(".menu");
   const hero = document.querySelector(".hero");
+  const pageTitleFixed = document.getElementById("page-title-fixed");
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -149,6 +150,15 @@
     // appear (and, on narrower windows, the site title gets a backing)
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
+
+    // Once the page heading has scrolled up behind the header, show the page's
+    // title in the top-left corner
+    const heading = activeScope().querySelector(".page-head h2");
+    if (heading) {
+      const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
+      pageTitleFixed.textContent = heading.textContent;
+      root.classList.toggle("title-past", heading.getBoundingClientRect().bottom < headerH / 2);
+    }
 
     // Current entry: the last one whose switch-over point has been reached
     // (half-pixel tolerance for fractional scroll positions)
