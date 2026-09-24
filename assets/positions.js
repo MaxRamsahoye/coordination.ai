@@ -211,11 +211,15 @@
       })
       .join("");
     const title = GROUPS[state.group].bodies.find(([k]) => k === state.body)[1];
+    // The UK chambers are long and shallow, so they break out of the text
+    // column to show their seats larger
     view.innerHTML = `
+      <div class="chamber-frame${state.group === "uk" ? " is-wide" : ""}">
       <svg class="chamber by-${state.mode}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Seating diagram of the ${esc(title)}: ${seats.length} members. Hover over or tap a seat to see who sits there; the list below gives every recorded position.">
         ${extras}
         <g class="seats">${circles}</g>
-      </svg>`;
+      </svg>
+      </div>`;
     const svg = view.querySelector("svg");
     const pick = (e, stick) => {
       const c = e.target.closest(".seat");

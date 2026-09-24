@@ -982,9 +982,23 @@ html:not(.loaded) body { overflow: hidden; }
 .positions-mode .filter-label { width: auto; padding: 0 4px 0 0; }
 .positions-mode[hidden] { display: none; }
 
-/* Chamber diagrams scroll sideways on narrow screens; lab charts manage
-   their own width (below), so the view itself doesn't clip them */
-.positions-view.is-chamber { overflow-x: auto; }
+/* Chamber diagrams scroll sideways on narrow screens. The UK chambers are
+   wide and shallow, so they break out of the text column (up to 1240px,
+   less the page margins, centred on the page) to show their seats larger.
+   Lab charts manage their own width (below). */
+.chamber-frame { overflow-x: auto; }
+.chamber-frame.is-wide {
+  --wide: min(1240px, calc(100vw - 96px));
+  width: var(--wide);
+  margin-left: calc((100% - var(--wide)) / 2);
+}
+@media (max-width: 1100px) {
+  .chamber-frame.is-wide { --wide: calc(100vw - 32px); }
+}
+/* The drawing is scaled up in the wide frame, so its labels are set
+   smaller to come out at about the same size as elsewhere */
+.is-wide .ch-label { font-size: 10px; }
+.is-wide .ch-side { font-size: 9px; }
 .chamber { display: block; width: 100%; height: auto; }
 .seat {
   fill: var(--st);
