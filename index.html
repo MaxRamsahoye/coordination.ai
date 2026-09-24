@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=3c4042be">
+  <link rel="stylesheet" href="assets/styles.css?v=53609260">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -99,8 +99,9 @@
         <a href="#statements" data-page="statements" aria-keyshortcuts="6"><span class="menu-num" aria-hidden="true">06</span>Statements</a>
         <a href="#materials" data-page="materials" aria-keyshortcuts="7"><span class="menu-num" aria-hidden="true">07</span>Materials</a>
         <a href="#glossary" data-page="glossary" aria-keyshortcuts="8"><span class="menu-num" aria-hidden="true">08</span>Glossary</a>
-        <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="9"><span class="menu-num" aria-hidden="true">09</span>Coordinate</a>
-        <a href="#contact" data-page="contact" aria-keyshortcuts="0"><span class="menu-num" aria-hidden="true">10</span>Contact</a>
+        <a href="#companions" data-page="companions" aria-keyshortcuts="9"><span class="menu-num" aria-hidden="true">09</span>Companions</a>
+        <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="0"><span class="menu-num" aria-hidden="true">10</span>Coordinate</a>
+        <a href="#contact" data-page="contact"><span class="menu-num" aria-hidden="true">11</span>Contact</a>
         <span class="menu-indicator" aria-hidden="true"></span>
       </div>
     </nav>
@@ -317,6 +318,25 @@
       </div>
     </section>
 
+    <!-- Companions: other websites worth following (assets/companions.js) -->
+    <section id="page-companions" class="page" aria-labelledby="companions-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="companions-heading">Companions</h2>
+            <p class="page-intro" id="companions-intro"></p>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Filter sites by category">
+              <span class="filter-label" aria-hidden="true">Category</span>
+              <div class="filter-scroll" id="companions-filters"></div>
+            </div>
+          </div>
+          <ul class="org-grid" id="companions-list"></ul>
+        </div>
+      </div>
+    </section>
+
     <!-- Actors: individuals and institutions, each by category; institutions
          also on a world map (assets/actors.js) -->
     <section id="page-actors" class="page" aria-labelledby="actors-heading" hidden>
@@ -459,6 +479,7 @@
           <li><a href="#statements" data-goto="statements">Statements</a></li>
           <li><a href="#materials" data-goto="materials">Materials</a></li>
           <li><a href="#glossary" data-goto="glossary">Glossary</a></li>
+          <li><a href="#companions" data-goto="companions">Companions</a></li>
         </ul>
       </nav>
 
@@ -493,11 +514,13 @@
   <script src="assets/milestones.js?v=8db6b525"></script>
   <script src="data/race.js?v=ceb53dc7"></script>
   <script src="assets/race.js?v=033c1bed"></script>
+  <script src="data/companions.js?v=ecbad905"></script>
+  <script src="assets/companions.js?v=ba8e90f3"></script>
   <script src="data/glossary.js?v=fef93df7"></script>
   <script src="assets/glossary.js?v=e7bb731a"></script>
   <script src="data/positions.js?v=bbca77cb"></script>
   <script src="assets/actors.js?v=df326552"></script>
   <script src="assets/positions.js?v=06ed258f"></script>
-  <script src="assets/app.js?v=0ef39270"></script>
+  <script src="assets/app.js?v=b5776a58"></script>
 </body>
 </html>
