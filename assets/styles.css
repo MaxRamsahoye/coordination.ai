@@ -1107,10 +1107,11 @@ html:not(.loaded) body { overflow: hidden; }
 .ce-verdict .pd-dot { width: 11px; height: 11px; margin-right: 10px; vertical-align: 0.12em; }
 .org-behaviour .pd-stance + .cb-notes { margin-top: 10px; }
 .ce-basis { margin-top: 10px !important; color: var(--ink-2); font-size: 14px; }
-/* Room around the chart: after the company sections, and before the key
-   and detail card below */
-.org-evaluation + .org-scroll { margin-top: 112px; }
+/* Room below the chart, before the key and detail card */
 .org-scroll { margin-bottom: 64px; }
+/* The company's card holds its position, behaviour and evaluation */
+.pd-company .org-company { margin: 20px 0 0; }
+.pd-company .org-company + .org-company { margin-top: 24px; }
 .org-company-label { color: var(--ink-2); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
 /* The chart isn't limited by the text column: it can use the page's full
    width (less the usual 48px margins), centred on the page, and only

@@ -367,21 +367,9 @@
     // The company itself heads the chart, as an umbrella over its people
     const companyNode = { company: true, name: lab.name, role: "Company", stance: lab.stance, children: [lab.chart] };
     $("positions-view").classList.remove("is-chamber");
-    $("positions-view").innerHTML = `
-      <div class="org-company" data-s="${lab.stance}">
-        <p class="org-company-label">Company position</p>
-        <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(stanceLabel(lab.stance))}</p>
-        <p class="pd-note">${esc(lab.note)} ${lab.source ? `<a class="tl-source" href="${esc(lab.source.url)}" target="_blank" rel="noopener noreferrer">${esc(lab.source.label)} ↗</a>` : ""}</p>
-      </div>
-      ${behaviourBlock(lab)}
-      ${evaluationBlock(lab)}
-      <div class="org-scroll"><ul class="org-tree">${node(companyNode)}</ul></div>`;
-    $("positions-view").querySelectorAll("[data-incident]").forEach((a) =>
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (window.CC_openEntry) window.CC_openEntry("incidents", a.dataset.incident);
-      })
-    );
+    // The company's position, behaviour and evaluation live in its box at
+    // the top of the chart (shown in the detail card when it's selected)
+    $("positions-view").innerHTML = `<div class="org-scroll"><ul class="org-tree">${node(companyNode)}</ul></div>`;
     const show = (n) => {
       if (n.company) return showCompany();
       $("positions-detail").innerHTML = `
@@ -393,21 +381,22 @@
           ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(n.source.label)} ↗</a>` : ""}
         </div>`;
     };
-    // The company's own card: its position, behaviour and evaluation in brief
+    // The company's own card: its position, behaviour and evaluation
     const showCompany = () => {
-      const incidents = labIncidents(lab);
-      const e = lab.evaluation;
       $("positions-detail").innerHTML = `
-        <div class="pd-card">
+        <div class="pd-card pd-company">
           <p class="pd-name">${esc(lab.name)}</p>
           <p class="pd-meta">Company</p>
-          <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(stanceLabel(lab.stance))}</p>
-          <p class="pd-note">${esc(lab.note)}</p>
-          <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${incidents.length} incident${incidents.length === 1 ? "" : "s"} on record</p>
-          ${(lab.behaviour || []).map((b) => `<p class="pd-note">${esc(b.note)}</p>`).join("")}
-          ${e ? `<p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(e.verdict)}</p><p class="pd-note">${esc(e.summary)}</p>` : ""}
-          ${lab.source ? `<a class="tl-source" href="${esc(lab.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(lab.source.label)} ↗</a>` : ""}
+          ${positionBlock(lab)}
+          ${behaviourBlock(lab)}
+          ${evaluationBlock(lab)}
         </div>`;
+      $("positions-detail").querySelectorAll("[data-incident]").forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (window.CC_openEntry) window.CC_openEntry("incidents", a.dataset.incident);
+        })
+      );
     };
     // The person at the top of the chart (under the company) is selected to
     // begin with; hovering previews someone else, clicking selects them
@@ -448,6 +437,14 @@
   // Company behaviour: notes from the data, then the incidents on this site
   // involving the lab's models — counted by category, with the latest few
   const CATEGORY_NAMES = { misalignment: "misalignment", misuse: "misuse", malfunction: "malfunction", misinformation: "misinformation", ethics: "ethics" };
+  function positionBlock(lab) {
+    return `
+      <div class="org-company" data-s="${lab.stance}">
+        <p class="org-company-label">Company position</p>
+        <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(stanceLabel(lab.stance))}</p>
+        <p class="pd-note">${esc(lab.note)} ${lab.source ? `<a class="tl-source" href="${esc(lab.source.url)}" target="_blank" rel="noopener noreferrer">${esc(lab.source.label)} ↗</a>` : ""}</p>
+      </div>`;
+  }
   const labIncidents = (lab) =>
     (window.CC_INCIDENTS || []).filter((i) => (i.orgs || []).includes(lab.org)).sort((a, b) => b.date.localeCompare(a.date));
   function behaviourBlock(lab) {
@@ -486,7 +483,7 @@
         <p class="org-company-label">Company evaluation</p>
         <p class="pd-stance ce-verdict" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(e.verdict)}</p>
         <p class="pd-note">${esc(e.summary)}</p>
-        <p class="ce-basis">Our assessment, comparing the company's position with its behaviour above.</p>
+        <p class="ce-basis">Our assessment, comparing the company's position with its behaviour.</p>
       </div>`;
   }
 
