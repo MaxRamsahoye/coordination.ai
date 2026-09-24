@@ -1716,3 +1716,7 @@ html:not(.loaded) body { overflow: hidden; }
   .org-group-departed .org-members { grid-template-columns: repeat(2, 172px); }
 }
 .pd-left { color: var(--ink-2); }
+
+/* An accent-coloured ring around the controls' arrow and the back-to-top
+   arrow (drawn inside the button, so it doesn't change its size) */
+.controls-toggle, .to-top { box-shadow: inset 0 0 0 1.5px var(--accent); }
