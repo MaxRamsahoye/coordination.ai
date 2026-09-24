@@ -319,15 +319,15 @@
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
     root.classList.toggle("at-footer", footerEl.getBoundingClientRect().top < window.innerHeight);
-    // The site address hides between two scroll points: once the end of the
+    // The site address hides between two scroll points: once the top of the
     // hero description has passed under it, until the page reaches the point
     // the menu glides to (its line at the top of the screen). The same both
     // ways
     const lineAbs = menu.getBoundingClientRect().top + window.scrollY + (parseFloat(menu.style.getPropertyValue("--menu-line-y")) || menu.offsetHeight);
     const st = siteTitle.getBoundingClientRect();
-    // (short windows hide the note, leaving the cycling line as the end)
-    const descEnd = (heroNote.offsetHeight ? heroNote : heroDescription).getBoundingClientRect().bottom + window.scrollY;
-    const hideFrom = Math.max(1, descEnd - (st.top + st.height / 2));
+    // (short windows hide the note, leaving the cycling line in its place)
+    const descTop = (heroNote.offsetHeight ? heroNote : heroDescription).getBoundingClientRect().top + window.scrollY;
+    const hideFrom = Math.max(1, descTop - (st.top + st.height / 2));
     setAddress(window.scrollY > hideFrom && window.scrollY < lineAbs - 1);
 
     // Once the page heading has scrolled up behind the header, show the page's
