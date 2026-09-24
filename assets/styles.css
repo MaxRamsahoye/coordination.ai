@@ -2244,43 +2244,83 @@ html:not(.loaded) body { overflow: hidden; }
 .ac-group-head:first-child { margin-top: 0; }
 
 /* ───────────── Milestones: a ribbon across time (early warnings, a break,
-   then the 2020s), then large numbered panels */
+   then the 2020s), annotated, then large numbered panels. app.js-side
+   (milestones.js) sets the ribbon's height from its rows of annotations. */
 .ms-ribbon {
   --wide: min(1160px, calc(100vw - 96px));
+  --line-y: 150px;
   width: var(--wide);
-  height: 170px;
-  margin: 8px 0 56px calc((100% - var(--wide)) / 2);
+  height: 280px;
+  margin: 96px 0 96px calc((100% - var(--wide)) / 2);
 }
 @media (max-width: 1100px) { .ms-ribbon { --wide: calc(100vw - 32px); } }
 .ms-track { position: relative; height: 100%; margin: 0 16px; }
-.ms-line { position: absolute; top: 70%; height: 2px; background: var(--line); }
+.ms-era {
+  position: absolute;
+  top: 0;
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ms-line { position: absolute; top: var(--line-y); height: 2px; background: var(--line); }
 .ms-break {   /* the gap in time, as a dotted stretch */
   position: absolute;
-  top: calc(70% - 1px);
+  top: calc(var(--line-y) - 1px);
   height: 4px;
   background: radial-gradient(circle, var(--ink-2) 1.2px, transparent 1.6px) 0 50% / 8px 4px repeat-x;
 }
 .ms-tick {
   position: absolute;
-  top: calc(70% + 18px);
-  transform: translateX(-50%);
+  top: calc(var(--line-y) + 16px);
+  z-index: 2;
+  padding: 0 4px;
+  background: var(--bg);
   color: var(--ink-2);
   font-family: var(--font-ui);
   font-size: 12px;
   letter-spacing: 0.04em;
+  transform: translateX(-50%);
 }
 .ms-tick::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: -14px;
+  top: -13px;
   height: 7px;
   border-left: 1px solid var(--ink-2);
 }
-.ms-dot {
+/* Annotations: a leader from the line down to each label */
+.ms-lead {
   position: absolute;
-  top: 70%;
-  z-index: 1;
+  top: calc(var(--line-y) + 2px);
+  border-left: 1px dotted color-mix(in srgb, var(--accent) 70%, transparent);
+  pointer-events: none;
+}
+.ms-note {
+  position: absolute;
+  z-index: 3;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.ms-note-num { margin-right: 6px; color: var(--accent); font-weight: 600; }
+.ms-note.is-hover, .ms-note:focus-visible { background: var(--accent); color: var(--on-accent); }
+.ms-note.is-hover .ms-note-num, .ms-note:focus-visible .ms-note-num { color: inherit; }
+.ms-dot {
+  --rise: calc(var(--lv, 0) * 36px);
+  position: absolute;
+  top: var(--line-y);
+  z-index: 4;
   display: grid;
   place-items: center;
   width: 28px;
@@ -2292,15 +2332,11 @@ html:not(.loaded) body { overflow: hidden; }
   font-size: 11px;
   font-weight: 600;
   text-decoration: none;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, calc(-50% - var(--rise)));
   box-shadow: 0 0 0 3px var(--bg);
   transition: transform 0.2s ease;
 }
-.ms-dot {   /* raised --lv levels above the line, on a stem */
-  --rise: calc(var(--lv, 0) * 36px);
-  transform: translate(-50%, calc(-50% - var(--rise)));
-}
-.ms-dot::after {
+.ms-dot::after {   /* the stem down to the line, when raised */
   content: "";
   position: absolute;
   top: 100%;
@@ -2308,7 +2344,7 @@ html:not(.loaded) body { overflow: hidden; }
   height: calc(var(--rise) - 14px);
   border-left: 1px solid var(--accent);
 }
-.ms-dot:hover, .ms-dot:focus-visible { transform: translate(-50%, calc(-50% - var(--rise))) scale(1.15); }
+.ms-dot.is-hover, .ms-dot:focus-visible { transform: translate(-50%, calc(-50% - var(--rise))) scale(1.2); }
 
 .ms-list { margin: 0; padding: 0; list-style: none; }
 .ms-item {
@@ -2337,8 +2373,8 @@ html:not(.loaded) body { overflow: hidden; }
   .ms-item { grid-template-columns: 1fr; gap: 8px; padding: 36px 0; }
   .ms-num { font-size: 44px; }
   .ms-title { font-size: 27px; }
-  .ms-ribbon { height: 170px; overflow-x: auto; }
-  .ms-track { min-width: 640px; }
+  .ms-ribbon { margin-top: 56px; margin-bottom: 56px; overflow-x: auto; overflow-y: hidden; }
+  .ms-track { min-width: 760px; }
 }
 
 /* Milestones: the Order pills sit between the ribbon and the panels */
