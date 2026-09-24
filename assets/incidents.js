@@ -185,7 +185,7 @@
     $("incidents-list").hidden = empty;
     if (empty) {
       $("incidents-matrix").style.removeProperty("--cols");
-      $("incidents-matrix").innerHTML = `<p class="im-empty">No ${esc(CATEGORIES[filter.category].toLowerCase())} incidents on record involving ${filter.orgs === "Other" ? "other developers'" : esc(filter.orgs)} models.<br>
+      $("incidents-matrix").innerHTML = `<p class="im-empty">No ${esc(CATEGORIES[filter.category].toLowerCase())} incidents involving ${filter.orgs === "Other" ? "other developers'" : esc(filter.orgs)} models have been added here yet.<br>
         <button type="button" class="im-reset" data-by="category">Show all categories</button>
         <button type="button" class="im-reset" data-by="orgs">Show all developers</button></p>`;
       $("incidents-matrix").querySelectorAll(".im-reset").forEach((b) =>
