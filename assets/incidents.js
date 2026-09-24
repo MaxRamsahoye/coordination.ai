@@ -111,7 +111,7 @@
   function renderIntro() {
     const shown = shownItems();
     if (!shown.length) {
-      $("incidents-intro").textContent = "No incidents match both filters. Choose All in either row to widen the list.";
+      $("incidents-intro").textContent = "No incidents match both filters.";
       return;
     }
     const n = shown.length, s = n === 1 ? "" : "s";
@@ -123,7 +123,7 @@
 
   function show(id) {
     const i = byId[id];
-    if (!i) return;
+    if (!i || !shownItems().includes(i)) return;
     $("incidents-detail").innerHTML = `
       <div class="pd-card id-card">
         <p class="pd-date"><time datetime="${esc(i.date)}">${esc(formatDate(i.date))}</time> · ${esc(TYPES[i.type] || i.type)} · ${esc(CATEGORIES[i.category] || i.category)}</p>
@@ -160,9 +160,25 @@
   function render() {
     const shown = shownItems();
     renderIntro();
-    renderMatrix();
     renderList();
-    if (!shown.length) { $("incidents-detail").innerHTML = ""; return; }
+    // No matches: an empty state in place of the matrix, and no legend or
+    // details
+    const empty = !shown.length;
+    $("incidents-legend").hidden = empty;
+    document.querySelector("#page-incidents .race-list-title").hidden = empty;
+    $("incidents-list").hidden = empty;
+    if (empty) {
+      $("incidents-matrix").style.removeProperty("--cols");
+      $("incidents-matrix").innerHTML = `<p class="im-empty">No ${esc(CATEGORIES[filter.category].toLowerCase())} incidents on record involving ${filter.orgs === "Other" ? "other developers'" : esc(filter.orgs)} models.<br>
+        <button type="button" class="im-reset" data-by="category">Show all categories</button>
+        <button type="button" class="im-reset" data-by="orgs">Show all developers</button></p>`;
+      $("incidents-matrix").querySelectorAll(".im-reset").forEach((b) =>
+        b.addEventListener("click", () => document.querySelector(`#incidents-filters-${b.dataset.by} .filter-pill[data-value="All"]`).click())
+      );
+      $("incidents-detail").innerHTML = "";
+      return;
+    }
+    renderMatrix();
     if (!shown.some((i) => i.id === selected)) selected = shown[shown.length - 1].id;
     select(selected);
     const frame = document.querySelector(".inc-scroll");

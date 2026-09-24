@@ -2100,3 +2100,28 @@ html:not(.loaded) body { overflow: hidden; }
   .il-row .rl-date { grid-column: 2; order: -1; }
   .il-orgs { grid-column: 2; text-align: left; }
 }
+
+/* No incidents match the filters */
+.inc-matrix:has(.im-empty) { display: block; width: auto; max-width: calc(var(--column) - 48px); border-bottom: 0; }
+.im-empty {
+  margin: 0;
+  padding: 40px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  color: var(--ink-2);
+  text-align: center;
+  line-height: 1.6;
+}
+.im-reset {
+  margin: 12px 6px 0;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.im-reset:hover, .im-reset:focus-visible { border-color: var(--accent); color: var(--accent); }
