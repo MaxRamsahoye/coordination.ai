@@ -288,6 +288,7 @@
   const pageTitleFixed = document.getElementById("page-title-fixed");
   const footerEl = document.querySelector(".site-footer");
   const siteTitle = document.querySelector(".site-title");
+  const ST_ZONE = 90;   // px above and below the address in which the brackets close
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -302,13 +303,15 @@
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
     root.classList.toggle("at-footer", footerEl.getBoundingClientRect().top < window.innerHeight);
-    // The site address's brackets close while the menu's line crosses the
-    // top of the screen (in either direction), and open once it has passed:
-    // closed while the line is between just below the address and 120px
-    // further down
+    // The site address's brackets close while the menu's line is within a
+    // zone around the address (ST_ZONE px above or below its middle), in
+    // either direction, and open again once it's clear. A few px of give on
+    // the way out stops it flickering at the zone's edge
     const line = menu.getBoundingClientRect().top + (parseFloat(menu.style.getPropertyValue("--menu-line-y")) || menu.offsetHeight);
-    const below = siteTitle.getBoundingClientRect().bottom + 4;
-    siteTitle.classList.toggle("st-closed", line > below && line < below + 120);
+    const st = siteTitle.getBoundingClientRect();
+    const gap = Math.abs(line - (st.top + st.height / 2));
+    const closed = siteTitle.classList.contains("st-closed");
+    siteTitle.classList.toggle("st-closed", closed ? gap < ST_ZONE + 8 : gap < ST_ZONE);
 
     // Once the page heading has scrolled up behind the header, show the page's
     // title in the top-left corner

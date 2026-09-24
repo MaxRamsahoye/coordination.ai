@@ -276,12 +276,18 @@ a { color: inherit; }
   transition: color 0.2s ease;
 }
 .site-title:hover { color: var(--accent); }
-.st-bracket { color: var(--accent); font-weight: 400; }
+.st-bracket {
+  color: var(--accent);
+  font-size: 1.3em;
+  font-weight: 600;
+  line-height: 1;
+  transform: translateY(0.04em);
+}
 .st-name {
   display: inline-block;
   overflow: hidden;
   max-width: 12em;
-  padding: 0 0.35em;
+  padding: 0 0.5em;
   transition: max-width 0.4s cubic-bezier(0.65, 0, 0.35, 1), padding 0.4s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.25s ease;
 }
 .st-closed .st-name { max-width: 0; padding: 0 0.1em; opacity: 0; }
