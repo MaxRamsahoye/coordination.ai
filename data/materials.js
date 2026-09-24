@@ -8,6 +8,7 @@
  *   date     when it was published: "YYYY-MM-DD", or "YYYY-MM" when only the
  *            month is known
  *   title    name of the piece
+ *   headline the development in news style, for the Latest developments ticker
  *   type     forecast | plan | essay (labels in app.js)
  *              forecast — what the authors think is likely to happen
  *              plan     — what the authors think should happen
@@ -23,6 +24,7 @@ window.CC_MATERIALS = [
     category: "essay",
     date: "2026-09-12",
     title: "We Must Pace the Frontier",
+    headline: "Dario Amodei calls on the AI industry to pace the frontier",
     type: "essay",
     by: "Dario Amodei, Anthropic",
     summary:
@@ -34,6 +36,7 @@ window.CC_MATERIALS = [
     category: "scenario",
     date: "2026-07-09",
     title: "AI 2040: Plan A",
+    headline: "AI Futures Project proposes a US–China deal to delay superintelligence to 2040",
     type: "plan",
     by: "AI Futures Project — Daniel Kokotajlo, Ryan Greenblatt, Thomas Larsen, Eli Lifland, Romeo Dean and Brendan Halstead",
     summary:
@@ -45,6 +48,7 @@ window.CC_MATERIALS = [
     category: "scenario",
     date: "2026-06",
     title: "Europe 2031",
+    headline: "Europe 2031 scenario warns of the continent's slide into AI irrelevance",
     type: "forecast",
     by: "Michiel Bakker, Judith Dada, Daan Juijn, Stan van Baarsen, Philip Fox, Alex Petropoulos and Lily Stelling; written up by Tom Chivers",
     summary:
@@ -56,6 +60,7 @@ window.CC_MATERIALS = [
     category: "scenario",
     date: "2025-04-03",
     title: "AI 2027",
+    headline: "AI 2027 forecasts AI automating AI research by 2027",
     type: "forecast",
     by: "AI Futures Project — Daniel Kokotajlo, Scott Alexander, Thomas Larsen, Eli Lifland and Romeo Dean",
     summary:
@@ -67,6 +72,7 @@ window.CC_MATERIALS = [
     category: "essay",
     date: "2025-01",
     title: "Gradual Disempowerment",
+    headline: "Researchers warn AI could gradually disempower humanity",
     type: "essay",
     by: "Jan Kulveit, Raymond Douglas, Nora Ammann, Deger Turan, David Krueger and David Duvenaud",
     summary:
@@ -78,6 +84,7 @@ window.CC_MATERIALS = [
     category: "essay",
     date: "2024-10-11",
     title: "Machines of Loving Grace",
+    headline: "Dario Amodei sets out an optimistic vision of powerful AI",
     type: "essay",
     by: "Dario Amodei, Anthropic",
     summary:
@@ -90,6 +97,7 @@ window.CC_MATERIALS = [
     category: "scenario",
     date: "2024-10",
     title: "A Narrow Path",
+    headline: "ControlAI proposes preventing superintelligence for 20 years",
     type: "plan",
     by: "ControlAI — Andrea Miotti and others",
     summary:
@@ -101,6 +109,7 @@ window.CC_MATERIALS = [
     category: "scenario",
     date: "2024-06-04",
     title: "Situational Awareness: The Decade Ahead",
+    headline: "Leopold Aschenbrenner forecasts AGI by around 2027",
     type: "forecast",
     by: "Leopold Aschenbrenner",
     summary:

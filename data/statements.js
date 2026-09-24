@@ -6,6 +6,7 @@
  *   id       unique slug
  *   date     "YYYY-MM-DD", or "YYYY-MM" when only the month is known
  *   title    name of the statement
+ *   headline the development in news style, for the Latest developments ticker
  *   category main | academic | governmental | religious (the category pills;
  *            main is the core list shown by default)
  *   type     letter | declaration | joint | principles | paper | consensus |
@@ -22,6 +23,7 @@ window.CC_STATEMENTS = [
     category: "main",
     date: "2026-07-28",
     title: "Pacing the Frontier",
+    headline: "Over 1,100 frontier AI employees call for pacing the frontier",
     type: "joint",
     by: "More than 1,100 employees of frontier AI companies — most from Anthropic, OpenAI, Google and Meta — including Dario Amodei, Jared Kaplan, Jack Clark and OpenAI chief scientist Jakub Pachocki. Endorsed by OpenAI and Anthropic as companies.",
     summary:
@@ -34,6 +36,7 @@ window.CC_STATEMENTS = [
     category: "main",
     date: "2026-03-04",
     title: "Pro-Human AI Declaration",
+    headline: "Cross-partisan coalition launches the Pro-Human AI Declaration",
     type: "declaration",
     by: "A cross-partisan coalition convened by the Future of Life Institute, including Yoshua Bengio, Geoffrey Hinton, Steve Bannon, Glenn Beck, Susan Rice, Ralph Nader, Richard Branson and Daron Acemoglu, and organisations including the AFL-CIO and SAG-AFTRA",
     summary:
@@ -45,6 +48,7 @@ window.CC_STATEMENTS = [
     category: "main",
     date: "2025-10-22",
     title: "Statement on Superintelligence",
+    headline: "Hinton, Bengio and others call for a prohibition on superintelligence",
     type: "letter",
     by: "Future of Life Institute; signed by Geoffrey Hinton, Yoshua Bengio, Steve Wozniak, Steve Bannon, Glenn Beck, Prince Harry and Meghan, and five Nobel laureates",
     summary: "Calls for a prohibition on developing superintelligence until it can be done safely and controllably, with public support.",
@@ -57,6 +61,7 @@ window.CC_STATEMENTS = [
     category: "main",
     date: "2025-09-22",
     title: "Global Call for AI Red Lines",
+    headline: "Over 200 public figures urge governments to agree AI red lines by 2026",
     type: "letter",
     by: "Over 200 prominent figures including Nobel laureates, AI researchers and former heads of state; launched at the UN General Assembly",
     summary: "Urges governments to reach an international agreement on clear, verifiable red lines for AI by the end of 2026.",
@@ -67,6 +72,7 @@ window.CC_STATEMENTS = [
     category: "main",
     date: "2024-06-04",
     title: "A Right to Warn about Advanced Artificial Intelligence",
+    headline: "OpenAI and DeepMind staff demand a right to warn about AI risks",
     type: "letter",
     by: "Current and former employees of OpenAI and Google DeepMind; endorsed by Yoshua Bengio, Geoffrey Hinton and Stuart Russell",
     summary:
@@ -78,6 +84,7 @@ window.CC_STATEMENTS = [
     category: "main",
     date: "2023-05-30",
     title: "Statement on AI Risk",
+    headline: "AI leaders say extinction risk from AI should be a global priority",
     type: "letter",
     by: "Center for AI Safety; signed by Geoffrey Hinton, Yoshua Bengio and the CEOs of OpenAI, Google DeepMind and Anthropic",
     summary: "A one-sentence statement placing the risk of extinction from AI alongside pandemics and nuclear war.",
@@ -89,6 +96,7 @@ window.CC_STATEMENTS = [
     category: "main",
     date: "2023-03-22",
     title: "Pause Giant AI Experiments: An Open Letter",
+    headline: "Open letter calls for a six-month pause on giant AI experiments",
     type: "letter",
     by: "Future of Life Institute; signed by Yoshua Bengio, Stuart Russell, Elon Musk, Steve Wozniak and over 30,000 others",
     summary:
@@ -103,6 +111,7 @@ window.CC_STATEMENTS = [
     category: "academic",
     date: "2025-05-08",
     title: "Singapore Consensus on Global AI Safety Research Priorities",
+    headline: "Researchers agree global AI safety research priorities in Singapore",
     type: "consensus",
     by: "Researchers from 11 countries, including Yoshua Bengio, Stuart Russell and Max Tegmark, with staff of OpenAI, Anthropic, Google DeepMind, xAI and Meta",
     summary:
@@ -113,6 +122,7 @@ window.CC_STATEMENTS = [
     category: "academic",
     date: "2025-01-29",
     title: "International AI Safety Report",
+    headline: "96 experts publish the first International AI Safety Report",
     type: "report",
     by: "96 experts chaired by Yoshua Bengio, nominated by 30 countries, the UN, the EU and the OECD",
     summary:
@@ -124,6 +134,7 @@ window.CC_STATEMENTS = [
     category: "academic",
     date: "2024-09-16",
     title: "IDAIS-Venice Consensus Statement",
+    headline: "Scientists call for AI safety to be treated as a global public good",
     type: "consensus",
     by: "Scientists from the International Dialogues on AI Safety, including Yoshua Bengio, Andrew Yao, Geoffrey Hinton and Zhang Ya-Qin",
     summary:
@@ -135,6 +146,7 @@ window.CC_STATEMENTS = [
     category: "academic",
     date: "2024-05-20",
     title: "Managing Extreme AI Risks amid Rapid Progress",
+    headline: "Bengio, Hinton and others warn in Science of extreme AI risks",
     type: "paper",
     by: "Yoshua Bengio, Geoffrey Hinton, Andrew Yao, Dawn Song, Pieter Abbeel, Stuart Russell and 19 other authors, in Science",
     summary:
@@ -146,6 +158,7 @@ window.CC_STATEMENTS = [
     category: "academic",
     date: "2024-03",
     title: "IDAIS-Beijing Consensus Statement",
+    headline: "Western and Chinese scientists propose red lines for AI",
     type: "consensus",
     by: "Western and Chinese scientists at the International Dialogues on AI Safety, including Yoshua Bengio, Geoffrey Hinton, Andrew Yao and Stuart Russell",
     summary:
@@ -157,6 +170,7 @@ window.CC_STATEMENTS = [
     category: "academic",
     date: "2018-12-04",
     title: "Montréal Declaration for a Responsible Development of AI",
+    headline: "Montréal Declaration sets out ten principles for responsible AI",
     type: "declaration",
     by: "Université de Montréal, drafted with researchers and the public",
     summary: "Ten principles, including well-being, autonomy, privacy, democratic participation and prudence, to guide the development of AI.",
@@ -167,6 +181,7 @@ window.CC_STATEMENTS = [
     category: "academic",
     date: "2017-01",
     title: "Asilomar AI Principles",
+    headline: "AI researchers adopt the 23 Asilomar AI Principles",
     type: "principles",
     by: "Researchers at the Future of Life Institute's Beneficial AI conference; signed by more than 1,200 AI researchers, including Demis Hassabis, Ilya Sutskever and Stuart Russell",
     summary:
@@ -180,6 +195,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2026-02",
     title: "AI Impact Summit Declaration",
+    headline: "92 countries endorse the AI Impact Summit Declaration in New Delhi",
     type: "declaration",
     by: "92 countries and international organisations at the AI Impact Summit in New Delhi",
     summary:
@@ -191,6 +207,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2025-08-26",
     title: "UN Scientific Panel and Global Dialogue on AI",
+    headline: "UN creates a scientific panel and global dialogue on AI",
     type: "resolution",
     by: "UN General Assembly",
     summary:
@@ -201,6 +218,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2025-02-11",
     title: "Statement on Inclusive and Sustainable AI",
+    headline: "Paris AI Action Summit statement signed without the US and UK",
     type: "declaration",
     by: "About 60 countries, including China, India and the EU, at the AI Action Summit in Paris; the US and UK declined to sign",
     summary:
@@ -211,6 +229,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2024-09-05",
     title: "Council of Europe Framework Convention on AI",
+    headline: "First binding international AI treaty opens for signature",
     type: "treaty",
     by: "Council of Europe; signed on opening by the US, UK, EU and others",
     summary: "The first legally binding international treaty on AI, requiring that AI systems respect human rights, democracy and the rule of law throughout their lifecycle.",
@@ -220,6 +239,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2024-05-21",
     title: "Seoul Declaration",
+    headline: "Seoul summit backs a network of AI safety institutes",
     type: "declaration",
     by: "Ten countries and the EU at the AI Seoul Summit",
     summary:
@@ -230,6 +250,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2024-03-21",
     title: "Seizing the Opportunities of Safe, Secure and Trustworthy AI",
+    headline: "UN General Assembly adopts its first resolution on AI",
     type: "resolution",
     by: "UN General Assembly, adopted by consensus on a US proposal",
     summary: "The first General Assembly resolution on AI, calling on states to promote AI systems that are safe, secure and trustworthy and that respect human rights.",
@@ -239,6 +260,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2023-11-01",
     title: "Bletchley Declaration",
+    headline: "28 countries and the EU recognise catastrophic AI risks at Bletchley Park",
     type: "declaration",
     by: "28 countries, including the US and China, and the EU at the AI Safety Summit at Bletchley Park",
     summary: "The first international agreement recognising the risks of frontier AI, committing signatories to work together on identifying and managing them.",
@@ -251,6 +273,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2023-10-30",
     title: "Executive Order 14110 on Safe, Secure and Trustworthy AI",
+    headline: "US executive order requires safety test results for the most powerful models",
     type: "order",
     by: "President Joe Biden, United States",
     summary:
@@ -261,6 +284,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2023-10-30",
     title: "Hiroshima Process International Code of Conduct",
+    headline: "G7 agrees a code of conduct for advanced AI developers",
     type: "code",
     by: "G7 leaders",
     summary: "Voluntary guidance for organisations developing advanced AI, asking them to identify and mitigate risks across the lifecycle, report on capabilities and limitations, and invest in security.",
@@ -270,6 +294,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2021-11-23",
     title: "Recommendation on the Ethics of Artificial Intelligence",
+    headline: "UNESCO adopts the first global standard on AI ethics",
     type: "principles",
     by: "UNESCO, adopted by its 193 member states",
     summary: "The first global standard on AI ethics, covering human rights, transparency, accountability and environmental impact.",
@@ -280,6 +305,7 @@ window.CC_STATEMENTS = [
     category: "governmental",
     date: "2019-05-22",
     title: "OECD AI Principles",
+    headline: "OECD countries adopt the first intergovernmental AI principles",
     type: "principles",
     by: "OECD member countries and partners",
     summary: "The first intergovernmental standard on AI, promoting AI that is innovative and trustworthy and respects human rights and democratic values. The G20 adopted them the following month.",
@@ -292,6 +318,7 @@ window.CC_STATEMENTS = [
     category: "religious",
     date: "2026-05-25",
     title: "Magnifica humanitas",
+    headline: "Pope Leo XIV's first encyclical urges the world to 'disarm' AI",
     type: "encyclical",
     by: "Pope Leo XIV; presented at the Vatican with AI researchers including Anthropic co-founder Chris Olah",
     summary:
@@ -303,6 +330,7 @@ window.CC_STATEMENTS = [
     category: "religious",
     date: "2025-01-28",
     title: "Antiqua et nova",
+    headline: "Vatican says AI should complement human intelligence, not replace it",
     type: "note",
     by: "Dicastery for the Doctrine of the Faith and Dicastery for Culture and Education, Holy See",
     summary: "A note on the relationship between artificial and human intelligence, arguing that AI should complement human intelligence rather than replace it, and warning of its use in warfare.",
@@ -312,6 +340,7 @@ window.CC_STATEMENTS = [
     category: "religious",
     date: "2024-06-14",
     title: "Pope Francis addresses the G7 on AI",
+    headline: "Pope Francis urges G7 leaders to ban lethal autonomous weapons",
     type: "address",
     by: "Pope Francis, the first pope to take part in a G7 summit",
     summary: "Called AI both an exciting and a fearsome tool, and urged leaders to ban lethal autonomous weapons.",
@@ -322,6 +351,7 @@ window.CC_STATEMENTS = [
     category: "religious",
     date: "2024-01-01",
     title: "Artificial Intelligence and Peace",
+    headline: "Pope Francis calls for a binding international treaty on AI",
     type: "address",
     by: "Pope Francis, message for the World Day of Peace",
     summary: "Urges the international community to adopt a binding international treaty to regulate the development and use of AI.",
@@ -331,6 +361,7 @@ window.CC_STATEMENTS = [
     category: "religious",
     date: "2020-02-28",
     title: "Rome Call for AI Ethics",
+    headline: "Vatican, Microsoft and IBM sign the Rome Call for AI Ethics",
     type: "principles",
     by: "Pontifical Academy for Life, Microsoft, IBM, the FAO and the Italian government; later signed by Jewish and Muslim leaders (2023) and leaders of Eastern religions in Hiroshima (2024)",
     summary: "Six principles for 'algorethics' — transparency, inclusion, responsibility, impartiality, reliability, and security and privacy.",
@@ -341,6 +372,7 @@ window.CC_STATEMENTS = [
     category: "religious",
     date: "2019-04-11",
     title: "Artificial Intelligence: An Evangelical Statement of Principles",
+    headline: "Southern Baptists publish evangelical principles on AI",
     type: "principles",
     by: "Ethics & Religious Liberty Commission of the Southern Baptist Convention; signed by more than 60 evangelical leaders",
     summary: "Twelve articles affirming human dignity and moral responsibility, holding that AI must not be treated as a person or used to replace human moral agency.",

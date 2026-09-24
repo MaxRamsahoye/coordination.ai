@@ -230,7 +230,8 @@
   );
 
   // ───────────── Latest developments: the newest entries across all the
-  // timelines, as a looping ticker. Each links to its entry, switching page
+  // timelines, as a looping ticker, each shown by its news-style headline
+  // (or its title, for incidents, which already read that way). Each links to its entry, switching page
   // and widening that page's filters if they would hide it.
   const NEWS_COUNT = 10;
   function renderNews() {
@@ -243,7 +244,7 @@
     const html = latest
       .map(
         ({ key, item }) =>
-          `<a class="news-item" href="#${key}" data-key="${key}" data-id="${esc(item.id)}"><span class="news-date">${esc(formatDate(item.date))}</span>${esc(item.title)}</a>`
+          `<a class="news-item" href="#${key}" data-key="${key}" data-id="${esc(item.id)}"><span class="news-date">${esc(formatDate(item.date))}</span>${esc(item.headline || item.title)}</a>`
       )
       .join("");
     // Two copies so the loop is seamless; the second is for looks only
@@ -666,6 +667,36 @@
       window.scrollTo({ top: Math.round(lineY), behavior: "smooth" });
     })
   );
+
+  // ───────────── Footer: live figures and the newest entry's date
+  function renderFooter() {
+    const stats = document.getElementById("footer-stats");
+    const P = window.CC_POSITIONS;
+    let positions = 0;
+    if (P) {
+      positions += Object.values(P.chambers).reduce((n, list) => n + list.length, 0);
+      const walk = (node) => (node.stance ? 1 : 0) + (node.children || []).reduce((n, c) => n + walk(c), 0);
+      positions += Object.values(P.industry).reduce((n, lab) => n + walk(lab.chart), 0);
+    }
+    const figures = [
+      [positions, "recorded positions"],
+      [TIMELINES.statements.items.length, "statements"],
+      [TIMELINES.materials.items.length, "scenarios and essays"],
+      [TIMELINES.incidents.items.length, "incidents"],
+      [(window.CC_ORGANISATIONS || []).length, "organisations"],
+    ].filter(([n]) => n);
+    if (stats) stats.innerHTML = figures.map(([n, label]) => `<li><strong>${n}</strong><span>${label}</span></li>`).join("");
+    const newest = Object.values(TIMELINES)
+      .flatMap((t) => t.items.map((i) => i.date))
+      .sort((a, b) => sortKey(b).localeCompare(sortKey(a)))[0];
+    const updated = document.getElementById("footer-updated");
+    if (updated && newest) updated.textContent = `Newest entry ${formatDate(newest)}`;
+    document.getElementById("footer-top")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+  renderFooter();
 
   // Menu overflow: mark when the pills scroll sideways, and when scrolled
   // to the end, so the edge fade shows only while there's more

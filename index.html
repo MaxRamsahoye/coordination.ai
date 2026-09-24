@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=0bbab116">
+  <link rel="stylesheet" href="assets/styles.css?v=94083b97">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -310,7 +310,51 @@
   </main>
 
   <footer class="site-footer">
-    <p>Coordination on <span class="accent-text">AI Risk</span></p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <p class="footer-title">Coordination on <span class="accent-text">AI Risk</span></p>
+        <p class="footer-tagline">An open record of who stands where on pacing the frontier, the statements and scenarios shaping the debate, and the incidents that show why it matters.</p>
+        <!-- Filled in by app.js from the site's data -->
+        <ul class="footer-stats" id="footer-stats"></ul>
+      </div>
+
+      <nav class="footer-col" aria-label="Explore">
+        <p class="footer-head">Explore</p>
+        <ul>
+          <li><a href="#positions" data-goto="positions">Positions</a></li>
+          <li><a href="#statements" data-goto="statements">Statements</a></li>
+          <li><a href="#materials" data-goto="materials">Materials</a></li>
+          <li><a href="#incidents" data-goto="incidents">Incidents</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Take part">
+        <p class="footer-head">Take part</p>
+        <ul>
+          <li><a href="#organisations" data-goto="organisations">Organisations</a></li>
+          <li><a href="#coordinate" data-goto="coordinate">Coordinate</a></li>
+          <li><a href="#contact" data-goto="contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col footer-shortcuts">
+        <p class="footer-head">Shortcuts</p>
+        <dl class="footer-keys">
+          <div><dt><kbd>T</kbd></dt><dd>Light or dark</dd></div>
+          <div><dt><kbd>C</kbd></dt><dd>Accent colour</dd></div>
+          <div><dt><kbd>F</kbd></dt><dd>Font</dd></div>
+          <div><dt><kbd>H</kbd></dt><dd>Hide the lines</dd></div>
+          <div><dt><kbd>⌫</kbd></dt><dd>Back to top</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>coordination.ai</span>
+      <span id="footer-updated"></span>
+      <span>Every entry links to its source.</span>
+      <a href="#top" class="footer-top" id="footer-top">Back to top ↑</a>
+    </div>
   </footer>
 
   <button type="button" class="to-top" id="to-top" aria-keyshortcuts="Backspace" title="Back to top (Backspace)">
@@ -323,12 +367,12 @@
   <div class="cursor-dot" aria-hidden="true"></div>
 
   <script src="data/incidents.js?v=a6b0b1cb"></script>
-  <script src="data/materials.js?v=1008492a"></script>
-  <script src="data/statements.js?v=38a35923"></script>
+  <script src="data/materials.js?v=1e850742"></script>
+  <script src="data/statements.js?v=68478cd5"></script>
   <script src="data/organisations.js?v=b3d00148"></script>
   <script src="assets/directory.js?v=3de31054"></script>
   <script src="data/positions.js?v=9289d81d"></script>
   <script src="assets/positions.js?v=5f4b53a9"></script>
-  <script src="assets/app.js?v=bc5fcf69"></script>
+  <script src="assets/app.js?v=c19a5b80"></script>
 </body>
 </html>
