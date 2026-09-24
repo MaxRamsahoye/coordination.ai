@@ -1478,13 +1478,13 @@ html:not(.loaded) body { overflow: hidden; }
 /* ───────────── Back to top */
 .to-top {
   position: fixed;
-  right: 51px;
-  bottom: 35px;
+  right: 54px;
+  bottom: 38px;
   z-index: 10;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -1662,7 +1662,7 @@ html:not(.loaded) body { overflow: hidden; }
   .tl-year-label { position: static; margin-bottom: 20px; }
   .tl-item { --tl-indent: 24px; padding-bottom: 56px; }
   .tl-title { font-size: 23px; }
-  .to-top { right: 19px; bottom: 27px; }
+  .to-top { right: 22px; bottom: 30px; }
 }
 
 /* Short phones: the description is left out, so less room is needed */
@@ -1722,11 +1722,13 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .pd-left { color: var(--ink-2); }
 
-/* An accent-coloured ring around the controls' arrow and the back-to-top
-   arrow (drawn inside the button, so it doesn't change its size) */
-.controls-toggle, .to-top { box-shadow: inset 0 0 0 1.5px var(--accent); }
-/* Both slightly smaller than the other controls, arrows included */
-.controls-toggle .arrow-glyph.is-centred, .to-top .arrow-glyph.is-centred { width: 14px; height: 14px; }
+/* An accent-coloured ring around the back-to-top arrow (drawn inside the
+   button, so it doesn't change its size) */
+.to-top { box-shadow: inset 0 0 0 1.5px var(--accent); }
+/* Smaller arrows than the glyph's default: the controls' and, smaller
+   still, the back-to-top button's */
+.controls-toggle .arrow-glyph.is-centred { width: 14px; height: 14px; }
+.to-top .arrow-glyph.is-centred { width: 11px; height: 11px; }
 
 /* Positions: previous / next through a diagram's boxes or seats */
 .positions-step {
