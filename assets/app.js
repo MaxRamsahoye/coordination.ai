@@ -741,6 +741,19 @@
     indicator.style.transform = `translate(${a.offsetLeft}px, ${a.offsetTop + a.offsetHeight - 4}px)`;
     // The menu's dividing line runs level with the bar's lower edge
     document.querySelector(".menu").style.setProperty("--menu-line-y", `${a.offsetTop + a.offsetHeight - 3}px`);
+    levelControls(a);
+  }
+  // On wide screens the design controls sit at the page's left edge, level
+  // with the menu items' text: --ctl-top is the text's middle, measured from
+  // the top of the hero (which holds the controls)
+  function levelControls(a) {
+    const heroEl = document.querySelector(".hero");
+    const text = [...a.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
+    if (!heroEl || !text) return;
+    const range = document.createRange();
+    range.selectNodeContents(text);
+    const r = range.getBoundingClientRect();
+    heroEl.style.setProperty("--ctl-top", `${Math.round(r.top + r.height / 2 - heroEl.getBoundingClientRect().top)}px`);
   }
   // The site address keeps its open width while the brackets close, so they
   // meet in the middle; measured with the name showing

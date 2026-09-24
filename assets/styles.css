@@ -151,7 +151,8 @@ a { color: inherit; }
 }
 
 /* Theme, accent and font controls: in the hero's bottom-left corner, with
-   room below them above the menu's line, so they scroll away with the page.
+   room below them above the menu's line (on wide screens, level with the
+   menu's text instead), so they scroll away with the page.
    The toggle sits at the left, and the controls open out rightwards from
    it. Wide screens: at the page's left edge (48px to the icons, less the
    buttons' 9px inset). */
@@ -163,6 +164,11 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   height: 56px;
+}
+/* Wide screens: level with the menu items' text below the hero, at the
+   page's left edge (app.js measures --ctl-top) */
+@media (min-width: 1281px) {
+  .hero[style*="--ctl-top"] .page-controls { top: calc(var(--ctl-top) - 28px); bottom: auto; }
 }
 /* Narrower screens: in line with the text column's left edge instead */
 @media (max-width: 1280px) {
