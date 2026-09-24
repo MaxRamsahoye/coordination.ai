@@ -287,6 +287,8 @@
   const hero = document.querySelector(".hero");
   const pageTitleFixed = document.getElementById("page-title-fixed");
   const footerEl = document.querySelector(".site-footer");
+  const heroTab = document.querySelector(".hero-tab");
+  const siteTitle = document.querySelector(".site-title");
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -301,6 +303,9 @@
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
     root.classList.toggle("at-footer", footerEl.getBoundingClientRect().top < window.innerHeight);
+    // The site address is fixed; once the hero's tab has scrolled out from
+    // under it, it goes back to the text colour
+    if (heroTab) root.classList.toggle("tab-away", heroTab.getBoundingClientRect().bottom < siteTitle.getBoundingClientRect().bottom + 4);
 
     // Once the page heading has scrolled up behind the header, show the page's
     // title in the top-left corner

@@ -40,8 +40,7 @@
   --font-plex: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font: var(--font-bembo);   /* default; the F toggle switches to Plex */
   --header-h: 104px;
-  --corner-w: 300px;   /* the accent shape behind the site address */
-  --corner-h: 200px;   /* deep enough that the address sits wholly inside */
+  --corner-w: 216px;   /* the accent tab behind the site address */
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
   --column: 880px;     /* central text column, including its 24px padding */
 }
@@ -137,17 +136,21 @@ a { color: inherit; }
 /* Dividing lines, in the timeline's line style: below the menu and above
    the footer. H ("hudless") hides them. */
 
-/* The corner shape: a right-angled triangle filling the top-right corner
-   behind the site address, in the accent */
-.corner-shape {
+/* The hero tab: an accent rectangle in the hero's top-right corner, the
+   height of the header, behind the site address. It scrolls away with the
+   hero; the address (fixed) then goes back to the text colour (app.js adds
+   .tab-away once the tab has left it). */
+.hero-tab {
   position: absolute;
   top: 0;
   right: 0;
   width: var(--corner-w);
-  height: var(--corner-h);
+  height: var(--header-h);
+  border-bottom-left-radius: 10px;
+  background: var(--accent);
   pointer-events: none;
+  transition: background-color 0.2s ease;
 }
-.corner-shape path { fill: var(--accent); transition: fill 0.2s ease; }
 
 .header-inner {
   display: flex;
@@ -281,6 +284,8 @@ a { color: inherit; }
   transition: color 0.2s ease;
 }
 .site-title:hover { color: var(--ink-strong); }
+.tab-away .site-title { color: var(--ink); }
+.tab-away .site-title:hover { color: var(--accent); }
 .site-title { margin-left: auto; }
 
 /* The current page's title in the top-left corner, faded in once the
@@ -306,8 +311,8 @@ a { color: inherit; }
   justify-content: center;
   min-height: calc(100vh - var(--menu-h));
   min-height: calc(100svh - var(--menu-h));
-  padding-top: calc(var(--header-h) + 24px);
-  padding-bottom: 24px;
+  padding-top: var(--header-h);   /* content sits 24px higher than centred */
+  padding-bottom: 48px;
 }
 .hero > .container { width: 100%; }   /* keep the shared left edge inside the flex column */
 
@@ -323,7 +328,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 16px;
-  width: min(calc(100vw * 3 / 4 - 48px), calc(100vw - 72px - var(--corner-w)));   /* three quarters of the screen, clear of the corner shape */
+  width: min(calc(100vw * 3 / 4 - 48px), calc(100vw - 72px - var(--corner-w)));   /* three quarters of the screen, clear of the tab */
   height: var(--header-h);
   font-size: 16px;
 }
@@ -448,7 +453,7 @@ html:not(.loaded) body { overflow: hidden; }
 /* Mid widths: the design controls sit just above the menu, under the text
    column's start, so the hero keeps room below its text for them */
 @media (min-width: 641px) and (max-width: 1280px) {
-  .hero { padding-bottom: 68px; --hero-rest: 650px; }
+  .hero { padding-bottom: 92px; --hero-rest: 650px; }
 }
 @media (min-width: 641px) and (max-width: 1280px) and (max-height: 760px) {
   .hero { --hero-rest: 542px; }
@@ -565,7 +570,7 @@ html:not(.loaded) body { overflow: hidden; }
   display: inline-flex;
   align-items: flex-start;
   gap: 5px;
-  padding: 10px 0 18px;   /* room between the text and the line below */
+  padding: 10px 0 26px;   /* room between the text and the line below */
   color: color-mix(in srgb, var(--ink) 82%, var(--bg));   /* a little dimmer than the current item */
   text-decoration: none;
   font-size: 17px;
@@ -618,6 +623,13 @@ html:not(.loaded) body { overflow: hidden; }
    column runs under the site title (narrower windows), the title gets a
    small backing in the page colour so it stays readable. */
 @media (max-width: 1100px) {
+  .site-title {
+    margin-right: -8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+  .past-menu .site-title { background: var(--bg); }
   .page-title-fixed {
     margin-left: -8px;
     padding: 4px 8px;
@@ -1576,7 +1588,7 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* ───────────── Phones */
 @media (max-width: 640px) {
-  :root { --header-h: 80px; --menu-h: 88px; --corner-w: 200px; --corner-h: 150px; }
+  :root { --header-h: 80px; --menu-h: 88px; --corner-w: 150px; }
   :root { --menu-gap: 16px; }
   .menu .menu-inner { gap: 18px; }
   .menu a { font-size: 17px; }
@@ -1599,7 +1611,7 @@ html:not(.loaded) body { overflow: hidden; }
   .filter-label { width: auto; padding: 0 2px; }
   /* The design controls sit just above the menu, under the text column's
      start, so the hero keeps room below its text for them */
-  .hero { padding-top: calc(var(--header-h) + 24px); padding-bottom: 60px; --hero-rest: 642px; }
+  .hero { padding-top: var(--header-h); padding-bottom: 84px; --hero-rest: 642px; }
   .tl-year { grid-template-columns: 1fr; }
   .tl-year-label { position: static; margin-bottom: 20px; }
   .tl-item { --tl-indent: 24px; padding-bottom: 56px; }
