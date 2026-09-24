@@ -989,7 +989,7 @@ html:not(.loaded) body { overflow: hidden; }
   font-weight: 500;
   line-height: 1.2;
 }
-.positions-view { padding-top: 24px; }
+.positions-view { padding-top: 48px; }
 
 /* Chamber diagrams scroll sideways on narrow screens. The UK chambers are
    wide and shallow, so they break out of the text column (up to 1240px,

@@ -655,6 +655,12 @@
   initCursor();
   centreArrowGlyphs();
   initControlsToggle();
+  // Every visit starts afresh on the default page at the top: a page named
+  // in the address (from an earlier visit or a refresh) isn't reopened, and
+  // the browser doesn't restore the old scroll position
+  if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  window.scrollTo({ top: 0, behavior: "instant" });
   showPage();
   fitHeroArt();
   initHeroCycle();
