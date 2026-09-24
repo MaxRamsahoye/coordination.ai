@@ -25,7 +25,7 @@ window.CC_STATEMENTS = [
     title: "Pacing the Frontier",
     headline: "1,100 AI lab staff call to pace the frontier",
     type: "joint",
-    by: "More than 1,100 employees of frontier AI companies — most from Anthropic, OpenAI, Google and Meta — including Dario Amodei, Jared Kaplan, Jack Clark and OpenAI chief scientist Jakub Pachocki. Endorsed by OpenAI and Anthropic as companies.",
+    by: "1,134 employees of frontier AI companies by 28 July (867 named, 267 anonymous): 533 from Anthropic, 330 from OpenAI, 191 from Google and 62 from Meta. They include Dario Amodei, Jared Kaplan and Jack Clark; OpenAI's chief scientist Jakub Pachocki and chief research officer Mark Chen; Meta's AI chief scientist Shengjia Zhao; Google DeepMind's chief strategy officer Jasjeet Sekhon and head of AI safety Anca Dragan; and John Schulman of Thinking Machines. Endorsed by OpenAI and Anthropic as companies.",
     summary:
       "Asks the US government to support an international effort to develop the technical and governance tools needed to deliberately pace frontier AI development, particularly AI that automates AI research. It does not call for a pause now or for restrictions on existing products.",
     quote: "Support an international effort to develop the technical and governance tools needed to deliberately pace the frontier of automated AI development.",

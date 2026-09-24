@@ -63,6 +63,9 @@
   const XAI_PRESIDENT = { label: "Startup Fortune", url: "https://startupfortune.com/xai-president-michael-nicolls-admits-the-company-is-clearly-behind-claude/" };
   const FLI_INDEX = { label: "FLI AI Safety Index, Summer 2026", url: "https://futureoflife.org/ai-safety-index-summer-2026/" };
   const MILITARY = "Previously barred military uses of its AI, but has reversed course and now seeks defence partnerships, according to the AI Safety Index.";
+  // The statement's signatory list and comments, as captured on 28 July 2026
+  const PACING_LIST = { label: "Pacing the Frontier signatories (28 Jul 2026)", url: "https://gist.github.com/akrolsmir/05b0fac81b0f43c9950493bdc0e5a95d" };
+  const signedWith = (comment) => `${PACING_SIGNED} Commented: '${comment}'`;
   const PACING_SIGNED = "Signed the Pacing the Frontier employee statement (28 July 2026), asking the US government to support an international effort to pace frontier AI development.";
 
   window.CC_POSITIONS = {
@@ -187,22 +190,26 @@
                     { name: "Jeffrey Bleich", role: "International special envoy; former General Counsel", source: ANTHROPIC_GC },
                   ] },
                 { name: "Paul Smith", role: "Chief Commercial Officer" },
-                { name: "Mike Krieger", role: "Co-lead, Labs", source: ANTHROPIC_LABS },
-                { name: "Ben Mann", role: "Co-lead, Labs; co-founder", source: ANTHROPIC_LABS },
+                { name: "Mike Krieger", role: "Co-lead, Labs", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                { name: "Ben Mann", role: "Co-lead, Labs; co-founder", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
               ] },
             { name: "Jared Kaplan", role: "Chief Science Officer, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING,
               children: [
-                { name: "Chris Olah", role: "Interpretability research, co-founder" },
-                { name: "Jan Leike", role: "Alignment science" },
+                { name: "Chris Olah", role: "Interpretability research lead, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                { name: "Jan Leike", role: "Alignment science", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
                 { name: "Sam McCandlish", role: "Research, co-founder" },
                 { name: "Tom Brown", role: "Research and compute, co-founder" },
-                { name: "Sam Bowman", role: "Alignment research" },
-                { name: "Evan Hubinger", role: "Alignment stress-testing" },
+                { name: "Sam Bowman", role: "Alignment research", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                { name: "Evan Hubinger", role: "Alignment stress-testing lead", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                { name: "Ethan Perez", role: "Alignment team lead", stance: "pace", source: PACING_LIST,
+                  note: signedWith("With the current rate of AI progress, safety teams at AI companies have to sprint to prevent new risks to society every few months. At some point, we're going to hit problems we need more time to solve.") },
+                { name: "Jack Lindsey", role: "Research lead, model psychology", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
               ] },
             { name: "Rahul Patil", role: "Chief Technology Officer", source: ANTHROPIC_CTO,
-              children: [{ name: "Jason Clinton", role: "Chief Information Security Officer" }] },
-            { name: "Ami Vora", role: "Chief Product Officer", source: ANTHROPIC_LABS },
-            { name: "Jack Clark", role: "Head of Policy, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING,
+              children: [{ name: "Jason Clinton", role: "Deputy Chief Information Security Officer", stance: "pace", note: PACING_SIGNED, source: PACING_LIST }] },
+            { name: "Ami Vora", role: "Chief Product Officer", source: ANTHROPIC_LABS,
+              children: [{ name: "Boris Cherny", role: "Head of Claude Code", stance: "pace", note: PACING_SIGNED, source: PACING_LIST }] },
+            { name: "Jack Clark", role: "Head of Public Benefit, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING,
               children: [{ name: "Logan Graham", role: "Head of the Frontier Red Team", source: ANTHROPIC_FRT }] },
           ],
         },
@@ -259,9 +266,12 @@
             { name: "Greg Brockman", role: "President, co-founder; leads product", source: OPENAI_EXITS,
               children: [{ name: "Nick Turley", role: "Vice President, Product (enterprise)", source: OPENAI_TURLEY }] },
             { name: "Jakub Pachocki", role: "Chief Scientist", stance: "pace", note: PACING_SIGNED, source: PACING },
-            { name: "Mark Chen", role: "Chief Research Officer" },
+            { name: "Mark Chen", role: "Chief Research Officer", stance: "pace", note: PACING_SIGNED, source: PACING_LIST,
+              children: [{ name: "Saachi Jain", role: "Head of Safety", stance: "pace", note: PACING_SIGNED, source: PACING_LIST }] },
             { name: "Sarah Friar", role: "Chief Financial Officer" },
-            { name: "Jason Kwon", role: "Chief Strategy Officer" },
+            { name: "Jason Kwon", role: "Chief Strategy Officer",
+              children: [{ name: "Dean W. Ball", role: "Head of Strategic Futures", stance: "pace", note: PACING_SIGNED, source: PACING_LIST }] },
+            { name: "Wojciech Zaremba", role: "Head of AI Resilience, OpenAI Foundation; co-founder", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
             { name: "Chris Lehane", role: "Chief Global Affairs Officer" },
             { name: "Dali Rajic", role: "Chief Revenue Officer", source: OPENAI_EXITS },
           ],
@@ -304,7 +314,13 @@
           children: [
             { name: "Koray Kavukcuoglu", role: "Senior Vice President, head of Google DeepMind", source: GDM_KORAY,
               children: [
-                { name: "Anca Dragan", role: "Head of AI Safety and Alignment" },
+                { name: "Anca Dragan", role: "Vice President, AI Safety and Alignment", stance: "pace", note: PACING_SIGNED, source: PACING_LIST,
+                  children: [
+                    { name: "Zachary Kenton", role: "Amplified oversight team lead", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                    { name: "Neel Nanda", role: "Staff research scientist, interpretability", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                    { name: "Victoria Krakovna", role: "Research scientist, AGI safety", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                  ] },
+                { name: "Jasjeet Sekhon", role: "Chief Strategy Officer, Google DeepMind", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
                 { name: "Josh Woodward", role: "Vice President, Google Labs and the Gemini app" },
                 { name: "Tulsee Doshi", role: "Head of Product, Gemini models" },
                 { name: "Logan Kilpatrick", role: "Product lead, Google AI Studio and the Gemini API" },
@@ -357,7 +373,12 @@
           children: [
             { name: "Alexandr Wang", role: "Chief AI Officer, Meta Superintelligence Labs", source: META_MSL,
               children: [
-                { name: "Shengjia Zhao", role: "Chief Scientist, Meta Superintelligence Labs" },
+                { name: "Shengjia Zhao", role: "Chief Scientist, Meta Superintelligence Labs", stance: "pace", source: PACING_LIST,
+                  note: signedWith("AI is progressing at a rate that our society might not be ready for. Frontier labs are very close to AI that can exceed even the best people on almost every metric of intelligence. This will lead to unprecedented social and safety risks.") },
+                { name: "Dawn Song", role: "Vice President, AI Research", stance: "pace", source: PACING_LIST,
+                  note: signedWith("Deliberate pacing is a heavy-handed and potentially extreme measure, and we may never need it. But if we do, it cannot be safely invented in the middle of a crisis.") },
+                { name: "Summer Yue", role: "Director of Alignment and Risk", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
+                { name: "Bo Li", role: "Director, AI Research", stance: "pace", note: PACING_SIGNED, source: PACING_LIST },
                 { name: "Nat Friedman", role: "Products and applied research, Meta Superintelligence Labs" },
                 { name: "Rob Fergus", role: "Head of FAIR (fundamental AI research)", source: META_MSL_TEAMS },
                 { name: "Aparna Ramani", role: "Infrastructure, Meta Superintelligence Labs", source: META_MSL_TEAMS },
