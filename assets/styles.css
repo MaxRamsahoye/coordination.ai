@@ -122,6 +122,11 @@ a { color: inherit; }
 .site-header a,
 .site-header button { pointer-events: auto; }
 
+/* Dividing lines, in the timeline's line style: below the header, above
+   and below the menu, above the footer. H ("hudless") hides them. */
+.site-header { border-bottom: 1px solid var(--line); }
+.hudless .site-header { border-bottom-color: transparent; }
+
 .header-inner {
   display: flex;
   justify-content: space-between;
@@ -130,27 +135,31 @@ a { color: inherit; }
   padding: 0 48px;
 }
 
-/* Theme, accent and font controls: in the hero's bottom-right corner,
-   hanging down level with the menu pills below it, so they scroll away
-   with the page. Laid out right to left: the toggle arrow sits at the
-   right, and the controls open out leftwards from it. */
+/* Theme, accent and font controls: in the hero's bottom-left corner,
+   hanging down level with the menu pills below it (on wide screens, where
+   there's room beside them), so they scroll away with the page. The toggle
+   arrow sits at the left, and the controls open out rightwards from it. */
 .page-controls {
   position: absolute;
-  right: 39px;   /* 48px to the icons themselves, less the buttons' 9px inset */
+  left: 39px;   /* 48px to the icons themselves, less the buttons' 9px inset */
   bottom: calc(-1 * (var(--menu-h) - var(--menu-gap)));
   z-index: 11;
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
   height: calc(var(--menu-h) - var(--menu-gap));
+}
+/* Narrower screens: the menu pills reach the left edge, so the controls sit
+   just above the menu instead */
+@media (max-width: 1280px) {
+  .page-controls { bottom: 0; height: 56px; }
 }
 
 .control-set { display: flex; gap: 6px; }
 
-/* A second after load (app.js) the controls tuck away into an arrowhead:
-   it appears pointing right, then turns to point left. Clicking it opens
-   the controls (arrow points right) or closes them again (arrow points
-   left). The arrow is U+1F891, the same glyph as the back-to-top button,
+/* Two seconds after the loading screen lifts (app.js) the controls tuck
+   away into an arrowhead: it appears pointing left, then turns to point
+   right. Clicking it opens the controls (arrow points left) or closes them
+   again (arrow points right). The arrow is U+1F891, the same glyph as the back-to-top button,
    rotated. States: initial → tucking → closed ⇄ open. */
 .controls-toggle,
 .control-set {
@@ -161,13 +170,13 @@ a { color: inherit; }
     margin 0.9s cubic-bezier(0.22, 1, 0.36, 1),
     visibility 0.9s;
 }
-.controls-toggle { max-width: 36px; margin-left: 6px; }
-.control-set { max-width: 132px; transform-origin: right center; }
+.controls-toggle { max-width: 36px; margin-right: 6px; }
+.control-set { max-width: 132px; transform-origin: left center; }
 
 /* Before the tuck, only the controls show */
 .page-controls[data-state="initial"] .controls-toggle {
   max-width: 0;
-  margin-left: 0;
+  margin-right: 0;
   opacity: 0;
   visibility: hidden;
 }
@@ -184,8 +193,8 @@ a { color: inherit; }
 
 .controls-toggle .arrow-glyph { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
 .page-controls[data-state="tucking"] .arrow-glyph,
-.page-controls[data-state="open"] .arrow-glyph { transform: rotate(90deg); }    /* right */
-.page-controls[data-state="closed"] .arrow-glyph { transform: rotate(-90deg); } /* left */
+.page-controls[data-state="open"] .arrow-glyph { transform: rotate(-90deg); }   /* left */
+.page-controls[data-state="closed"] .arrow-glyph { transform: rotate(90deg); }   /* right */
 
 @media (prefers-reduced-motion: reduce) {
   .controls-toggle, .control-set, .controls-toggle .arrow-glyph { transition: none; }
@@ -283,7 +292,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 16px;
-  width: min(640px, calc(100vw - 96px - 220px));   /* stays clear of the site title */
+  width: min(calc(100vw * 2 / 3 - 48px), calc(100vw - 96px - 220px));   /* two thirds of the screen, clear of the site title */
   height: var(--header-h);
   font-size: 14px;
 }
@@ -403,6 +412,23 @@ html:not(.loaded) body { overflow: hidden; }
   letter-spacing: -0.02em;
 }
 
+/* "AI Risk" fills with the accent colour from the bottom up, holds, then
+   drains, in a loop (app.js toggles .is-filled). The text is painted by a
+   two-tone background twice its height, slid down to fill. */
+.title-fill {
+  background: linear-gradient(to top, var(--accent) 50%, var(--ink) 50%);
+  background-size: 100% 200%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background-position 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.title-fill.is-filled { background-position: 0 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .title-fill { transition: none; }
+}
+
 /* The three sentences share one line, stacked in the same grid cell so the
    line is as tall as the longest; the current one rises into place and the
    previous one drifts up and out */
@@ -438,6 +464,18 @@ html:not(.loaded) body { overflow: hidden; }
   height: var(--menu-h);
   padding-bottom: var(--menu-gap);
 }
+/* Full-width lines above and below the pills' row */
+.menu::before, .menu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--line);
+  pointer-events: none;
+}
+.menu::before { top: 0; }
+.menu::after { bottom: var(--menu-gap); }
+.hudless .menu::before, .hudless .menu::after { display: none; }
 
 .menu-inner {
   display: flex;
@@ -454,7 +492,7 @@ html:not(.loaded) body { overflow: hidden; }
   display: block;
   padding: 9px 23px;
   border: 1px solid transparent;   /* outlined on hover and when current, like the filter pills */
-  border-radius: 999px;
+  border-radius: 10px;
   background: color-mix(in srgb, var(--accent) var(--tint), transparent);
   color: var(--ink-2);
   text-decoration: none;
@@ -758,11 +796,13 @@ html:not(.loaded) body { overflow: hidden; }
 /* ───────────── Footer */
 .site-footer {
   padding: 56px 24px 64px;
+  border-top: 1px solid var(--line);
   text-align: center;
 }
+.hudless .site-footer { border-top-color: transparent; }
 .site-footer p {
   margin: 0;
-  font-size: 15px;
+  font-size: 22px;
   color: var(--ink);
 }
 
@@ -1133,12 +1173,12 @@ html:not(.loaded) body { overflow: hidden; }
   .header-inner { padding: 0 16px; }
   /* The pills fill the menu row on phones, so the controls sit just above
      it instead */
-  .page-controls { right: 7px; bottom: 0; height: 48px; }
+  .page-controls { left: 7px; bottom: 0; height: 48px; }
   .news { left: 16px; width: calc(100vw - 32px - 124px); gap: 12px; font-size: 13px; }
   .news-label-long { display: none; }
   .news-label-short { display: inline; }
   .control-set { gap: 4px; }
-  .controls-toggle { margin-left: 4px; }
+  .controls-toggle { margin-right: 4px; }
   .icon-btn { width: 32px; height: 32px; }
   .site-title { font-size: 13px; }
   .page-title-fixed { font-size: 21px; }

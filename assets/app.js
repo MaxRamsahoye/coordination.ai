@@ -435,7 +435,7 @@
   document.getElementById("font-toggle").addEventListener("click", toggleFont);
   toTop.addEventListener("click", toTopNow);
 
-  // Shortcuts: T theme, C accent, F font, Backspace back to top
+  // Shortcuts: T theme, C accent, F font, H hudless, Backspace back to top
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
@@ -443,6 +443,7 @@
     if (e.key === "t" || e.key === "T") toggleTheme();
     else if (e.key === "c" || e.key === "C") toggleAccent();
     else if (e.key === "f" || e.key === "F") toggleFont();
+    else if (e.key === "h" || e.key === "H") root.classList.toggle("hudless");   // hide the dividing lines
     else if (e.key === "Backspace") {
       e.preventDefault();
       if (toTop.classList.contains("visible")) pressFeedback(toTop);
@@ -512,6 +513,20 @@
     else window.addEventListener("load", whenLoaded, { once: true });
     setTimeout(reveal, MAX);
   });
+
+  // ───────────── Hero title: "AI Risk" fills with the accent colour two
+  // seconds after the loading screen lifts, holds for 5s, drains, holds
+  // empty for 5s, and repeats (each fill or drain takes 1.2s)
+  function initTitleFill() {
+    const el = document.querySelector(".title-fill");
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    revealed.then(() =>
+      setTimeout(() => {
+        el.classList.add("is-filled");
+        setInterval(() => el.classList.toggle("is-filled"), 6200);
+      }, 2000)
+    );
+  }
 
   // ───────────── Hero subtitle: cycle through its sentences on one line
   function initHeroCycle() {
@@ -600,7 +615,7 @@
       setState("tucking");                       // arrow appears pointing left
       setTimeout(() => setState("closed"), 900); // …then turns to point right
     };
-    revealed.then(() => setTimeout(tuck, 1000));   // a second after the loading screen lifts
+    revealed.then(() => setTimeout(tuck, 2000));   // two seconds after the loading screen lifts
 
     toggle.addEventListener("click", () => {
       setState(wrap.dataset.state === "open" ? "closed" : "open");
@@ -637,6 +652,7 @@
   showPage();
   fitHeroArt();
   initHeroCycle();
+  initTitleFill();
   window.addEventListener("hashchange", showPage);
   window.addEventListener("popstate", showPage);   // back and forward after the ticker changes page
   window.addEventListener("scroll", onScroll, { passive: true });
