@@ -653,6 +653,20 @@
   fitHeroArt();
   initHeroCycle();
   initTitleFill();
+  // Menu: switch page, then glide down from the hero so the page starts
+  // just below the header
+  document.querySelectorAll(".menu a[data-page]").forEach((a) =>
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const page = a.dataset.page;
+      if (location.hash.slice(1) !== page) history.pushState(null, "", `#${page}`);
+      showPage();
+      const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
+      const section = document.getElementById(`page-${page}`);
+      window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - headerH, behavior: "smooth" });
+    })
+  );
+
   window.addEventListener("hashchange", showPage);
   window.addEventListener("popstate", showPage);   // back and forward after the ticker changes page
   window.addEventListener("scroll", onScroll, { passive: true });
