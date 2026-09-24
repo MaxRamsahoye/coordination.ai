@@ -247,7 +247,7 @@ a { color: inherit; }
    page heading (e.g. "Statements") has scrolled off the top (app.js) */
 .page-title-fixed {
   color: var(--ink);
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 500;
   opacity: 0;
   transform: translateY(-6px);
@@ -863,7 +863,7 @@ html:not(.loaded) body { overflow: hidden; }
   .controls-toggle { margin-left: 4px; }
   .icon-btn { width: 32px; height: 32px; }
   .site-title { font-size: 13px; }
-  .page-title-fixed { font-size: 17px; }
+  .page-title-fixed { font-size: 21px; }
   .filter-row { flex-direction: column; align-items: stretch; gap: 2px; }
   .filter-row + .filter-row { margin-top: 10px; }
   .filter-label { width: auto; padding: 0 2px; }
