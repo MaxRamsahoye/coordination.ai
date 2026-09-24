@@ -1,1 +1,1 @@
-https://maxramsahoye.github.io/coordinationconsole.ai/
+https://maxramsahoye.github.io/coordination.ai/

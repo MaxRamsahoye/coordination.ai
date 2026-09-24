@@ -1,4 +1,4 @@
-/* coordinationconsole.ai — page routing, the Statements and Incidents
+/* coordination.ai — page routing, the Statements and Incidents
    timelines, their contents sidebars and reading progress, theme/accent
    toggles and keyboard shortcuts. */
 (function () {
