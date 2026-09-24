@@ -433,11 +433,12 @@
       .map((i) => `<li><a href="#incidents" data-incident="${esc(i.id)}"><span class="cb-date">${esc(fmtDate(i.date))}</span>${esc(i.headline || i.title)}</a></li>`)
       .join("");
     return `
-      <div class="org-company org-behaviour">
+      <div class="org-company org-behaviour" data-s="${lab.stance}">
         <p class="org-company-label">Company behaviour</p>
+        <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${incidents.length} incident${incidents.length === 1 ? "" : "s"} on record</p>
         ${notes ? `<ul class="cb-notes">${notes}</ul>` : ""}
         <p class="pd-note">${incidents.length
-          ? `${incidents.length} incident${incidents.length === 1 ? " on this site involves" : "s on this site involve"} ${esc(lab.name)} models (${esc(breakdown)}). ${incidents.length === 1 ? "It is:" : "The latest:"}`
+          ? `Involving ${esc(lab.name)} models on this site: ${esc(breakdown)}. ${incidents.length === 1 ? "It is:" : "The latest:"}`
           : `No incidents on this site involve ${esc(lab.name)} models.`}</p>
         ${latest ? `<ul class="cb-incidents">${latest}</ul>` : ""}
       </div>`;
@@ -449,9 +450,9 @@
     const e = lab.evaluation;
     if (!e) return "";
     return `
-      <div class="org-company org-evaluation">
+      <div class="org-company org-evaluation" data-s="${lab.stance}">
         <p class="org-company-label">Company evaluation</p>
-        <p class="ce-verdict">${esc(e.verdict)}</p>
+        <p class="pd-stance ce-verdict" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(e.verdict)}</p>
         <p class="pd-note">${esc(e.summary)}</p>
         <p class="ce-basis">Our assessment, comparing the company's position with its behaviour above.</p>
       </div>`;

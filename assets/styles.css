@@ -1092,8 +1092,8 @@ html:not(.loaded) body { overflow: hidden; }
   border-left: 3px solid var(--st);
 }
 .org-company p { margin: 0; }
-/* Behaviour and evaluation follow the position, with a neutral rule */
-.org-behaviour, .org-evaluation { border-left: 3px solid var(--line); }
+/* Behaviour and evaluation are coloured like the position: a rule and
+   dots in the company's stance colour */
 .cb-notes, .cb-incidents { margin: 8px 0 0; padding: 0; list-style: none; }
 .cb-notes li { font-size: 18px; line-height: 1.55; }
 .cb-notes li + li { margin-top: 6px; }
@@ -1104,6 +1104,8 @@ html:not(.loaded) body { overflow: hidden; }
 .cb-incidents a:hover { color: var(--accent); }
 .cb-date { color: var(--ink-2); font-family: var(--font-ui); font-size: 14px; white-space: nowrap; }
 .ce-verdict { margin: 8px 0 6px !important; font-size: 24px; font-weight: 500; line-height: 1.25; }
+.ce-verdict .pd-dot { width: 11px; height: 11px; margin-right: 10px; vertical-align: 0.12em; }
+.org-behaviour .pd-stance + .cb-notes { margin-top: 10px; }
 .ce-basis { margin-top: 10px !important; color: var(--ink-2); font-size: 14px; }
 /* Room around the chart: after the company sections, and before the key
    and detail card below */
