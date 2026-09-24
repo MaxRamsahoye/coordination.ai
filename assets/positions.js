@@ -564,57 +564,85 @@
     );
   }
 
+  // Headline figures across the top of an overview
+  const statStrip = (items) =>
+    `<ul class="ov-stats">${items.map(([n, label, st]) => `<li${st ? ` data-s="${st}"` : ""}><strong>${n}</strong><span>${st ? '<span class="pd-dot"></span>' : ""}${esc(label)}</span></li>`).join("")}</ul>`;
+
+  // Industry overview: a comparison table, one row per lab
   function renderIndustryOverview() {
     const people = (n) => [n, ...(n.children || []).flatMap(people)];
-    const labs = GROUPS.industry.bodies.filter(([k]) => k !== "overview");
-    const counts = {};
-    labs.forEach(([k]) => (counts[P.industry[k].stance] = (counts[P.industry[k].stance] || 0) + 1));
+    const labs = GROUPS.industry.bodies.filter(([k]) => k !== "overview").map(([k]) => [k, P.industry[k]]);
+    const count = (st) => labs.filter(([, l]) => l.stance === st).length;
+    const incidentsOf = labs.map(([, l]) => labIncidents(l).length);
+    const maxIncidents = Math.max(1, ...incidentsOf);
+    const anyLab = new Set(labs.map(([, l]) => l.org));
+    const totalIncidents = (window.CC_INCIDENTS || []).filter((i) => (i.orgs || []).some((o) => anyLab.has(o))).length;
     $("positions-view").classList.remove("is-chamber");
     $("positions-view").innerHTML = `
-      <p class="ov-summary">Of the ${labs.length} frontier labs tracked, ${counts.pace || 0} support pacing the frontier or binding rules${counts.oppose ? ` and ${counts.oppose} opposes a slowdown` : ""}${counts.ban ? `; ${counts.ban} support a ban or pause` : ""}.</p>
-      <ul class="ov-grid">${labs.map(([k]) => {
-        const lab = P.industry[k];
-        const all = people(lab.chart);
-        const recorded = all.filter((n) => n.stance).length;
-        const incidents = labIncidents(lab).length;
-        return `
-          <li><button type="button" class="ov-card" data-open="industry:${k}" data-s="${lab.stance}">
-            <span class="ov-name">${esc(lab.name)}</span>
-            ${stanceLine(lab.stance, stanceLabel(lab.stance))}
-            ${lab.evaluation ? stanceLine(lab.stance, lab.evaluation.verdict) : ""}
-            <span class="ov-facts">${incidents} incident${incidents === 1 ? "" : "s"} on record · ${recorded} of ${all.length} leader${all.length === 1 ? "" : "s"} with a recorded position</span>
-          </button></li>`;
-      }).join("")}</ul>`;
+      ${statStrip([
+        [labs.length, "frontier labs tracked"],
+        [count("pace") + count("ban"), "support pacing or binding rules", "pace"],
+        [count("oppose"), "oppose a slowdown", "oppose"],
+        [totalIncidents, "incidents involving their models"],
+      ])}
+      <div class="ov-table ov-industry" role="table" aria-label="Frontier labs compared">
+        <div class="ov-head" role="row">
+          <span role="columnheader">Company</span><span role="columnheader">Position</span><span role="columnheader">Evaluation</span><span role="columnheader">Incidents</span><span role="columnheader">Leaders</span>
+        </div>
+        ${labs.map(([k, lab], idx) => {
+          const all = people(lab.chart);
+          const n = incidentsOf[idx];
+          return `
+          <button type="button" class="ov-row" role="row" data-open="industry:${k}" data-s="${lab.stance}">
+            <span class="ov-cell ov-name" role="cell">${esc(lab.name)}</span>
+            <span class="ov-cell ov-pos" role="cell"><span class="pd-dot"></span><span>${esc(stanceLabel(lab.stance))}</span></span>
+            <span class="ov-cell ov-verdict" role="cell">${lab.evaluation ? esc(lab.evaluation.verdict) : "—"}</span>
+            <span class="ov-cell ov-bar" role="cell" title="${n} incident${n === 1 ? "" : "s"} on record"><span class="ov-bar-fill" style="width:${(n / maxIncidents) * 100}%"></span><span class="ov-num">${n}</span></span>
+            <span class="ov-cell ov-dots" role="cell" title="${all.filter((x) => x.stance).length} of ${all.length} with a recorded position">${all.map((x) => `<span class="ov-dot" data-s="${x.stance || "none"}"></span>`).join("")}</span>
+            <span class="ov-arrow" aria-hidden="true">→</span>
+          </button>`;
+        }).join("")}
+      </div>`;
     bindOverview();
-    $("positions-notes").innerHTML = `<p>Select a company to see its position, behaviour, evaluation and leadership.</p>`;
+    $("positions-notes").innerHTML = `<p>Incidents: those on this site involving each lab's models (the bar is scaled to the most). Leaders: a dot for each person in its leadership chart, coloured by recorded position. Select a company to see its chart.</p>`;
   }
 
+  // Governments overview: a table, one row per chamber
   function renderGovOverview() {
     $("positions-view").classList.remove("is-chamber");
     const total = { members: 0, ban: 0, pace: 0, oppose: 0 };
-    const cards = CHAMBERS.map(([group, key, country, name]) => {
+    const order = { ban: 0, pace: 1, oppose: 2 };
+    const rows = CHAMBERS.map(([group, key, country, name]) => {
       const list = members[key];
-      const c = { ban: 0, pace: 0, oppose: 0 };
-      list.forEach((m) => m.position && c[m.position.stance]++);
-      const recorded = c.ban + c.pace + c.oppose;
+      const recorded = list.filter((m) => m.position).sort((a, b) => order[a.position.stance] - order[b.position.stance]);
       total.members += list.length;
-      ["ban", "pace", "oppose"].forEach((s) => (total[s] += c[s]));
+      recorded.forEach((m) => total[m.position.stance]++);
       const featured = list.find((m) => m.id === (P.featured || {})[key]);
-      const lines = ["ban", "pace", "oppose"].filter((s) => c[s]).map((s) => stanceLine(s, `${c[s]} ${stanceVerb(s, c[s])}`)).join("");
+      const lead = recorded[0] ? recorded[0].position.stance : "none";
       return `
-        <li><button type="button" class="ov-card" data-open="${group}:${key}" data-s="${c.ban ? "ban" : c.pace ? "pace" : "none"}">
-          <span class="ov-country">${esc(country)}</span>
-          <span class="ov-name">${esc(name)}</span>
-          ${lines || stanceLine("none", "No recorded positions yet")}
-          <span class="ov-facts">${recorded} of ${list.length.toLocaleString()} members with a recorded position${featured ? ` · leading advocate: ${esc(featured.name)}` : ""}</span>
-        </button></li>`;
+        <button type="button" class="ov-row" role="row" data-open="${group}:${key}" data-s="${lead}">
+          <span class="ov-cell ov-name" role="cell"><span class="ov-country">${esc(country)}</span>${esc(name)}</span>
+          <span class="ov-cell ov-dots" role="cell">${recorded.map((m) => `<span class="ov-dot" data-s="${m.position.stance}" title="${esc(m.name)}"></span>`).join("") || '<span class="ov-muted">None yet</span>'}</span>
+          <span class="ov-cell" role="cell"><span class="ov-num">${recorded.length}</span><span class="ov-muted">&nbsp;of ${list.length.toLocaleString()}</span></span>
+          <span class="ov-cell" role="cell">${featured ? esc(featured.name) : '<span class="ov-muted">—</span>'}</span>
+          <span class="ov-arrow" aria-hidden="true">→</span>
+        </button>`;
     }).join("");
-    const recorded = total.ban + total.pace + total.oppose;
     $("positions-view").innerHTML = `
-      <p class="ov-summary">Across ${total.members.toLocaleString()} legislators in four chambers, ${recorded} have a recorded position: ${total.ban} support a ban or pause and ${total.pace} support pacing or binding rules${total.oppose ? `, while ${total.oppose} oppose a slowdown` : ""}.</p>
-      <ul class="ov-grid">${cards}</ul>`;
+      ${statStrip([
+        [total.members.toLocaleString(), "legislators in four chambers"],
+        [total.ban + total.pace + total.oppose, "with a recorded position"],
+        [total.ban, "support a ban or pause", "ban"],
+        [total.pace, "support pacing or binding rules", "pace"],
+      ])}
+      <div class="ov-table ov-gov" role="table" aria-label="Chambers compared">
+        <div class="ov-head" role="row">
+          <span role="columnheader">Chamber</span><span role="columnheader">Recorded positions</span><span role="columnheader">Members</span><span role="columnheader">Leading advocate</span>
+        </div>
+        ${rows}
+      </div>`;
     bindOverview();
-    $("positions-notes").innerHTML = `<p>Select a chamber to see every member's seat. “No recorded position” means none has been found yet, not that a member has none.</p>`;
+    $("positions-notes").innerHTML = `<p>A dot for each member with a recorded position, coloured by stance. “No recorded position” means none has been found yet, not that a member has none. Select a chamber to see every member's seat.</p>`;
   }
 
   function init() {
