@@ -1283,13 +1283,13 @@ html:not(.loaded) body { overflow: hidden; }
 .ov-gov .ov-head, .ov-gov .ov-row { grid-template-columns: 1.5fr 1.5fr 1.2fr 20px; }
 /* The figures and tables may be wider than the text column (up to
    1160px, centred) */
-.ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar {
+.ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head {
   --wide: min(1160px, calc(100vw - 96px));
   width: var(--wide);
   margin-left: calc((100% - var(--wide)) / 2);
 }
 @media (max-width: 1100px) {
-  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar { --wide: calc(100vw - 32px); }
+  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head { --wide: calc(100vw - 32px); }
 }
 /* A proportion bar: a track for the total, filled for the share */
 .ov-share { display: inline-flex; align-items: center; gap: 10px; width: 100%; }
@@ -1343,12 +1343,22 @@ html:not(.loaded) body { overflow: hidden; }
 .ov-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--st); }
 .ov-arrow { color: var(--ink-2); font-size: 18px; transition: transform 0.25s ease, color 0.2s ease; }
 .ov-row:hover .ov-arrow { color: var(--accent); transform: translateX(4px); }
+/* Positions' heading and filter rows widen smoothly to the overview's
+   width, and narrow back to the text column on the other subpages */
+:where(.positions-main) > .page-head, :where(.positions-main) > .filter-bar {
+  width: 100%;
+  margin-left: 0;
+  transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1), margin-left 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(.positions-main) > .page-head, :where(.positions-main) > .filter-bar { transition: none; }
+}
 
 @media (max-width: 860px) {
   .ov-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ov-head { display: none; }
   .ov-industry .ov-row, .ov-gov .ov-row { grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 16px 12px 16px 18px; }
-  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar { width: auto; margin-left: 0; }
+  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head { width: auto; margin-left: 0; }
   .ov-name { grid-column: 1 / -1; }
   .ov-arrow { display: none; }
 }
