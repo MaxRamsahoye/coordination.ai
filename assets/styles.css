@@ -55,7 +55,7 @@
 :root[data-font="hybrid"] { --font-ui: var(--font-plex); }
 :root[data-font="plex"] { --font: var(--font-plex); }
 .news, .site-title, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
-.toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta, .footer-col {
+.toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta, .footer-col, .gl-area {
   font-family: var(--font-ui);
 }
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
@@ -582,7 +582,7 @@ html:not(.loaded) body { overflow: hidden; }
    sideways and the right edge fades until the end is reached */
 /* On wide screens there's room to the right of the text column, so the
    items run on past it rather than scrolling */
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .menu-inner {
     width: max-content;
     max-width: none;
@@ -1725,3 +1725,31 @@ html:not(.loaded) body { overflow: hidden; }
 /* An accent-coloured ring around the controls' arrow and the back-to-top
    arrow (drawn inside the button, so it doesn't change its size) */
 .controls-toggle, .to-top { box-shadow: inset 0 0 0 1.5px var(--accent); }
+
+/* ───────────── Glossary: terms A–Z, each letter heading beside its terms */
+.gl-group {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 0 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+.gl-group:last-child { border-bottom: 1px solid var(--line); }
+.gl-letter { margin: 0; color: var(--accent); font-size: 34px; font-weight: 500; line-height: 1; }
+.gl-terms { margin: 0; }
+.gl-item + .gl-item { margin-top: 24px; }
+.gl-term { font-size: 21px; font-weight: 500; line-height: 1.3; }
+.gl-area {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.gl-also { color: var(--ink-2); font-weight: 400; }
+.gl-def { margin: 6px 0 0; line-height: 1.55; }
+@media (max-width: 600px) {
+  .gl-group { grid-template-columns: 1fr; gap: 12px; }
+}

@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=3f4c2a8a">
+  <link rel="stylesheet" href="assets/styles.css?v=25a449fa">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -87,13 +87,14 @@
     <nav class="menu" aria-label="Sections">
       <div class="container menu-inner">
         <a href="#positions" data-page="positions" aria-keyshortcuts="1"><span class="menu-num" aria-hidden="true">01</span>Positions</a>
-        <a href="#statements" data-page="statements" aria-keyshortcuts="2"><span class="menu-num" aria-hidden="true">02</span>Statements</a>
-        <a href="#materials" data-page="materials" aria-keyshortcuts="3"><span class="menu-num" aria-hidden="true">03</span>Materials</a>
-        <a href="#incidents" data-page="incidents" aria-keyshortcuts="4"><span class="menu-num" aria-hidden="true">04</span>Incidents</a>
-        <a href="#race" data-page="race" aria-keyshortcuts="5"><span class="menu-num" aria-hidden="true">05</span>Race</a>
-        <a href="#organisations" data-page="organisations" aria-keyshortcuts="6"><span class="menu-num" aria-hidden="true">06</span>Organisations</a>
-        <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="7"><span class="menu-num" aria-hidden="true">07</span>Coordinate</a>
-        <a href="#contact" data-page="contact" aria-keyshortcuts="8"><span class="menu-num" aria-hidden="true">08</span>Contact</a>
+        <a href="#race" data-page="race" aria-keyshortcuts="2"><span class="menu-num" aria-hidden="true">02</span>Race</a>
+        <a href="#incidents" data-page="incidents" aria-keyshortcuts="3"><span class="menu-num" aria-hidden="true">03</span>Incidents</a>
+        <a href="#statements" data-page="statements" aria-keyshortcuts="4"><span class="menu-num" aria-hidden="true">04</span>Statements</a>
+        <a href="#materials" data-page="materials" aria-keyshortcuts="5"><span class="menu-num" aria-hidden="true">05</span>Materials</a>
+        <a href="#glossary" data-page="glossary" aria-keyshortcuts="6"><span class="menu-num" aria-hidden="true">06</span>Glossary</a>
+        <a href="#organisations" data-page="organisations" aria-keyshortcuts="7"><span class="menu-num" aria-hidden="true">07</span>Organisations</a>
+        <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="8"><span class="menu-num" aria-hidden="true">08</span>Coordinate</a>
+        <a href="#contact" data-page="contact" aria-keyshortcuts="9"><span class="menu-num" aria-hidden="true">09</span>Contact</a>
         <span class="menu-indicator" aria-hidden="true"></span>
       </div>
     </nav>
@@ -244,6 +245,25 @@
       </div>
     </section>
 
+    <!-- Glossary: terms used across the site, filtered by area (assets/glossary.js) -->
+    <section id="page-glossary" class="page" aria-labelledby="glossary-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="glossary-heading">Glossary</h2>
+            <p class="page-intro" id="glossary-intro"></p>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Filter terms by area">
+              <span class="filter-label" aria-hidden="true">Area</span>
+              <div class="filter-scroll" id="glossary-filters"></div>
+            </div>
+          </div>
+          <div class="glossary" id="glossary-list"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- Organisations: a directory, filtered by type (assets/directory.js) -->
     <section id="page-organisations" class="page" aria-labelledby="organisations-heading" hidden>
       <div class="page-layout">
@@ -371,10 +391,11 @@
         <p class="footer-head">Explore</p>
         <ul>
           <li><a href="#positions" data-goto="positions">Positions</a></li>
+          <li><a href="#race" data-goto="race">Race</a></li>
+          <li><a href="#incidents" data-goto="incidents">Incidents</a></li>
           <li><a href="#statements" data-goto="statements">Statements</a></li>
           <li><a href="#materials" data-goto="materials">Materials</a></li>
-          <li><a href="#incidents" data-goto="incidents">Incidents</a></li>
-          <li><a href="#race" data-goto="race">Race</a></li>
+          <li><a href="#glossary" data-goto="glossary">Glossary</a></li>
         </ul>
       </nav>
 
@@ -404,9 +425,11 @@
   <script src="data/materials.js?v=193de2e9"></script>
   <script src="data/statements.js?v=e7443cad"></script>
   <script src="data/organisations.js?v=b3d00148"></script>
+  <script src="data/glossary.js?v=fef93df7"></script>
+  <script src="assets/glossary.js?v=e7bb731a"></script>
   <script src="assets/directory.js?v=3de31054"></script>
   <script src="data/positions.js?v=e38db874"></script>
   <script src="assets/positions.js?v=837955a3"></script>
-  <script src="assets/app.js?v=9cc78ce1"></script>
+  <script src="assets/app.js?v=73d66ddb"></script>
 </body>
 </html>
