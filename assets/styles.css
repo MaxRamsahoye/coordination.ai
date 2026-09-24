@@ -1679,3 +1679,20 @@ html:not(.loaded) body { overflow: hidden; }
 /* A team with no reports of its own, stacked in one box */
 .org-stack { padding: 8px; }
 .org-stack .org-members { grid-template-columns: 172px; }
+
+/* Former staff who left over safety or risk concerns: an area of their own
+   below the chart, set apart by a dashed rule and box */
+.org-departed {
+  display: flex;
+  justify-content: center;
+  min-width: max-content;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px dashed var(--line);
+}
+.org-group-departed { border-style: dashed; }
+.org-group-departed .org-members { grid-template-columns: repeat(4, 172px); }
+@media (max-width: 1100px) {
+  .org-group-departed .org-members { grid-template-columns: repeat(2, 172px); }
+}
+.pd-left { color: var(--ink-2); }

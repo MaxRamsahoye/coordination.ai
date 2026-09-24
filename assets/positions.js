@@ -431,14 +431,25 @@
     $("positions-view").classList.remove("is-chamber");
     // The company's position, behaviour and evaluation live in its box at
     // the top of the chart (shown in the detail card when it's selected)
-    $("positions-view").innerHTML = `<div class="org-scroll"><ul class="org-tree">${tree}</ul></div>`;
+    // People who left over safety or risk concerns sit apart from the tree,
+    // in their own area below it
+    const departed = lab.departed && lab.departed.length
+      ? `<div class="org-departed">
+          <div class="org-group org-group-departed">
+            <p class="org-group-label">Left over safety or risk concerns <span class="filter-count">${lab.departed.length}</span></p>
+            <div class="org-members">${lab.departed.map((d) => member({ ...d, departed: true, where: `left ${d.left}` })).join("")}</div>
+          </div>
+        </div>`
+      : "";
+    $("positions-view").innerHTML = `<div class="org-scroll"><ul class="org-tree">${tree}</ul>${departed}</div>`;
     const show = (n) => {
       if (n.company) return showCompany();
       $("positions-detail").innerHTML = `
         <div class="pd-card">
           <p class="pd-name">${esc(n.name)}</p>
           <p class="pd-meta">${esc(n.role)}${n.where ? ` · ${esc(n.where)}` : `, ${esc(lab.name)}`}</p>
-          <p class="pd-stance" data-s="${n.stance || "none"}"><span class="pd-dot"></span>${esc(stanceLabel(n.stance))}</p>
+          ${n.departed && !n.stance ? `<p class="pd-stance pd-left">Left ${esc(lab.name)} over safety or risk concerns</p>`
+            : `<p class="pd-stance" data-s="${n.stance || "none"}"><span class="pd-dot"></span>${esc(stanceLabel(n.stance))}</p>`}
           ${n.note ? `<p class="pd-note">${esc(n.note)}</p>` : ""}
           ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(n.source.label)} ↗</a>` : ""}
         </div>`;
@@ -477,7 +488,7 @@
     });
     $("positions-view").querySelector(".org-tree").addEventListener("mouseleave", () => show(nodes[selected]));
     // Each person counts once, though some sit on the board and lead too
-    const people = uniquePeople(nodes.filter((n) => !n.company));
+    const people = uniquePeople(nodes.filter((n) => !n.company && !n.departed));
     const recorded = people.filter((n) => n.stance);
     $("positions-legend").innerHTML = ["ban", "pace", "oppose", "none"]
       .map((s) => [s, people.filter((n) => (n.stance || "none") === s).length])
@@ -655,9 +666,9 @@
       ])}
       ${statStrip([
         [executives.length, "leaders and board members tracked"],
-        [executives.filter((x) => x.stance).length, "with a recorded position"],
         [execCount("pace") + execCount("ban"), "with stated support for pacing or binding rules", "pace"],
         [execCount("oppose"), "with stated opposition to a slowdown", "oppose"],
+        [uniquePeople(labs.flatMap(([, l]) => l.departed || [])).length, "former staff who left over safety or risk concerns"],
       ])}
       <div class="ov-table ov-industry" role="table" aria-label="Frontier labs compared">
         <div class="ov-head" role="row">

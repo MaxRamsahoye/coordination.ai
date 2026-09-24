@@ -43,6 +43,14 @@
   const GDM_KOHLI = { label: "Google Research", url: "https://research.google/people/105667/" };
   const META_POWELL = { label: "Meta", url: "https://about.fb.com/news/2026/01/dina-powell-mccormick-joins-meta-as-president-and-vice-chairman/" };
   const META_MSL_TEAMS = { label: "Capital Brief", url: "https://www.capitalbrief.com/briefing/meta-splits-ai-division-into-four-new-groups-in-latest-restructuring-ff374e7d-1d63-4ec3-b458-8cda0b298bd0/" };
+  // People who left a lab over safety or risk concerns
+  const EXODUS = { label: "Aligned News", url: "https://alignednews.substack.com/p/the-openai-exodus-when-safety-researchers" };
+  const AMODEI_LEFT = { label: "Fortune", url: "https://www.fortune.com/2023/09/26/anthropic-ceo-interview-quit-open-ai-amazon-investment" };
+  const SHARMA_LEFT = { label: "The Hill", url: "https://thehill.com/policy/technology/5735767-anthropic-researcher-quits-ai-crises-ads/" };
+  const COXON_LEFT = { label: "TechCrunch", url: "https://techcrunch.com/2026/09/09/gambling-with-our-lives-anthropic-researcher-quits-warns-against-self-improving-ai/" };
+  const ADLER_LEFT = { label: "Newsweek", url: "https://www.newsweek.com/openai-researcher-quit-terrified-steven-adler-2022119" };
+  const HINTON_LEFT = { label: "CNN", url: "https://www.cnn.com/2023/05/01/tech/geoffrey-hinton-leaves-google-ai-fears/index.html" };
+  const BABUSCHKIN_LEFT = { label: "CNBC", url: "https://www.cnbc.com/2025/08/13/elon-musks-xai-loses-co-founder-igor-babuschkin-for-venture-firm.html" };
   const OPENAI_BOARD = { label: "OpenAI, Our structure", url: "https://openai.com/our-structure/" };
   const OPENAI_BOARD_NEW = { label: "OpenAI", url: "https://openai.com/index/david-velez-robin-vince-join-openai-boards/" };
   const OPENAI_EXITS = { label: "Axios", url: "https://www.axios.com/2026/08/14/openai-executive-greg-brockman-ipo" };
@@ -160,6 +168,12 @@
             { name: "Vas Narasimhan", role: "Director, appointed by the Trust" },
           ],
         },
+        departed: [
+          { name: "Mrinank Sharma", role: "Head of Safeguards Research", left: "February 2026",
+            note: "Resigned with a public letter warning that 'the world is in peril', from AI and a series of interconnected crises, and that he had 'repeatedly seen how hard it is to truly let our values govern our actions'.", source: SHARMA_LEFT },
+          { name: "Jacob Coxon", role: "Pretraining researcher (previously at OpenAI)", left: "September 2026",
+            note: "Resigned saying the labs are 'racing straight to self-improving superintelligence and gambling with our lives', giving up equity two months before it vested.", source: COXON_LEFT },
+        ],
         chart: {
           name: "Dario Amodei", role: "Chief Executive Officer, co-founder", stance: "pace",
           note: "Wrote 'We Must Pace the Frontier' (12 Sep 2026), arguing the industry should slow the rate at which capabilities increase, with a three-step plan; also signed the Pacing the Frontier statement.", source: PACE_ESSAY,
@@ -222,6 +236,22 @@
             { name: "Robin Vince", role: "Director", source: OPENAI_BOARD_NEW },
           ],
         },
+        departed: [
+          { name: "Dario Amodei", role: "Vice President of Research", left: "late 2020",
+            note: "Left with a group of colleagues, believing OpenAI wasn't doing enough on safety alongside scaling and unsure it would set aside its financial interests; co-founded Anthropic.", source: AMODEI_LEFT },
+          { name: "Daniela Amodei", role: "Vice President of Safety and Policy", left: "late 2020",
+            note: "Left with Dario Amodei and others over safety, vision and trust; co-founded Anthropic.", source: AMODEI_LEFT },
+          { name: "William Saunders", role: "Superalignment researcher", left: "February 2024",
+            note: "Left over OpenAI's risk culture; later signed the 'Right to Warn' letter from current and former lab employees.", source: EXODUS },
+          { name: "Daniel Kokotajlo", role: "Governance researcher", left: "April 2024",
+            note: "Left having lost trust that OpenAI's leadership would act responsibly around AGI, and refused to sign a non-disparagement agreement at the cost of most of his equity. Now leads the AI Futures Project.", source: EXODUS },
+          { name: "Jan Leike", role: "Co-lead, Superalignment", left: "May 2024",
+            note: "Resigned saying 'safety culture and processes have taken a backseat to shiny products'; joined Anthropic.", source: EXODUS },
+          { name: "Miles Brundage", role: "Head of AGI Readiness", left: "October 2024",
+            note: "Left to research and publish freely on AI risks and policy from outside the industry.", source: EXODUS },
+          { name: "Steven Adler", role: "Safety researcher", left: "November 2024",
+            note: "Said he was 'pretty terrified by the pace of AI development' and called the race to AGI 'a very risky gamble, with huge downside': 'no lab has a solution to AI alignment today'.", source: ADLER_LEFT },
+        ],
         chart: {
           name: "Sam Altman", role: "Chief Executive Officer, co-founder", stance: "pace",
           note: "Endorsed 'We Must Pace the Frontier': 'committing to having independent evaluators with employee-like access is a great idea, and we will do the same.'", source: RESPONSES,
@@ -265,6 +295,10 @@
             { name: "Robin L. Washington", role: "Director" },
           ],
         },
+        departed: [
+          { name: "Geoffrey Hinton", role: "Vice President and Engineering Fellow, Google", left: "May 2023",
+            note: "Quit Google so he could 'talk about AI safety issues without having to worry about how it interacts with Google's business', warning of the risks of the race between labs.", source: HINTON_LEFT },
+        ],
         chart: {
           name: "Sundar Pichai", role: "Chief Executive Officer, Google and Alphabet",
           children: [
@@ -365,6 +399,10 @@
             { name: "Roelof Botha", role: "Director" },
           ],
         },
+        departed: [
+          { name: "Igor Babuschkin", role: "Co-founder, engineering lead", left: "August 2025",
+            note: "Left to start Babuschkin Ventures to support AI safety research, after a conversation with Max Tegmark reinforced his commitment to AI being developed safely.", source: BABUSCHKIN_LEFT },
+        ],
         chart: {
           name: "Elon Musk", role: "Founder; Chief Executive Officer, SpaceX and xAI", stance: "pace",
           note: "Quote-posted 'We Must Pace the Frontier' with 'Dario is right.' Signed the 2023 Pause Giant AI Experiments letter.", source: RESPONSES,
