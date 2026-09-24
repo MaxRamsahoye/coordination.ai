@@ -413,10 +413,11 @@ html:not(.loaded) body { overflow: hidden; }
   :root:not([data-theme="light"]) :is(.hero-art, .loader) img { filter: invert(1); mix-blend-mode: screen; }
 }
 
+.hero { --title-size: clamp(44px, 7vw, 76px); }
 .hero h1 {
   margin: 0;
   font-weight: 600;
-  font-size: clamp(44px, 7vw, 76px);   /* one line in the text column on wider screens; wraps on phones */
+  font-size: var(--title-size);   /* one line in the text column on wider screens; wraps on phones */
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
@@ -456,9 +457,12 @@ html:not(.loaded) body { overflow: hidden; }
 
 .hero-description {
   margin: 20px 0 0;
+  /* The title's "C" starts about 0.06em in from the column edge (its side
+     bearing), so the subtitle is indented to line up with the letter itself */
+  padding-left: calc(var(--title-size) * 0.06);
   max-width: 36em;
   color: var(--ink-strong);
-  font-size: clamp(18px, 2.2vw, 22px);
+  font-size: clamp(20px, 2.6vw, 27px);
 }
 
 /* ───────────── Menu bar */
@@ -473,13 +477,13 @@ html:not(.loaded) body { overflow: hidden; }
   height: var(--menu-h);
   padding-bottom: var(--menu-gap);
 }
-/* A full-width line below the pills' row, set a little way below them */
+/* A full-width line below the menu, where the page begins */
 .menu::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(var(--menu-gap) / 2);
+  bottom: -1px;   /* just past the first screen, so it isn't seen in the hero */
   border-top: 1px solid var(--line);
   pointer-events: none;
 }
