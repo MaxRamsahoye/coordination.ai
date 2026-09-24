@@ -2125,3 +2125,5 @@ html:not(.loaded) body { overflow: hidden; }
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 .im-reset:hover, .im-reset:focus-visible { border-color: var(--accent); color: var(--accent); }
+/* A filter pill that would show nothing with the other row's choice */
+.filter-pill.is-empty:not([aria-pressed="true"]) { opacity: 0.45; }

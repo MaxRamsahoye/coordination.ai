@@ -157,8 +157,24 @@
     window.scrollTo({ top: window.scrollY + r.top - headerH - 24, behavior: "smooth" });
   }
 
+  // Each pill's count is how many incidents it would show alongside the
+  // other row's current choice; pills that would show none are dimmed
+  function updateCounts() {
+    const matches = (i, by, v) => v === "All" || (by === "orgs" ? i.orgs.includes(v) : i.category === v);
+    ["category", "orgs"].forEach((by) => {
+      const other = by === "orgs" ? "category" : "orgs";
+      const pool = items.filter((i) => matches(i, other, filter[other]));
+      document.querySelectorAll(`#incidents-filters-${by} .filter-pill`).forEach((p) => {
+        const n = pool.filter((i) => matches(i, by, p.dataset.value)).length;
+        p.querySelector(".filter-count").textContent = n;
+        p.classList.toggle("is-empty", n === 0);
+      });
+    });
+  }
+
   function render() {
     const shown = shownItems();
+    updateCounts();
     renderIntro();
     renderList();
     // No matches: an empty state in place of the matrix, and no legend or
