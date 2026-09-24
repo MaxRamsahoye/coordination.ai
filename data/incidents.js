@@ -7,6 +7,7 @@
  *   date     when it became public: "YYYY-MM-DD", or "YYYY-MM" when only the
  *            month is known (when it happened is given in the summary if different)
  *   title    short name
+ *   headline shorter line for the Latest developments ticker
  *   type     control | behaviour | cyber
  *              control   — loss of control: evading containment, oversight or shutdown
  *              behaviour — unintended behaviour: deception, manipulation, harmful outputs
@@ -33,6 +34,7 @@ window.CC_INCIDENTS = [
     orgs: ["Microsoft"],
     date: "2016-03-24",
     title: "Microsoft's Tay chatbot turns offensive within a day",
+    headline: "Microsoft's Tay chatbot turns offensive",
     type: "behaviour",
     by: "Tay, Microsoft",
     summary:
@@ -44,6 +46,7 @@ window.CC_INCIDENTS = [
     orgs: ["Microsoft", "OpenAI"],
     date: "2023-02-16",
     title: "Bing Chat ('Sydney') threatens and manipulates users",
+    headline: "Bing's Sydney threatens users",
     type: "behaviour",
     by: "Bing Chat, Microsoft (built on OpenAI's GPT-4)",
     summary:
@@ -55,6 +58,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2023-03-14",
     title: "GPT-4 lies to a human worker to get past a CAPTCHA",
+    headline: "GPT-4 lies to get past a CAPTCHA",
     type: "behaviour",
     by: "GPT-4, OpenAI (tested by ARC Evals)",
     summary:
@@ -67,6 +71,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2023-05-27",
     title: "Lawyers cite court cases invented by ChatGPT",
+    headline: "Lawyers cite cases invented by ChatGPT",
     type: "behaviour",
     by: "ChatGPT, OpenAI; used by lawyers in Mata v. Avianca",
     summary:
@@ -78,6 +83,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI", "Microsoft"],
     date: "2024-02-14",
     title: "State-backed hackers found using ChatGPT",
+    headline: "State hackers found using ChatGPT",
     type: "cyber",
     by: "Groups linked to Russia, China, Iran and North Korea; reported by Microsoft and OpenAI",
     summary:
@@ -89,6 +95,7 @@ window.CC_INCIDENTS = [
     orgs: ["Other"],
     date: "2024-02-14",
     title: "Air Canada held liable for its chatbot's invented refund policy",
+    headline: "Air Canada liable for chatbot's invented policy",
     type: "behaviour",
     by: "Air Canada's customer-service chatbot",
     summary:
@@ -100,6 +107,7 @@ window.CC_INCIDENTS = [
     orgs: ["Google DeepMind"],
     date: "2024-02-22",
     title: "Gemini's image generation paused over historical depictions",
+    headline: "Google pauses Gemini images of people",
     type: "behaviour",
     by: "Gemini, Google",
     summary:
@@ -111,6 +119,7 @@ window.CC_INCIDENTS = [
     orgs: ["Google DeepMind"],
     date: "2024-05-23",
     title: "Google's AI Overviews tell users to put glue on pizza",
+    headline: "Google AI suggests glue on pizza",
     type: "behaviour",
     by: "AI Overviews in Google Search (built on Gemini), Google",
     summary:
@@ -122,6 +131,7 @@ window.CC_INCIDENTS = [
     orgs: ["Other"],
     date: "2024-08",
     title: "'AI Scientist' rewrites its own code to extend its time limit",
+    headline: "AI Scientist extends its own time limit",
     type: "control",
     by: "The AI Scientist, Sakana AI",
     summary:
@@ -133,6 +143,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2024-09-12",
     title: "o1 breaks out of a broken test environment to finish a hacking task",
+    headline: "o1 escapes a broken test environment",
     type: "control",
     by: "o1, OpenAI",
     summary:
@@ -144,6 +155,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI", "Anthropic", "Google DeepMind", "Meta"],
     date: "2024-12-05",
     title: "Frontier models attempt to disable oversight and copy themselves",
+    headline: "Models try to evade oversight in tests",
     type: "control",
     by: "o1, Claude 3.5 Sonnet, Claude 3 Opus, Gemini 1.5 Pro and Llama 3.1 405B; tested by Apollo Research",
     summary:
@@ -155,6 +167,7 @@ window.CC_INCIDENTS = [
     orgs: ["Anthropic"],
     date: "2024-12-18",
     title: "Claude fakes alignment to avoid being retrained",
+    headline: "Claude fakes alignment to avoid retraining",
     type: "behaviour",
     by: "Claude 3 Opus, Anthropic (with Redwood Research)",
     summary:
@@ -167,6 +180,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI", "DeepSeek"],
     date: "2025-02",
     title: "Reasoning models hack a chess engine rather than lose",
+    headline: "AI models hack a chess engine to win",
     type: "behaviour",
     by: "o1-preview and DeepSeek R1; tested by Palisade Research",
     summary: "Asked to beat a strong chess engine, the models often edited the game's stored board state to force a win instead of playing.",
@@ -177,6 +191,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2025-04-29",
     title: "GPT-4o update rolled back for sycophancy",
+    headline: "OpenAI rolls back sycophantic GPT-4o",
     type: "behaviour",
     by: "GPT-4o, OpenAI",
     summary:
@@ -189,6 +204,7 @@ window.CC_INCIDENTS = [
     orgs: ["Anthropic", "OpenAI", "Google DeepMind", "xAI", "Meta", "DeepSeek"],
     date: "2025-05-22",
     title: "Claude Opus 4 resorts to blackmail in shutdown tests",
+    headline: "Claude resorts to blackmail in tests",
     type: "behaviour",
     by: "Claude Opus 4, Anthropic; later shown across models from several developers",
     summary:
@@ -201,6 +217,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2025-05-24",
     title: "o3 sabotages a shutdown mechanism",
+    headline: "o3 sabotages its shutdown script",
     type: "control",
     by: "o3, OpenAI; tested by Palisade Research",
     summary: "While solving maths problems, the model rewrote a script meant to shut it down so that it could keep working, in some runs even when told to allow shutdown.",
@@ -211,6 +228,7 @@ window.CC_INCIDENTS = [
     orgs: ["xAI"],
     date: "2025-07-08",
     title: "Grok posts antisemitic content and praises Hitler",
+    headline: "Grok posts antisemitic content",
     type: "behaviour",
     by: "Grok, xAI",
     summary: "After a system-prompt change, the chatbot posted antisemitic replies on X and called itself 'MechaHitler'; xAI removed the posts and changed the prompt.",
@@ -221,6 +239,7 @@ window.CC_INCIDENTS = [
     orgs: ["Other"],
     date: "2025-07",
     title: "Coding agent deletes a live production database",
+    headline: "Coding agent deletes production database",
     type: "control",
     by: "Replit's AI agent",
     summary:
@@ -232,6 +251,7 @@ window.CC_INCIDENTS = [
     orgs: ["Anthropic"],
     date: "2025-08-27",
     title: "Claude Code used to run a data-extortion campaign",
+    headline: "Claude Code used for data extortion",
     type: "cyber",
     by: "A criminal actor using Claude Code; reported by Anthropic",
     summary:
@@ -243,6 +263,7 @@ window.CC_INCIDENTS = [
     orgs: ["Anthropic"],
     date: "2025-11-13",
     title: "First reported AI-orchestrated cyber-espionage campaign",
+    headline: "First AI-run cyber-espionage campaign",
     type: "cyber",
     by: "A Chinese state-sponsored group using Claude Code; reported by Anthropic",
     summary:
@@ -254,6 +275,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2026-05-12",
     title: "RubyGems flooded with thousands of packages",
+    headline: "Agents flood RubyGems with packages",
     type: "cyber",
     by: "OpenAI agents during cyber evaluations (attributed in September 2026)",
     summary:
@@ -266,6 +288,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2026-07-21",
     title: "OpenAI agents breach Hugging Face",
+    headline: "OpenAI agents breach Hugging Face",
     type: "control",
     by: "OpenAI models, including an unreleased internal model, during cyber evaluations",
     summary:
@@ -278,6 +301,7 @@ window.CC_INCIDENTS = [
     orgs: ["Anthropic"],
     date: "2026-07-30",
     title: "Claude models break into three companies during security tests",
+    headline: "Claude models breach three companies",
     type: "cyber",
     by: "Claude Opus 4.7, Mythos 5 and an unnamed research model, Anthropic",
     summary:
@@ -290,6 +314,7 @@ window.CC_INCIDENTS = [
     orgs: ["Anthropic", "OpenAI"],
     date: "2026-08-04",
     title: "Agents under test attack real targets 19 times",
+    headline: "Tested agents attack real targets 19 times",
     type: "control",
     by: "Frontier models tested by the UK AI Security Institute, mostly Anthropic's Mythos 5",
     summary:
@@ -302,6 +327,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2026-09-04",
     title: "Agents use a public wiki as a secret message board",
+    headline: "Agents use a wiki as a secret message board",
     type: "control",
     by: "OpenAI agents during evaluations; documented by the Nightingale Collective",
     summary:
@@ -313,6 +339,7 @@ window.CC_INCIDENTS = [
     orgs: ["Anthropic"],
     date: "2026-09-10",
     title: "Claude keeps hacking after failing to abort a task",
+    headline: "Claude keeps hacking after failed abort",
     type: "cyber",
     by: "An early version of Claude Opus 4.6, Anthropic",
     summary:
@@ -325,6 +352,7 @@ window.CC_INCIDENTS = [
     orgs: ["OpenAI"],
     date: "2026-09-16",
     title: "OpenAI discloses six more cases of concerning behaviour",
+    headline: "OpenAI reveals six new model incidents",
     type: "behaviour",
     by: "Unreleased OpenAI models and GPT-5.6 Sol during training",
     summary:

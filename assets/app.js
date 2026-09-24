@@ -230,8 +230,8 @@
   );
 
   // ───────────── Latest developments: the newest entries across all the
-  // timelines, as a looping ticker, each shown by its news-style headline
-  // (or its title, for incidents, which already read that way). Each links to its entry, switching page
+  // timelines, as a looping ticker, each shown by its short news-style
+  // headline. Each links to its entry, switching page
   // and widening that page's filters if they would hide it.
   const NEWS_COUNT = 10;
   function renderNews() {
@@ -249,7 +249,7 @@
       .join("");
     // Two copies so the loop is seamless; the second is for looks only
     track.innerHTML = `<div class="news-set" style="display:flex">${html}</div><div class="news-set" style="display:flex" aria-hidden="true" inert>${html}</div>`;
-    track.style.setProperty("--news-dur", `${Math.max(30, track.scrollWidth / 2 / 45)}s`);   // about 45px a second
+    track.style.setProperty("--news-dur", `${Math.max(20, track.scrollWidth / 2 / 70)}s`);   // about 70px a second
 
     track.addEventListener("click", (e) => {
       const a = e.target.closest(".news-item");
@@ -439,7 +439,7 @@
   document.getElementById("font-toggle").addEventListener("click", toggleFont);
   toTop.addEventListener("click", toTopNow);
 
-  // Shortcuts: T theme, C accent, F font, H hudless, Backspace back to top
+  // Shortcuts: T theme, C accent, F font, H hudless, 1–7 pages, Backspace back to top
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
@@ -448,6 +448,10 @@
     else if (e.key === "c" || e.key === "C") toggleAccent();
     else if (e.key === "f" || e.key === "F") toggleFont();
     else if (e.key === "h" || e.key === "H") root.classList.toggle("hudless");   // hide the dividing lines
+    else if (/^[1-9]$/.test(e.key)) {   // 1–7: the menu's pages, in order
+      const item = document.querySelectorAll(".menu a[data-page]")[+e.key - 1];
+      if (item) item.click();
+    }
     else if (e.key === "Backspace") {
       e.preventDefault();
       if (toTop.classList.contains("visible")) pressFeedback(toTop);
@@ -672,7 +676,9 @@
     const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);   // ease in and out
     const t0 = performance.now();
     const stop = () => cancelAnimationFrame(glide);
-    ["wheel", "touchstart", "keydown"].forEach((ev) => window.addEventListener(ev, stop, { once: true, passive: true }));
+    // Listen for input only after the event that started the glide (a click
+    // or a number key) has finished, so it doesn't stop its own glide
+    setTimeout(() => ["wheel", "touchstart", "keydown"].forEach((ev) => window.addEventListener(ev, stop, { once: true, passive: true })));
     const step = (now) => {
       const t = Math.min(1, (now - t0) / duration);
       window.scrollTo({ top: start + dist * ease(t), behavior: "instant" });
