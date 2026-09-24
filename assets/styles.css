@@ -161,7 +161,7 @@ a { color: inherit; }
 .page-controls {
   position: absolute;
   left: 39px;   /* 48px to the icons themselves, less the buttons' 9px inset */
-  bottom: calc(-1 * (var(--menu-h) - var(--menu-gap)));
+  bottom: calc(-1 * (var(--menu-h) - var(--menu-gap)) + 22px);   /* raised a little, clear of the menu's line */
   z-index: 11;
   display: flex;
   align-items: center;
@@ -1195,8 +1195,56 @@ html:not(.loaded) body { overflow: hidden; }
   line-height: 1.2;
 }
 .step:first-child::before { top: 0; }
-.contact .step { padding-left: 0; }
-.contact .step::before { display: none; }
+/* ───────────── Contact form */
+.contact-form { display: grid; gap: 20px; max-width: 680px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cf-field { display: grid; gap: 8px; }
+.cf-label {
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.contact-form input, .contact-form select, .contact-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 17px;
+  transition: border-color 0.2s ease;
+}
+.contact-form select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(-45deg, transparent 50%, var(--ink-2) 50%); background-position: calc(100% - 20px) 55%, calc(100% - 15px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
+.contact-form select option { background: var(--bg); color: var(--ink); }
+.contact-form textarea { resize: vertical; min-height: 160px; line-height: 1.55; }
+.contact-form :is(input, select, textarea):hover { border-color: var(--ink-2); }
+.contact-form :is(input, select, textarea):focus { outline: none; border-color: var(--accent); }
+.contact-form .is-invalid { border-color: var(--accent); }
+.cf-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.cf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.cf-send {
+  padding: 12px 22px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--ink);
+  font: inherit;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.cf-send:hover { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+.cf-send:active { background: color-mix(in srgb, var(--accent) 50%, transparent); }
+.cf-send[disabled] { opacity: 0.6; cursor: progress; }
+.cf-status { margin: 0; color: var(--ink-2); font-size: 16px; }
+.cf-status.is-error { color: var(--accent); }
+@media (max-width: 640px) {
+  .cf-row { grid-template-columns: 1fr; }
+}
 .step h3 { margin: 0 0 8px; font-size: 24px; font-weight: 500; line-height: 1.2; }
 .step p { margin: 0; font-size: 18px; line-height: 1.6; }
 .step-links { display: flex; flex-wrap: wrap; gap: 4px 24px; margin: 4px 0 0; padding: 0; list-style: none; }

@@ -745,6 +745,48 @@
   document.fonts.ready.then(menuEdges);
   menuEdges();
 
+  // ───────────── Contact form: checks the fields, then posts them as JSON
+  // to the form's data-endpoint (e.g. Formspree). With no endpoint set yet,
+  // it says so rather than pretending to send.
+  const contactForm = document.getElementById("contact-form");
+  if (contactForm) {
+    const status = document.getElementById("contact-status");
+    const say = (text, error = false) => {
+      status.textContent = text;
+      status.classList.toggle("is-error", error);
+    };
+    contactForm.addEventListener("input", (e) => e.target.classList.remove("is-invalid"));
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fields = [...contactForm.querySelectorAll("[required]")];
+      fields.forEach((f) => f.classList.toggle("is-invalid", !f.checkValidity()));
+      const bad = fields.find((f) => !f.checkValidity());
+      if (bad) {
+        bad.focus();
+        return say(bad.type === "email" && bad.value ? "Please check the email address." : "Please fill in your name, email and message.", true);
+      }
+      const endpoint = contactForm.dataset.endpoint;
+      if (!endpoint) return say("Sorry, this form isn't connected yet, so messages can't be sent. Please try again soon.", true);
+      const button = contactForm.querySelector(".cf-send");
+      button.disabled = true;
+      say("Sending…");
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(contactForm))),
+        });
+        if (!res.ok) throw new Error(res.status);
+        contactForm.reset();
+        say("Thank you — your message has been sent.");
+      } catch {
+        say("Sorry, your message couldn't be sent. Please try again.", true);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+
   // In-page links to another page (data-goto) behave like the menu
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a[data-goto]");

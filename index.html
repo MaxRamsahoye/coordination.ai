@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=cb9994da">
+  <link rel="stylesheet" href="assets/styles.css?v=3785b296">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -295,17 +295,42 @@
         <div class="page-main single-main">
           <div class="page-head">
             <h2 id="contact-heading">Contact</h2>
-            <p class="page-intro">Corrections, sources and suggestions are welcome.</p>
+            <p class="page-intro">Corrections, sources and suggestions are welcome. If you're pointing to something new, please include a link to the source.</p>
           </div>
-          <div class="steps contact">
-            <div class="step">
-              <h3>Send a correction or a source</h3>
-              <p>Open an issue on the site's GitHub repository with what should change and a link to the source. Positions, statements and incidents are only added with a source.</p>
-              <ul class="step-links">
-                <li><a class="tl-source" href="https://github.com/MaxRamsahoye/coordination.ai/issues/new" target="_blank" rel="noopener noreferrer">Open an issue on GitHub ↗</a></li>
-              </ul>
+          <!-- Contact form. It posts to the URL in data-endpoint (for example a
+               Formspree form: https://formspree.io/f/…); while that's empty,
+               sending shows a note that the form isn't connected yet. -->
+          <form class="contact-form" id="contact-form" data-endpoint="" novalidate>
+            <div class="cf-row">
+              <label class="cf-field">
+                <span class="cf-label">Name</span>
+                <input type="text" name="name" autocomplete="name" required>
+              </label>
+              <label class="cf-field">
+                <span class="cf-label">Email</span>
+                <input type="email" name="email" autocomplete="email" required>
+              </label>
             </div>
-          </div>
+            <label class="cf-field">
+              <span class="cf-label">Topic</span>
+              <select name="topic">
+                <option>A correction</option>
+                <option>A missing source or entry</option>
+                <option>A suggestion</option>
+                <option>Something else</option>
+              </select>
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">Message</span>
+              <textarea name="message" rows="7" required></textarea>
+            </label>
+            <!-- Left empty by people; bots tend to fill it -->
+            <label class="cf-trap" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+            <div class="cf-actions">
+              <button type="submit" class="cf-send">Send message</button>
+              <p class="cf-status" id="contact-status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -360,6 +385,6 @@
   <script src="assets/directory.js?v=3de31054"></script>
   <script src="data/positions.js?v=9289d81d"></script>
   <script src="assets/positions.js?v=5f4b53a9"></script>
-  <script src="assets/app.js?v=e5637f39"></script>
+  <script src="assets/app.js?v=f93dc7b6"></script>
 </body>
 </html>
