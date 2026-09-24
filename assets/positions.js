@@ -9,8 +9,11 @@
   const P = window.CC_POSITIONS;
   if (!P) return;
 
+  // Groups and their bodies. Industry opens on an overview of every lab;
+  // Governments is an overview of every chamber (it has no body row).
   const GROUPS = {
-    industry: { label: "Industry", bodyLabel: "Lab", bodies: [["anthropic", "Anthropic"], ["openai", "OpenAI"], ["deepmind", "Google DeepMind"], ["meta", "Meta"], ["xai", "xAI"]] },
+    industry: { label: "Industry", bodyLabel: "Lab", bodies: [["overview", "Overview"], ["anthropic", "Anthropic"], ["openai", "OpenAI"], ["deepmind", "Google DeepMind"], ["meta", "Meta"], ["xai", "xAI"]] },
+    gov: { label: "Governments", bodyLabel: "", bodies: [["overview", "Overview"]] },
     uk: { label: "UK", bodyLabel: "Chamber", bodies: [["commons", "House of Commons"], ["lords", "House of Lords"]] },
     us: { label: "US", bodyLabel: "Chamber", bodies: [["senate", "Senate"], ["house", "House of Representatives"]] },
   };
@@ -41,7 +44,13 @@
   };
   const stanceLabel = (s) => P.stances[s || "none"];
 
-  const state = { group: "industry", body: "anthropic", mode: "position", selected: null, loaded: false };
+  const state = { group: "industry", body: "overview", mode: "position", selected: null, loaded: false };
+  const CHAMBERS = [
+    ["uk", "commons", "UK", "House of Commons"],
+    ["uk", "lords", "UK", "House of Lords"],
+    ["us", "senate", "US", "Senate"],
+    ["us", "house", "US", "House of Representatives"],
+  ];
   let members = null;   // { commons, lords, senate, house } once loaded
   let seats = [];       // the current chamber's members, in seat order
 
@@ -503,20 +512,105 @@
       state.selected = null;
       render();
     });
+    $("positions-bodies").closest(".filter-row").hidden = g.bodies.length < 2;
     // Heading for the chosen lab or chamber
     const bodyName = g.bodies.find(([k]) => k === state.body)[1];
-    $("positions-title").textContent = state.group === "industry" ? bodyName : `${g.label} Government: ${bodyName}`;
+    const overview = state.body === "overview";
+    $("positions-title").textContent =
+      state.group === "gov" ? "Governments: all chambers"
+      : state.group === "industry" ? (overview ? "Industry: all companies" : bodyName)
+      : `${g.label} Government: ${bodyName}`;
     const industry = state.group === "industry";
+    $("positions-tools").hidden = overview;
     $("positions-tools").querySelector(".positions-mode").hidden = industry;
     $("positions-search").placeholder = industry ? "Find a person" : "Find a member or seat";
+    if (overview) clearBelow();
+    if (industry && overview) return renderIndustryOverview();
     if (industry) return renderIndustry();
+    if (state.group === "gov" && members) return renderGovOverview();
     if (!members) {
       $("positions-view").innerHTML = `<p class="pd-hint">Loading members…</p>`;
       return loadMembers().then(render, (err) => {
         $("positions-view").innerHTML = `<p class="pd-hint">${esc(err.message)}</p>`;
       });
     }
+    if (state.group === "gov") return renderGovOverview();
     renderChamber();
+  }
+
+  // ───────────── Overviews: a card per lab or chamber; each opens it
+  function clearBelow() {
+    ["positions-legend", "positions-detail", "positions-list"].forEach((id) => ($(id).innerHTML = ""));
+  }
+  // "1 supports a ban or pause" / "2 support a ban or pause"
+  const STANCE_VERBS = { ban: ["supports", "support", "a ban or pause"], pace: ["supports", "support", "pacing or binding rules"], oppose: ["opposes", "oppose", "a slowdown or new rules"] };
+  const stanceVerb = (s, n) => `${STANCE_VERBS[s][n === 1 ? 0 : 1]} ${STANCE_VERBS[s][2]}`;
+  const stanceLine = (s, text) => `<p class="pd-stance" data-s="${s}"><span class="pd-dot"></span>${esc(text)}</p>`;
+  function bindOverview() {
+    $("positions-view").querySelectorAll("[data-open]").forEach((c) =>
+      c.addEventListener("click", () => {
+        const [group, body] = c.dataset.open.split(":");
+        state.group = group;
+        state.body = body;
+        state.selected = null;
+        render();
+        $("positions-title").scrollIntoView({ block: "start" });
+        window.scrollBy(0, -120);
+      })
+    );
+  }
+
+  function renderIndustryOverview() {
+    const people = (n) => [n, ...(n.children || []).flatMap(people)];
+    const labs = GROUPS.industry.bodies.filter(([k]) => k !== "overview");
+    const counts = {};
+    labs.forEach(([k]) => (counts[P.industry[k].stance] = (counts[P.industry[k].stance] || 0) + 1));
+    $("positions-view").classList.remove("is-chamber");
+    $("positions-view").innerHTML = `
+      <p class="ov-summary">Of the ${labs.length} frontier labs tracked, ${counts.pace || 0} support pacing the frontier or binding rules${counts.oppose ? ` and ${counts.oppose} opposes a slowdown` : ""}${counts.ban ? `; ${counts.ban} support a ban or pause` : ""}.</p>
+      <ul class="ov-grid">${labs.map(([k]) => {
+        const lab = P.industry[k];
+        const all = people(lab.chart);
+        const recorded = all.filter((n) => n.stance).length;
+        const incidents = labIncidents(lab).length;
+        return `
+          <li><button type="button" class="ov-card" data-open="industry:${k}" data-s="${lab.stance}">
+            <span class="ov-name">${esc(lab.name)}</span>
+            ${stanceLine(lab.stance, stanceLabel(lab.stance))}
+            ${lab.evaluation ? stanceLine(lab.stance, lab.evaluation.verdict) : ""}
+            <span class="ov-facts">${incidents} incident${incidents === 1 ? "" : "s"} on record · ${recorded} of ${all.length} leader${all.length === 1 ? "" : "s"} with a recorded position</span>
+          </button></li>`;
+      }).join("")}</ul>`;
+    bindOverview();
+    $("positions-notes").innerHTML = `<p>Select a company to see its position, behaviour, evaluation and leadership.</p>`;
+  }
+
+  function renderGovOverview() {
+    $("positions-view").classList.remove("is-chamber");
+    const total = { members: 0, ban: 0, pace: 0, oppose: 0 };
+    const cards = CHAMBERS.map(([group, key, country, name]) => {
+      const list = members[key];
+      const c = { ban: 0, pace: 0, oppose: 0 };
+      list.forEach((m) => m.position && c[m.position.stance]++);
+      const recorded = c.ban + c.pace + c.oppose;
+      total.members += list.length;
+      ["ban", "pace", "oppose"].forEach((s) => (total[s] += c[s]));
+      const featured = list.find((m) => m.id === (P.featured || {})[key]);
+      const lines = ["ban", "pace", "oppose"].filter((s) => c[s]).map((s) => stanceLine(s, `${c[s]} ${stanceVerb(s, c[s])}`)).join("");
+      return `
+        <li><button type="button" class="ov-card" data-open="${group}:${key}" data-s="${c.ban ? "ban" : c.pace ? "pace" : "none"}">
+          <span class="ov-country">${esc(country)}</span>
+          <span class="ov-name">${esc(name)}</span>
+          ${lines || stanceLine("none", "No recorded positions yet")}
+          <span class="ov-facts">${recorded} of ${list.length.toLocaleString()} members with a recorded position${featured ? ` · leading advocate: ${esc(featured.name)}` : ""}</span>
+        </button></li>`;
+    }).join("");
+    const recorded = total.ban + total.pace + total.oppose;
+    $("positions-view").innerHTML = `
+      <p class="ov-summary">Across ${total.members.toLocaleString()} legislators in four chambers, ${recorded} have a recorded position: ${total.ban} support a ban or pause and ${total.pace} support pacing or binding rules${total.oppose ? `, while ${total.oppose} oppose a slowdown` : ""}.</p>
+      <ul class="ov-grid">${cards}</ul>`;
+    bindOverview();
+    $("positions-notes").innerHTML = `<p>Select a chamber to see every member's seat. “No recorded position” means none has been found yet, not that a member has none.</p>`;
   }
 
   function init() {

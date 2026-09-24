@@ -1203,6 +1203,39 @@ html:not(.loaded) body { overflow: hidden; }
   .chamber { min-width: 640px; }
 }
 
+/* ───────────── Positions overviews: a card per lab or chamber */
+.ov-summary { margin: 0 0 28px; font-size: 20px; line-height: 1.5; }
+.ov-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ov-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--st);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.ov-card:hover { border-top-color: var(--ink-2); border-right-color: var(--ink-2); border-bottom-color: var(--ink-2); background: color-mix(in srgb, var(--ink) 3%, transparent); }
+.ov-card .pd-stance { margin: 0; font-size: 17px; }
+.ov-country { color: var(--ink-2); font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.ov-name { font-size: 24px; font-weight: 500; line-height: 1.2; margin-bottom: 4px; }
+.ov-facts { margin-top: auto; padding-top: 10px; color: var(--ink-2); font-size: 15px; line-height: 1.45; }
+
 /* ───────────── Organisations: a grid of cards */
 .org-grid {
   display: grid;
