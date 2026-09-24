@@ -2379,3 +2379,12 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* Milestones: the Order pills sit between the ribbon and the panels */
 .ms-sort-bar { margin: 0 0 32px; }
+
+/* Milestones: the title and intro span the timeline's width */
+#page-milestones .page-head {
+  --wide: min(1160px, calc(100vw - 96px));
+  width: var(--wide);
+  margin-left: calc((100% - var(--wide)) / 2);
+  padding: 0 16px;   /* in line with the timeline's track and its captions */
+}
+@media (max-width: 1100px) { #page-milestones .page-head { --wide: calc(100vw - 32px); } }

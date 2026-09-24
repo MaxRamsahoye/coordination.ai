@@ -120,7 +120,7 @@
 
   const intro = () => {
     document.getElementById("milestones-intro").textContent =
-      `${items.length} of the most significant moments in the story of AI risk, from the first warnings to the race and the push to slow it. ${order === "newest" ? "Newest" : "Oldest"} first.`;
+      `${items.length} of the most significant moments in the story of AI risk, from the first warnings to the race and the push to slow it.`;
   };
   document.querySelectorAll("#milestones-sort [data-order]").forEach((b) =>
     b.addEventListener("click", () => {
