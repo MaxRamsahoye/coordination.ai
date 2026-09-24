@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-font="hybrid">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=94083b97">
+  <link rel="stylesheet" href="assets/styles.css?v=27b35070">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -73,8 +73,8 @@
             <span class="accent-swatch" aria-hidden="true"></span>
             <span class="sr-only">Switch accent colour</span>
           </button>
-          <button type="button" class="icon-btn" id="font-toggle" aria-keyshortcuts="f" title="Switch font: ET Bembo / IBM Plex Sans (F)">
-            <span class="font-sample" aria-hidden="true">Aa</span>
+          <button type="button" class="icon-btn" id="font-toggle" aria-keyshortcuts="f" title="Switch font: hybrid / ET Bembo / IBM Plex Sans (F)">
+            <span class="font-sample" aria-hidden="true"><span class="fs-a">A</span><span class="fs-b">a</span></span>
             <span class="sr-only">Switch font</span>
           </button>
         </div>
@@ -83,13 +83,14 @@
 
     <nav class="menu" aria-label="Sections">
       <div class="container menu-inner">
-        <a href="#positions" data-page="positions">Positions</a>
-        <a href="#statements" data-page="statements">Statements</a>
-        <a href="#materials" data-page="materials">Materials</a>
-        <a href="#incidents" data-page="incidents">Incidents</a>
-        <a href="#organisations" data-page="organisations">Organisations</a>
-        <a href="#coordinate" data-page="coordinate">Coordinate</a>
-        <a href="#contact" data-page="contact">Contact</a>
+        <a href="#positions" data-page="positions"><span class="menu-num" aria-hidden="true">01</span>Positions</a>
+        <a href="#statements" data-page="statements"><span class="menu-num" aria-hidden="true">02</span>Statements</a>
+        <a href="#materials" data-page="materials"><span class="menu-num" aria-hidden="true">03</span>Materials</a>
+        <a href="#incidents" data-page="incidents"><span class="menu-num" aria-hidden="true">04</span>Incidents</a>
+        <a href="#organisations" data-page="organisations"><span class="menu-num" aria-hidden="true">05</span>Organisations</a>
+        <a href="#coordinate" data-page="coordinate"><span class="menu-num" aria-hidden="true">06</span>Coordinate</a>
+        <a href="#contact" data-page="contact"><span class="menu-num" aria-hidden="true">07</span>Contact</a>
+        <span class="menu-indicator" aria-hidden="true"></span>
       </div>
     </nav>
 
@@ -373,6 +374,6 @@
   <script src="assets/directory.js?v=3de31054"></script>
   <script src="data/positions.js?v=9289d81d"></script>
   <script src="assets/positions.js?v=5f4b53a9"></script>
-  <script src="assets/app.js?v=c19a5b80"></script>
+  <script src="assets/app.js?v=41c719b6"></script>
 </body>
 </html>

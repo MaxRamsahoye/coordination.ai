@@ -389,15 +389,18 @@
     link.href = `data:image/svg+xml,${encodeURIComponent(out)}`;
   }
 
-  // Font toggles ET Bembo (default) ⇄ IBM Plex Sans Arabic; not remembered
+  // Font cycles hybrid (the default: Bembo text, Plex details) → all ET
+  // Bembo → all IBM Plex Sans Arabic; not remembered
+  const FONTS = ["hybrid", "bembo", "plex"];
   function toggleFont() {
-    if (root.getAttribute("data-font") === "plex") root.removeAttribute("data-font");
-    else root.setAttribute("data-font", "plex");
+    const i = FONTS.indexOf(root.getAttribute("data-font"));
+    root.setAttribute("data-font", FONTS[(Math.max(0, i) + 1) % FONTS.length]);
     // Text heights change with the font, so re-measure what depends on them
     document.fonts.ready.then(() => {
       fitHeroArt();
       placeToc();
       onScroll();
+      placeMenuIndicator(false);
     });
   }
 
@@ -627,6 +630,7 @@
   const PAGES = ["statements", "materials", "incidents", "positions", "organisations", "coordinate", "contact"];
   const DEFAULT_PAGE = "statements";
 
+  let indicatorReady = false;   // the first placement doesn't animate
   function showPage() {
     const requested = location.hash.slice(1);
     const page = PAGES.includes(requested) ? requested : DEFAULT_PAGE;
@@ -639,6 +643,8 @@
     // The newly shown page has its own sidebar and length
     onScroll();
     placeToc();
+    placeMenuIndicator(indicatorReady);
+    indicatorReady = true;
     document.dispatchEvent(new CustomEvent("cc:pageshow", { detail: { page } }));
   }
 
@@ -654,6 +660,39 @@
   fitHeroArt();
   initHeroCycle();
   initTitleFill();
+  // A slow, eased scroll (about 1.4s, longer for longer distances), used by
+  // the menu; any wheel, touch or key input takes over at once
+  let glide = 0;
+  function glideTo(target) {
+    cancelAnimationFrame(glide);
+    const start = window.scrollY, dist = target - start;
+    if (!dist) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return window.scrollTo({ top: target, behavior: "instant" });
+    const duration = Math.min(2000, 1100 + Math.abs(dist) * 0.3);
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);   // ease in and out
+    const t0 = performance.now();
+    const stop = () => cancelAnimationFrame(glide);
+    ["wheel", "touchstart", "keydown"].forEach((ev) => window.addEventListener(ev, stop, { once: true, passive: true }));
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / duration);
+      window.scrollTo({ top: start + dist * ease(t), behavior: "instant" });
+      if (t < 1) glide = requestAnimationFrame(step);
+    };
+    glide = requestAnimationFrame(step);
+  }
+
+  // Menu indicator: the accent bar under the current page's item
+  function placeMenuIndicator(animate = true) {
+    const indicator = document.querySelector(".menu-indicator");
+    const a = document.querySelector(".menu a[aria-current='page']");
+    if (!indicator || !a) return;
+    indicator.classList.toggle("no-anim", !animate);
+    indicator.style.width = `${a.offsetWidth}px`;
+    indicator.style.transform = `translate(${a.offsetLeft}px, ${a.offsetTop + a.offsetHeight - 4}px)`;
+  }
+  window.addEventListener("resize", () => placeMenuIndicator(false));
+  document.fonts.ready.then(() => placeMenuIndicator(false));
+
   // Menu: switch page, then glide down from the hero until the dividing
   // line below the menu reaches the top of the screen
   const menuEl = document.querySelector(".menu");
@@ -664,7 +703,7 @@
       if (location.hash.slice(1) !== page) history.pushState(null, "", `#${page}`);
       showPage();
       const lineY = menuEl.getBoundingClientRect().bottom + window.scrollY;   // the line sits at the menu's bottom edge
-      window.scrollTo({ top: Math.round(lineY), behavior: "smooth" });
+      glideTo(Math.round(lineY));
     })
   );
 

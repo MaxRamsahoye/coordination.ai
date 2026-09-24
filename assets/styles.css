@@ -43,7 +43,17 @@
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
   --column: 880px;     /* central text column, including its 24px padding */
 }
+/* Font modes (F cycles them): hybrid (the default) sets the text in ET
+   Bembo and the interface details — ticker, site address, source links,
+   subtitle, filters, sidebar heading, dates — in IBM Plex Sans; bembo and
+   plex set everything in one font. --font-ui is the interface font. */
+:root { --font-ui: var(--font); }
+:root[data-font="hybrid"] { --font-ui: var(--font-plex); }
 :root[data-font="plex"] { --font: var(--font-plex); }
+.news, .site-title, .tl-source, .hero-description, .filter-bar, .positions-tools,
+.toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta {
+  font-family: var(--font-ui);
+}
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
 :root[data-accent="orange"] { --accent: #c2410c; }   /* ember orange */
 :root[data-accent="mono"] { --accent: #000000; }     /* black (white in dark mode) */
@@ -239,17 +249,13 @@ a { color: inherit; }
   background: var(--accent);
 }
 
-/* "Aa" set in the font you'd switch to */
-.font-sample {
-  font-family: var(--font-plex);
-  font-size: 14px;
-  line-height: 1;
-  font-weight: 400;
-}
-:root[data-font="plex"] .font-sample {
-  font-family: var(--font-bembo);
-  font-size: 17px;
-}
+/* "Aa" set in the mode you'd switch to: hybrid → Bembo → Plex → hybrid
+   (a Bembo "A" with a Plex "a") */
+.font-sample { line-height: 1; font-weight: 400; }
+.font-sample > span { font-family: var(--font-bembo); font-size: 17px; }
+:root[data-font="bembo"] .font-sample > span { font-family: var(--font-plex); font-size: 14px; }
+:root[data-font="plex"] .fs-a { font-family: var(--font-bembo); font-size: 17px; }
+:root[data-font="plex"] .fs-b { font-family: var(--font-plex); font-size: 14px; }
 
 .site-title {
   color: var(--ink);
@@ -492,7 +498,7 @@ html:not(.loaded) body { overflow: hidden; }
 .menu-inner {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   height: 100%;
   overflow-x: auto;
   scrollbar-width: none;
@@ -504,27 +510,63 @@ html:not(.loaded) body { overflow: hidden; }
   mask: linear-gradient(to right, #000 calc(100% - 40px), transparent);
 }
 
-/* Accent tint that deepens on hover and more on press; the current page's
-   pill starts a step deeper */
+/* Text tabs, each with a small accent index number. A single accent bar
+   (app.js positions it) sits under the current page and slides to a new
+   one; hovering draws a faint line under the item. */
+.menu-inner { position: relative; }
 .menu a {
-  --tint: 14%;
-  display: block;
-  padding: 8px 15px;
-  border: 1px solid transparent;   /* outlined on hover and when current, like the filter pills */
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--accent) var(--tint), transparent);
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 10px 0;
   color: var(--ink-2);
   text-decoration: none;
   font-size: 17px;
   line-height: 1.3;
   white-space: nowrap;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: color 0.25s ease;
 }
-.menu a[aria-current="page"] { --tint: 26%; color: var(--ink); font-weight: 500; border-color: var(--accent); }
-.menu a:hover { --tint: 30%; color: var(--ink); border-color: var(--ink-2); }
-.menu a[aria-current="page"]:hover { border-color: var(--accent); }
-.menu a[aria-current="page"]:hover { --tint: 38%; }
-.menu a:active { --tint: 55%; transition-duration: 0.05s; }
+.menu a::after {   /* hover line */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 1px;
+  background: var(--ink-2);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.menu a:hover { color: var(--ink); }
+.menu a:hover::after { transform: scaleX(1); }
+.menu a[aria-current="page"] { color: var(--ink); }
+.menu a[aria-current="page"]::after { display: none; }
+.menu a:active { color: var(--accent); }
+.menu-num {
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-top: 2px;
+  opacity: 0.75;
+  transition: opacity 0.25s ease;
+}
+.menu a:hover .menu-num, .menu a[aria-current="page"] .menu-num { opacity: 1; }
+.menu-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  pointer-events: none;
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1), width 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.menu-indicator.no-anim { transition: none; }
 
 /* Content scrolls freely across the top of the screen. Where the text
    column runs under the site title (narrower windows), the title gets a
@@ -1315,8 +1357,8 @@ kbd {
 @media (max-width: 640px) {
   :root { --header-h: 72px; --menu-h: 88px; }
   :root { --menu-gap: 16px; }
-  .menu .menu-inner { gap: 8px; }
-  .menu a { padding: 8px 15px; font-size: 17px; }
+  .menu .menu-inner { gap: 18px; }
+  .menu a { font-size: 17px; }
   .container { padding: 0 16px; }
   .page-main { padding: 0 16px; }
   .header-inner { padding: 0 16px; }
