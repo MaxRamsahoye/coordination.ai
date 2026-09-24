@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=e1b8d26b">
+  <link rel="stylesheet" href="assets/styles.css?v=c88b65bc">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -64,6 +64,11 @@
         <!-- Appears a second after load, when the controls tuck away; opens and closes them -->
         <button type="button" class="icon-btn controls-toggle" id="controls-toggle" aria-controls="control-set" aria-expanded="true" title="Show or hide theme and colour controls">
           <span class="arrow-glyph" aria-hidden="true">&#x1F891;</span>
+          <!-- At rest with the controls closed, the arrow gives way to a palette -->
+          <svg class="palette-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <circle cx="7.5" cy="11.5" r="1.4" fill="currentColor"/><circle cx="10" cy="7.5" r="1.4" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.4" fill="currentColor"/>
+          </svg>
           <span class="sr-only">Show or hide theme and colour controls</span>
         </button>
         <div class="control-set" id="control-set">

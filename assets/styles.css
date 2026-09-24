@@ -216,10 +216,16 @@ a { color: inherit; }
   pointer-events: none;
 }
 
-.controls-toggle .arrow-glyph { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
 .page-controls[data-state="tucking"] .arrow-glyph,
 .page-controls[data-state="open"] .arrow-glyph { transform: rotate(-90deg); }   /* left */
 .page-controls[data-state="closed"] .arrow-glyph { transform: rotate(90deg); }   /* right */
+/* Once closed and still, the arrow fades into a palette; opening again, the
+   palette goes at once and the arrow turns back */
+.controls-toggle .arrow-glyph, .controls-toggle .palette-icon { grid-area: 1 / 1; }
+.controls-toggle .arrow-glyph { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.15s ease; }
+.controls-toggle .palette-icon { opacity: 0; transform: scale(0.7); transition: opacity 0.15s ease, transform 0.15s ease; }
+.page-controls[data-state="closed"] .arrow-glyph { opacity: 0; transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease 0.9s; }
+.page-controls[data-state="closed"] .palette-icon { opacity: 1; transform: none; transition: opacity 0.3s ease 0.9s, transform 0.3s ease 0.9s; }
 /* Scrolling down, the closed controls' arrow fades away; it returns on the
    way back up */
 .scrolling-down .page-controls[data-state="closed"] .controls-toggle {
@@ -229,7 +235,7 @@ a { color: inherit; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .controls-toggle, .control-set, .controls-toggle .arrow-glyph { transition: none; }
+  .controls-toggle, .control-set, .controls-toggle .arrow-glyph, .controls-toggle .palette-icon { transition: none; }
 }
 
 .icon-btn {
@@ -1728,7 +1734,7 @@ html:not(.loaded) body { overflow: hidden; }
 /* Smaller arrows than the glyph's default: the controls' and, smaller
    still, the back-to-top button's */
 .controls-toggle .arrow-glyph.is-centred { width: 14px; height: 14px; }
-.to-top .arrow-glyph.is-centred { width: 11px; height: 11px; }
+.to-top .arrow-glyph.is-centred { width: 14px; height: 14px; }
 
 /* Positions: previous / next through a diagram's boxes or seats */
 .positions-step {
