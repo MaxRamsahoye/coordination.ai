@@ -229,6 +229,56 @@
     })
   );
 
+  // ───────────── Latest developments: the newest entries across all the
+  // timelines, as a looping ticker. Each links to its entry, switching page
+  // and widening that page's filters if they would hide it.
+  const NEWS_COUNT = 10;
+  function renderNews() {
+    const track = document.getElementById("news-track");
+    if (!track) return;
+    const latest = Object.entries(TIMELINES)
+      .flatMap(([key, t]) => t.items.map((item) => ({ key, item })))
+      .sort((a, b) => sortKey(b.item.date).localeCompare(sortKey(a.item.date)))
+      .slice(0, NEWS_COUNT);
+    const html = latest
+      .map(
+        ({ key, item }) =>
+          `<a class="news-item" href="#${key}" data-key="${key}" data-id="${esc(item.id)}"><span class="news-date">${esc(formatDate(item.date))}</span>${esc(item.title)}</a>`
+      )
+      .join("");
+    // Two copies so the loop is seamless; the second is for looks only
+    track.innerHTML = `<div class="news-set" style="display:flex">${html}</div><div class="news-set" style="display:flex" aria-hidden="true" inert>${html}</div>`;
+    track.style.setProperty("--news-dur", `${Math.max(30, track.scrollWidth / 2 / 45)}s`);   // about 45px a second
+
+    track.addEventListener("click", (e) => {
+      const a = e.target.closest(".news-item");
+      if (!a) return;
+      e.preventDefault();
+      openEntry(a.dataset.key, a.dataset.id);
+    });
+  }
+
+  function openEntry(key, id) {
+    const t = TIMELINES[key];
+    const item = t.items.find((s) => s.id === id);
+    if (!item) return;
+    if (location.hash.slice(1) !== key) history.pushState(null, "", `#${key}`);
+    showPage();
+    // Choose a filter pill that shows the entry, if the current one hides it
+    for (const f of t.filters || []) {
+      const values = fieldValues(item, f.by);
+      if (f.value === "All" || values.includes(f.value)) continue;
+      const want = f.all === false ? values[0] : "All";
+      const pill = document.querySelector(`#${key}-filters-${f.by} .filter-pill[data-value="${CSS.escape(want)}"]`);
+      if (pill) pill.click();
+    }
+    requestAnimationFrame(() => {
+      const { items, maxScroll } = tocStops();
+      const stop = items.find((it) => it.id === `${t.prefix}-${id}`);
+      if (stop) window.scrollTo({ top: Math.min(maxScroll, Math.max(0, Math.ceil(stop.landing))) });
+    });
+  }
+
   // ───────────── Scroll: reading progress, current contents entry, back-to-top
   const toTop = document.getElementById("to-top");
   const menu = document.querySelector(".menu");
@@ -579,6 +629,7 @@
     renderTimeline(key);
     renderFilters(key);
   });
+  renderNews();
   initCursor();
   centreArrowGlyphs();
   initControlsToggle();
@@ -586,6 +637,7 @@
   fitHeroArt();
   initHeroCycle();
   window.addEventListener("hashchange", showPage);
+  window.addEventListener("popstate", showPage);   // back and forward after the ticker changes page
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
     onScroll();

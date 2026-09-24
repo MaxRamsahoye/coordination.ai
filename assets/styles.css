@@ -271,6 +271,83 @@ a { color: inherit; }
 }
 .hero > .container { width: 100%; }   /* keep the shared left edge inside the flex column */
 
+/* ───────────── Latest developments ticker: the hero's top-left corner,
+   level with the site title, scrolling away with the page. The track holds
+   the items twice and slides by half its width, so it loops seamlessly;
+   app.js sets the duration from its length. Hovering or focusing pauses it. */
+.news {
+  position: absolute;
+  top: 0;
+  left: 48px;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(640px, calc(100vw - 96px - 220px));   /* stays clear of the site title */
+  height: var(--header-h);
+  font-size: 14px;
+}
+.news-label {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.news-label-short { display: none; }
+.news-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: news-pulse 2s ease-in-out infinite;
+}
+@keyframes news-pulse { 50% { opacity: 0.25; } }
+
+.news-window {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 48px), transparent);
+  mask: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 48px), transparent);
+}
+.news-track { display: flex; width: max-content; }
+.loaded .news-track { animation: news-scroll var(--news-dur, 90s) linear infinite; }
+.news:hover .news-track,
+.news:focus-within .news-track { animation-play-state: paused; }
+@keyframes news-scroll { to { transform: translateX(-50%); } }
+
+.news-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0 4px 24px;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.news-item::before {   /* a small separator before each item */
+  content: "";
+  align-self: center;
+  width: 3px;
+  height: 3px;
+  margin-right: 16px;
+  border-radius: 50%;
+  background: var(--ink-2);
+}
+.news-item:hover { color: var(--accent); }
+.news-date { color: var(--ink-2); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .news-dot, .loaded .news-track { animation: none; }
+  .news-window { overflow-x: auto; scrollbar-width: none; }
+}
+
 /* Title lockup: the artwork is capped at the title's longest line
    (set in app.js) and at its own native width */
 .hero-lockup { width: fit-content; max-width: 100%; }
@@ -859,6 +936,9 @@ html:not(.loaded) body { overflow: hidden; }
   /* The pills fill the menu row on phones, so the controls sit just above
      it instead */
   .page-controls { right: 7px; bottom: 0; height: 48px; }
+  .news { left: 16px; width: calc(100vw - 32px - 124px); gap: 12px; font-size: 13px; }
+  .news-label-long { display: none; }
+  .news-label-short { display: inline; }
   .control-set { gap: 4px; }
   .controls-toggle { margin-left: 4px; }
   .icon-btn { width: 32px; height: 32px; }

@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=975d5dfe">
+  <link rel="stylesheet" href="assets/styles.css?v=cdcec2b9">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -29,6 +29,15 @@
 
   <main>
     <section class="hero">
+      <!-- Latest developments: the newest entries across every timeline,
+           scrolling past in the hero's top-left corner (app.js) -->
+      <div class="news" role="region" aria-label="Latest developments">
+        <span class="news-label"><span class="news-dot" aria-hidden="true"></span><span class="news-label-long">Latest developments</span><span class="news-label-short" aria-hidden="true">Latest</span></span>
+        <div class="news-window">
+          <div class="news-track" id="news-track"></div>
+        </div>
+      </div>
+
       <div class="container">
         <div class="hero-lockup">
           <div class="hero-art" aria-hidden="true">
@@ -182,6 +191,6 @@
   <script src="data/incidents.js?v=a6b0b1cb"></script>
   <script src="data/materials.js?v=1008492a"></script>
   <script src="data/statements.js?v=38a35923"></script>
-  <script src="assets/app.js?v=c5eb3926"></script>
+  <script src="assets/app.js?v=3b6b5d48"></script>
 </body>
 </html>
