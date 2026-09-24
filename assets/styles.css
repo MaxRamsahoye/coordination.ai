@@ -681,6 +681,10 @@ html:not(.loaded) body { overflow: hidden; }
   min-height: 100svh;  /* auto-scroll always lands with its line at the top */
 }
 
+/* Contact ends with its form: no empty stretch before the footer (the
+   footer keeps the page tall enough for the menu's auto-scroll) */
+#page-contact { padding-bottom: 32px; min-height: 0; }
+
 .page-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, var(--column)) minmax(0, 1fr);
@@ -971,7 +975,7 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .footer-title { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.15; }
 .footer-title { white-space: nowrap; }   /* always on one line */
-.footer-tagline { margin: 12px 0 0; max-width: 30em; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+.footer-tagline { margin: 12px 0 0; max-width: 30em; color: var(--ink); font-size: 16px; line-height: 1.6; }
 
 .footer-stats {
   display: flex;
