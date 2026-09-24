@@ -1118,7 +1118,7 @@ html:not(.loaded) body { overflow: hidden; }
 /* Room below the chart, before the key and detail card */
 .org-scroll { margin-bottom: 64px; }
 /* The company's card holds its position, behaviour and evaluation */
-.pd-company .org-company { margin: 20px 0 0; }
+.pd-company .org-company { margin: 20px 0 0; padding-left: 0; border-left: 0; }   /* dots only, no rule */
 .pd-company .org-company + .org-company { margin-top: 24px; }
 .org-company-label { color: var(--ink-2); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
 /* The chart isn't limited by the text column: it can use the page's full
