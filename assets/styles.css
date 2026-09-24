@@ -36,6 +36,9 @@
   --line: #e5e5e5;
   --accent: #c8102e;   /* crimson (default) */
   --on-accent: #ffffff; /* text on an accent-coloured background */
+  /* Positions: "pacing" is a lighter tint of the accent, so it stays bright
+     beside the full accent ("ban") and the ink ("oppose") */
+  --st-pace: color-mix(in srgb, var(--accent) 80%, var(--bg));
   --font-bembo: "ET Bembo", Georgia, "Times New Roman", serif;
   --font-plex: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font: var(--font-bembo);   /* default; the F toggle switches to Plex */
@@ -57,7 +60,7 @@
 }
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
 :root[data-accent="orange"] { --accent: #c2410c; }   /* ember orange */
-:root[data-accent="mono"] { --accent: #000000; }     /* black (white in dark mode) */
+:root[data-accent="mono"] { --accent: #000000; --st-pace: #7a7a7a; }     /* black (white in dark mode); pacing in grey */
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -69,10 +72,11 @@
     --line: #2a2a2a;
     --accent: #eb3a55;
     --on-accent: #0f0f0f;
+    --st-pace: color-mix(in srgb, var(--accent) 55%, var(--ink));   /* paler in dark mode */
   }
   :root:not([data-theme="light"])[data-accent="blue"] { --accent: #7aa2ff; }
   :root:not([data-theme="light"])[data-accent="orange"] { --accent: #ff9159; }
-  :root:not([data-theme="light"])[data-accent="mono"] { --accent: #ffffff; }
+  :root:not([data-theme="light"])[data-accent="mono"] { --accent: #ffffff; --st-pace: #8a8a8a; }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
@@ -83,10 +87,11 @@
   --line: #2a2a2a;
   --accent: #eb3a55;
   --on-accent: #0f0f0f;
+  --st-pace: color-mix(in srgb, var(--accent) 55%, var(--ink));   /* paler in dark mode */
 }
 :root[data-theme="dark"][data-accent="blue"] { --accent: #7aa2ff; }
 :root[data-theme="dark"][data-accent="orange"] { --accent: #ff9159; }
-:root[data-theme="dark"][data-accent="mono"] { --accent: #ffffff; }
+:root[data-theme="dark"][data-accent="mono"] { --accent: #ffffff; --st-pace: #8a8a8a; }
 
 * { box-sizing: border-box; }
 
@@ -1016,7 +1021,7 @@ html:not(.loaded) body { overflow: hidden; }
 /* Stance colours, shared by seats, dots and swatches */
 [data-s] { --st: color-mix(in srgb, var(--ink) 20%, var(--bg)); }
 [data-s="ban"] { --st: var(--accent); }
-[data-s="pace"] { --st: color-mix(in srgb, var(--accent) 55%, var(--ink)); }   /* a paler (dark mode) or deeper (light mode) accent */
+[data-s="pace"] { --st: var(--st-pace); }
 [data-s="oppose"] { --st: var(--ink); }
 
 .positions-tools {
