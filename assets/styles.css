@@ -1785,7 +1785,7 @@ html:not(.loaded) body { overflow: hidden; }
 }
 
 /* ───────────── Race: a track with a lane per lab or state. Time runs left
-   to right from the start line to a chequered finish line at today; year
+   to right from the start line to today, where the track fades into the future; year
    lines cross the track like laps. Releases are round markers in the
    accent; states' moves are diamonds in the ink colour. */
 .race-scroll {
@@ -1800,7 +1800,7 @@ html:not(.loaded) body { overflow: hidden; }
   --name-w: 150px;
   width: calc(var(--name-w) + var(--track-w) + 160px);
   min-width: 100%;
-  padding-right: 160px;   /* room for the finish line's label */
+  padding-right: 160px;   /* room for today's label and the fading future */
 }
 .rt-axis, .rt-lane { display: grid; grid-template-columns: var(--name-w) minmax(0, 1fr); }
 .rt-lane-name {
@@ -1828,7 +1828,7 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .rt-year { transform: translateX(-50%); }
 .rt-start-label { left: 0; text-transform: uppercase; }
-.rt-finish-label { left: 100%; margin-left: 16px; color: var(--ink); text-transform: uppercase; }
+.rt-finish-label { left: 100%; margin-left: 10px; color: var(--accent); text-transform: uppercase; }
 
 /* Lanes, divided by lines like a running track */
 .rt-lanes { position: relative; border-bottom: 1px solid var(--line); }
@@ -1847,14 +1847,37 @@ html:not(.loaded) body { overflow: hidden; }
 .rt-grid { position: absolute; top: 0; bottom: 0; left: var(--name-w); right: 0; pointer-events: none; }
 .rt-lap { position: absolute; top: -30px; bottom: 0; border-left: 1px dashed var(--line); }
 .rt-start { position: absolute; top: -30px; bottom: 0; left: 0; border-left: 2px solid var(--ink); }
-.rt-finish {   /* chequered */
+/* Today, and the future beyond it: a thin line at "now", then a haze of
+   the accent over a field of dots that fades out to the right, as the
+   lanes run on into it and fade too */
+.rt-finish {
   position: absolute;
   top: -30px;
   bottom: 0;
   left: 100%;
-  width: 12px;
-  background: repeating-conic-gradient(var(--ink) 0 25%, var(--bg) 0 50%) 0 0 / 12px 12px;
+  width: 160px;
+  border-left: 1.5px solid var(--accent);
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--ink) 30%, transparent) 0.8px, transparent 1.3px) 6px 6px / 12px 12px,
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 22%, transparent), transparent 85%);
+  -webkit-mask: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 100%);
+  mask: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 100%);
 }
+.rt-lane, .rt-lanes { position: relative; }
+.rt-lane .rt-lane-track::after,   /* each lane's centre line, running on */
+.rt-lane::after,                  /* and the lines between lanes */
+.rt-lanes::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  width: 140px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(90deg, #000, transparent);
+  mask: linear-gradient(90deg, #000, transparent);
+}
+.rt-lane .rt-lane-track::after { top: 50%; border-top: 1px dashed color-mix(in srgb, var(--ink-2) 60%, transparent); }
+.rt-lane::after { top: -1px; border-top: 1px solid var(--line); }
+.rt-lanes::after { bottom: -1px; border-top: 1px solid var(--line); }
 
 .rt-mark {
   position: absolute;

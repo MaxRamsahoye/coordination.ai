@@ -1,6 +1,6 @@
 /* Race page: the race drawn as a track. Each lab and each state has a lane,
-   time runs left to right from the start line to a chequered finish line at
-   today, and each event is a marker in its lane, with year lines across the
+   time runs left to right from the start line to today, where the track
+   fades into the future, and each event is a marker in its lane, with year lines across the
    track like laps. Selecting a marker (or a row in the list below) shows its
    details. Filters show one category's lanes. */
 (function () {
@@ -136,7 +136,7 @@
     renderTrack();
     renderList();
     select(selected);
-    // Start at the finish line: the latest events
+    // Start at today: the latest events
     const scroller = document.querySelector(".race-scroll");
     scroller.scrollLeft = scroller.scrollWidth;
   }
