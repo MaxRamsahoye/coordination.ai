@@ -593,16 +593,6 @@
     range.selectNodeContents(heroTitle);
     const widest = Math.max(...[...range.getClientRects()].map((r) => r.width));
     if (widest > 0) heroArt.style.width = `${Math.round(widest)}px`;
-    levelControls();
-  }
-
-  // Keep the design controls level with the hero title's middle (used on
-  // wide screens, where they sit at the page's left edge)
-  function levelControls() {
-    const hero = heroTitle && heroTitle.closest(".hero");
-    if (!hero) return;
-    const t = heroTitle.getBoundingClientRect(), h = hero.getBoundingClientRect();
-    hero.style.setProperty("--ctl-top", `${Math.round(t.top - h.top + t.height / 2)}px`);
   }
 
   // ───────────── Arrowhead glyphs (back-to-top and the controls toggle): fonts
