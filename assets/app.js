@@ -684,7 +684,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Positions
-  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "positions", "organisations", "coordinate", "contact"];
+  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "positions", "actors", "coordinate", "contact"];
   const DEFAULT_PAGE = "positions";
 
   let indicatorReady = false;   // the first placement doesn't animate
@@ -816,7 +816,7 @@
       [TIMELINES.statements.items.length, "statements"],
       [TIMELINES.materials.items.length, "scenarios, essays and books"],
       [TIMELINES.incidents.items.length, "incidents"],
-      [(window.CC_ORGANISATIONS || []).length, "organisations"],
+      [((window.CC_ACTORS || {}).institutions || []).length, "institutions"],
     ].filter(([n]) => n);
     if (stats) stats.innerHTML = figures.map(([n, label]) => `<li><strong>${n}</strong><span>${label}</span></li>`).join("");
   }

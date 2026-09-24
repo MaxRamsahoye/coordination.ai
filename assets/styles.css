@@ -2181,3 +2181,27 @@ html:not(.loaded) body { overflow: hidden; }
 .pu-name.is-static { cursor: auto; padding: 6px 0; }
 .pu-name.is-static:hover { color: var(--ink); }
 .pu-area { display: block; color: var(--ink-2); font-family: var(--font-ui); font-size: 12px; }
+
+/* ───────────── Actors: cards (shared with the old directory) and, for
+   institutions, a world map with a pin per place */
+.org-card-role { margin: -2px 0 10px; color: var(--ink-2); font-size: 16px; line-height: 1.4; }
+.org-card-stance { margin: 12px 0 0; font-size: 15px; }
+.actors-map {
+  --wide: min(1160px, calc(100vw - 96px));
+  width: var(--wide);
+  margin: 8px 0 24px calc((100% - var(--wide)) / 2);
+}
+@media (max-width: 1100px) { .actors-map { --wide: calc(100vw - 32px); } }
+.actors-map svg { display: block; width: 100%; height: auto; overflow: visible; }
+.am-land { fill: color-mix(in srgb, var(--ink) 9%, var(--bg)); }
+.am-borders { fill: none; stroke: var(--bg); stroke-width: 0.6; stroke-linejoin: round; }
+.am-pin { cursor: pointer; outline: none; }
+.am-halo { fill: var(--accent); opacity: 0.18; transition: opacity 0.2s ease; }
+.am-dot { fill: var(--accent); stroke: var(--bg); stroke-width: 1.5; }
+.am-count { fill: var(--on-accent); font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-anchor: middle; pointer-events: none; }
+.am-pin:hover .am-halo, .am-pin:focus-visible .am-halo { opacity: 0.4; }
+.am-pin.is-active .am-halo { opacity: 0.5; }
+.am-pin.is-active .am-dot { stroke: var(--ink); }
+.actors-place { margin: 0 0 24px; font-size: 18px; }
+.actors-place p { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 0; }
+.actors-place .im-reset { margin: 0; }
