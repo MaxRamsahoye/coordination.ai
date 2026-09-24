@@ -549,7 +549,7 @@ html:not(.loaded) body { overflow: hidden; }
   display: inline-flex;
   align-items: flex-start;
   gap: 5px;
-  padding: 10px 0;
+  padding: 10px 0 18px;   /* room between the text and the line below */
   color: color-mix(in srgb, var(--ink) 82%, var(--bg));   /* a little dimmer than the current item */
   text-decoration: none;
   font-size: 17px;
