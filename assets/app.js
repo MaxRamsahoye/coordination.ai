@@ -319,7 +319,16 @@
     const fill = activeScope().querySelector(".progress-fill");
     if (fill) fill.style.height = `${(progress * 100).toFixed(1)}%`;
 
-    toTop.classList.toggle("visible", window.scrollY > 400);
+    // Full-width diagrams (the Race track, the Incidents matrix, a lab's
+    // chart) run under the screen's corners, so the site address and the
+    // back-to-top button step aside while one passes beneath them
+    const headerH0 = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) || 0;
+    const wide = [...activeScope().querySelectorAll(".race-scroll, .inc-scroll, .org-scroll")]
+      .map((d) => d.getBoundingClientRect()).filter((r) => r.height);
+    const tt = toTop.getBoundingClientRect();
+    const underTop = wide.some((r) => r.top < headerH0 && r.bottom > headerH0 / 2);
+    const underToTop = wide.some((r) => r.top < tt.bottom && r.bottom > tt.top);
+    toTop.classList.toggle("visible", window.scrollY > 400 && !underToTop);
 
     // Once scrolled to the menu bar, the contents sidebar and progress pill
     // appear (and, on narrower windows, the site title gets a backing)
@@ -341,7 +350,7 @@
     // (short windows hide the note, leaving the cycling line in its place)
     const descTop = (heroNote.offsetHeight ? heroNote : heroDescription).getBoundingClientRect().top + window.scrollY;
     const hideFrom = Math.max(1, descTop - (st.top + st.height / 2));
-    setAddress(y > 0 && y < lineAbs - 1 && (y > hideFrom || scrollDir === "down"));
+    setAddress((y > 0 && y < lineAbs - 1 && (y > hideFrom || scrollDir === "down")) || underTop);
 
     // Once the page heading has scrolled up behind the header, show the page's
     // title in the top-left corner
