@@ -161,7 +161,7 @@ a { color: inherit; }
 .page-controls {
   position: absolute;
   left: 39px;   /* 48px to the icons themselves, less the buttons' 9px inset */
-  bottom: calc(-1 * (var(--menu-h) - var(--menu-gap)) + 22px);   /* raised a little, clear of the menu's line */
+  bottom: calc(-1 * (var(--menu-h) - var(--menu-gap)) + 50px);   /* raised, well clear of the menu's line */
   z-index: 11;
   display: flex;
   align-items: center;
@@ -429,6 +429,14 @@ html:not(.loaded) body { overflow: hidden; }
   .hero { --hero-rest: 482px; }
   .hero-note { display: none; }
 }
+/* Mid widths: the design controls sit just above the menu, under the text
+   column's start, so the hero keeps room below its text for them */
+@media (min-width: 641px) and (max-width: 1280px) {
+  .hero { padding-bottom: 68px; --hero-rest: 634px; }
+}
+@media (min-width: 641px) and (max-width: 1280px) and (max-height: 760px) {
+  .hero { --hero-rest: 526px; }
+}
 .hero h1 {
   margin: 0;
   font-weight: 600;
@@ -487,7 +495,7 @@ html:not(.loaded) body { overflow: hidden; }
   padding-left: calc(var(--title-size) * 0.06);
   max-width: calc(var(--subtitle-size) * 28.2 + var(--title-size) * 0.06);
   color: var(--ink-strong);
-  font-size: clamp(18px, 2vw, 22px);
+  font-size: clamp(20px, 2.3vw, 25px);
   line-height: 1.5;
 }
 
