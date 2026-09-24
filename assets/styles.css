@@ -161,21 +161,29 @@ a { color: inherit; }
    hanging down level with the menu pills below it (on wide screens, where
    there's room beside them), so they scroll away with the page. The toggle
    arrow sits at the left, and the controls open out rightwards from it. */
+/* Wide screens: at the page's left edge (48px to the icons, less the
+   buttons' 9px inset), level with the hero title — app.js sets --ctl-top
+   to the title's middle */
 .page-controls {
   position: absolute;
-  /* In line with the hero title: the text column's left edge, less the
-     buttons' 9px inset */
-  left: calc(max(0px, (100% - var(--column)) / 2) + 24px - 9px);
-  bottom: calc(-1 * (var(--menu-h) - var(--menu-gap)) + 50px);   /* raised, well clear of the menu's line */
+  left: 39px;
+  top: calc(var(--ctl-top, 50%) - 28px);
   z-index: 11;
   display: flex;
   align-items: center;
-  height: calc(var(--menu-h) - var(--menu-gap));
+  height: 56px;
 }
 /* Narrower screens: the menu pills reach the left edge, so the controls sit
    just above the menu instead */
+/* Narrower screens: the title starts near the edge, so there's no room
+   beside it; the controls sit just above the menu instead, in line with
+   the text column's left edge */
 @media (max-width: 1280px) {
-  .page-controls { bottom: 0; height: 56px; }
+  .page-controls {
+    top: auto;
+    bottom: 0;
+    left: calc(max(0px, (100% - var(--column)) / 2) + 24px - 9px);
+  }
 }
 
 .control-set { display: flex; gap: 6px; }
