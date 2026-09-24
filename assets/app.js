@@ -695,6 +695,7 @@
   }
   window.addEventListener("resize", () => placeMenuIndicator(false));
   document.fonts.ready.then(() => placeMenuIndicator(false));
+  document.fonts.addEventListener("loadingdone", () => placeMenuIndicator(false));   // a late font changes the items' widths
 
   // Menu: switch page, then glide down from the hero until the menu's
   // dividing line reaches the top of the screen

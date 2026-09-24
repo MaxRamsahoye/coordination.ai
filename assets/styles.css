@@ -50,7 +50,7 @@
 :root { --font-ui: var(--font); }
 :root[data-font="hybrid"] { --font-ui: var(--font-plex); }
 :root[data-font="plex"] { --font: var(--font-plex); }
-.news, .site-title, .tl-source, .hero-description, .filter-bar, .positions-tools,
+.news, .site-title, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
 .toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta {
   font-family: var(--font-ui);
 }
@@ -419,7 +419,11 @@ html:not(.loaded) body { overflow: hidden; }
   :root:not([data-theme="light"]) :is(.hero-art, .loader) img { filter: invert(1); mix-blend-mode: screen; }
 }
 
-.hero { --title-size: clamp(44px, 7vw, 76px); --hero-rest: 590px; }
+.hero {
+  --title-size: clamp(44px, 7vw, 76px);
+  --subtitle-size: clamp(20px, 2.6vw, 27px);
+  --hero-rest: 590px;
+}
 /* Short windows: drop the description so the rest still fits */
 @media (max-height: 760px) {
   .hero { --hero-rest: 482px; }
@@ -473,15 +477,16 @@ html:not(.loaded) body { overflow: hidden; }
   padding-left: calc(var(--title-size) * 0.06);
   max-width: 36em;
   color: var(--ink-strong);
-  font-size: clamp(20px, 2.6vw, 27px);
+  font-size: var(--subtitle-size);
 }
 
-/* A short description under the subtitle, indented to match it */
+/* A short description under the subtitle, indented to match it and as
+   wide as its longest sentence (28.2em of the subtitle in Plex) */
 .hero-note {
   margin: 14px 0 0;
   padding-left: calc(var(--title-size) * 0.06);
-  max-width: 34em;
-  color: var(--ink-2);
+  max-width: calc(var(--subtitle-size) * 28.2 + var(--title-size) * 0.06);
+  color: var(--ink-strong);
   font-size: clamp(16px, 1.7vw, 19px);
   line-height: 1.55;
 }
