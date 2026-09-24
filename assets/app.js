@@ -623,7 +623,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Statements
-  const PAGES = ["statements", "materials", "incidents", "positions"];
+  const PAGES = ["statements", "materials", "incidents", "positions", "organisations", "coordinate", "contact"];
   const DEFAULT_PAGE = "statements";
 
   function showPage() {
@@ -666,6 +666,27 @@
       window.scrollTo({ top: Math.round(lineY), behavior: "smooth" });
     })
   );
+
+  // Menu overflow: mark when the pills scroll sideways, and when scrolled
+  // to the end, so the edge fade shows only while there's more
+  const menuInner = document.querySelector(".menu-inner");
+  function menuEdges() {
+    const over = menuInner.scrollWidth > menuInner.clientWidth + 1;
+    menuInner.classList.toggle("overflows", over);
+    menuInner.classList.toggle("at-end", menuInner.scrollLeft + menuInner.clientWidth >= menuInner.scrollWidth - 2);
+  }
+  menuInner.addEventListener("scroll", menuEdges, { passive: true });
+  window.addEventListener("resize", menuEdges);
+  document.fonts.ready.then(menuEdges);
+  menuEdges();
+
+  // In-page links to another page (data-goto) behave like the menu
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a[data-goto]");
+    if (!a) return;
+    e.preventDefault();
+    document.querySelector(`.menu a[data-page="${a.dataset.goto}"]`)?.click();
+  });
 
   window.addEventListener("hashchange", showPage);
   window.addEventListener("popstate", showPage);   // back and forward after the ticker changes page

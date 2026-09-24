@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=feb61b75">
+  <link rel="stylesheet" href="assets/styles.css?v=0bbab116">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -87,6 +87,9 @@
         <a href="#statements" data-page="statements">Statements</a>
         <a href="#materials" data-page="materials">Materials</a>
         <a href="#incidents" data-page="incidents">Incidents</a>
+        <a href="#organisations" data-page="organisations">Organisations</a>
+        <a href="#coordinate" data-page="coordinate">Coordinate</a>
+        <a href="#contact" data-page="contact">Contact</a>
       </div>
     </nav>
 
@@ -217,10 +220,97 @@
         </div>
       </div>
     </section>
+
+    <!-- Organisations: a directory, filtered by type (assets/directory.js) -->
+    <section id="page-organisations" class="page" aria-labelledby="organisations-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="organisations-heading">Organisations</h2>
+            <p class="page-intro" id="organisations-intro"></p>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Filter organisations by type">
+              <span class="filter-label" aria-hidden="true">Type</span>
+              <div class="filter-scroll" id="organisations-filters"></div>
+            </div>
+          </div>
+          <ul class="org-grid" id="organisations-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coordinate: ways to take part -->
+    <section id="page-coordinate" class="page" aria-labelledby="coordinate-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="coordinate-heading">Coordinate</h2>
+            <p class="page-intro">A coordinated slowdown needs people across government, industry and the public to act together. Here is where to start.</p>
+          </div>
+          <ol class="steps">
+            <li class="step">
+              <h3>Tell your representatives</h3>
+              <p>Legislators are weighing bills on superintelligence and catastrophic risk now. A short, personal message about where you stand carries weight, especially if you ask for a specific action.</p>
+              <ul class="step-links">
+                <li><a class="tl-source" href="https://www.writetothem.com/" target="_blank" rel="noopener noreferrer">UK: write to your MP or a peer ↗</a></li>
+                <li><a class="tl-source" href="https://www.congress.gov/members/find-your-member" target="_blank" rel="noopener noreferrer">US: find your senators and representative ↗</a></li>
+              </ul>
+            </li>
+            <li class="step">
+              <h3>Add your name</h3>
+              <p>Public statements show decision-makers how broad support for coordination is.</p>
+              <ul class="step-links">
+                <li><a class="tl-source" href="https://superintelligence-statement.org/" target="_blank" rel="noopener noreferrer">Statement on Superintelligence ↗</a></li>
+                <li><a class="tl-source" href="https://red-lines.ai/" target="_blank" rel="noopener noreferrer">Global Call for AI Red Lines ↗</a></li>
+                <li><a class="tl-source" href="https://www.pacingthefrontier.com/" target="_blank" rel="noopener noreferrer">Pacing the Frontier (for employees of frontier AI companies) ↗</a></li>
+              </ul>
+            </li>
+            <li class="step">
+              <h3>Join a campaign</h3>
+              <p>Campaign groups organise briefings, letters and events, and can put you in touch with others near you.</p>
+              <ul class="step-links">
+                <li><a class="tl-source" href="https://controlai.com/" target="_blank" rel="noopener noreferrer">ControlAI ↗</a></li>
+                <li><a class="tl-source" href="https://pauseai.info/" target="_blank" rel="noopener noreferrer">PauseAI ↗</a></li>
+                <li><a class="tl-source" href="https://futureoflife.org/" target="_blank" rel="noopener noreferrer">Future of Life Institute ↗</a></li>
+              </ul>
+            </li>
+            <li class="step">
+              <h3>Improve this record</h3>
+              <p>Every position, statement and incident here needs a source. If you know of one that's missing, or something that's out of date, send it in.</p>
+              <ul class="step-links">
+                <li><a class="tl-source" href="#contact" data-goto="contact">Contact ↗</a></li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="page-contact" class="page" aria-labelledby="contact-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="contact-heading">Contact</h2>
+            <p class="page-intro">Corrections, sources and suggestions are welcome.</p>
+          </div>
+          <div class="steps contact">
+            <div class="step">
+              <h3>Send a correction or a source</h3>
+              <p>Open an issue on the site's GitHub repository with what should change and a link to the source. Positions, statements and incidents are only added with a source.</p>
+              <ul class="step-links">
+                <li><a class="tl-source" href="https://github.com/MaxRamsahoye/coordination.ai/issues/new" target="_blank" rel="noopener noreferrer">Open an issue on GitHub ↗</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <p>Coordination on AI Risk</p>
+    <p>Coordination on <span class="accent-text">AI Risk</span></p>
   </footer>
 
   <button type="button" class="to-top" id="to-top" aria-keyshortcuts="Backspace" title="Back to top (Backspace)">
@@ -235,8 +325,10 @@
   <script src="data/incidents.js?v=a6b0b1cb"></script>
   <script src="data/materials.js?v=1008492a"></script>
   <script src="data/statements.js?v=38a35923"></script>
+  <script src="data/organisations.js?v=b3d00148"></script>
+  <script src="assets/directory.js?v=3de31054"></script>
   <script src="data/positions.js?v=9289d81d"></script>
   <script src="assets/positions.js?v=5f4b53a9"></script>
-  <script src="assets/app.js?v=c7ca3a8b"></script>
+  <script src="assets/app.js?v=bc5fcf69"></script>
 </body>
 </html>

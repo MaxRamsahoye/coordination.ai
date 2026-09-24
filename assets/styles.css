@@ -492,9 +492,16 @@ html:not(.loaded) body { overflow: hidden; }
 .menu-inner {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   height: 100%;
   overflow-x: auto;
+  scrollbar-width: none;
+}
+/* When the pills don't all fit (app.js adds .overflows), they scroll
+   sideways and the right edge fades until the end is reached */
+.menu-inner.overflows:not(.at-end) {
+  -webkit-mask: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+  mask: linear-gradient(to right, #000 calc(100% - 40px), transparent);
 }
 
 /* Accent tint that deepens on hover and more on press; the current page's
@@ -502,13 +509,13 @@ html:not(.loaded) body { overflow: hidden; }
 .menu a {
   --tint: 14%;
   display: block;
-  padding: 9px 23px;
+  padding: 8px 15px;
   border: 1px solid transparent;   /* outlined on hover and when current, like the filter pills */
   border-radius: 10px;
   background: color-mix(in srgb, var(--accent) var(--tint), transparent);
   color: var(--ink-2);
   text-decoration: none;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.3;
   white-space: nowrap;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -539,7 +546,11 @@ html:not(.loaded) body { overflow: hidden; }
 }
 
 /* ───────────── Page layout: contents | text column | progress */
-.page { padding: 80px 0 120px; }
+.page {
+  padding: 80px 0 120px;
+  min-height: 100vh;   /* short pages still fill the screen, so the menu's */
+  min-height: 100svh;  /* auto-scroll always lands with its line at the top */
+}
 
 .page-layout {
   display: grid;
@@ -812,6 +823,7 @@ html:not(.loaded) body { overflow: hidden; }
   text-align: center;
 }
 .hudless .site-footer { border-top-color: transparent; }
+.accent-text { color: var(--accent); }
 .site-footer p {
   margin: 0;
   font-size: 22px;
@@ -819,7 +831,7 @@ html:not(.loaded) body { overflow: hidden; }
 }
 
 /* ───────────── Positions: chamber diagrams and lab charts (positions.js) */
-.positions-main { grid-column: 2; }
+.positions-main, .single-main { grid-column: 2; }
 #page-positions .filter-bar { margin-bottom: 20px; }
 
 /* Stance colours, shared by seats, dots and swatches */
@@ -1004,11 +1016,60 @@ html:not(.loaded) body { overflow: hidden; }
 .org-node.is-match { border-color: var(--accent); }
 
 @media (max-width: 1100px) {
-  .positions-main { grid-column: 1; }
+  .positions-main, .single-main { grid-column: 1; }
 }
 @media (max-width: 640px) {
   .chamber { min-width: 640px; }
 }
+
+/* ───────────── Organisations: a grid of cards */
+.org-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.org-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
+}
+.org-card:hover { border-color: var(--ink-2); }
+.org-card-meta { margin: 0; color: var(--ink-2); font-size: 13px; }
+.org-card-name { margin: 6px 0 8px; font-size: 22px; font-weight: 500; line-height: 1.2; }
+.org-card-summary { margin: 0; font-size: 16px; line-height: 1.55; flex: 1; }
+.org-card .tl-source { margin-top: 14px; align-self: flex-start; }
+
+/* ───────────── Coordinate and Contact: numbered steps */
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.step {
+  position: relative;
+  padding: 28px 0 28px 64px;
+  border-top: 1px solid var(--line);
+  counter-increment: step;
+}
+.step:first-child { border-top: 0; padding-top: 0; }
+.step::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 28px;
+  color: var(--accent);
+  font-size: 22px;
+  line-height: 1.2;
+}
+.step:first-child::before { top: 0; }
+.contact .step { padding-left: 0; }
+.contact .step::before { display: none; }
+.step h3 { margin: 0 0 8px; font-size: 24px; font-weight: 500; line-height: 1.2; }
+.step p { margin: 0; font-size: 18px; line-height: 1.6; }
+.step-links { display: flex; flex-wrap: wrap; gap: 4px 24px; margin: 4px 0 0; padding: 0; list-style: none; }
+.step-links .tl-source { margin-top: 10px; font-size: 16px; }
 
 /* ───────────── Back to top */
 .to-top {
@@ -1171,14 +1232,7 @@ html:not(.loaded) body { overflow: hidden; }
 @media (max-width: 640px) {
   :root { --header-h: 72px; --menu-h: 88px; }
   :root { --menu-gap: 16px; }
-  /* Inset the box from the screen edges, keeping its text on the column edge */
-  .menu .menu-inner {   /* the pills scroll sideways; the fade shows there's more */
-    gap: 8px;
-    padding-right: 40px;
-    scrollbar-width: none;
-    -webkit-mask: linear-gradient(to right, #000 calc(100% - 40px), transparent);
-    mask: linear-gradient(to right, #000 calc(100% - 40px), transparent);
-  }
+  .menu .menu-inner { gap: 8px; }
   .menu a { padding: 8px 15px; font-size: 17px; }
   .container { padding: 0 16px; }
   .page-main { padding: 0 16px; }
