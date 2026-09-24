@@ -349,7 +349,14 @@
     if (heading) {
       const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
       pageTitleFixed.textContent = heading.textContent;
-      root.classList.toggle("title-past", heading.getBoundingClientRect().bottom < headerH / 2);
+      // …but not before a full-width diagram (the Race track, the Incidents
+      // matrix, a lab's chart) has gone by, as it runs under the corner: the
+      // title waits until the diagram's bottom has passed the header
+      const underCorner = [...activeScope().querySelectorAll(".race-scroll, .inc-scroll, .org-scroll")].some((d) => {
+        const r = d.getBoundingClientRect();
+        return r.height && r.bottom > headerH / 2;
+      });
+      root.classList.toggle("title-past", heading.getBoundingClientRect().bottom < headerH / 2 && !underCorner);
     }
 
     // Current entry: the last one whose switch-over point has been reached
