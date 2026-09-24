@@ -323,7 +323,7 @@
     // chart) run under the screen's corners, so the site address and the
     // back-to-top button step aside while one passes beneath them
     const headerH0 = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) || 0;
-    const wide = [...activeScope().querySelectorAll(".race-scroll, .inc-scroll, .org-scroll")]
+    const wide = [...activeScope().querySelectorAll(".race-scroll, .inc-scroll, .org-scroll, .actors-map")]
       .map((d) => d.getBoundingClientRect()).filter((r) => r.height);
     const tt = toTop.getBoundingClientRect();
     const underTop = wide.some((r) => r.top < headerH0 && r.bottom > headerH0 / 2);
@@ -361,7 +361,7 @@
       // …but not before a full-width diagram (the Race track, the Incidents
       // matrix, a lab's chart) has gone by, as it runs under the corner: the
       // title waits until the diagram's bottom has passed the header
-      const underCorner = [...activeScope().querySelectorAll(".race-scroll, .inc-scroll, .org-scroll")].some((d) => {
+      const underCorner = [...activeScope().querySelectorAll(".race-scroll, .inc-scroll, .org-scroll, .actors-map")].some((d) => {
         const r = d.getBoundingClientRect();
         return r.height && r.bottom > headerH / 2;
       });
