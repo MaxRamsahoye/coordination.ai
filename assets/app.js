@@ -288,7 +288,23 @@
   const pageTitleFixed = document.getElementById("page-title-fixed");
   const footerEl = document.querySelector(".site-footer");
   const siteTitle = document.querySelector(".site-title");
-  const ST_ZONE = 90;   // px above and below the address in which the brackets close
+  const heroNote = document.querySelector(".hero-note");
+  const heroDescription = document.querySelector(".hero-description");
+  // Hiding the address: the brackets close, then fade away; showing it, they
+  // fade back in closed, then open. Each step waits for the one before
+  let addressHidden = false, addressTimer;
+  function setAddress(hide) {
+    if (hide === addressHidden) return;
+    addressHidden = hide;
+    clearTimeout(addressTimer);
+    if (hide) {
+      siteTitle.classList.add("st-closed");
+      addressTimer = setTimeout(() => siteTitle.classList.add("st-gone"), 420);
+    } else {
+      siteTitle.classList.remove("st-gone");
+      addressTimer = setTimeout(() => siteTitle.classList.remove("st-closed"), siteTitle.classList.contains("st-closed") ? 280 : 0);
+    }
+  }
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -303,15 +319,16 @@
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
     root.classList.toggle("at-footer", footerEl.getBoundingClientRect().top < window.innerHeight);
-    // The site address's brackets close while the menu's line is within a
-    // zone around the address (ST_ZONE px above or below its middle), in
-    // either direction, and open again once it's clear. A few px of give on
-    // the way out stops it flickering at the zone's edge
-    const line = menu.getBoundingClientRect().top + (parseFloat(menu.style.getPropertyValue("--menu-line-y")) || menu.offsetHeight);
+    // The site address hides between two scroll points: once the end of the
+    // hero description has passed under it, until the page reaches the point
+    // the menu glides to (its line at the top of the screen). The same both
+    // ways
+    const lineAbs = menu.getBoundingClientRect().top + window.scrollY + (parseFloat(menu.style.getPropertyValue("--menu-line-y")) || menu.offsetHeight);
     const st = siteTitle.getBoundingClientRect();
-    const gap = Math.abs(line - (st.top + st.height / 2));
-    const closed = siteTitle.classList.contains("st-closed");
-    siteTitle.classList.toggle("st-closed", closed ? gap < ST_ZONE + 8 : gap < ST_ZONE);
+    // (short windows hide the note, leaving the cycling line as the end)
+    const descEnd = (heroNote.offsetHeight ? heroNote : heroDescription).getBoundingClientRect().bottom + window.scrollY;
+    const hideFrom = Math.max(1, descEnd - (st.top + st.height / 2));
+    setAddress(window.scrollY > hideFrom && window.scrollY < lineAbs - 1);
 
     // Once the page heading has scrolled up behind the header, show the page's
     // title in the top-left corner

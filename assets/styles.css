@@ -291,6 +291,10 @@ a { color: inherit; }
   transition: max-width 0.4s cubic-bezier(0.65, 0, 0.35, 1), padding 0.4s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.25s ease;
 }
 .st-closed .st-name { max-width: 0; padding: 0 0.1em; opacity: 0; }
+/* ...and, once closed, the brackets fade away too */
+.st-bracket { transition: opacity 0.25s ease; }
+.st-gone { pointer-events: none; background: transparent !important; }
+.st-gone .st-bracket { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .st-name { transition: opacity 0.2s ease; }
 }
