@@ -546,9 +546,6 @@
   function clearBelow() {
     ["positions-legend", "positions-detail", "positions-list"].forEach((id) => ($(id).innerHTML = ""));
   }
-  // "1 supports a ban or pause" / "2 support a ban or pause"
-  const STANCE_VERBS = { ban: ["supports", "support", "a ban or pause"], pace: ["supports", "support", "pacing or binding rules"], oppose: ["opposes", "oppose", "a slowdown or new rules"] };
-  const stanceVerb = (s, n) => `${STANCE_VERBS[s][n === 1 ? 0 : 1]} ${STANCE_VERBS[s][2]}`;
   const stanceLine = (s, text) => `<p class="pd-stance" data-s="${s}"><span class="pd-dot"></span>${esc(text)}</p>`;
   function bindOverview() {
     $("positions-view").querySelectorAll("[data-open]").forEach((c) =>
@@ -570,7 +567,6 @@
 
   // Industry overview: a comparison table, one row per lab
   function renderIndustryOverview() {
-    const people = (n) => [n, ...(n.children || []).flatMap(people)];
     const labs = GROUPS.industry.bodies.filter(([k]) => k !== "overview").map(([k]) => [k, P.industry[k]]);
     const count = (st) => labs.filter(([, l]) => l.stance === st).length;
     const incidentsOf = labs.map(([, l]) => labIncidents(l).length);
@@ -581,16 +577,15 @@
     $("positions-view").innerHTML = `
       ${statStrip([
         [labs.length, "frontier labs tracked"],
-        [count("pace") + count("ban"), "support pacing or binding rules", "pace"],
-        [count("oppose"), "oppose a slowdown", "oppose"],
+        [count("pace") + count("ban"), "with stated support for pacing or binding rules", "pace"],
+        [count("oppose"), "with stated opposition to a slowdown", "oppose"],
         [totalIncidents, "incidents involving their models"],
       ])}
       <div class="ov-table ov-industry" role="table" aria-label="Frontier labs compared">
         <div class="ov-head" role="row">
-          <span role="columnheader">Company</span><span role="columnheader">Position</span><span role="columnheader">Evaluation</span><span role="columnheader">Incidents</span><span role="columnheader">Leaders</span>
+          <span role="columnheader">Company</span><span role="columnheader">Position</span><span role="columnheader">Evaluation</span><span role="columnheader">Incidents</span>
         </div>
         ${labs.map(([k, lab], idx) => {
-          const all = people(lab.chart);
           const n = incidentsOf[idx];
           return `
           <button type="button" class="ov-row" role="row" data-open="industry:${k}" data-s="${lab.stance}">
@@ -598,13 +593,12 @@
             <span class="ov-cell ov-pos" role="cell"><span class="pd-dot"></span><span>${esc(stanceLabel(lab.stance))}</span></span>
             <span class="ov-cell ov-verdict" role="cell">${lab.evaluation ? esc(lab.evaluation.verdict) : "—"}</span>
             <span class="ov-cell ov-bar" role="cell" title="${n} incident${n === 1 ? "" : "s"} on record"><span class="ov-bar-fill" style="width:${(n / maxIncidents) * 100}%"></span><span class="ov-num">${n}</span></span>
-            <span class="ov-cell ov-dots" role="cell" title="${all.filter((x) => x.stance).length} of ${all.length} with a recorded position">${all.map((x) => `<span class="ov-dot" data-s="${x.stance || "none"}"></span>`).join("")}</span>
             <span class="ov-arrow" aria-hidden="true">→</span>
           </button>`;
         }).join("")}
       </div>`;
     bindOverview();
-    $("positions-notes").innerHTML = `<p>Incidents: those on this site involving each lab's models (the bar is scaled to the most). Leaders: a dot for each person in its leadership chart, coloured by recorded position. Select a company to see its chart.</p>`;
+    $("positions-notes").innerHTML = `<p>Incidents: those on this site involving each lab's models (the bar is scaled to the most). Select a company to see its chart.</p>`;
   }
 
   // Governments overview: a table, one row per chamber
@@ -632,8 +626,8 @@
       ${statStrip([
         [total.members.toLocaleString(), "legislators in four chambers"],
         [total.ban + total.pace + total.oppose, "with a recorded position"],
-        [total.ban, "support a ban or pause", "ban"],
-        [total.pace, "support pacing or binding rules", "pace"],
+        [total.ban, "with stated support for a ban or pause", "ban"],
+        [total.pace, "with stated support for pacing or binding rules", "pace"],
       ])}
       <div class="ov-table ov-gov" role="table" aria-label="Chambers compared">
         <div class="ov-head" role="row">

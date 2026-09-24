@@ -38,9 +38,9 @@
 
   window.CC_POSITIONS = {
     stances: {
-      ban: "Supports a ban or pause",
-      pace: "Supports pacing or binding rules",
-      oppose: "Opposes a slowdown or new rules",
+      ban: "Stated support for a ban or pause",
+      pace: "Stated support for pacing or binding rules",
+      oppose: "Stated opposition to a slowdown or new rules",
       none: "No recorded position",
     },
 

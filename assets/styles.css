@@ -1235,7 +1235,7 @@ html:not(.loaded) body { overflow: hidden; }
   gap: 20px;
   padding: 0 12px;
 }
-.ov-industry .ov-head, .ov-industry .ov-row { grid-template-columns: 1.1fr 1.5fr 1.6fr 1fr 1fr 20px; }
+.ov-industry .ov-head, .ov-industry .ov-row { grid-template-columns: 1.1fr 1.7fr 1.7fr 1.1fr 20px; }
 .ov-gov .ov-head, .ov-gov .ov-row { grid-template-columns: 1.6fr 1.4fr 0.9fr 1.3fr 20px; }
 .ov-head {
   padding-bottom: 10px;
