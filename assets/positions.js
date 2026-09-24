@@ -374,16 +374,19 @@
     const node = (n, depth = 0) => {
       const i = nodes.push(n) - 1;
       const kids = n.children || [];
-      // A team of three or more with no reports of their own (below the top
-      // of the chart) is stacked in one box, which keeps the chart narrow
-      const stack = depth > 0 && kids.length >= 3 && kids.every((c) => !(c.children || []).length);
+      // Below the top of the chart, three or more people with no reports of
+      // their own are stacked in one box beside any who do, which keeps the
+      // chart narrow
+      const leaves = kids.filter((c) => !(c.children || []).length);
+      const stack = depth > 0 && leaves.length >= 3;
+      const branches = stack ? kids.filter((c) => (c.children || []).length) : kids;
+      const stackHtml = stack ? `<li><div class="org-group org-stack"><div class="org-members">${leaves.map(member).join("")}</div></div></li>` : "";
       return `<li>
         <button type="button" class="org-node${n.company ? " org-node-company" : ""}" data-i="${i}" data-s="${n.stance || "none"}">
           <span class="org-name"><span class="pd-dot"></span>${esc(n.name)}</span>
           <span class="org-role">${esc(n.role)}</span>
         </button>
-        ${stack ? `<ul><li><div class="org-group org-stack"><div class="org-members">${kids.map(member).join("")}</div></div></li></ul>`
-          : kids.length ? `<ul>${kids.map((c) => node(c, depth + 1)).join("")}</ul>` : ""}
+        ${kids.length ? `<ul>${stackHtml}${branches.map((c) => node(c, depth + 1)).join("")}</ul>` : ""}
       </li>`;
     };
     const member = (n) => {

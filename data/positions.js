@@ -37,6 +37,12 @@
   const ANTHROPIC_BOARD = { label: "Anthropic", url: "https://www.anthropic.com/news/narasimhan-board" };
   const ANTHROPIC_CTO = { label: "Anthropic", url: "https://www.anthropic.com/news/rahul-patil-joins-anthropic" };
   const ANTHROPIC_LABS = { label: "TechCrunch", url: "https://techcrunch.com/?p=2779592" };
+  const ANTHROPIC_GC = { label: "Bloomberg Law", url: "https://news.bloomberglaw.com/business-and-practice/anthropic-names-new-general-counsel-ahead-of-long-awaited-ipo" };
+  const ANTHROPIC_FRT = { label: "Anthropic, Frontier Red Team", url: "https://www.anthropic.com/research/team/frontier-red-team" };
+  const OPENAI_TURLEY = { label: "CNBC", url: "https://www.cnbc.com/2026/09/10/openai-chatgpt-for-financial-services-targets-work-of-junior-bankers.html" };
+  const GDM_KOHLI = { label: "Google Research", url: "https://research.google/people/105667/" };
+  const META_POWELL = { label: "Meta", url: "https://about.fb.com/news/2026/01/dina-powell-mccormick-joins-meta-as-president-and-vice-chairman/" };
+  const META_MSL_TEAMS = { label: "Capital Brief", url: "https://www.capitalbrief.com/briefing/meta-splits-ai-division-into-four-new-groups-in-latest-restructuring-ff374e7d-1d63-4ec3-b458-8cda0b298bd0/" };
   const OPENAI_BOARD = { label: "OpenAI, Our structure", url: "https://openai.com/our-structure/" };
   const OPENAI_BOARD_NEW = { label: "OpenAI", url: "https://openai.com/index/david-velez-robin-vince-join-openai-boards/" };
   const OPENAI_EXITS = { label: "Axios", url: "https://www.axios.com/2026/08/14/openai-executive-greg-brockman-ipo" };
@@ -161,6 +167,11 @@
             { name: "Daniela Amodei", role: "President, co-founder",
               children: [
                 { name: "Krishna Rao", role: "Chief Financial Officer" },
+                { name: "Brian Israel", role: "Chief Legal Officer", source: ANTHROPIC_GC,
+                  children: [
+                    { name: "Elena Leichty", role: "General Counsel", source: ANTHROPIC_GC },
+                    { name: "Jeffrey Bleich", role: "International special envoy; former General Counsel", source: ANTHROPIC_GC },
+                  ] },
                 { name: "Paul Smith", role: "Chief Commercial Officer" },
                 { name: "Mike Krieger", role: "Co-lead, Labs", source: ANTHROPIC_LABS },
                 { name: "Ben Mann", role: "Co-lead, Labs; co-founder", source: ANTHROPIC_LABS },
@@ -171,10 +182,14 @@
                 { name: "Jan Leike", role: "Alignment science" },
                 { name: "Sam McCandlish", role: "Research, co-founder" },
                 { name: "Tom Brown", role: "Research and compute, co-founder" },
+                { name: "Sam Bowman", role: "Alignment research" },
+                { name: "Evan Hubinger", role: "Alignment stress-testing" },
               ] },
-            { name: "Rahul Patil", role: "Chief Technology Officer", source: ANTHROPIC_CTO },
+            { name: "Rahul Patil", role: "Chief Technology Officer", source: ANTHROPIC_CTO,
+              children: [{ name: "Jason Clinton", role: "Chief Information Security Officer" }] },
             { name: "Ami Vora", role: "Chief Product Officer", source: ANTHROPIC_LABS },
-            { name: "Jack Clark", role: "Head of Policy, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING },
+            { name: "Jack Clark", role: "Head of Policy, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING,
+              children: [{ name: "Logan Graham", role: "Head of the Frontier Red Team", source: ANTHROPIC_FRT }] },
           ],
         },
       },
@@ -211,11 +226,13 @@
           name: "Sam Altman", role: "Chief Executive Officer, co-founder", stance: "pace",
           note: "Endorsed 'We Must Pace the Frontier': 'committing to having independent evaluators with employee-like access is a great idea, and we will do the same.'", source: RESPONSES,
           children: [
-            { name: "Greg Brockman", role: "President, co-founder; leads product", source: OPENAI_EXITS },
+            { name: "Greg Brockman", role: "President, co-founder; leads product", source: OPENAI_EXITS,
+              children: [{ name: "Nick Turley", role: "Vice President, Product (enterprise)", source: OPENAI_TURLEY }] },
             { name: "Jakub Pachocki", role: "Chief Scientist", stance: "pace", note: PACING_SIGNED, source: PACING },
             { name: "Mark Chen", role: "Chief Research Officer" },
             { name: "Sarah Friar", role: "Chief Financial Officer" },
             { name: "Jason Kwon", role: "Chief Strategy Officer" },
+            { name: "Chris Lehane", role: "Chief Global Affairs Officer" },
             { name: "Dali Rajic", role: "Chief Revenue Officer", source: OPENAI_EXITS },
           ],
         },
@@ -254,11 +271,15 @@
             { name: "Koray Kavukcuoglu", role: "Senior Vice President, head of Google DeepMind", source: GDM_KORAY,
               children: [
                 { name: "Anca Dragan", role: "Head of AI Safety and Alignment" },
+                { name: "Josh Woodward", role: "Vice President, Google Labs and the Gemini app" },
+                { name: "Tulsee Doshi", role: "Head of Product, Gemini models" },
+                { name: "Logan Kilpatrick", role: "Product lead, Google AI Studio and the Gemini API" },
               ] },
             { name: "Demis Hassabis", role: "Chair of Google DeepMind; Chief Scientist, Alphabet; co-founder", stance: "pace",
               note: "Called 'We Must Pace the Frontier' the 'right path forward' at a 'critical moment'. Stepped down as Google DeepMind's chief executive in August 2026 to become its chair.", source: RESPONSES,
               children: [
                 { name: "Shane Legg", role: "Chief AGI Scientist, co-founder", source: GDM_RESHUFFLE },
+                { name: "Pushmeet Kohli", role: "Vice President, Science and Strategic Initiatives", source: GDM_KOHLI },
               ] },
             { name: "James Manyika", role: "Senior Vice President, Research, Labs, Technology and Society",
               children: [
@@ -304,12 +325,16 @@
               children: [
                 { name: "Shengjia Zhao", role: "Chief Scientist, Meta Superintelligence Labs" },
                 { name: "Nat Friedman", role: "Products and applied research, Meta Superintelligence Labs" },
-                { name: "Rob Fergus", role: "Head of FAIR (fundamental AI research)" },
+                { name: "Rob Fergus", role: "Head of FAIR (fundamental AI research)", source: META_MSL_TEAMS },
+                { name: "Aparna Ramani", role: "Infrastructure, Meta Superintelligence Labs", source: META_MSL_TEAMS },
+                { name: "Ahmad Al-Dahle", role: "Strategic AI projects, Meta Superintelligence Labs", source: META_MSL_TEAMS },
               ] },
+            { name: "Dina Powell McCormick", role: "President and Vice Chair", source: META_POWELL },
             { name: "Javier Olivan", role: "Chief Operating Officer" },
             { name: "Susan Li", role: "Chief Financial Officer" },
             { name: "Andrew Bosworth", role: "Chief Technology Officer" },
             { name: "Chris Cox", role: "Chief Product Officer" },
+            { name: "Joel Kaplan", role: "Chief Global Affairs Officer" },
           ],
         },
       },
@@ -346,6 +371,8 @@
           children: [
             { name: "Michael Nicolls", role: "President, xAI", source: XAI_PRESIDENT },
             { name: "Gwynne Shotwell", role: "President and Chief Operating Officer, SpaceX" },
+            { name: "Bret Johnsen", role: "Chief Financial Officer, SpaceX" },
+            { name: "Nikita Bier", role: "Head of Product, X" },
           ],
         },
       },
