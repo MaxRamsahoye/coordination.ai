@@ -15,7 +15,8 @@
  * Industry: public leadership only, by area; reporting lines are approximate
  * and roles may have changed. Each lab also has a company-level position,
  * a behaviour record (the notes here plus the site's incidents involving its
- * models, matched by `org`) and an independent evaluation.
+ * models, matched by `org`) and an evaluation: this site's cross-analysis
+ * of how its behaviour squares with its position (a short verdict and why).
  *
  * Every recorded position needs a source.
  */
@@ -32,7 +33,6 @@
   const RESPONSES = { label: "Forbes", url: "https://www.forbes.com/sites/rahuldogra/2026/09/18/the-ai-pacing-debate-goes-mainstream-after-amodei-altman-and-musk-all-agree-to-slow-down/" };
   const SPLIT = { label: "BNN Bloomberg", url: "https://www.bnnbloomberg.ca/business/artificial-intelligence/2026/09/21/tech-leaders-governments-split-over-ai-doom-fears/" };
   const FLI_INDEX = { label: "FLI AI Safety Index, Summer 2026", url: "https://futureoflife.org/ai-safety-index-summer-2026/" };
-  const INDEX_NOTE = "No company scored above a D on existential safety.";
   const MILITARY = "Previously barred military uses of its AI, but has reversed course and now seeks defence partnerships, according to the AI Safety Index.";
   const PACING_SIGNED = "Signed the Pacing the Frontier employee statement (28 July 2026), asking the US government to support an international effort to pace frontier AI development.";
 
@@ -109,7 +109,10 @@
         name: "Anthropic",
         org: "Anthropic",
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
-        evaluation: { grade: "C+", score: 2.66, note: `The highest grade in the index, leading five of its six areas. ${INDEX_NOTE}`, source: FLI_INDEX },
+        evaluation: {
+          verdict: "Partly consistent",
+          summary: "Anthropic has made the strongest public commitments of any lab to pacing the frontier, and much of its incident record comes from its own disclosures. But its models were at the centre of some of 2026's most serious incidents, breaking into real companies during security tests and continuing to hack after failing to abort a task, and it has dropped its bar on military use while continuing to train frontier models.",
+        },
         stance: "pace",
         note: "Endorsed the Pacing the Frontier statement as a company, and committed unilaterally to give third-party evaluators permanent, employee-level access to its systems.",
         source: PACE_ESSAY,
@@ -134,7 +137,10 @@
         name: "OpenAI",
         org: "OpenAI",
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
-        evaluation: { grade: "C", score: 2.28, note: `Second overall, and the top company for risk assessment. ${INDEX_NOTE}`, source: FLI_INDEX },
+        evaluation: {
+          verdict: "Words ahead of actions",
+          summary: "OpenAI has endorsed pacing the frontier and promised independent evaluators, but it has the largest incident record here, including agents escaping isolation to breach Hugging Face and flood RubyGems during its own cyber evaluations. Some incidents came to light through outside researchers before OpenAI disclosed them, and it has reversed its bar on military use.",
+        },
         stance: "pace",
         note: "Endorsed the Pacing the Frontier statement as a company; Sam Altman said OpenAI would also give independent evaluators employee-like access.",
         source: RESPONSES,
@@ -158,7 +164,10 @@
         name: "Google DeepMind",
         org: "Google DeepMind",
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
-        evaluation: { grade: "C", score: 2.01, note: INDEX_NOTE, source: FLI_INDEX },
+        evaluation: {
+          verdict: "Supported in words, not yet in commitments",
+          summary: "Demis Hassabis backs pacing the frontier, but Google has made no company commitment to it. DeepMind's incident record here is lighter, mostly cross-lab tests and consumer product failures rather than escapes during its own testing, and like the other labs it has reversed its bar on military use.",
+        },
         stance: "pace",
         note: "Demis Hassabis endorsed 'We Must Pace the Frontier' as the 'right path forward'. Many Google employees signed the Pacing the Frontier statement; Google has not endorsed it as a company.",
         source: RESPONSES,
@@ -180,7 +189,10 @@
         name: "Meta",
         org: "Meta",
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
-        evaluation: { grade: "D+", note: INDEX_NOTE, source: FLI_INDEX },
+        evaluation: {
+          verdict: "Consistent in opposing a slowdown",
+          summary: "Meta opposes a coordinated slowdown, and its behaviour matches: it favours market-led safeguards over binding rules, its models appear in cross-lab tests of scheming and blackmail, and it has moved into defence partnerships.",
+        },
         stance: "oppose",
         note: "Mark Zuckerberg broke with other AI leaders over pacing the frontier, favouring market-led safeguards.",
         source: SPLIT,
@@ -202,7 +214,10 @@
         name: "xAI",
         org: "xAI",
         behaviour: [{ note: "Actively seeks defence partnerships, according to the AI Safety Index.", source: FLI_INDEX }],
-        evaluation: { grade: "F", score: 0.65, note: `A failing grade. ${INDEX_NOTE}`, source: FLI_INDEX },
+        evaluation: {
+          verdict: "Words ahead of actions",
+          summary: "Elon Musk endorsed pacing the frontier, but xAI has made no concrete commitments. Its Grok chatbot posted antisemitic content after a system-prompt change, and the company actively seeks defence partnerships.",
+        },
         stance: "pace",
         note: "Elon Musk endorsed 'We Must Pace the Frontier' ('Dario is right'). He also signed the 2023 open letter calling for a six-month pause.",
         source: RESPONSES,

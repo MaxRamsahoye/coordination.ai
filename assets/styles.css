@@ -984,7 +984,7 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* Heading for the chosen lab or chamber, with room below it */
 .positions-title {
-  margin: 44px 0 0;
+  margin: 72px 0 0;
   font-size: 32px;
   font-weight: 500;
   line-height: 1.2;
@@ -1103,9 +1103,10 @@ html:not(.loaded) body { overflow: hidden; }
 .cb-incidents a { display: inline-flex; align-items: baseline; gap: 10px; color: var(--ink); font-size: 17px; text-decoration: none; transition: color 0.2s ease; }
 .cb-incidents a:hover { color: var(--accent); }
 .cb-date { color: var(--ink-2); font-family: var(--font-ui); font-size: 14px; white-space: nowrap; }
-.ce-grade { display: flex; align-items: baseline; gap: 12px; margin: 6px 0 4px !important; }
-.ce-letter { font-size: 40px; font-weight: 500; line-height: 1; }
-.ce-score { color: var(--ink-2); font-family: var(--font-ui); font-size: 14px; }
+.ce-verdict { margin: 8px 0 6px !important; font-size: 24px; font-weight: 500; line-height: 1.25; }
+.ce-basis { margin-top: 10px !important; color: var(--ink-2); font-size: 14px; }
+/* Space between the company sections and the chart below them */
+.org-evaluation + .org-scroll { margin-top: 64px; }
 .org-company-label { color: var(--ink-2); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
 /* The chart isn't limited by the text column: it can use the page's full
    width (less the usual 48px margins), centred on the page, and only

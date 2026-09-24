@@ -443,15 +443,17 @@
       </div>`;
   }
 
-  // Company evaluation: an independent grade
+  // Company evaluation: this site's cross-analysis of the lab's position
+  // against its behaviour — a short verdict, then why
   function evaluationBlock(lab) {
     const e = lab.evaluation;
     if (!e) return "";
     return `
       <div class="org-company org-evaluation">
         <p class="org-company-label">Company evaluation</p>
-        <p class="ce-grade"><span class="ce-letter">${esc(e.grade)}</span>${e.score != null ? `<span class="ce-score">score ${esc(e.score.toFixed(2))}</span>` : ""}</p>
-        <p class="pd-note">${esc(e.note)} ${e.source ? `<a class="tl-source" href="${esc(e.source.url)}" target="_blank" rel="noopener noreferrer">${esc(e.source.label)} ↗</a>` : ""}</p>
+        <p class="ce-verdict">${esc(e.verdict)}</p>
+        <p class="pd-note">${esc(e.summary)}</p>
+        <p class="ce-basis">Our assessment, comparing the company's position with its behaviour above.</p>
       </div>`;
   }
 
