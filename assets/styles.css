@@ -982,7 +982,9 @@ html:not(.loaded) body { overflow: hidden; }
 .positions-mode .filter-label { width: auto; padding: 0 4px 0 0; }
 .positions-mode[hidden] { display: none; }
 
-.positions-view { overflow-x: auto; }
+/* Chamber diagrams scroll sideways on narrow screens; lab charts manage
+   their own width (below), so the view itself doesn't clip them */
+.positions-view.is-chamber { overflow-x: auto; }
 .chamber { display: block; width: 100%; height: auto; }
 .seat {
   fill: var(--st);
@@ -1068,11 +1070,11 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .org-company p { margin: 0; }
 .org-company-label { color: var(--ink-2); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
-/* The chart may be wider than the text column: it spreads into the side
-   columns (short of the progress bar), centred on the page, and only
+/* The chart isn't limited by the text column: it can use the page's full
+   width (less the usual 48px margins), centred on the page, and only
    scrolls if even that isn't wide enough */
 .org-scroll {
-  --chart-gutter: clamp(16px, calc((100vw - var(--column)) / 2 - 60px), 170px);   /* ~60px short of the progress bar */
+  --chart-gutter: 48px;
   width: calc(100vw - 2 * var(--chart-gutter));
   margin-left: calc(50% - 50vw + var(--chart-gutter));
   overflow-x: auto;

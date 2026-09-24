@@ -201,6 +201,7 @@
 
   function renderChamber() {
     const view = $("positions-view");
+    view.classList.add("is-chamber");
     const { placed, w, h, dot, extras } = chamberLayout(state.body);
     seats = placed.map((p) => p.m);
     const circles = placed
@@ -341,6 +342,7 @@
         ${n.children && n.children.length ? `<ul>${n.children.map(node).join("")}</ul>` : ""}
       </li>`;
     };
+    $("positions-view").classList.remove("is-chamber");
     $("positions-view").innerHTML = `
       <div class="org-company" data-s="${lab.stance}">
         <p class="org-company-label">Company position</p>
