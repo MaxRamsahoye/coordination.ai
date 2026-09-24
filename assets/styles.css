@@ -858,28 +858,25 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .tl-source:hover { text-decoration-thickness: 2px; }
 
-/* ───────────── Footer: the title, a tagline and live figures, links to
-   every page, the keyboard shortcuts, then a bottom line */
+/* ───────────── Footer: the title, a tagline and live figures, then links
+   to every page */
 .site-footer {
-  padding: 72px 0 40px;
+  padding: 72px 0 80px;
   border-top: 1px solid var(--line);
 }
-.hudless .site-footer, .hudless .footer-bottom { border-top-color: transparent; }
+.hudless .site-footer { border-top-color: transparent; }
 .accent-text { color: var(--accent); }
 
 .footer-inner {
   display: grid;
-  grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 2.8fr) repeat(2, minmax(0, 1fr));
   gap: 40px 32px;
   max-width: var(--column);
   margin: 0 auto;
   padding: 0 24px;
 }
 .footer-title { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.15; }
-.footer-title .accent-text { white-space: nowrap; }   /* break before "AI Risk", not inside it */
-@media (hover: none) {
-  .footer-shortcuts { display: none; }   /* no keyboard on touch screens */
-}
+.footer-title { white-space: nowrap; }   /* always on one line */
 .footer-tagline { margin: 12px 0 0; max-width: 30em; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
 
 .footer-stats {
@@ -911,40 +908,6 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .footer-col a:hover { color: var(--accent); }
 
-.footer-keys { margin: 0; }
-.footer-keys div { display: flex; align-items: baseline; gap: 10px; }
-.footer-keys div + div { margin-top: 8px; }
-.footer-keys dt { flex: none; }
-.footer-keys dd { margin: 0; color: var(--ink-2); font-size: 15px; }
-kbd {
-  display: inline-grid;
-  place-items: center;
-  min-width: 24px;
-  height: 24px;
-  padding: 0 6px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  color: var(--ink);
-  font: inherit;
-  font-size: 13px;
-  line-height: 1;
-}
-
-.footer-bottom {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 24px;
-  max-width: calc(var(--column) - 48px);
-  margin: 56px auto 0;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  color: var(--ink-2);
-  font-size: 13px;
-}
-.footer-top { margin-left: auto; color: var(--ink-2); text-decoration: none; transition: color 0.2s ease; }
-.footer-top:hover { color: var(--accent); }
-
 @media (max-width: 860px) {
   .footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-brand { grid-column: 1 / -1; }
@@ -952,7 +915,6 @@ kbd {
 @media (max-width: 640px) {
   .site-footer { padding-top: 56px; }
   .footer-inner { padding: 0 16px; }
-  .footer-bottom { margin-left: 16px; margin-right: 16px; }
 }
 
 /* ───────────── Positions: chamber diagrams and lab charts (positions.js) */

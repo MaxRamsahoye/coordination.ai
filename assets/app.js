@@ -713,7 +713,7 @@
     })
   );
 
-  // ───────────── Footer: live figures and the newest entry's date
+  // ───────────── Footer: live figures from the site's data
   function renderFooter() {
     const stats = document.getElementById("footer-stats");
     const P = window.CC_POSITIONS;
@@ -731,15 +731,6 @@
       [(window.CC_ORGANISATIONS || []).length, "organisations"],
     ].filter(([n]) => n);
     if (stats) stats.innerHTML = figures.map(([n, label]) => `<li><strong>${n}</strong><span>${label}</span></li>`).join("");
-    const newest = Object.values(TIMELINES)
-      .flatMap((t) => t.items.map((i) => i.date))
-      .sort((a, b) => sortKey(b).localeCompare(sortKey(a)))[0];
-    const updated = document.getElementById("footer-updated");
-    if (updated && newest) updated.textContent = `Newest entry ${formatDate(newest)}`;
-    document.getElementById("footer-top")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
   }
   renderFooter();
 
