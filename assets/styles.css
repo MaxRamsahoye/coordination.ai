@@ -1053,6 +1053,7 @@ html:not(.loaded) body { overflow: hidden; }
   vertical-align: 0.05em;
 }
 .positions-detail { min-height: 170px; }
+.positions-detail:empty { min-height: 0; }   /* nothing selected (the overviews) */
 .pd-card {
   padding: 16px 20px;
   border: 1px solid var(--line);
@@ -1235,8 +1236,23 @@ html:not(.loaded) body { overflow: hidden; }
   gap: 20px;
   padding: 0 12px;
 }
-.ov-industry .ov-head, .ov-industry .ov-row { grid-template-columns: 1.1fr 1.7fr 1.7fr 1.1fr 20px; }
-.ov-gov .ov-head, .ov-gov .ov-row { grid-template-columns: 1.6fr 1.4fr 0.9fr 1.3fr 20px; }
+.ov-industry .ov-head, .ov-industry .ov-row { grid-template-columns: 1.1fr 1.15fr 1.6fr 1.5fr 1.05fr 1fr 20px; }
+.ov-gov .ov-head, .ov-gov .ov-row { grid-template-columns: 1.5fr 1.5fr 1.2fr 20px; }
+/* The figures and tables may be wider than the text column (up to
+   1160px, centred) */
+.ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes {
+  --wide: min(1160px, calc(100vw - 96px));
+  width: var(--wide);
+  margin-left: calc((100% - var(--wide)) / 2);
+}
+@media (max-width: 1100px) {
+  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes { --wide: calc(100vw - 32px); }
+}
+/* A proportion bar: a track for the total, filled for the share */
+.ov-share { display: inline-flex; align-items: center; gap: 10px; width: 100%; }
+.ov-track { flex: 1; max-width: 110px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 14%, var(--bg)); overflow: hidden; }
+.ov-fill { display: block; height: 100%; border-radius: 3px; background: var(--accent); }
+.ov-share .ov-num { white-space: nowrap; }
 .ov-head {
   padding-bottom: 10px;
   color: var(--ink-2);
@@ -1288,7 +1304,8 @@ html:not(.loaded) body { overflow: hidden; }
 @media (max-width: 860px) {
   .ov-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ov-head { display: none; }
-  .ov-industry .ov-row, .ov-gov .ov-row { grid-template-columns: 1fr 1fr; gap: 8px 16px; padding: 16px 12px 16px 18px; }
+  .ov-industry .ov-row, .ov-gov .ov-row { grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 16px 12px 16px 18px; }
+  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes { width: auto; margin-left: 0; }
   .ov-name { grid-column: 1 / -1; }
   .ov-arrow { display: none; }
 }

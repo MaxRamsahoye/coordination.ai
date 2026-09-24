@@ -108,6 +108,7 @@
       anthropic: {
         name: "Anthropic",
         org: "Anthropic",
+        ceo: "Dario Amodei",   // the lab's own chief executive (named in its chart)
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
         evaluation: {
           verdict: "Partly consistent",
@@ -136,6 +137,7 @@
       openai: {
         name: "OpenAI",
         org: "OpenAI",
+        ceo: "Sam Altman",   // the lab's own chief executive (named in its chart)
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
         evaluation: {
           verdict: "Words ahead of actions",
@@ -163,6 +165,7 @@
       deepmind: {
         name: "Google DeepMind",
         org: "Google DeepMind",
+        ceo: "Demis Hassabis",   // the lab's own chief executive (named in its chart)
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
         evaluation: {
           verdict: "Supported in words, not yet in commitments",
@@ -188,6 +191,7 @@
       meta: {
         name: "Meta",
         org: "Meta",
+        ceo: "Mark Zuckerberg",   // the lab's own chief executive (named in its chart)
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
         evaluation: {
           verdict: "Consistent in opposing a slowdown",
@@ -213,6 +217,7 @@
       xai: {
         name: "xAI",
         org: "xAI",
+        ceo: "Elon Musk",   // the lab's own chief executive (named in its chart)
         behaviour: [{ note: "Actively seeks defence partnerships, according to the AI Safety Index.", source: FLI_INDEX }],
         evaluation: {
           verdict: "Words ahead of actions",

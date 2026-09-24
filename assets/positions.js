@@ -526,6 +526,7 @@
       : `${g.label} Government: ${bodyName}`;
     const industry = state.group === "industry";
     $("positions-tools").hidden = overview;
+    $("positions-view").closest(".positions-main").classList.toggle("is-overview", overview);
     $("positions-tools").querySelector(".positions-mode").hidden = industry;
     $("positions-search").placeholder = industry ? "Find a person" : "Find a member or seat";
     if (overview) clearBelow();
@@ -562,11 +563,17 @@
   }
 
   // Headline figures across the top of an overview
+  // A proportion bar with its count, e.g. 3 / 9
+  const shareBar = (n, total) =>
+    `<span class="ov-share" title="${n} of ${total}"><span class="ov-track"><span class="ov-fill" style="width:${total ? Math.max(n ? 2 : 0, (n / total) * 100) : 0}%"></span></span><span class="ov-num">${n}<span class="ov-muted"> / ${total.toLocaleString()}</span></span></span>`;
+  const findPerson = (n, name) => (n.name === name ? n : (n.children || []).map((c) => findPerson(c, name)).find(Boolean));
+
   const statStrip = (items) =>
     `<ul class="ov-stats">${items.map(([n, label, st]) => `<li${st ? ` data-s="${st}"` : ""}><strong>${n}</strong><span>${st ? '<span class="pd-dot"></span>' : ""}${esc(label)}</span></li>`).join("")}</ul>`;
 
   // Industry overview: a comparison table, one row per lab
   function renderIndustryOverview() {
+    const people = (n) => [n, ...(n.children || []).flatMap(people)];
     const labs = GROUPS.industry.bodies.filter(([k]) => k !== "overview").map(([k]) => [k, P.industry[k]]);
     const count = (st) => labs.filter(([, l]) => l.stance === st).length;
     const incidentsOf = labs.map(([, l]) => labIncidents(l).length);
@@ -583,22 +590,26 @@
       ])}
       <div class="ov-table ov-industry" role="table" aria-label="Frontier labs compared">
         <div class="ov-head" role="row">
-          <span role="columnheader">Company</span><span role="columnheader">Position</span><span role="columnheader">Evaluation</span><span role="columnheader">Incidents</span>
+          <span role="columnheader">Company</span><span role="columnheader">CEO</span><span role="columnheader">Position</span><span role="columnheader">Evaluation</span><span role="columnheader">Recorded positions</span><span role="columnheader">Incidents</span>
         </div>
         ${labs.map(([k, lab], idx) => {
           const n = incidentsOf[idx];
+          const everyone = people(lab.chart);
+          const ceo = findPerson(lab.chart, lab.ceo);
           return `
           <button type="button" class="ov-row" role="row" data-open="industry:${k}" data-s="${lab.stance}">
             <span class="ov-cell ov-name" role="cell">${esc(lab.name)}</span>
+            <span class="ov-cell ov-pos" role="cell">${ceo ? `<span class="pd-dot" data-s="${ceo.stance || "none"}"></span><span>${esc(ceo.name)}</span>` : "—"}</span>
             <span class="ov-cell ov-pos" role="cell"><span class="pd-dot"></span><span>${esc(stanceLabel(lab.stance))}</span></span>
             <span class="ov-cell ov-verdict" role="cell">${lab.evaluation ? esc(lab.evaluation.verdict) : "—"}</span>
+            <span class="ov-cell" role="cell">${shareBar(everyone.filter((x) => x.stance).length, everyone.length)}</span>
             <span class="ov-cell ov-bar" role="cell" title="${n} incident${n === 1 ? "" : "s"} on record"><span class="ov-bar-fill" style="width:${(n / maxIncidents) * 100}%"></span><span class="ov-num">${n}</span></span>
             <span class="ov-arrow" aria-hidden="true">→</span>
           </button>`;
         }).join("")}
       </div>`;
     bindOverview();
-    $("positions-notes").innerHTML = `<p>Incidents: those on this site involving each lab's models (the bar is scaled to the most). Select a company to see its chart.</p>`;
+    $("positions-notes").innerHTML = `<p>CEO: the lab's own chief executive, coloured by their recorded position. Recorded positions: how many of the people in its leadership chart have one. Incidents: those on this site involving each lab's models (the bar is scaled to the most). Select a company to see its chart.</p>`;
   }
 
   // Governments overview: a table, one row per chamber
@@ -616,8 +627,7 @@
       return `
         <button type="button" class="ov-row" role="row" data-open="${group}:${key}" data-s="${lead}">
           <span class="ov-cell ov-name" role="cell"><span class="ov-country">${esc(country)}</span>${esc(name)}</span>
-          <span class="ov-cell ov-dots" role="cell">${recorded.map((m) => `<span class="ov-dot" data-s="${m.position.stance}" title="${esc(m.name)}"></span>`).join("") || '<span class="ov-muted">None yet</span>'}</span>
-          <span class="ov-cell" role="cell"><span class="ov-num">${recorded.length}</span><span class="ov-muted">&nbsp;of ${list.length.toLocaleString()}</span></span>
+          <span class="ov-cell" role="cell">${shareBar(recorded.length, list.length)}</span>
           <span class="ov-cell" role="cell">${featured ? esc(featured.name) : '<span class="ov-muted">—</span>'}</span>
           <span class="ov-arrow" aria-hidden="true">→</span>
         </button>`;
@@ -631,12 +641,12 @@
       ])}
       <div class="ov-table ov-gov" role="table" aria-label="Chambers compared">
         <div class="ov-head" role="row">
-          <span role="columnheader">Chamber</span><span role="columnheader">Recorded positions</span><span role="columnheader">Members</span><span role="columnheader">Leading advocate</span>
+          <span role="columnheader">Chamber</span><span role="columnheader">Recorded positions</span><span role="columnheader">Leading advocate</span>
         </div>
         ${rows}
       </div>`;
     bindOverview();
-    $("positions-notes").innerHTML = `<p>A dot for each member with a recorded position, coloured by stance. “No recorded position” means none has been found yet, not that a member has none. Select a chamber to see every member's seat.</p>`;
+    $("positions-notes").innerHTML = `<p>Recorded positions: how many of each chamber's members have one, out of all its members. “No recorded position” means none has been found yet, not that a member has none. Select a chamber to see every member's seat.</p>`;
   }
 
   function init() {
