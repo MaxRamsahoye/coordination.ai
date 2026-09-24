@@ -41,7 +41,7 @@
   --font: var(--font-bembo);   /* default; the F toggle switches to Plex */
   --header-h: 104px;
   --corner-w: 300px;   /* the accent shape behind the site address */
-  --corner-h: 150px;
+  --corner-h: 200px;   /* deep enough that the address sits wholly inside */
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
   --column: 880px;     /* central text column, including its 24px padding */
 }
@@ -138,7 +138,7 @@ a { color: inherit; }
    the footer. H ("hudless") hides them. */
 
 /* The corner shape: a right-angled triangle filling the top-right corner
-   behind the site address, its long edge curving outward, in the accent */
+   behind the site address, in the accent */
 .corner-shape {
   position: absolute;
   top: 0;
@@ -1568,7 +1568,7 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* ───────────── Phones */
 @media (max-width: 640px) {
-  :root { --header-h: 80px; --menu-h: 88px; --corner-w: 190px; --corner-h: 104px; }
+  :root { --header-h: 80px; --menu-h: 88px; --corner-w: 200px; --corner-h: 150px; }
   :root { --menu-gap: 16px; }
   .menu .menu-inner { gap: 18px; }
   .menu a { font-size: 17px; }
