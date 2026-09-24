@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=39c2d3b6">
+  <link rel="stylesheet" href="assets/styles.css?v=d18c944c">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -23,15 +23,14 @@
     <div class="header-inner">
       <!-- The current page's title, shown once its heading scrolls off the top -->
       <span class="page-title-fixed" id="page-title-fixed" aria-hidden="true"></span>
-      <a class="site-title" href="./">coordination.ai</a>
+      <!-- The brackets close over the name while the menu's line crosses the
+           top of the screen, then open again (app.js) -->
+      <a class="site-title" href="./" aria-label="coordination.ai"><span class="st-bracket" aria-hidden="true">[</span><span class="st-name">coordination.ai</span><span class="st-bracket" aria-hidden="true">]</span></a>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <!-- An accent tab in the hero's top-right corner, behind the site
-           address; it scrolls away with the hero -->
-      <div class="hero-tab" aria-hidden="true"></div>
       <!-- Latest developments: the newest entries across every timeline,
            scrolling past in the hero's top-left corner (app.js) -->
       <div class="news" role="region" aria-label="Latest developments">
@@ -393,6 +392,6 @@
   <script src="assets/directory.js?v=3de31054"></script>
   <script src="data/positions.js?v=482d6658"></script>
   <script src="assets/positions.js?v=7be7700e"></script>
-  <script src="assets/app.js?v=78487781"></script>
+  <script src="assets/app.js?v=8d8556e9"></script>
 </body>
 </html>

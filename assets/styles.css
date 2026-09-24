@@ -40,7 +40,7 @@
   --font-plex: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font: var(--font-bembo);   /* default; the F toggle switches to Plex */
   --header-h: 104px;
-  --corner-w: 216px;   /* the accent tab behind the site address */
+  --corner-w: 200px;   /* room kept clear for the site address */
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
   --column: 880px;     /* central text column, including its 24px padding */
 }
@@ -136,21 +136,6 @@ a { color: inherit; }
 /* Dividing lines, in the timeline's line style: below the menu and above
    the footer. H ("hudless") hides them. */
 
-/* The hero tab: an accent rectangle in the hero's top-right corner, the
-   height of the header, behind the site address. It scrolls away with the
-   hero; the address (fixed) then goes back to the text colour (app.js adds
-   .tab-away once the tab has left it). */
-.hero-tab {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: var(--corner-w);
-  height: var(--header-h);
-  border-bottom-left-radius: 10px;
-  background: var(--accent);
-  pointer-events: none;
-  transition: background-color 0.2s ease;
-}
 
 .header-inner {
   display: flex;
@@ -273,19 +258,36 @@ a { color: inherit; }
 :root[data-font="plex"] .fs-a { font-family: var(--font-bembo); font-size: 17px; }
 :root[data-font="plex"] .fs-b { font-family: var(--font-plex); font-size: 14px; }
 
-/* The site address sits on the accent shape, so it takes the colour made
-   for text on the accent, and swaps to white or black on hover */
+/* The site address, in brackets: [ coordination.ai ]. The name sits in a
+   box of fixed width (app.js measures it), so when .st-closed is set the
+   name shrinks away and the brackets close in on the middle, then open
+   again */
 .site-title {
   position: relative;
-  color: var(--on-accent);
+  display: inline-flex;
+  justify-content: center;
+  align-items: baseline;
+  width: var(--st-w, auto);
+  color: var(--ink);
   text-decoration: none;
   font-weight: 500;
   font-size: 18px;
+  white-space: nowrap;
   transition: color 0.2s ease;
 }
-.site-title:hover { color: var(--ink-strong); }
-.tab-away .site-title { color: var(--ink); }
-.tab-away .site-title:hover { color: var(--accent); }
+.site-title:hover { color: var(--accent); }
+.st-bracket { color: var(--accent); font-weight: 400; }
+.st-name {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 12em;
+  padding: 0 0.35em;
+  transition: max-width 0.4s cubic-bezier(0.65, 0, 0.35, 1), padding 0.4s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.25s ease;
+}
+.st-closed .st-name { max-width: 0; padding: 0 0.1em; opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .st-name { transition: opacity 0.2s ease; }
+}
 .site-title { margin-left: auto; }
 
 /* The current page's title in the top-left corner, faded in once the
@@ -328,7 +330,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 16px;
-  width: min(calc(100vw * 3 / 4 - 48px), calc(100vw - 72px - var(--corner-w)));   /* three quarters of the screen, clear of the tab */
+  width: min(calc(100vw * 3 / 4 - 48px), calc(100vw - 72px - var(--corner-w)));   /* three quarters of the screen, clear of the site address */
   height: var(--header-h);
   font-size: 16px;
 }
@@ -1588,7 +1590,7 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* ───────────── Phones */
 @media (max-width: 640px) {
-  :root { --header-h: 80px; --menu-h: 88px; --corner-w: 150px; }
+  :root { --header-h: 80px; --menu-h: 88px; --corner-w: 150px; }   /* room kept clear for the site address */
   :root { --menu-gap: 16px; }
   .menu .menu-inner { gap: 18px; }
   .menu a { font-size: 17px; }

@@ -287,7 +287,6 @@
   const hero = document.querySelector(".hero");
   const pageTitleFixed = document.getElementById("page-title-fixed");
   const footerEl = document.querySelector(".site-footer");
-  const heroTab = document.querySelector(".hero-tab");
   const siteTitle = document.querySelector(".site-title");
 
   function onScroll() {
@@ -303,9 +302,13 @@
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
     root.classList.toggle("at-footer", footerEl.getBoundingClientRect().top < window.innerHeight);
-    // The site address is fixed; once the hero's tab has scrolled out from
-    // under it, it goes back to the text colour
-    if (heroTab) root.classList.toggle("tab-away", heroTab.getBoundingClientRect().bottom < siteTitle.getBoundingClientRect().bottom + 4);
+    // The site address's brackets close while the menu's line crosses the
+    // top of the screen (in either direction), and open once it has passed:
+    // closed while the line is between just below the address and 120px
+    // further down
+    const line = menu.getBoundingClientRect().top + (parseFloat(menu.style.getPropertyValue("--menu-line-y")) || menu.offsetHeight);
+    const below = siteTitle.getBoundingClientRect().bottom + 4;
+    siteTitle.classList.toggle("st-closed", line > below && line < below + 120);
 
     // Once the page heading has scrolled up behind the header, show the page's
     // title in the top-left corner
@@ -715,6 +718,18 @@
     // The menu's dividing line runs level with the bar's lower edge
     document.querySelector(".menu").style.setProperty("--menu-line-y", `${a.offsetTop + a.offsetHeight - 3}px`);
   }
+  // The site address keeps its open width while the brackets close, so they
+  // meet in the middle; measured with the name showing
+  function sizeSiteTitle() {
+    const wasClosed = siteTitle.classList.contains("st-closed");
+    siteTitle.classList.remove("st-closed");
+    siteTitle.style.removeProperty("--st-w");
+    siteTitle.style.setProperty("--st-w", `${Math.ceil(siteTitle.getBoundingClientRect().width)}px`);
+    siteTitle.classList.toggle("st-closed", wasClosed);
+  }
+  document.fonts.ready.then(sizeSiteTitle);
+  document.fonts.addEventListener("loadingdone", sizeSiteTitle);
+  window.addEventListener("resize", sizeSiteTitle);
   window.addEventListener("resize", () => placeMenuIndicator(false));
   document.fonts.ready.then(() => placeMenuIndicator(false));
   document.fonts.addEventListener("loadingdone", () => placeMenuIndicator(false));   // a late font changes the items' widths
