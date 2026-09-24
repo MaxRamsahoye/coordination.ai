@@ -433,8 +433,8 @@ html:not(.loaded) body { overflow: hidden; }
   letter-spacing: -0.02em;
 }
 
-/* "AI Risk" fills with the accent colour from the bottom up, holds, then
-   drains, in a loop (app.js toggles .is-filled). The text is painted by a
+/* "AI Risk" fills with the accent colour from the bottom up as the page
+   is revealed, and stays filled (app.js adds .is-filled). The text is painted by a
    two-tone background twice its height, slid down to fill. */
 .title-fill {
   background: linear-gradient(to top, var(--accent) 50%, var(--ink) 50%);
@@ -498,13 +498,15 @@ html:not(.loaded) body { overflow: hidden; }
   height: var(--menu-h);
   padding-bottom: var(--menu-gap);
 }
-/* A full-width line below the menu, where the page begins */
+/* The menu's dividing line: full width, level with the lower edge of the
+   current item's accent bar (app.js sets --menu-line-y), so the bar and
+   the hover lines sit on it */
 .menu::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;   /* just past the first screen, so it isn't seen in the hero */
+  top: var(--menu-line-y, calc(100% - 1px));
   border-top: 1px solid var(--line);
   pointer-events: none;
 }
@@ -529,19 +531,6 @@ html:not(.loaded) body { overflow: hidden; }
    (app.js positions it) sits under the current page and slides to a new
    one; hovering draws a faint line under the item. */
 .menu-inner { position: relative; }
-/* A baseline under the whole row of items, from the first to the last
-   (app.js sizes it); the accent bar and the hover lines sit on it */
-.menu-inner::before {
-  content: "";
-  position: absolute;
-  left: var(--menu-line-x, 0);
-  top: var(--menu-line-y, 0);
-  width: var(--menu-line-w, 0);
-  height: 1px;
-  background: color-mix(in srgb, var(--ink) 22%, var(--bg));
-  pointer-events: none;
-}
-.hudless .menu-inner::before { display: none; }
 .menu a {
   position: relative;
   display: inline-flex;

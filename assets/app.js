@@ -524,18 +524,11 @@
     setTimeout(reveal, MAX);
   });
 
-  // ───────────── Hero title: "AI Risk" fills with the accent colour a
-  // second after the loading screen lifts, holds for 3s, drains, holds
-  // empty for 3s, and repeats (each fill or drain takes 2s)
+  // ───────────── Hero title: "AI Risk" fills with the accent colour as the
+  // loading screen lifts (over 2s), and stays filled
   function initTitleFill() {
     const el = document.querySelector(".title-fill");
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    revealed.then(() =>
-      setTimeout(() => {
-        el.classList.add("is-filled");
-        setInterval(() => el.classList.toggle("is-filled"), 5000);
-      }, 1000)
-    );
+    if (el) revealed.then(() => el.classList.add("is-filled"));
   }
 
   // ───────────── Hero subtitle: cycle through its sentences on one line
@@ -697,19 +690,14 @@
     indicator.classList.toggle("no-anim", !animate);
     indicator.style.width = `${a.offsetWidth}px`;
     indicator.style.transform = `translate(${a.offsetLeft}px, ${a.offsetTop + a.offsetHeight - 4}px)`;
-    // The baseline runs from the first item to the last, under the bar
-    const items = document.querySelectorAll(".menu a[data-page]");
-    const first = items[0], last = items[items.length - 1];
-    const inner = indicator.parentElement.style;
-    inner.setProperty("--menu-line-x", `${first.offsetLeft}px`);
-    inner.setProperty("--menu-line-w", `${last.offsetLeft + last.offsetWidth - first.offsetLeft}px`);
-    inner.setProperty("--menu-line-y", `${a.offsetTop + a.offsetHeight - 3}px`);
+    // The menu's dividing line runs level with the bar's lower edge
+    document.querySelector(".menu").style.setProperty("--menu-line-y", `${a.offsetTop + a.offsetHeight - 3}px`);
   }
   window.addEventListener("resize", () => placeMenuIndicator(false));
   document.fonts.ready.then(() => placeMenuIndicator(false));
 
-  // Menu: switch page, then glide down from the hero until the dividing
-  // line below the menu reaches the top of the screen
+  // Menu: switch page, then glide down from the hero until the menu's
+  // dividing line reaches the top of the screen
   const menuEl = document.querySelector(".menu");
   document.querySelectorAll(".menu a[data-page]").forEach((a) =>
     a.addEventListener("click", (e) => {
@@ -717,7 +705,7 @@
       const page = a.dataset.page;
       if (location.hash.slice(1) !== page) history.pushState(null, "", `#${page}`);
       showPage();
-      const lineY = menuEl.getBoundingClientRect().bottom + window.scrollY;   // the line sits at the menu's bottom edge
+      const lineY = menuEl.getBoundingClientRect().top + window.scrollY + (parseFloat(menuEl.style.getPropertyValue("--menu-line-y")) || menuEl.offsetHeight);
       glideTo(Math.round(lineY));
     })
   );
