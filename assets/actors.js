@@ -14,10 +14,10 @@
   const KINDS = {
     individuals: {
       label: "Individuals",
-      types: { scientist: "Research scientists", academic: "Academics", leader: "Lab leaders", campaigner: "Governance advocates", policymaker: "Policymakers" },
+      types: { campaigner: "Governance advocates", policymaker: "Policymakers", leader: "Lab leaders", scientist: "Research scientists", academic: "Academics" },
       one: { scientist: "Research scientist", academic: "Academic", leader: "Lab leader", campaigner: "Governance advocate", policymaker: "Policymaker" },
       intro: {
-        All: "The people shaping the debate on AI risk: research scientists, academics, the leaders of the frontier labs, governance advocates and policymakers.",
+        All: "The people shaping the debate on AI risk: governance advocates, policymakers, the leaders of the frontier labs, research scientists and academics.",
         scientist: "Research scientists warning about the risks of advanced AI or studying them.",
         academic: "Academics whose work frames the risks of advanced AI, from superintelligence to existential risk.",
         leader: "The leaders of the frontier labs racing to build more capable AI, and what they have said about pacing it.",
