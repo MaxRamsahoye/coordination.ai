@@ -514,17 +514,17 @@
     setTimeout(reveal, MAX);
   });
 
-  // ───────────── Hero title: "AI Risk" fills with the accent colour two
-  // seconds after the loading screen lifts, holds for 5s, drains, holds
-  // empty for 5s, and repeats (each fill or drain takes 1.2s)
+  // ───────────── Hero title: "AI Risk" fills with the accent colour a
+  // second after the loading screen lifts, holds for 3s, drains, holds
+  // empty for 3s, and repeats (each fill or drain takes 2s)
   function initTitleFill() {
     const el = document.querySelector(".title-fill");
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     revealed.then(() =>
       setTimeout(() => {
         el.classList.add("is-filled");
-        setInterval(() => el.classList.toggle("is-filled"), 6200);
-      }, 2000)
+        setInterval(() => el.classList.toggle("is-filled"), 5000);
+      }, 1000)
     );
   }
 

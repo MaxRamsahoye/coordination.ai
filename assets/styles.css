@@ -122,10 +122,19 @@ a { color: inherit; }
 .site-header a,
 .site-header button { pointer-events: auto; }
 
-/* Dividing lines, in the timeline's line style: below the header, above
-   and below the menu, above the footer. H ("hudless") hides them. */
-.site-header { border-bottom: 1px solid var(--line); }
-.hudless .site-header { border-bottom-color: transparent; }
+/* Dividing lines, in the timeline's line style: below the header (in the
+   hero only, so it scrolls away), below the menu, above the footer.
+   H ("hudless") hides them. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--line);
+  pointer-events: none;
+}
+.hudless .hero::before { display: none; }
 
 .header-inner {
   display: flex;
@@ -266,7 +275,7 @@ a { color: inherit; }
 
 /* ───────────── Hero */
 .hero {
-  position: relative;   /* for the controls in its bottom-right corner */
+  position: relative;   /* for the ticker, the controls and the header line */
   /* Fill the first screen above the menu bar, so the menu sits at the
      bottom of the screen on load; the artwork, title and subtitle are
      centred in the space between the header and the menu */
@@ -422,7 +431,7 @@ html:not(.loaded) body { overflow: hidden; }
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  transition: background-position 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+  transition: background-position 2s cubic-bezier(0.65, 0, 0.35, 1);
 }
 .title-fill.is-filled { background-position: 0 100%; }
 @media (prefers-reduced-motion: reduce) {
@@ -464,18 +473,17 @@ html:not(.loaded) body { overflow: hidden; }
   height: var(--menu-h);
   padding-bottom: var(--menu-gap);
 }
-/* Full-width lines above and below the pills' row */
-.menu::before, .menu::after {
+/* A full-width line below the pills' row, set a little way below them */
+.menu::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
+  bottom: calc(var(--menu-gap) / 2);
   border-top: 1px solid var(--line);
   pointer-events: none;
 }
-.menu::before { top: 0; }
-.menu::after { bottom: var(--menu-gap); }
-.hudless .menu::before, .hudless .menu::after { display: none; }
+.hudless .menu::after { display: none; }
 
 .menu-inner {
   display: flex;
