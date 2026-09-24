@@ -580,6 +580,9 @@
     const maxIncidents = Math.max(1, ...incidentsOf);
     const anyLab = new Set(labs.map(([, l]) => l.org));
     const totalIncidents = (window.CC_INCIDENTS || []).filter((i) => (i.orgs || []).some((o) => anyLab.has(o))).length;
+    // The executives in the labs' leadership charts, and their positions
+    const executives = labs.flatMap(([, l]) => people(l.chart));
+    const execCount = (st) => executives.filter((x) => x.stance === st).length;
     $("positions-view").classList.remove("is-chamber");
     $("positions-view").innerHTML = `
       ${statStrip([
@@ -587,6 +590,12 @@
         [count("pace") + count("ban"), "with stated support for pacing or binding rules", "pace"],
         [count("oppose"), "with stated opposition to a slowdown", "oppose"],
         [totalIncidents, "incidents involving their models"],
+      ])}
+      ${statStrip([
+        [executives.length, "executives tracked"],
+        [executives.filter((x) => x.stance).length, "with a recorded position"],
+        [execCount("pace") + execCount("ban"), "with stated support for pacing or binding rules", "pace"],
+        [execCount("oppose"), "with stated opposition to a slowdown", "oppose"],
       ])}
       <div class="ov-table ov-industry" role="table" aria-label="Frontier labs compared">
         <div class="ov-head" role="row">
