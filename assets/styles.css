@@ -982,7 +982,14 @@ html:not(.loaded) body { overflow: hidden; }
 .positions-mode .filter-label { width: auto; padding: 0 4px 0 0; }
 .positions-mode[hidden] { display: none; }
 
-.positions-view { padding-top: 32px; }   /* room above the diagrams */
+/* Heading for the chosen lab or chamber, with room below it */
+.positions-title {
+  margin: 44px 0 0;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.positions-view { padding-top: 24px; }
 
 /* Chamber diagrams scroll sideways on narrow screens. The UK chambers are
    wide and shallow, so they break out of the text column (up to 1240px,

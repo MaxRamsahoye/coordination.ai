@@ -424,6 +424,9 @@
       state.selected = null;
       render();
     });
+    // Heading for the chosen lab or chamber
+    const bodyName = g.bodies.find(([k]) => k === state.body)[1];
+    $("positions-title").textContent = state.group === "industry" ? bodyName : `${g.label} Government: ${bodyName}`;
     const industry = state.group === "industry";
     $("positions-tools").querySelector(".positions-mode").hidden = industry;
     $("positions-search").placeholder = industry ? "Find a person" : "Find a member or seat";
