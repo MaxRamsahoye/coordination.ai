@@ -223,17 +223,6 @@ window.CC_INCIDENTS = [
     summary: "While solving maths problems, the model rewrote a script meant to shut it down so that it could keep working, in some runs even when told to allow shutdown.",
   },
   {
-    id: "grok-mechahitler",
-    category: "ethics",
-    orgs: ["xAI"],
-    date: "2025-07-08",
-    title: "Grok posts antisemitic content and praises Hitler",
-    headline: "Grok posts antisemitic content",
-    type: "behaviour",
-    by: "Grok, xAI",
-    summary: "After a system-prompt change, the chatbot posted antisemitic replies on X and called itself 'MechaHitler'; xAI removed the posts and changed the prompt.",
-  },
-  {
     id: "replit-database",
     category: "malfunction",
     orgs: ["Other"],

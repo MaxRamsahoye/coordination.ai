@@ -437,7 +437,7 @@
         <p class="org-company-label">Company behaviour</p>
         ${notes ? `<ul class="cb-notes">${notes}</ul>` : ""}
         <p class="pd-note">${incidents.length
-          ? `${incidents.length} incident${incidents.length === 1 ? "" : "s"} on this site involve ${esc(lab.name)} models (${esc(breakdown)}). The latest:`
+          ? `${incidents.length} incident${incidents.length === 1 ? " on this site involves" : "s on this site involve"} ${esc(lab.name)} models (${esc(breakdown)}). ${incidents.length === 1 ? "It is:" : "The latest:"}`
           : `No incidents on this site involve ${esc(lab.name)} models.`}</p>
         ${latest ? `<ul class="cb-incidents">${latest}</ul>` : ""}
       </div>`;

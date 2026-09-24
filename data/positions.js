@@ -216,7 +216,7 @@
         behaviour: [{ note: "Actively seeks defence partnerships, according to the AI Safety Index.", source: FLI_INDEX }],
         evaluation: {
           verdict: "Words ahead of actions",
-          summary: "Elon Musk endorsed pacing the frontier, but xAI has made no concrete commitments. Its Grok chatbot posted antisemitic content after a system-prompt change, and the company actively seeks defence partnerships.",
+          summary: "Elon Musk endorsed pacing the frontier, but xAI has made no concrete commitments to it, and the company actively seeks defence partnerships. Its models appear on this site only in cross-lab tests, so its behaviour record here is thin.",
         },
         stance: "pace",
         note: "Elon Musk endorsed 'We Must Pace the Frontier' ('Dario is right'). He also signed the 2023 open letter calling for a six-month pause.",
