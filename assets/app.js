@@ -42,7 +42,10 @@
             ? `${n} book${n === 1 ? "" : "s"} on the risks of advanced AI, ${span}. Newest first.`
             : `${n} essay${n === 1 ? "" : "s"} on the future of AI, ${span}. Newest first.`,
     },
+    // Incidents has its own page design (assets/incidents.js); it's listed
+    // here for the ticker and the footer figures
     incidents: {
+      custom: true,
       items: window.CC_INCIDENTS || [],
       // Filter rows: one pill per value of the field, plus "All" (unless
       // `all: false`); they combine.
@@ -268,6 +271,7 @@
     if (!item) return;
     if (location.hash.slice(1) !== key) history.pushState(null, "", `#${key}`);
     showPage();
+    if (t.custom) return window.CC_showIncident && window.CC_showIncident(id);
     // Choose a filter pill that shows the entry, if the current one hides it
     for (const f of t.filters || []) {
       const values = fieldValues(item, f.by);
@@ -686,6 +690,7 @@
   }
 
   Object.keys(TIMELINES).forEach((key) => {
+    if (TIMELINES[key].custom) return;
     renderTimeline(key);
     renderFilters(key);
   });
