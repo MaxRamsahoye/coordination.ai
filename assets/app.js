@@ -611,8 +611,18 @@
     if (!heroArt || !heroTitle) return;
     const range = document.createRange();
     range.selectNodeContents(heroTitle);
-    const widest = Math.max(...[...range.getClientRects()].map((r) => r.width));
+    // The widest line: the title's text comes in pieces (the accent part is
+    // its own span), so join the pieces on each line
+    const lines = new Map();
+    [...range.getClientRects()].forEach((r) => {
+      const key = Math.round(r.top);
+      const l = lines.get(key) || { left: Infinity, right: -Infinity };
+      lines.set(key, { left: Math.min(l.left, r.left), right: Math.max(l.right, r.right) });
+    });
+    const widest = Math.max(...[...lines.values()].map((l) => l.right - l.left));
     if (widest > 0) heroArt.style.width = `${Math.round(widest)}px`;
+    // …and the description runs as wide as the title
+    if (widest > 0) heroTitle.closest(".hero").style.setProperty("--title-w", `${Math.round(widest)}px`);
   }
 
   // ───────────── Arrowhead glyphs (back-to-top and the controls toggle): fonts

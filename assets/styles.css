@@ -541,7 +541,7 @@ html:not(.loaded) body { overflow: hidden; }
 .hero-note {
   margin: 30px 0 0;
   padding-left: calc(var(--title-size) * 0.06);
-  max-width: calc(var(--subtitle-size) * 28.2 + var(--title-size) * 0.06);
+  max-width: var(--title-w, calc(var(--subtitle-size) * 28.2 + var(--title-size) * 0.06));   /* as wide as the title (app.js) */
   color: var(--ink-strong);
   font-size: clamp(20px, 2.3vw, 25px);
   line-height: 1.5;
