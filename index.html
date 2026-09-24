@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=25a449fa">
+  <link rel="stylesheet" href="assets/styles.css?v=5db20096">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -232,15 +232,28 @@
       </div>
     </section>
 
-    <!-- Race: the race between the frontier labs -->
+    <!-- Race: a timeline of frontier releases and inter-state competition, drawn as a race track (assets/race.js) -->
     <section id="page-race" class="page" aria-labelledby="race-heading" hidden>
       <div class="page-layout">
         <div class="page-main single-main">
           <div class="page-head">
             <h2 id="race-heading">Race</h2>
-            <p class="page-intro" id="race-intro">The race between the frontier labs to build ever more capable AI, and what it means for a coordinated slowdown.</p>
+            <p class="page-intro" id="race-intro">The race to build ever more capable AI, run side by side: each frontier lab's releases, and the moves states make to stay ahead of each other.</p>
           </div>
-          <div class="race-body" id="race-body"></div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Filter the race by category">
+              <span class="filter-label" aria-hidden="true">Category</span>
+              <div class="filter-scroll" id="race-filters"></div>
+            </div>
+          </div>
+          <!-- The track: a lane per lab or state, time running from the start
+               line to the finish line at today (assets/race.js) -->
+          <div class="race-scroll">
+            <div class="race-track" id="race-track"></div>
+          </div>
+          <div class="race-detail" id="race-detail" aria-live="polite"></div>
+          <h3 class="race-list-title">Lap by lap</h3>
+          <div class="race-list" id="race-list"></div>
         </div>
       </div>
     </section>
@@ -425,6 +438,8 @@
   <script src="data/materials.js?v=193de2e9"></script>
   <script src="data/statements.js?v=e7443cad"></script>
   <script src="data/organisations.js?v=b3d00148"></script>
+  <script src="data/race.js?v=ceb53dc7"></script>
+  <script src="assets/race.js?v=a1a298a9"></script>
   <script src="data/glossary.js?v=fef93df7"></script>
   <script src="assets/glossary.js?v=e7bb731a"></script>
   <script src="assets/directory.js?v=3de31054"></script>
