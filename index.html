@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=5db20096">
+  <link rel="stylesheet" href="assets/styles.css?v=3bc745ff">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -225,6 +225,16 @@
           <h3 class="positions-title" id="positions-title"></h3>
           <div class="positions-view" id="positions-view" aria-live="polite"></div>
           <div class="positions-legend" id="positions-legend"></div>
+          <!-- Previous / next through the diagram's boxes or seats (assets/positions.js) -->
+          <div class="positions-step" id="positions-step" hidden>
+            <button type="button" class="step-btn" data-step="-1" aria-label="Previous" aria-keyshortcuts="ArrowLeft" title="Previous (←)">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <span class="step-count" aria-live="polite"></span>
+            <button type="button" class="step-btn" data-step="1" aria-label="Next" aria-keyshortcuts="ArrowRight" title="Next (→)">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
           <div class="positions-detail" id="positions-detail" aria-live="polite"></div>
           <div class="positions-notes" id="positions-notes"></div>
           <div class="positions-list" id="positions-list"></div>
@@ -435,7 +445,7 @@
   <div class="cursor-dot" aria-hidden="true"></div>
 
   <script src="data/incidents.js?v=87793a25"></script>
-  <script src="data/materials.js?v=193de2e9"></script>
+  <script src="data/materials.js?v=a30a6352"></script>
   <script src="data/statements.js?v=e7443cad"></script>
   <script src="data/organisations.js?v=b3d00148"></script>
   <script src="data/race.js?v=ceb53dc7"></script>
@@ -444,7 +454,7 @@
   <script src="assets/glossary.js?v=e7bb731a"></script>
   <script src="assets/directory.js?v=3de31054"></script>
   <script src="data/positions.js?v=e38db874"></script>
-  <script src="assets/positions.js?v=837955a3"></script>
-  <script src="assets/app.js?v=73d66ddb"></script>
+  <script src="assets/positions.js?v=e9feef3b"></script>
+  <script src="assets/app.js?v=4ccece63"></script>
 </body>
 </html>

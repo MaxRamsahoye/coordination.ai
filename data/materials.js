@@ -1,18 +1,19 @@
 /*
  * Materials — scenarios (detailed stories, forecasts and plans for how the
- * arrival of advanced AI could unfold) and essays.
+ * arrival of advanced AI could unfold), essays and books.
  *
  * Each item:
  *   id       unique slug
- *   category scenario | essay (the category pills)
+ *   category scenario | essay | book (the category pills)
  *   date     when it was published: "YYYY-MM-DD", or "YYYY-MM" when only the
  *            month is known
  *   title    name of the piece
  *   headline short news-style line for the Latest developments ticker
- *   type     forecast | plan | essay (labels in app.js)
+ *   type     forecast | plan | essay | book (labels in app.js)
  *              forecast — what the authors think is likely to happen
  *              plan     — what the authors think should happen
  *              essay    — an argued account of a possible future
+ *              book     — a book-length argument
  *   by       authors and publisher
  *   summary  what it says or what happens, in one to three sentences
  *   quote    optional — a short verbatim line
@@ -115,5 +116,91 @@ window.CC_MATERIALS = [
     summary:
       "Forecasts AGI by around 2027 from extrapolated trends in compute and algorithms, followed quickly by superintelligence, trillion-dollar compute clusters and a national-security race with China that ends in a government-run AGI project.",
     source: { label: "situational-awareness.ai", url: "https://situational-awareness.ai/" },
+  },
+
+  // ── Books
+  {
+    id: "if-anyone-builds-it",
+    category: "book",
+    date: "2025-09-16",
+    title: "If Anyone Builds It, Everyone Dies",
+    headline: "Yudkowsky and Soares: 'If anyone builds it, everyone dies'",
+    type: "book",
+    by: "Eliezer Yudkowsky and Nate Soares",
+    summary:
+      "Argues that if anyone builds superintelligence with anything like today's techniques, humanity will lose control of it and be wiped out, and calls for an international agreement to halt its development.",
+    source: { label: "ifanyonebuildsit.com", url: "https://ifanyonebuildsit.com/" },
+  },
+  {
+    id: "the-coming-wave",
+    category: "book",
+    date: "2023-09-05",
+    title: "The Coming Wave",
+    headline: "Suleyman's The Coming Wave on containing AI",
+    type: "book",
+    by: "Mustafa Suleyman with Michael Bhaskar",
+    summary:
+      "The Google DeepMind co-founder, now at Microsoft, argues that containing AI and other fast-moving technologies, keeping control over them, is the central challenge of the century, and sets out steps towards it.",
+    source: { label: "the-coming-wave.com", url: "https://the-coming-wave.com/" },
+  },
+  {
+    id: "the-alignment-problem",
+    category: "book",
+    date: "2020-10-06",
+    title: "The Alignment Problem",
+    headline: "Christian's The Alignment Problem",
+    type: "book",
+    by: "Brian Christian",
+    summary:
+      "An account of the effort to make machine-learning systems do what we actually intend, told through the researchers working on it, from biased algorithms to the risks of more capable systems.",
+    source: { label: "Wikipedia", url: "https://en.wikipedia.org/wiki/The_Alignment_Problem" },
+  },
+  {
+    id: "the-precipice",
+    category: "book",
+    date: "2020-03-05",
+    title: "The Precipice",
+    headline: "Ord's The Precipice on existential risk",
+    type: "book",
+    by: "Toby Ord",
+    summary:
+      "A survey of the risks that could end humanity's future. Ord estimates the chance of existential catastrophe this century at one in six, with unaligned AI the largest single risk, at one in ten.",
+    source: { label: "Wikipedia", url: "https://en.wikipedia.org/wiki/The_Precipice:_Existential_Risk_and_the_Future_of_Humanity" },
+  },
+  {
+    id: "human-compatible",
+    category: "book",
+    date: "2019-10-08",
+    title: "Human Compatible",
+    headline: "Russell's Human Compatible on controlling AI",
+    type: "book",
+    by: "Stuart Russell",
+    summary:
+      "The co-author of the standard AI textbook argues that building machines to pursue fixed objectives is a mistake that becomes dangerous as they grow more capable, and proposes machines that remain uncertain about what people want.",
+    source: { label: "Wikipedia", url: "https://en.wikipedia.org/wiki/Human_Compatible" },
+  },
+  {
+    id: "life-3-0",
+    category: "book",
+    date: "2017-08-29",
+    title: "Life 3.0",
+    headline: "Tegmark's Life 3.0",
+    type: "book",
+    by: "Max Tegmark",
+    summary:
+      "The Future of Life Institute's co-founder sets out the futures superintelligent AI could bring, good and bad, and argues the conversation about which one we want has to start before it arrives.",
+    source: { label: "Wikipedia", url: "https://en.wikipedia.org/wiki/Life_3.0" },
+  },
+  {
+    id: "superintelligence",
+    category: "book",
+    date: "2014-07",
+    title: "Superintelligence: Paths, Dangers, Strategies",
+    headline: "Bostrom's Superintelligence",
+    type: "book",
+    by: "Nick Bostrom",
+    summary:
+      "The book that brought the risks of superintelligence to wide attention. Bostrom argues that a machine that surpassed human intelligence could be very hard to control, and that its goals would decide humanity's fate.",
+    source: { label: "Wikipedia", url: "https://en.wikipedia.org/wiki/Superintelligence:_Paths,_Dangers,_Strategies" },
   },
 ];

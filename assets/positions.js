@@ -238,6 +238,7 @@
       if (!c) return;
       if (stick) state.selected = +c.dataset.i;
       showMember(seats[+c.dataset.i], +c.dataset.i);
+      if (stick && e.isTrusted) scrollToDetail();
     };
     svg.addEventListener("pointerover", (e) => pick(e, false));
     svg.addEventListener("click", (e) => pick(e, true));
@@ -249,6 +250,15 @@
     renderLegend();
     renderList();
     renderNotes();
+    stepNav = {
+      count: seats.length,
+      index: () => (state.selected == null ? -1 : state.selected),
+      go: (i) => {
+        state.selected = i;
+        showMember(seats[i], i);
+        revealInFrame($("positions-view").querySelector(`.seat[data-i="${i}"]`));
+      },
+    };
     // Open on the chamber's featured member (see data/positions.js)
     if (state.selected == null) {
       const i = seats.findIndex((m) => m.id === (P.featured || {})[state.body]);
@@ -272,9 +282,11 @@
         ${pos ? `<p class="pd-note">${esc(pos.note)}</p>` : ""}
         ${pos && pos.source ? `<a class="tl-source" href="${esc(pos.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(pos.source.label)} ↗</a>` : ""}
       </div>`;
+    renderStepper();
   }
   function showHint() {
     $("positions-detail").innerHTML = `<p class="pd-hint">Hover over or tap a seat to see who sits there.</p>`;
+    renderStepper();
   }
 
   function renderLegend() {
@@ -348,6 +360,40 @@
       if (hit && first == null) first = +c.dataset.i;
     });
     if (first != null) showMember(seats[first], first);
+  }
+
+  // ───────────── Stepping through a diagram: the arrow buttons (and ← →)
+  // move to the previous or next box or seat, wrapping at the ends. Each
+  // diagram sets `stepNav` to { count, index(), go(k) }; overviews clear it.
+  let stepNav = null;
+  function renderStepper() {
+    const el = $("positions-step");
+    el.hidden = !stepNav;
+    if (!stepNav) return;
+    const k = stepNav.index();
+    el.querySelector(".step-count").textContent = `${k >= 0 ? (k + 1).toLocaleString() : "–"} / ${stepNav.count.toLocaleString()}`;
+  }
+  function step(d) {
+    if (!stepNav || !stepNav.count) return;
+    const k = stepNav.index();
+    stepNav.go(k < 0 ? (d > 0 ? 0 : stepNav.count - 1) : (k + d + stepNav.count) % stepNav.count);
+  }
+  // Keep a box or seat in view inside its sideways-scrolling frame, without
+  // moving the page up or down
+  function revealInFrame(el) {
+    const frame = el && el.closest(".org-scroll, .chamber-frame");
+    if (!frame || frame.scrollWidth <= frame.clientWidth) return;
+    const r = el.getBoundingClientRect(), f = frame.getBoundingClientRect();
+    frame.scrollTo({ left: frame.scrollLeft + (r.left + r.width / 2) - (f.left + f.width / 2), behavior: "smooth" });
+  }
+  // After a click in a diagram, glide down to the details (with the arrows
+  // above them) unless they're already in full view
+  function scrollToDetail() {
+    const top = $("positions-step").getBoundingClientRect().top;
+    const bottom = $("positions-detail").getBoundingClientRect().bottom;
+    const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 0;
+    if (top >= headerH && bottom <= window.innerHeight) return;
+    window.scrollTo({ top: window.scrollY + top - headerH - 24, behavior: "smooth" });
   }
 
   // ───────────── Industry: leadership chart as a nested tree
@@ -479,12 +525,26 @@
       selected = i;
       buttons.forEach((b) => b.classList.toggle("is-active", +b.dataset.i === i));
       show(nodes[i]);
+      renderStepper();
+    };
+    // The arrows step through the boxes in reading order: the company, its
+    // Trust and board, the leadership chart, then those who left
+    stepNav = {
+      count: buttons.length,
+      index: () => buttons.findIndex((b) => +b.dataset.i === selected),
+      go: (k) => {
+        select(+buttons[k].dataset.i);
+        revealInFrame(buttons[k]);
+      },
     };
     buttons.forEach((b) => {
       const i = +b.dataset.i;
       b.addEventListener("mouseenter", () => show(nodes[i]));
       b.addEventListener("focus", () => show(nodes[i]));
-      b.addEventListener("click", () => select(i));
+      b.addEventListener("click", (e) => {
+        select(i);
+        if (e.isTrusted) scrollToDetail();
+      });
     });
     $("positions-view").querySelector(".org-tree").addEventListener("mouseleave", () => show(nodes[selected]));
     // Each person counts once, though some sit on the board and lead too
@@ -603,6 +663,8 @@
     $("positions-view").closest(".positions-main").classList.toggle("is-overview", overview);
     $("positions-tools").querySelector(".positions-mode").hidden = industry;
     $("positions-search").placeholder = industry ? "Find a person" : "Find a member or seat";
+    stepNav = null;
+    renderStepper();
     if (overview) clearBelow();
     if (industry && overview) return renderIndustryOverview();
     if (industry) return renderIndustry();
@@ -753,6 +815,15 @@
         if (state.group !== "industry") renderLegend();
       })
     );
+    $("positions-step").querySelectorAll("[data-step]").forEach((b) => b.addEventListener("click", () => step(+b.dataset.step)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      if (e.metaKey || e.ctrlKey || e.altKey || !stepNav || $("page-positions").hidden) return;
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      e.preventDefault();
+      step(e.key === "ArrowLeft" ? -1 : 1);
+    });
     render();
     // Load the member lists in the background so the chambers open instantly
     loadMembers().catch(() => {});
