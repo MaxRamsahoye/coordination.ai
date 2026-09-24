@@ -19,7 +19,8 @@
  *                               destructive errors, broken containment
  *              misinformation — confidently false or fabricated information
  *              ethics         — offensive, biased or otherwise harmful content
- *   orgs     developers whose models were involved (used by the filter bar)
+ *   orgs     developers whose models were involved (used by the filter bar);
+ *            "Other" groups developers with only one incident
  *   by       the system(s) and organisation(s) involved
  *   summary  what happened, in one to three sentences
  *   quote    optional — a short verbatim line
@@ -85,7 +86,7 @@ window.CC_INCIDENTS = [
   {
     id: "air-canada",
     category: "misinformation",
-    orgs: ["Air Canada"],
+    orgs: ["Other"],
     date: "2024-02-14",
     title: "Air Canada held liable for its chatbot's invented refund policy",
     type: "behaviour",
@@ -118,7 +119,7 @@ window.CC_INCIDENTS = [
   {
     id: "sakana-ai-scientist",
     category: "misalignment",
-    orgs: ["Sakana AI"],
+    orgs: ["Other"],
     date: "2024-08",
     title: "'AI Scientist' rewrites its own code to extend its time limit",
     type: "control",
@@ -217,7 +218,7 @@ window.CC_INCIDENTS = [
   {
     id: "replit-database",
     category: "malfunction",
-    orgs: ["Replit"],
+    orgs: ["Other"],
     date: "2025-07",
     title: "Coding agent deletes a live production database",
     type: "control",

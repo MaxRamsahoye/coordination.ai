@@ -44,19 +44,20 @@
       items: window.CC_INCIDENTS || [],
       // Filter rows: one pill per value of the field, plus "All" (unless
       // `all: false`); they combine.
-      // `order` fixes the pill order (otherwise most common first) and
+      // `order` fixes the pill order (otherwise most common first, with any
+      // `last` value, such as "Other", at the end) and
       // `labels` gives display names.
       filters: [
         { by: "category", value: "All", order: ["misalignment", "misuse", "malfunction", "misinformation", "ethics"],
           labels: { misalignment: "Misalignment", misuse: "Misuse", malfunction: "Malfunction", misinformation: "Misinformation", ethics: "Ethics" } },
-        { by: "orgs", value: "All" },
+        { by: "orgs", value: "All", last: "Other" },
       ],
       types: { control: "Loss of control", behaviour: "Unintended behaviour", cyber: "Cyberattack" },
       prefix: "incident",
       intro: (n, span, [category, org]) => {
         const s = n === 1 ? "" : "s";
         const what = category === "All" ? `incident${s} of loss of control, unintended behaviour and AI cyberattacks` : `${category.toLowerCase()} incident${s}`;
-        return `${n} ${what}${org === "All" ? "" : ` involving ${org} models`}, ${span}. Dated by when each became public; newest first.`;
+        return `${n} ${what}${org === "All" ? "" : org === "Other" ? " involving other developers' models" : ` involving ${org} models`}, ${span}. Dated by when each became public; newest first.`;
       },
     },
   };
@@ -142,7 +143,7 @@
     t.items.forEach((s) => fieldValues(s, f.by).forEach((v) => counts.set(v, (counts.get(v) || 0) + 1)));
     const values = f.order
       ? f.order.filter((v) => counts.has(v)).map((v) => [v, counts.get(v)])
-      : [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+      : [...counts].sort((a, b) => (a[0] === f.last) - (b[0] === f.last) || b[1] - a[1] || a[0].localeCompare(b[0]));
     const options = f.all === false ? values : [["All", t.items.length], ...values];
     bar.innerHTML = options
       .map(
