@@ -52,7 +52,7 @@
 :root[data-font="hybrid"] { --font-ui: var(--font-plex); }
 :root[data-font="plex"] { --font: var(--font-plex); }
 .news, .site-title, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
-.toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta {
+.toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta, .footer-col {
   font-family: var(--font-ui);
 }
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
@@ -977,6 +977,8 @@ html:not(.loaded) body { overflow: hidden; }
   transition: color 0.2s ease;
 }
 .footer-col a:hover { color: var(--accent); }
+/* Plex runs larger than Bembo at the same size */
+:root[data-font="hybrid"] .footer-col a { font-size: 15px; }
 
 @media (max-width: 860px) {
   .footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
