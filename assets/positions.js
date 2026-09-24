@@ -237,7 +237,13 @@
     renderLegend();
     renderList();
     renderNotes();
-    showHint();
+    // Open on the chamber's featured member (see data/positions.js)
+    if (state.selected == null) {
+      const i = seats.findIndex((m) => m.id === (P.featured || {})[state.body]);
+      if (i >= 0) state.selected = i;
+    }
+    if (state.selected != null) showMember(seats[state.selected], state.selected);
+    else showHint();
   }
 
   function showMember(m, i) {

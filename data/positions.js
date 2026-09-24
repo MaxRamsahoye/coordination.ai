@@ -44,6 +44,15 @@
       none: "No recorded position",
     },
 
+    // The member each chamber diagram opens on: its most notable advocate of
+    // coordination (a ban, pause or moratorium on superintelligence)
+    featured: {
+      commons: "25680",   // Alex Sobel: introduced the Artificial Superintelligence Bill
+      lords: "13353",     // Lord Hunt of Kings Heath: led the debate on a moratorium
+      senate: "S000033",  // Bernie Sanders: Ban Artificial Superintelligence Act
+      house: "C001131",   // Greg Casar: Ban Artificial Superintelligence Act
+    },
+
     chambers: {
       commons: [
         { id: "25680", name: "Alex Sobel", stance: "ban", date: "2026-09-08",
