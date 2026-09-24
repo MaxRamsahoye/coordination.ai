@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=ad059625">
+  <link rel="stylesheet" href="assets/styles.css?v=537b4f6d">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -93,13 +93,14 @@
       <div class="container menu-inner">
         <a href="#positions" data-page="positions" aria-keyshortcuts="1"><span class="menu-num" aria-hidden="true">01</span>Positions</a>
         <a href="#race" data-page="race" aria-keyshortcuts="2"><span class="menu-num" aria-hidden="true">02</span>Race</a>
-        <a href="#incidents" data-page="incidents" aria-keyshortcuts="3"><span class="menu-num" aria-hidden="true">03</span>Incidents</a>
-        <a href="#actors" data-page="actors" aria-keyshortcuts="4"><span class="menu-num" aria-hidden="true">04</span>Actors</a>
-        <a href="#statements" data-page="statements" aria-keyshortcuts="5"><span class="menu-num" aria-hidden="true">05</span>Statements</a>
-        <a href="#materials" data-page="materials" aria-keyshortcuts="6"><span class="menu-num" aria-hidden="true">06</span>Materials</a>
-        <a href="#glossary" data-page="glossary" aria-keyshortcuts="7"><span class="menu-num" aria-hidden="true">07</span>Glossary</a>
-        <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="8"><span class="menu-num" aria-hidden="true">08</span>Coordinate</a>
-        <a href="#contact" data-page="contact" aria-keyshortcuts="9"><span class="menu-num" aria-hidden="true">09</span>Contact</a>
+        <a href="#milestones" data-page="milestones" aria-keyshortcuts="3"><span class="menu-num" aria-hidden="true">03</span>Milestones</a>
+        <a href="#incidents" data-page="incidents" aria-keyshortcuts="4"><span class="menu-num" aria-hidden="true">04</span>Incidents</a>
+        <a href="#actors" data-page="actors" aria-keyshortcuts="5"><span class="menu-num" aria-hidden="true">05</span>Actors</a>
+        <a href="#statements" data-page="statements" aria-keyshortcuts="6"><span class="menu-num" aria-hidden="true">06</span>Statements</a>
+        <a href="#materials" data-page="materials" aria-keyshortcuts="7"><span class="menu-num" aria-hidden="true">07</span>Materials</a>
+        <a href="#glossary" data-page="glossary" aria-keyshortcuts="8"><span class="menu-num" aria-hidden="true">08</span>Glossary</a>
+        <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="9"><span class="menu-num" aria-hidden="true">09</span>Coordinate</a>
+        <a href="#contact" data-page="contact" aria-keyshortcuts="0"><span class="menu-num" aria-hidden="true">10</span>Contact</a>
         <span class="menu-indicator" aria-hidden="true"></span>
       </div>
     </nav>
@@ -154,6 +155,21 @@
 
         <div class="progress-col" aria-hidden="true">
           <div class="progress-pill"><span class="progress-fill"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Milestones: a curated set of the most significant moments, on a
+         ribbon across time and as numbered panels (assets/milestones.js) -->
+    <section id="page-milestones" class="page" aria-labelledby="milestones-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="milestones-heading">Milestones</h2>
+            <p class="page-intro" id="milestones-intro"></p>
+          </div>
+          <div class="ms-ribbon" id="milestones-ribbon"></div>
+          <ol class="ms-list" id="milestones-list"></ol>
         </div>
       </div>
     </section>
@@ -428,6 +444,7 @@
         <ul>
           <li><a href="#positions" data-goto="positions">Positions</a></li>
           <li><a href="#race" data-goto="race">Race</a></li>
+          <li><a href="#milestones" data-goto="milestones">Milestones</a></li>
           <li><a href="#incidents" data-goto="incidents">Incidents</a></li>
           <li><a href="#actors" data-goto="actors">Actors</a></li>
           <li><a href="#statements" data-goto="statements">Statements</a></li>
@@ -463,6 +480,8 @@
   <script src="data/actors.js?v=db8bda7f"></script>
   <script src="data/world-map.js?v=8c78ec38"></script>
   <script src="assets/incidents.js?v=2e77fdde"></script>
+  <script src="data/milestones.js?v=4d34186f"></script>
+  <script src="assets/milestones.js?v=9d07e12c"></script>
   <script src="data/race.js?v=ceb53dc7"></script>
   <script src="assets/race.js?v=033c1bed"></script>
   <script src="data/glossary.js?v=fef93df7"></script>
@@ -470,6 +489,6 @@
   <script src="data/positions.js?v=bbca77cb"></script>
   <script src="assets/actors.js?v=0ee2547f"></script>
   <script src="assets/positions.js?v=06ed258f"></script>
-  <script src="assets/app.js?v=09160ac9"></script>
+  <script src="assets/app.js?v=0ef39270"></script>
 </body>
 </html>

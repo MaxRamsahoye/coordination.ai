@@ -499,7 +499,7 @@
   document.getElementById("font-toggle").addEventListener("click", toggleFont);
   toTop.addEventListener("click", toTopNow);
 
-  // Shortcuts: T theme, C accent, F font, H hudless, 1–9 pages, Backspace back to top
+  // Shortcuts: T theme, C accent, F font, H hudless, 1–9 and 0 pages, Backspace back to top
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
@@ -508,8 +508,8 @@
     else if (e.key === "c" || e.key === "C") toggleAccent();
     else if (e.key === "f" || e.key === "F") toggleFont();
     else if (e.key === "h" || e.key === "H") root.classList.toggle("hudless");   // hide the dividing lines
-    else if (/^[1-9]$/.test(e.key)) {   // 1–9: the menu's pages, in order
-      const item = document.querySelectorAll(".menu a[data-page]")[+e.key - 1];
+    else if (/^[0-9]$/.test(e.key)) {   // 1–9 and 0 (the tenth): the menu's pages, in order
+      const item = document.querySelectorAll(".menu a[data-page]")[(+e.key || 10) - 1];
       if (item) item.click();
     }
     else if (e.key === "Backspace") {
@@ -684,7 +684,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Positions
-  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "positions", "actors", "coordinate", "contact"];
+  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "milestones", "positions", "actors", "coordinate", "contact"];
   const DEFAULT_PAGE = "positions";
 
   let indicatorReady = false;   // the first placement doesn't animate
