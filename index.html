@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=cdcec2b9">
+  <link rel="stylesheet" href="assets/styles.css?v=4d5666bf">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -86,6 +86,7 @@
         <a href="#statements" data-page="statements">Statements</a>
         <a href="#materials" data-page="materials">Materials</a>
         <a href="#incidents" data-page="incidents">Incidents</a>
+        <a href="#positions" data-page="positions">Positions</a>
       </div>
     </nav>
 
@@ -173,6 +174,49 @@
         </div>
       </div>
     </section>
+
+    <!-- Positions: where labs and legislators stand on a coordinated slowdown,
+         pacing the frontier and existential risk (assets/positions.js). The
+         member lists load the first time the page opens. -->
+    <section id="page-positions" class="page" aria-labelledby="positions-heading" hidden
+             data-members="data/members-uk.js?v=26a7ff4d data/members-us.js?v=e52bad65">
+      <div class="page-layout">
+        <div class="page-main positions-main">
+          <div class="page-head">
+            <h2 id="positions-heading">Positions</h2>
+            <p class="page-intro" id="positions-intro">Where AI labs and legislators stand on a coordinated slowdown, pacing the frontier and existential risk from AI.</p>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Choose a group">
+              <span class="filter-label" aria-hidden="true">Group</span>
+              <div class="filter-scroll" id="positions-groups"></div>
+            </div>
+            <div class="filter-row" role="toolbar" aria-label="Choose a lab or chamber">
+              <span class="filter-label" aria-hidden="true" id="positions-body-label">Chamber</span>
+              <div class="filter-scroll" id="positions-bodies"></div>
+            </div>
+          </div>
+
+          <div class="positions-tools" id="positions-tools">
+            <label class="positions-search">
+              <span class="sr-only">Find a member</span>
+              <input type="search" id="positions-search" placeholder="Find a member" autocomplete="off">
+            </label>
+            <div class="positions-mode" role="group" aria-label="Colour seats by">
+              <span class="filter-label" aria-hidden="true">Colour</span>
+              <button type="button" class="filter-pill" data-mode="position" aria-pressed="true">Position</button>
+              <button type="button" class="filter-pill" data-mode="party" aria-pressed="false">Party</button>
+            </div>
+          </div>
+
+          <div class="positions-view" id="positions-view" aria-live="polite"></div>
+          <div class="positions-legend" id="positions-legend"></div>
+          <div class="positions-detail" id="positions-detail" aria-live="polite"></div>
+          <div class="positions-notes" id="positions-notes"></div>
+          <div class="positions-list" id="positions-list"></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -191,6 +235,8 @@
   <script src="data/incidents.js?v=a6b0b1cb"></script>
   <script src="data/materials.js?v=1008492a"></script>
   <script src="data/statements.js?v=38a35923"></script>
-  <script src="assets/app.js?v=3b6b5d48"></script>
+  <script src="data/positions.js?v=9289d81d"></script>
+  <script src="assets/positions.js?v=5f4b53a9"></script>
+  <script src="assets/app.js?v=3708a6ee"></script>
 </body>
 </html>

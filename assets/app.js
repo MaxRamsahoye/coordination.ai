@@ -608,7 +608,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Statements
-  const PAGES = ["statements", "materials", "incidents"];
+  const PAGES = ["statements", "materials", "incidents", "positions"];
   const DEFAULT_PAGE = "statements";
 
   function showPage() {
@@ -623,6 +623,7 @@
     // The newly shown page has its own sidebar and length
     onScroll();
     placeToc();
+    document.dispatchEvent(new CustomEvent("cc:pageshow", { detail: { page } }));
   }
 
   Object.keys(TIMELINES).forEach((key) => {
