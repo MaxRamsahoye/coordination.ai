@@ -695,6 +695,13 @@
     indicator.classList.toggle("no-anim", !animate);
     indicator.style.width = `${a.offsetWidth}px`;
     indicator.style.transform = `translate(${a.offsetLeft}px, ${a.offsetTop + a.offsetHeight - 4}px)`;
+    // The baseline runs from the first item to the last, under the bar
+    const items = document.querySelectorAll(".menu a[data-page]");
+    const first = items[0], last = items[items.length - 1];
+    const inner = indicator.parentElement.style;
+    inner.setProperty("--menu-line-x", `${first.offsetLeft}px`);
+    inner.setProperty("--menu-line-w", `${last.offsetLeft + last.offsetWidth - first.offsetLeft}px`);
+    inner.setProperty("--menu-line-y", `${a.offsetTop + a.offsetHeight - 3}px`);
   }
   window.addEventListener("resize", () => placeMenuIndicator(false));
   document.fonts.ready.then(() => placeMenuIndicator(false));

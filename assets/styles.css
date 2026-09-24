@@ -514,13 +514,26 @@ html:not(.loaded) body { overflow: hidden; }
    (app.js positions it) sits under the current page and slides to a new
    one; hovering draws a faint line under the item. */
 .menu-inner { position: relative; }
+/* A baseline under the whole row of items, from the first to the last
+   (app.js sizes it); the accent bar and the hover lines sit on it */
+.menu-inner::before {
+  content: "";
+  position: absolute;
+  left: var(--menu-line-x, 0);
+  top: var(--menu-line-y, 0);
+  width: var(--menu-line-w, 0);
+  height: 1px;
+  background: color-mix(in srgb, var(--ink) 22%, var(--bg));
+  pointer-events: none;
+}
+.hudless .menu-inner::before { display: none; }
 .menu a {
   position: relative;
   display: inline-flex;
   align-items: flex-start;
   gap: 5px;
   padding: 10px 0;
-  color: var(--ink-2);
+  color: color-mix(in srgb, var(--ink) 82%, var(--bg));   /* a little dimmer than the current item */
   text-decoration: none;
   font-size: 17px;
   line-height: 1.3;
@@ -532,7 +545,7 @@ html:not(.loaded) body { overflow: hidden; }
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 4px;
+  bottom: 2px;   /* on the baseline, level with the accent bar's lower edge */
   height: 1px;
   background: var(--ink-2);
   transform: scaleX(0);
