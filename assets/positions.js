@@ -9,8 +9,11 @@
   const P = window.CC_POSITIONS;
   if (!P) return;
 
-  // Groups and their bodies. Industry opens on an overview of every lab;
-  // Governments is an overview of every chamber (it has no body row).
+  // Groups and their bodies. The menu has up to three tiers: Industry or
+  // Governments; then a lab (Industry) or Overview, UK or US (Governments);
+  // then, for UK or US, a chamber. Industry and Governments each open on an
+  // overview. Internally the chosen country is the group (uk / us), and
+  // "gov" is the all-governments overview.
   const GROUPS = {
     industry: { label: "Industry", bodyLabel: "Lab", bodies: [["overview", "Overview"], ["anthropic", "Anthropic"], ["openai", "OpenAI"], ["deepmind", "Google DeepMind"], ["meta", "Meta"], ["xai", "xAI"]] },
     gov: { label: "Governments", bodyLabel: "", bodies: [["overview", "Overview"]] },
@@ -500,19 +503,23 @@
 
   function render() {
     const g = GROUPS[state.group];
-    pills($("positions-groups"), Object.entries(GROUPS).map(([k, v]) => [k, v.label]), state.group, (v) => {
-      state.group = v;
-      state.body = GROUPS[v].bodies[0][0];
+    const go = (group, body) => {
+      state.group = group;
+      state.body = body || GROUPS[group].bodies[0][0];
       state.selected = null;
       render();
-    });
-    $("positions-body-label").textContent = g.bodyLabel;
-    pills($("positions-bodies"), g.bodies, state.body, (v) => {
-      state.body = v;
-      state.selected = null;
-      render();
-    });
-    $("positions-bodies").closest(".filter-row").hidden = g.bodies.length < 2;
+    };
+    const industry0 = state.group === "industry";
+    // Tier 1: Industry or Governments
+    pills($("positions-groups"), [["industry", "Industry"], ["gov", "Governments"]], industry0 ? "industry" : "gov", (v) => go(v));
+    // Tier 2: a lab, or Overview / UK / US
+    $("positions-body-label").textContent = industry0 ? "Lab" : "Country";
+    if (industry0) pills($("positions-bodies"), g.bodies, state.body, (v) => go("industry", v));
+    else pills($("positions-bodies"), [["gov", "Overview"], ["uk", "UK"], ["us", "US"]], state.group, (v) => go(v));
+    // Tier 3: the chamber, for UK or US
+    const chamberRow = $("positions-chambers").closest(".filter-row");
+    chamberRow.hidden = !(state.group === "uk" || state.group === "us");
+    if (!chamberRow.hidden) pills($("positions-chambers"), g.bodies, state.body, (v) => go(state.group, v));
     // Heading for the chosen lab or chamber
     const bodyName = g.bodies.find(([k]) => k === state.body)[1];
     const overview = state.body === "overview";
