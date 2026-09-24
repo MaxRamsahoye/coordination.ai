@@ -380,8 +380,8 @@ a { color: inherit; }
   width: 100%;
   /* Never upscaled past its native 478px; on short screens it shrinks so
      the artwork, title, subtitle and menu still fit on the first screen
-     (447px is everything in that screen except the artwork's height) */
-  max-width: max(160px, min(478px, calc((100svh - 447px) * 478 / 346)));
+     (--hero-rest is everything in that screen except the artwork's height) */
+  max-width: max(160px, min(478px, calc((100svh - var(--hero-rest)) * 478 / 346)));
   aspect-ratio: 478 / 346;
   margin-bottom: 48px;   /* space above the title */
 }
@@ -419,7 +419,12 @@ html:not(.loaded) body { overflow: hidden; }
   :root:not([data-theme="light"]) :is(.hero-art, .loader) img { filter: invert(1); mix-blend-mode: screen; }
 }
 
-.hero { --title-size: clamp(44px, 7vw, 76px); }
+.hero { --title-size: clamp(44px, 7vw, 76px); --hero-rest: 590px; }
+/* Short windows: drop the description so the rest still fits */
+@media (max-height: 760px) {
+  .hero { --hero-rest: 482px; }
+  .hero-note { display: none; }
+}
 .hero h1 {
   margin: 0;
   font-weight: 600;
@@ -469,6 +474,16 @@ html:not(.loaded) body { overflow: hidden; }
   max-width: 36em;
   color: var(--ink-strong);
   font-size: clamp(20px, 2.6vw, 27px);
+}
+
+/* A short description under the subtitle, indented to match it */
+.hero-note {
+  margin: 14px 0 0;
+  padding-left: calc(var(--title-size) * 0.06);
+  max-width: 34em;
+  color: var(--ink-2);
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.55;
 }
 
 /* ───────────── Menu bar */
