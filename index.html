@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=5390f65f">
+  <link rel="stylesheet" href="assets/styles.css?v=053cbb6d">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -19,30 +19,6 @@
     <img src="assets/hero-landscape.webp?v=08e6fc0a" alt="" width="478" height="346" fetchpriority="high">
   </div>
   <noscript><style>.loader { display: none; }</style></noscript>
-  <!-- Top-left controls (theme, accent, font) sit in the page (not the fixed header), so they scroll away -->
-  <div class="page-controls" data-state="initial">
-    <!-- Appears a second after load, when the controls tuck away; opens and closes them -->
-    <button type="button" class="icon-btn controls-toggle" id="controls-toggle" aria-controls="control-set" aria-expanded="true" title="Show or hide theme and colour controls">
-      <span class="arrow-glyph" aria-hidden="true">&#x1F891;</span>
-      <span class="sr-only">Show or hide theme and colour controls</span>
-    </button>
-    <div class="control-set" id="control-set">
-      <button type="button" class="icon-btn" id="theme-toggle" aria-keyshortcuts="t" title="Toggle light/dark (T)">
-        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 14.6A8.5 8.5 0 0 1 9.4 3.3a.7.7 0 0 0-.9-.9A9.9 9.9 0 1 0 21.6 15.5a.7.7 0 0 0-.9-.9z"/></svg>
-        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
-        <span class="sr-only">Toggle light or dark theme</span>
-      </button>
-      <button type="button" class="icon-btn" id="accent-toggle" aria-keyshortcuts="c" title="Switch accent colour: crimson, blue, orange, black/white (C)">
-        <span class="accent-swatch" aria-hidden="true"></span>
-        <span class="sr-only">Switch accent colour</span>
-      </button>
-      <button type="button" class="icon-btn" id="font-toggle" aria-keyshortcuts="f" title="Switch font: ET Bembo / IBM Plex Sans (F)">
-        <span class="font-sample" aria-hidden="true">Aa</span>
-        <span class="sr-only">Switch font</span>
-      </button>
-    </div>
-  </div>
-
   <header class="site-header">
     <div class="header-inner">
       <!-- The current page's title, shown once its heading scrolls off the top -->
@@ -69,6 +45,30 @@
             <span>Mitigating existential risk from the AI race narrative.</span>
           </span>
         </p>
+      </div>
+
+      <!-- Theme, accent and font controls: bottom-right of the first screen, level with the menu; they scroll away with the page -->
+      <div class="page-controls" data-state="initial">
+        <!-- Appears a second after load, when the controls tuck away; opens and closes them -->
+        <button type="button" class="icon-btn controls-toggle" id="controls-toggle" aria-controls="control-set" aria-expanded="true" title="Show or hide theme and colour controls">
+          <span class="arrow-glyph" aria-hidden="true">&#x1F891;</span>
+          <span class="sr-only">Show or hide theme and colour controls</span>
+        </button>
+        <div class="control-set" id="control-set">
+          <button type="button" class="icon-btn" id="theme-toggle" aria-keyshortcuts="t" title="Toggle light/dark (T)">
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 14.6A8.5 8.5 0 0 1 9.4 3.3a.7.7 0 0 0-.9-.9A9.9 9.9 0 1 0 21.6 15.5a.7.7 0 0 0-.9-.9z"/></svg>
+            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
+            <span class="sr-only">Toggle light or dark theme</span>
+          </button>
+          <button type="button" class="icon-btn" id="accent-toggle" aria-keyshortcuts="c" title="Switch accent colour: crimson, blue, orange, black/white (C)">
+            <span class="accent-swatch" aria-hidden="true"></span>
+            <span class="sr-only">Switch accent colour</span>
+          </button>
+          <button type="button" class="icon-btn" id="font-toggle" aria-keyshortcuts="f" title="Switch font: ET Bembo / IBM Plex Sans (F)">
+            <span class="font-sample" aria-hidden="true">Aa</span>
+            <span class="sr-only">Switch font</span>
+          </button>
+        </div>
       </div>
     </section>
 
