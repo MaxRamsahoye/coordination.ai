@@ -375,7 +375,7 @@
     updateFavicon(next);
   }
 
-  // Favicon: a "C" in ET Bembo in the accent colour. The browser's
+  // Favicon: a circle outline in the accent colour. The browser's
   // tab strip doesn't follow the site's theme, so colours use their stronger
   // light-theme values, and mono is black or white to suit the browser.
   const FAVICON_C = document.getElementById("favicon") && fetch(document.getElementById("favicon").href).then((r) => r.text()).catch(() => null);
@@ -384,10 +384,10 @@
     const link = document.getElementById("favicon");
     const svg = link && (await FAVICON_C);
     if (!svg) return;
-    const fill = FAVICON_FILLS[accent];
-    const out = fill
-      ? svg.replace(/fill="[^"]*"/, `fill="${fill}"`)
-      : svg.replace(/fill="[^"]*"/, 'class="c"').replace(/<path/, "<style>.c{fill:#000}@media (prefers-color-scheme:dark){.c{fill:#fff}}</style><path");
+    const colour = FAVICON_FILLS[accent];
+    const out = colour
+      ? svg.replace(/stroke="#[0-9a-f]+"/i, `stroke="${colour}"`)
+      : svg.replace(/stroke="#[0-9a-f]+"/i, 'class="c"').replace(/<circle/, "<style>.c{stroke:#000}@media (prefers-color-scheme:dark){.c{stroke:#fff}}</style><circle");
     link.href = `data:image/svg+xml,${encodeURIComponent(out)}`;
   }
 
