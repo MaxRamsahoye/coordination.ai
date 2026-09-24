@@ -353,7 +353,15 @@
         <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(stanceLabel(lab.stance))}</p>
         <p class="pd-note">${esc(lab.note)} ${lab.source ? `<a class="tl-source" href="${esc(lab.source.url)}" target="_blank" rel="noopener noreferrer">${esc(lab.source.label)} ↗</a>` : ""}</p>
       </div>
+      ${behaviourBlock(lab)}
+      ${evaluationBlock(lab)}
       <div class="org-scroll"><ul class="org-tree">${node(lab.chart)}</ul></div>`;
+    $("positions-view").querySelectorAll("[data-incident]").forEach((a) =>
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (window.CC_openEntry) window.CC_openEntry("incidents", a.dataset.incident);
+      })
+    );
     const show = (n) => {
       $("positions-detail").innerHTML = `
         <div class="pd-card">
@@ -397,6 +405,48 @@
           <p class="pl-note">${esc(n.note || "")} ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">${esc(n.source.label)} ↗</a>` : ""}</p>
         </li>`).join("")}</ul>`;
     applySearch();
+  }
+
+  // Company behaviour: notes from the data, then the incidents on this site
+  // involving the lab's models — counted by category, with the latest few
+  const CATEGORY_NAMES = { misalignment: "misalignment", misuse: "misuse", malfunction: "malfunction", misinformation: "misinformation", ethics: "ethics" };
+  function behaviourBlock(lab) {
+    const incidents = (window.CC_INCIDENTS || [])
+      .filter((i) => (i.orgs || []).includes(lab.org))
+      .sort((a, b) => b.date.localeCompare(a.date));
+    const counts = {};
+    incidents.forEach((i) => (counts[i.category] = (counts[i.category] || 0) + 1));
+    const breakdown = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([c, n]) => `${n} ${CATEGORY_NAMES[c] || c}`)
+      .join(", ");
+    const notes = (lab.behaviour || [])
+      .map((b) => `<li>${esc(b.note)} ${b.source ? `<a class="tl-source" href="${esc(b.source.url)}" target="_blank" rel="noopener noreferrer">${esc(b.source.label)} ↗</a>` : ""}</li>`)
+      .join("");
+    const latest = incidents.slice(0, 4)
+      .map((i) => `<li><a href="#incidents" data-incident="${esc(i.id)}"><span class="cb-date">${esc(fmtDate(i.date))}</span>${esc(i.headline || i.title)}</a></li>`)
+      .join("");
+    return `
+      <div class="org-company org-behaviour">
+        <p class="org-company-label">Company behaviour</p>
+        ${notes ? `<ul class="cb-notes">${notes}</ul>` : ""}
+        <p class="pd-note">${incidents.length
+          ? `${incidents.length} incident${incidents.length === 1 ? "" : "s"} on this site involve ${esc(lab.name)} models (${esc(breakdown)}). The latest:`
+          : `No incidents on this site involve ${esc(lab.name)} models.`}</p>
+        ${latest ? `<ul class="cb-incidents">${latest}</ul>` : ""}
+      </div>`;
+  }
+
+  // Company evaluation: an independent grade
+  function evaluationBlock(lab) {
+    const e = lab.evaluation;
+    if (!e) return "";
+    return `
+      <div class="org-company org-evaluation">
+        <p class="org-company-label">Company evaluation</p>
+        <p class="ce-grade"><span class="ce-letter">${esc(e.grade)}</span>${e.score != null ? `<span class="ce-score">score ${esc(e.score.toFixed(2))}</span>` : ""}</p>
+        <p class="pd-note">${esc(e.note)} ${e.source ? `<a class="tl-source" href="${esc(e.source.url)}" target="_blank" rel="noopener noreferrer">${esc(e.source.label)} ↗</a>` : ""}</p>
+      </div>`;
   }
 
   // ───────────── Pills and view switching

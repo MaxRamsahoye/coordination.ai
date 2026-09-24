@@ -259,6 +259,7 @@
     });
   }
 
+  window.CC_openEntry = (key, id) => openEntry(key, id);   // for positions.js
   function openEntry(key, id) {
     const t = TIMELINES[key];
     const item = t.items.find((s) => s.id === id);

@@ -1092,6 +1092,20 @@ html:not(.loaded) body { overflow: hidden; }
   border-left: 3px solid var(--st);
 }
 .org-company p { margin: 0; }
+/* Behaviour and evaluation follow the position, with a neutral rule */
+.org-behaviour, .org-evaluation { border-left: 3px solid var(--line); }
+.cb-notes, .cb-incidents { margin: 8px 0 0; padding: 0; list-style: none; }
+.cb-notes li { font-size: 18px; line-height: 1.55; }
+.cb-notes li + li { margin-top: 6px; }
+.cb-notes .tl-source { display: inline; margin: 0; font-size: 15px; }
+.cb-notes + .pd-note { margin-top: 12px !important; }
+.cb-incidents li + li { margin-top: 4px; }
+.cb-incidents a { display: inline-flex; align-items: baseline; gap: 10px; color: var(--ink); font-size: 17px; text-decoration: none; transition: color 0.2s ease; }
+.cb-incidents a:hover { color: var(--accent); }
+.cb-date { color: var(--ink-2); font-family: var(--font-ui); font-size: 14px; white-space: nowrap; }
+.ce-grade { display: flex; align-items: baseline; gap: 12px; margin: 6px 0 4px !important; }
+.ce-letter { font-size: 40px; font-weight: 500; line-height: 1; }
+.ce-score { color: var(--ink-2); font-family: var(--font-ui); font-size: 14px; }
 .org-company-label { color: var(--ink-2); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
 /* The chart isn't limited by the text column: it can use the page's full
    width (less the usual 48px margins), centred on the page, and only
