@@ -16,7 +16,9 @@
  * individuals: each
  *   id       unique slug
  *   name     name
- *   type     scientist | leader | campaigner | policymaker (the category pills)
+ *   type     scientist | academic | leader | campaigner | policymaker (the
+ *            category pills: research scientists, academics, lab leaders,
+ *            governance advocates, policymakers)
  *   role     their role, in a line
  *   based    where they're based
  *   summary  why they matter here, in one or two sentences
@@ -172,7 +174,7 @@ window.CC_ACTORS = {
   ],
 
   individuals: [
-    // ── Scientists and researchers
+    // ── Research scientists
     {
       id: "geoffrey-hinton", name: "Geoffrey Hinton", type: "scientist", role: "Computer scientist; Nobel laureate in physics (2024)", based: "Toronto, Canada",
       summary: "A pioneer of deep learning who left Google in 2023 to speak freely about the risks of AI, including that it could escape human control.",
@@ -202,6 +204,21 @@ window.CC_ACTORS = {
       url: "https://metr.org/", site: "metr.org",
     },
 
+    // ── Academics
+    {
+      id: "nick-bostrom", name: "Nick Bostrom", type: "academic", role: "Philosopher; author of Superintelligence", based: "Oxford, UK",
+      summary: "His 2014 book Superintelligence brought the risks of machines surpassing human intelligence to wide attention.",
+    },
+    {
+      id: "toby-ord", name: "Toby Ord", type: "academic", role: "Philosopher; author of The Precipice", based: "Oxford, UK",
+      summary: "Estimates unaligned AI as the largest single existential risk this century, at one in ten.",
+    },
+
+    {
+      id: "roman-yampolskiy", name: "Roman Yampolskiy", type: "academic", role: "Computer scientist, University of Louisville", based: "Louisville, US",
+      summary: "An AI safety researcher who argues that superintelligent AI could not be reliably controlled; author of AI: Unexplainable, Unpredictable, Uncontrollable (2024).",
+    },
+
     // ── Lab leaders
     {
       id: "dario-amodei", name: "Dario Amodei", type: "leader", role: "Chief executive and co-founder, Anthropic", based: "San Francisco, US",
@@ -228,7 +245,7 @@ window.CC_ACTORS = {
       summary: "Built DeepSeek, whose open-weight models narrowed the gap between Chinese and US labs.",
     },
 
-    // ── Campaigners and writers
+    // ── Governance advocates
     {
       id: "eliezer-yudkowsky", name: "Eliezer Yudkowsky", type: "campaigner", role: "Co-founder, Machine Intelligence Research Institute", based: "Berkeley, US",
       summary: "Co-author of If Anyone Builds It, Everyone Dies (2025), which argues superintelligence built with today's methods would wipe out humanity.",
@@ -250,12 +267,9 @@ window.CC_ACTORS = {
       url: "https://pauseai.info/", site: "pauseai.info",
     },
     {
-      id: "nick-bostrom", name: "Nick Bostrom", type: "campaigner", role: "Philosopher; author of Superintelligence", based: "Oxford, UK",
-      summary: "His 2014 book Superintelligence brought the risks of machines surpassing human intelligence to wide attention.",
-    },
-    {
-      id: "toby-ord", name: "Toby Ord", type: "campaigner", role: "Philosopher; author of The Precipice", based: "Oxford, UK",
-      summary: "Estimates unaligned AI as the largest single existential risk this century, at one in ten.",
+      id: "tristan-harris", name: "Tristan Harris", type: "campaigner", role: "Co-founder, Center for Humane Technology", based: "San Francisco, US",
+      summary: "A former Google design ethicist who warns that the race to deploy AI repeats social media's mistakes, and calls for guardrails before it outpaces governance.",
+      url: "https://www.humanetech.com/", site: "humanetech.com",
     },
 
     // ── Policymakers

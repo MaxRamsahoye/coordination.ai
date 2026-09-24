@@ -14,13 +14,14 @@
   const KINDS = {
     individuals: {
       label: "Individuals",
-      types: { scientist: "Scientists", leader: "Lab leaders", campaigner: "Campaigners and writers", policymaker: "Policymakers" },
-      one: { scientist: "Scientist", leader: "Lab leader", campaigner: "Campaigner", policymaker: "Policymaker" },
+      types: { scientist: "Research scientists", academic: "Academics", leader: "Lab leaders", campaigner: "Governance advocates", policymaker: "Policymakers" },
+      one: { scientist: "Research scientist", academic: "Academic", leader: "Lab leader", campaigner: "Governance advocate", policymaker: "Policymaker" },
       intro: {
-        All: "The people shaping the debate on AI risk: scientists, the leaders of the frontier labs, campaigners and policymakers.",
-        scientist: "Scientists and researchers warning about the risks of advanced AI or studying them.",
+        All: "The people shaping the debate on AI risk: research scientists, academics, the leaders of the frontier labs, governance advocates and policymakers.",
+        scientist: "Research scientists warning about the risks of advanced AI or studying them.",
+        academic: "Academics whose work frames the risks of advanced AI, from superintelligence to existential risk.",
         leader: "The leaders of the frontier labs racing to build more capable AI, and what they have said about pacing it.",
-        campaigner: "Campaigners and writers pressing for a pause, a slowdown or a prohibition on superintelligence.",
+        campaigner: "Advocates pressing for governance of advanced AI: a pause, a slowdown or a prohibition on superintelligence.",
         policymaker: "Legislators who have proposed or backed binding limits on advanced AI.",
       },
     },
