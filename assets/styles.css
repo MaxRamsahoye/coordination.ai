@@ -575,6 +575,16 @@ html:not(.loaded) body { overflow: hidden; }
 }
 /* When the pills don't all fit (app.js adds .overflows), they scroll
    sideways and the right edge fades until the end is reached */
+/* On wide screens there's room to the right of the text column, so the
+   items run on past it rather than scrolling */
+@media (min-width: 1200px) {
+  .menu-inner {
+    width: max-content;
+    max-width: none;
+    margin-left: calc((100% - var(--column)) / 2);   /* the column's left edge, as before */
+    overflow-x: visible;
+  }
+}
 .menu-inner.overflows:not(.at-end) {
   -webkit-mask: linear-gradient(to right, #000 calc(100% - 40px), transparent);
   mask: linear-gradient(to right, #000 calc(100% - 40px), transparent);
