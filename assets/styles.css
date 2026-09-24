@@ -982,6 +982,8 @@ html:not(.loaded) body { overflow: hidden; }
 .positions-mode .filter-label { width: auto; padding: 0 4px 0 0; }
 .positions-mode[hidden] { display: none; }
 
+.positions-view { padding-top: 32px; }   /* room above the diagrams */
+
 /* Chamber diagrams scroll sideways on narrow screens. The UK chambers are
    wide and shallow, so they break out of the text column (up to 1240px,
    less the page margins, centred on the page) to show their seats larger.
@@ -1157,6 +1159,7 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .org-node[data-s="ban"], .org-node[data-s="pace"], .org-node[data-s="oppose"] { border-color: var(--st); }
 .org-node:hover, .org-node:focus-visible { border-color: var(--ink-2); }
+.org-node.is-active { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
 .org-name { display: inline-flex; align-items: center; font-size: 17px; font-weight: 500; line-height: 1.25; }
 .org-role { color: var(--ink-2); font-size: 14px; line-height: 1.35; }
 .is-searching .org-node:not(.is-match) { opacity: 0.3; }

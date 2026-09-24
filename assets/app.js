@@ -625,9 +625,9 @@
     });
   }
 
-  // ───────────── Routing: #<page>, defaulting to Statements
+  // ───────────── Routing: #<page>, defaulting to Positions
   const PAGES = ["statements", "materials", "incidents", "positions", "organisations", "coordinate", "contact"];
-  const DEFAULT_PAGE = "statements";
+  const DEFAULT_PAGE = "positions";
 
   let indicatorReady = false;   // the first placement doesn't animate
   function showPage() {

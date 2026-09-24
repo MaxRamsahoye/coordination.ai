@@ -364,19 +364,29 @@
           ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(n.source.label)} ↗</a>` : ""}
         </div>`;
     };
-    $("positions-view").querySelectorAll(".org-node").forEach((b) => {
-      const n = nodes[+b.dataset.i];
-      b.addEventListener("mouseenter", () => show(n));
-      b.addEventListener("focus", () => show(n));
-      b.addEventListener("click", () => show(n));
+    // The person at the top of the chart is selected to begin with;
+    // hovering previews someone else, clicking selects them
+    let selected = 0;
+    const buttons = [...$("positions-view").querySelectorAll(".org-node")];
+    const select = (i) => {
+      selected = i;
+      buttons.forEach((b) => b.classList.toggle("is-active", +b.dataset.i === i));
+      show(nodes[i]);
+    };
+    buttons.forEach((b) => {
+      const i = +b.dataset.i;
+      b.addEventListener("mouseenter", () => show(nodes[i]));
+      b.addEventListener("focus", () => show(nodes[i]));
+      b.addEventListener("click", () => select(i));
     });
+    $("positions-view").querySelector(".org-tree").addEventListener("mouseleave", () => show(nodes[selected]));
     const recorded = nodes.filter((n) => n.stance);
     $("positions-legend").innerHTML = ["ban", "pace", "oppose", "none"]
       .map((s) => [s, nodes.filter((n) => (n.stance || "none") === s).length])
       .filter(([, c]) => c)
       .map(([s, c]) => `<span class="lg-item" data-s="${s}"><span class="lg-swatch"></span>${esc(stanceLabel(s))} <span class="filter-count">${c}</span></span>`)
       .join("");
-    $("positions-detail").innerHTML = `<p class="pd-hint">Hover over or select a person to see their recorded position.</p>`;
+    select(0);
     $("positions-notes").innerHTML = `<p>Public leadership only, grouped by area; reporting lines are approximate and roles may have changed. Staff below leadership aren't listed.</p>`;
     $("positions-list").innerHTML = `
       <h3 class="pl-title">Recorded positions <span class="filter-count">${recorded.length} of ${nodes.length} people</span></h3>
