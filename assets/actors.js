@@ -176,7 +176,16 @@
     const K = KINDS[state.kind];
     $("actors-intro").textContent = K.intro[state.type];
     renderMap();
-    $("actors-list").innerHTML = shown().map(card).join("");
+    // With All chosen, group the cards under their categories, in order
+    const list = shown();
+    $("actors-list").innerHTML = state.type !== "All"
+      ? list.map(card).join("")
+      : Object.entries(K.types).map(([t, label]) => {
+          const group = list.filter((x) => x.type === t);
+          return group.length
+            ? `<li class="ac-group-head" role="presentation">${esc(label)} <span class="filter-count">${group.length}</span></li>${group.map(card).join("")}`
+            : "";
+        }).join("");
   }
 
   render();

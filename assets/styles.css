@@ -684,7 +684,7 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* Contact ends with its form: no empty stretch before the footer (the
    footer keeps the page tall enough for the menu's auto-scroll) */
-#page-contact { padding-bottom: 32px; min-height: 0; }
+#page-contact { padding-bottom: 88px; min-height: 0; }
 
 .page-layout {
   display: grid;
@@ -2227,3 +2227,18 @@ html:not(.loaded) body { overflow: hidden; }
 @media (max-width: 1100px) { #page-actors .page-head, #page-actors .filter-bar, #actors-place, #actors-list { --wide: calc(100vw - 32px); } }
 @media (max-width: 900px) { #actors-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { #actors-list { grid-template-columns: 1fr; } }
+
+/* Actors: with All chosen, the cards are grouped under their categories */
+.ac-group-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 32px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 26px;
+  font-weight: 500;
+  list-style: none;
+}
+.ac-group-head:first-child { margin-top: 0; }
