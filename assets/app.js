@@ -293,6 +293,7 @@
   // Hiding the address: the brackets close, then fade away; showing it, they
   // fade back in closed, then open. Each step waits for the one before
   let addressHidden = false, addressTimer;
+  let lastScrollY = window.scrollY, scrollDir = "down";
   function setAddress(hide) {
     if (hide === addressHidden) return;
     addressHidden = hide;
@@ -319,16 +320,22 @@
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
     root.classList.toggle("at-footer", footerEl.getBoundingClientRect().top < window.innerHeight);
-    // The site address hides between two scroll points: once the top of the
-    // hero description has passed under it, until the page reaches the point
-    // the menu glides to (its line at the top of the screen). The same both
-    // ways
+    // Which way the page last moved
+    const y = window.scrollY;
+    if (y > lastScrollY) scrollDir = "down";
+    else if (y < lastScrollY) scrollDir = "up";
+    lastScrollY = y;
+    root.classList.toggle("scrolling-down", scrollDir === "down" && y > 0);
+    // The site address hides as soon as the page scrolls down from the top,
+    // until it reaches the point the menu glides to (its line at the top of
+    // the screen). Scrolling back up, it hides again below that point, and
+    // shows once the top of the hero description is back under it
     const lineAbs = menu.getBoundingClientRect().top + window.scrollY + (parseFloat(menu.style.getPropertyValue("--menu-line-y")) || menu.offsetHeight);
     const st = siteTitle.getBoundingClientRect();
     // (short windows hide the note, leaving the cycling line in its place)
     const descTop = (heroNote.offsetHeight ? heroNote : heroDescription).getBoundingClientRect().top + window.scrollY;
     const hideFrom = Math.max(1, descTop - (st.top + st.height / 2));
-    setAddress(window.scrollY > hideFrom && window.scrollY < lineAbs - 1);
+    setAddress(y > 0 && y < lineAbs - 1 && (y > hideFrom || scrollDir === "down"));
 
     // Once the page heading has scrolled up behind the header, show the page's
     // title in the top-left corner

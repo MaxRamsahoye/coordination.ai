@@ -215,6 +215,13 @@ a { color: inherit; }
 .page-controls[data-state="tucking"] .arrow-glyph,
 .page-controls[data-state="open"] .arrow-glyph { transform: rotate(-90deg); }   /* left */
 .page-controls[data-state="closed"] .arrow-glyph { transform: rotate(90deg); }   /* right */
+/* Scrolling down, the closed controls' arrow fades away; it returns on the
+   way back up */
+.scrolling-down .page-controls[data-state="closed"] .controls-toggle {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .controls-toggle, .control-set, .controls-toggle .arrow-glyph { transition: none; }
