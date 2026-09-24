@@ -653,17 +653,17 @@
   fitHeroArt();
   initHeroCycle();
   initTitleFill();
-  // Menu: switch page, then glide down from the hero so the page starts
-  // just below the header
+  // Menu: switch page, then glide down from the hero until the dividing
+  // line below the menu reaches the top of the screen
+  const menuEl = document.querySelector(".menu");
   document.querySelectorAll(".menu a[data-page]").forEach((a) =>
     a.addEventListener("click", (e) => {
       e.preventDefault();
       const page = a.dataset.page;
       if (location.hash.slice(1) !== page) history.pushState(null, "", `#${page}`);
       showPage();
-      const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
-      const section = document.getElementById(`page-${page}`);
-      window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - headerH, behavior: "smooth" });
+      const lineY = menuEl.getBoundingClientRect().bottom + window.scrollY;   // the line sits at the menu's bottom edge
+      window.scrollTo({ top: Math.round(lineY), behavior: "smooth" });
     })
   );
 

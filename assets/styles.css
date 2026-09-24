@@ -301,7 +301,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 16px;
-  width: min(calc(100vw * 2 / 3 - 48px), calc(100vw - 96px - 220px));   /* two thirds of the screen, clear of the site title */
+  width: min(calc(100vw * 3 / 4 - 48px), calc(100vw - 96px - 220px));   /* three quarters of the screen, clear of the site title */
   height: var(--header-h);
   font-size: 14px;
 }
