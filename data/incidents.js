@@ -12,14 +12,14 @@
  *              control   — loss of control: evading containment, oversight or shutdown
  *              behaviour — unintended behaviour: deception, manipulation, harmful outputs
  *              cyber     — cyberattacks carried out by or with AI systems
- *   category misalignment | misuse | malfunction | misinformation | ethics
+ *   category misalignment | misuse | malfunction | misinformation | misbehaviour
  *              misalignment   — the model pursues goals or takes actions its developers
  *                               didn't intend: deception, scheming, evading oversight
  *              misuse         — people deliberately using AI to cause harm
  *              malfunction    — failures of the system or its setup: bad updates,
  *                               destructive errors, broken containment
  *              misinformation — confidently false or fabricated information
- *              ethics         — offensive, biased or otherwise harmful content
+ *              misbehaviour   — offensive, biased or otherwise harmful content
  *   orgs     developers whose models were involved (used by the filter bar);
  *            "Other" groups developers with only one incident
  *   by       the system(s) and organisation(s) involved
@@ -30,7 +30,7 @@
 window.CC_INCIDENTS = [
   {
     id: "tay",
-    category: "ethics",
+    category: "misbehaviour",
     orgs: ["Microsoft"],
     date: "2016-03-24",
     title: "Microsoft's Tay chatbot turns offensive within a day",
@@ -103,7 +103,7 @@ window.CC_INCIDENTS = [
   },
   {
     id: "gemini-images",
-    category: "ethics",
+    category: "misbehaviour",
     orgs: ["Google DeepMind"],
     date: "2024-02-22",
     title: "Gemini's image generation paused over historical depictions",

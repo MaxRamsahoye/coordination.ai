@@ -53,8 +53,8 @@
       // `last` value, such as "Other", at the end) and
       // `labels` gives display names.
       filters: [
-        { by: "category", value: "All", order: ["misalignment", "misuse", "malfunction", "misinformation", "ethics"],
-          labels: { misalignment: "Misalignment", misuse: "Misuse", malfunction: "Malfunction", misinformation: "Misinformation", ethics: "Ethics" } },
+        { by: "category", value: "All", order: ["misalignment", "misuse", "malfunction", "misinformation", "misbehaviour"],
+          labels: { misalignment: "Misalignment", misuse: "Misuse", malfunction: "Malfunction", misinformation: "Misinformation", misbehaviour: "Misbehaviour" } },
         { by: "orgs", value: "All", last: "Other" },
       ],
       types: { control: "Loss of control", behaviour: "Unintended behaviour", cyber: "Cyberattack" },

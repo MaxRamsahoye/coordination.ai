@@ -601,7 +601,7 @@
 
   // Company behaviour: notes from the data, then the incidents on this site
   // involving the lab's models — counted by category, with the latest few
-  const CATEGORY_NAMES = { misalignment: "misalignment", misuse: "misuse", malfunction: "malfunction", misinformation: "misinformation", ethics: "ethics" };
+  const CATEGORY_NAMES = { misalignment: "misalignment", misuse: "misuse", malfunction: "malfunction", misinformation: "misinformation", misbehaviour: "misbehaviour" };
   function positionBlock(lab) {
     return `
       <div class="org-company" data-s="${lab.stance}">

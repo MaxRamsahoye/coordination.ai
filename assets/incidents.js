@@ -19,7 +19,7 @@
   const sortKey = (d) => { const [y, m = "00", day = "00"] = d.split("-"); return `${y}-${m}-${day}`; };
   const $ = (id) => document.getElementById(id);
 
-  const CATEGORIES = { misalignment: "Misalignment", misuse: "Misuse", malfunction: "Malfunction", misinformation: "Misinformation", ethics: "Ethics" };
+  const CATEGORIES = { misalignment: "Misalignment", misuse: "Misuse", malfunction: "Malfunction", misinformation: "Misinformation", misbehaviour: "Misbehaviour" };
   const TYPES = { control: "Loss of control", behaviour: "Unintended behaviour", cyber: "Cyberattack" };
   // Developers, most incidents first, with "Other" last
   const orgCount = new Map();
