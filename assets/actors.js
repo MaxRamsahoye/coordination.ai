@@ -52,7 +52,11 @@
   })();
 
   const items = () => A[state.kind];
-  const typed = () => items().filter((x) => state.type === "All" || x.type === state.type);
+  // An actor can belong to several categories; the first is its main one,
+  // under which it's grouped when All is chosen
+  const typesOf = (x) => [].concat(x.type);
+  const isType = (x, t) => typesOf(x).includes(t);
+  const typed = () => items().filter((x) => state.type === "All" || isType(x, state.type));
   const shown = () => typed().filter((x) => !state.place || placeKey(x) === state.place);
 
   // ───────────── Pills
@@ -70,7 +74,7 @@
       state.kind = v; state.type = "All"; state.place = null; render();
     });
     const K = KINDS[state.kind];
-    pills($("actors-filters"), [["All", "All", items().length], ...Object.entries(K.types).map(([k, label]) => [k, label, items().filter((x) => x.type === k).length])], state.type, (v) => {
+    pills($("actors-filters"), [["All", "All", items().length], ...Object.entries(K.types).map(([k, label]) => [k, label, items().filter((x) => isType(x, k)).length])], state.type, (v) => {
       state.type = v; state.place = null; render();
     });
   }
@@ -80,8 +84,8 @@
   function card(x) {
     const K = KINDS[state.kind];
     const meta = state.kind === "institutions"
-      ? `${K.one[x.type]} · ${x.based} · since ${x.founded}`
-      : `${K.one[x.type]} · ${x.based}`;
+      ? `${typesOf(x).map((t) => K.one[t]).join(" · ")} · ${x.based} · since ${x.founded}`
+      : `${typesOf(x).map((t) => K.one[t]).join(" · ")} · ${x.based}`;
     const st = recorded.get(x.name);
     return `
       <li class="org-card" id="actor-${esc(x.id)}">
@@ -181,7 +185,7 @@
     $("actors-list").innerHTML = state.type !== "All"
       ? list.map(card).join("")
       : Object.entries(K.types).map(([t, label]) => {
-          const group = list.filter((x) => x.type === t);
+          const group = list.filter((x) => typesOf(x)[0] === t);
           return group.length
             ? `<li class="ac-group-head" role="presentation">${esc(label)} <span class="filter-count">${group.length}</span></li>${group.map(card).join("")}`
             : "";

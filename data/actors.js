@@ -5,7 +5,8 @@
  * institutions: each
  *   id       unique slug
  *   name     name
- *   type     lab | government | research | advocacy (the category pills)
+ *   type     lab | government | research | advocacy (the category pills); a
+ *            list for more than one, main category first
  *   founded  year it started (or took its current form)
  *   based    where it's based, as shown
  *   at       [latitude, longitude] of that place, for the map's pin
@@ -16,7 +17,8 @@
  * individuals: each
  *   id       unique slug
  *   name     name
- *   type     scientist | academic | leader | campaigner | policymaker (the
+ *   type     scientist | academic | leader | campaigner | policymaker, or a
+ *            list of them, main category first (the
  *            category pills: research scientists, academics, lab leaders,
  *            governance advocates, policymakers)
  *   role     their role, in a line
@@ -120,7 +122,7 @@ window.CC_ACTORS = {
       url: "https://palisaderesearch.org/",
     },
     {
-      id: "miri", name: "Machine Intelligence Research Institute", type: "research", founded: 2000, based: "Berkeley, US", at: [37.87, -122.27],
+      id: "miri", name: "Machine Intelligence Research Institute", type: ["research", "advocacy"], founded: 2000, based: "Berkeley, US", at: [37.87, -122.27],
       summary: "The first organisation devoted to the risks of smarter-than-human AI; now argues for an international halt to its development.",
       url: "https://intelligence.org/",
     },
@@ -135,7 +137,7 @@ window.CC_ACTORS = {
       url: "https://epoch.ai/",
     },
     {
-      id: "cais", name: "Center for AI Safety", type: "research", founded: 2022, based: "San Francisco, US", at: [37.77, -122.42],
+      id: "cais", name: "Center for AI Safety", type: ["research", "advocacy"], founded: 2022, based: "San Francisco, US", at: [37.77, -122.42],
       summary: "Researches AI safety and field-building; organised the 2023 Statement on AI Risk placing extinction risk alongside pandemics and nuclear war.",
       url: "https://safe.ai/",
     },
@@ -176,20 +178,20 @@ window.CC_ACTORS = {
   individuals: [
     // ── Research scientists
     {
-      id: "geoffrey-hinton", name: "Geoffrey Hinton", type: "scientist", role: "Computer scientist; Nobel laureate in physics (2024)", based: "Toronto, Canada",
+      id: "geoffrey-hinton", name: "Geoffrey Hinton", type: ["scientist", "academic", "campaigner"], role: "Computer scientist; Nobel laureate in physics (2024)", based: "Toronto, Canada",
       summary: "A pioneer of deep learning who left Google in 2023 to speak freely about the risks of AI, including that it could escape human control.",
     },
     {
-      id: "yoshua-bengio", name: "Yoshua Bengio", type: "scientist", role: "Computer scientist; Turing Award laureate; founder of LawZero", based: "Montreal, Canada",
+      id: "yoshua-bengio", name: "Yoshua Bengio", type: ["scientist", "academic", "campaigner"], role: "Computer scientist; Turing Award laureate; founder of LawZero", based: "Montreal, Canada",
       summary: "Chairs the International AI Safety Report and warns of catastrophic risks from agentic AI; founded LawZero to build safe-by-design systems.",
       url: "https://lawzero.org/", site: "lawzero.org",
     },
     {
-      id: "stuart-russell", name: "Stuart Russell", type: "scientist", role: "Professor of computer science, UC Berkeley", based: "Berkeley, US",
+      id: "stuart-russell", name: "Stuart Russell", type: ["scientist", "academic", "campaigner"], role: "Professor of computer science, UC Berkeley", based: "Berkeley, US",
       summary: "Co-author of the standard AI textbook and of Human Compatible; argues that machines pursuing fixed objectives become dangerous as they grow more capable.",
     },
     {
-      id: "dan-hendrycks", name: "Dan Hendrycks", type: "scientist", role: "Director, Center for AI Safety", based: "San Francisco, US",
+      id: "dan-hendrycks", name: "Dan Hendrycks", type: ["scientist", "campaigner"], role: "Director, Center for AI Safety", based: "San Francisco, US",
       summary: "Organised the 2023 Statement on AI Risk, signed by leading scientists and lab chiefs, placing extinction risk alongside pandemics and nuclear war.",
       url: "https://safe.ai/", site: "safe.ai",
     },
@@ -215,7 +217,7 @@ window.CC_ACTORS = {
     },
 
     {
-      id: "roman-yampolskiy", name: "Roman Yampolskiy", type: "academic", role: "Computer scientist, University of Louisville", based: "Louisville, US",
+      id: "roman-yampolskiy", name: "Roman Yampolskiy", type: ["scientist", "academic", "campaigner"], role: "Computer scientist, University of Louisville", based: "Louisville, US",
       summary: "An AI safety researcher who argues that superintelligent AI could not be reliably controlled; author of AI: Unexplainable, Unpredictable, Uncontrollable (2024).",
     },
 
@@ -247,12 +249,12 @@ window.CC_ACTORS = {
 
     // ── Governance advocates
     {
-      id: "eliezer-yudkowsky", name: "Eliezer Yudkowsky", type: "campaigner", role: "Co-founder, Machine Intelligence Research Institute", based: "Berkeley, US",
+      id: "eliezer-yudkowsky", name: "Eliezer Yudkowsky", type: ["campaigner", "scientist"], role: "Co-founder, Machine Intelligence Research Institute", based: "Berkeley, US",
       summary: "Co-author of If Anyone Builds It, Everyone Dies (2025), which argues superintelligence built with today's methods would wipe out humanity.",
       url: "https://ifanyonebuildsit.com/", site: "ifanyonebuildsit.com",
     },
     {
-      id: "max-tegmark", name: "Max Tegmark", type: "campaigner", role: "President, Future of Life Institute; professor, MIT", based: "Boston, US",
+      id: "max-tegmark", name: "Max Tegmark", type: ["campaigner", "academic", "scientist"], role: "President, Future of Life Institute; professor, MIT", based: "Boston, US",
       summary: "Behind the 2023 Pause letter and the Statement on Superintelligence; author of Life 3.0.",
       url: "https://futureoflife.org/", site: "futureoflife.org",
     },
