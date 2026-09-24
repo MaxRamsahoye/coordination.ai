@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=eaa21235">
+  <link rel="stylesheet" href="assets/styles.css?v=d1a64351">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -88,15 +88,15 @@
         </aside>
 
         <div class="page-main">
+          <div class="page-head">
+            <h2 id="statements-heading">Statements</h2>
+            <p class="page-intro" id="statements-intro"></p>
+          </div>
           <div class="filter-bar">
             <div class="filter-row" role="toolbar" aria-label="Choose a category of statements">
               <span class="filter-label" aria-hidden="true">Category</span>
               <div class="filter-scroll" id="statements-filters-category"></div>
             </div>
-          </div>
-          <div class="page-head">
-            <h2 id="statements-heading">Statements</h2>
-            <p class="page-intro" id="statements-intro"></p>
           </div>
           <div class="timeline" id="statements-timeline"></div>
         </div>
@@ -115,15 +115,15 @@
         </aside>
 
         <div class="page-main">
+          <div class="page-head">
+            <h2 id="materials-heading">Materials</h2>
+            <p class="page-intro" id="materials-intro"></p>
+          </div>
           <div class="filter-bar">
             <div class="filter-row" role="toolbar" aria-label="Choose a category of materials">
               <span class="filter-label" aria-hidden="true">Category</span>
               <div class="filter-scroll" id="materials-filters-category"></div>
             </div>
-          </div>
-          <div class="page-head">
-            <h2 id="materials-heading">Materials</h2>
-            <p class="page-intro" id="materials-intro"></p>
           </div>
           <div class="timeline" id="materials-timeline"></div>
         </div>
@@ -142,6 +142,10 @@
         </aside>
 
         <div class="page-main">
+          <div class="page-head">
+            <h2 id="incidents-heading">Incidents</h2>
+            <p class="page-intro" id="incidents-intro"></p>
+          </div>
           <div class="filter-bar">
             <div class="filter-row" role="toolbar" aria-label="Filter incidents by category">
               <span class="filter-label" aria-hidden="true">Category</span>
@@ -151,10 +155,6 @@
               <span class="filter-label" aria-hidden="true">Developer</span>
               <div class="filter-scroll" id="incidents-filters-orgs"></div>
             </div>
-          </div>
-          <div class="page-head">
-            <h2 id="incidents-heading">Incidents</h2>
-            <p class="page-intro" id="incidents-intro"></p>
           </div>
           <div class="timeline" id="incidents-timeline"></div>
         </div>
