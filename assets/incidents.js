@@ -30,7 +30,8 @@
   const byId = Object.fromEntries(items.map((i) => [i.id, i]));
   const filter = { category: "All", orgs: "All" };
   const shownItems = () => byDate.filter((i) => (filter.category === "All" || i.category === filter.category) && (filter.orgs === "All" || i.orgs.includes(filter.orgs)));
-  let selected = byDate[byDate.length - 1].id;
+  // Selected to begin with: the Hugging Face breach, else the newest
+  let selected = (byId["hugging-face"] || byDate[byDate.length - 1]).id;
 
   // ───────────── The matrix: a CSS grid. Column 1 holds the developers'
   // names, then one column per incident, then each row's total; row 1

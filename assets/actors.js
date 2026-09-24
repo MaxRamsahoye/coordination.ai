@@ -27,10 +27,10 @@
     },
     institutions: {
       label: "Institutions",
-      types: { lab: "Frontier labs", government: "Government", research: "Research", advocacy: "Advocacy" },
-      one: { lab: "Frontier lab", government: "Government", research: "Research", advocacy: "Advocacy" },
+      types: { advocacy: "Advocacy", research: "Research", government: "Government", lab: "Labs" },
+      one: { advocacy: "Advocacy", research: "Research", government: "Government", lab: "Lab" },
       intro: {
-        All: "The labs building frontier AI, and the government bodies, researchers and campaigners working on its safety, evaluation and coordination.",
+        All: "The campaigners, researchers and government bodies working on the safety, evaluation and coordination of frontier AI, and the labs building it.",
         lab: "The companies building the most capable AI models.",
         government: "Government and intergovernmental bodies that test AI models, set standards or enforce rules.",
         research: "Independent researchers who evaluate frontier models, study their risks and forecast where AI is heading.",

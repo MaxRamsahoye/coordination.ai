@@ -1,6 +1,7 @@
 /* Milestones page: a curated set of the most significant moments, shown
    as a ribbon across time (with a break between the first warnings and the
-   2020s) and then as large numbered panels, oldest first. Each dot on the
+   2020s) and then as large numbered panels, newest first (or oldest first,
+   by the Order pills). Each dot on the
    ribbon jumps to its panel; panels link to fuller entries elsewhere on
    the site. */
 (function () {
@@ -57,8 +58,13 @@
     );
   }
 
+  // Newest first to begin with; the numbers keep to time order (01 is the
+  // oldest) whichever way round the panels run
+  let order = "newest";
   function renderList() {
-    list.innerHTML = items.map((m, i) => `
+    const shown = items.map((m, i) => [m, i]);
+    if (order === "newest") shown.reverse();
+    list.innerHTML = shown.map(([m, i]) => `
       <li class="ms-item" id="milestone-${esc(m.id)}">
         <span class="ms-num" aria-hidden="true">${num(i)}</span>
         <div class="ms-body">
@@ -80,8 +86,20 @@
     );
   }
 
-  document.getElementById("milestones-intro").textContent =
-    `${items.length} of the most significant moments in the story of AI risk, from the first warnings to the race and the push to slow it. Oldest first.`;
+  const intro = () => {
+    document.getElementById("milestones-intro").textContent =
+      `${items.length} of the most significant moments in the story of AI risk, from the first warnings to the race and the push to slow it. ${order === "newest" ? "Newest" : "Oldest"} first.`;
+  };
+  document.querySelectorAll("#milestones-sort [data-order]").forEach((b) =>
+    b.addEventListener("click", () => {
+      if (b.dataset.order === order) return;
+      order = b.dataset.order;
+      document.querySelectorAll("#milestones-sort [data-order]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      intro();
+      renderList();
+    })
+  );
+  intro();
   renderRibbon();
   renderList();
 })();

@@ -2340,3 +2340,6 @@ html:not(.loaded) body { overflow: hidden; }
   .ms-ribbon { height: 170px; overflow-x: auto; }
   .ms-track { min-width: 640px; }
 }
+
+/* Milestones: the Order pills sit between the ribbon and the panels */
+.ms-sort-bar { margin: 0 0 32px; }
