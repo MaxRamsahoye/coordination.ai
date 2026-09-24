@@ -285,6 +285,7 @@
   const menu = document.querySelector(".menu");
   const hero = document.querySelector(".hero");
   const pageTitleFixed = document.getElementById("page-title-fixed");
+  const footerEl = document.querySelector(".site-footer");
 
   function onScroll() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -298,6 +299,7 @@
     // appear (and, on narrower windows, the site title gets a backing)
     const barTop = hero.getBoundingClientRect().bottom + window.scrollY;
     root.classList.toggle("past-menu", window.scrollY > 0 && window.scrollY >= barTop - 0.5);
+    root.classList.toggle("at-footer", footerEl.getBoundingClientRect().top < window.innerHeight);
 
     // Once the page heading has scrolled up behind the header, show the page's
     // title in the top-left corner

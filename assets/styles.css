@@ -702,6 +702,13 @@ html:not(.loaded) body { overflow: hidden; }
   opacity: 1;
   visibility: visible;
 }
+/* …and fade out again as the footer comes into view, rather than being
+   dragged up with the end of the page (app.js sets .at-footer) */
+.past-menu.at-footer .toc,
+.past-menu.at-footer .progress-col {
+  opacity: 0;
+  visibility: hidden;
+}
 
 @media (max-width: 1100px) {
   .page-layout { grid-template-columns: minmax(0, 1fr); }
@@ -932,7 +939,6 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* ───────────── Positions: chamber diagrams and lab charts (positions.js) */
 .positions-main, .single-main { grid-column: 2; }
-.positions-main ~ .progress-col { grid-column: 3; grid-row: 1; }
 #page-positions .filter-pill { font-size: 16px; }
 #page-positions .filter-label { font-size: 13px; }
 #page-positions .page-intro { font-size: 18px; }
