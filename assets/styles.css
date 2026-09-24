@@ -39,7 +39,9 @@
   --font-bembo: "ET Bembo", Georgia, "Times New Roman", serif;
   --font-plex: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font: var(--font-bembo);   /* default; the F toggle switches to Plex */
-  --header-h: 88px;
+  --header-h: 104px;
+  --corner-w: 300px;   /* the accent shape behind the site address */
+  --corner-h: 150px;
   --menu-h: 112px;     /* full-width menu bar, before scrolling */
   --column: 880px;     /* central text column, including its 24px padding */
 }
@@ -132,19 +134,20 @@ a { color: inherit; }
 .site-header a,
 .site-header button { pointer-events: auto; }
 
-/* Dividing lines, in the timeline's line style: below the header (in the
-   hero only, so it scrolls away), below the menu, above the footer.
-   H ("hudless") hides them. */
-.hero::before {
-  content: "";
+/* Dividing lines, in the timeline's line style: below the menu and above
+   the footer. H ("hudless") hides them. */
+
+/* The corner shape: a right-angled triangle filling the top-right corner
+   behind the site address, its long edge curving outward, in the accent */
+.corner-shape {
   position: absolute;
-  top: var(--header-h);
-  left: 0;
+  top: 0;
   right: 0;
-  border-top: 1px solid var(--line);
+  width: var(--corner-w);
+  height: var(--corner-h);
   pointer-events: none;
 }
-.hudless .hero::before { display: none; }
+.corner-shape path { fill: var(--accent); transition: fill 0.2s ease; }
 
 .header-inner {
   display: flex;
@@ -160,7 +163,9 @@ a { color: inherit; }
    arrow sits at the left, and the controls open out rightwards from it. */
 .page-controls {
   position: absolute;
-  left: 39px;   /* 48px to the icons themselves, less the buttons' 9px inset */
+  /* In line with the hero title: the text column's left edge, less the
+     buttons' 9px inset */
+  left: calc(max(0px, (100% - var(--column)) / 2) + 24px - 9px);
   bottom: calc(-1 * (var(--menu-h) - var(--menu-gap)) + 50px);   /* raised, well clear of the menu's line */
   z-index: 11;
   display: flex;
@@ -257,14 +262,17 @@ a { color: inherit; }
 :root[data-font="plex"] .fs-a { font-family: var(--font-bembo); font-size: 17px; }
 :root[data-font="plex"] .fs-b { font-family: var(--font-plex); font-size: 14px; }
 
+/* The site address sits on the accent shape, so it takes the colour made
+   for text on the accent, and swaps to white or black on hover */
 .site-title {
-  color: var(--ink);
+  position: relative;
+  color: var(--on-accent);
   text-decoration: none;
-  font-weight: 400;
-  font-size: 15px;
+  font-weight: 500;
+  font-size: 18px;
   transition: color 0.2s ease;
 }
-.site-title:hover { color: var(--accent); }
+.site-title:hover { color: var(--ink-strong); }
 .site-title { margin-left: auto; }
 
 /* The current page's title in the top-left corner, faded in once the
@@ -307,9 +315,9 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 16px;
-  width: min(calc(100vw * 3 / 4 - 48px), calc(100vw - 96px - 220px));   /* three quarters of the screen, clear of the site title */
+  width: min(calc(100vw * 3 / 4 - 48px), calc(100vw - 72px - var(--corner-w)));   /* three quarters of the screen, clear of the corner shape */
   height: var(--header-h);
-  font-size: 14px;
+  font-size: 16px;
 }
 .news-label {
   flex: none;
@@ -317,7 +325,7 @@ a { color: inherit; }
   align-items: center;
   gap: 8px;
   color: var(--accent);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -365,7 +373,7 @@ a { color: inherit; }
   background: var(--ink-2);
 }
 .news-item:hover { color: var(--accent); }
-.news-date { color: var(--ink-2); font-size: 13px; }
+.news-date { color: var(--ink-2); font-size: 14.5px; }
 
 @media (prefers-reduced-motion: reduce) {
   .news-dot, .loaded .news-track { animation: none; }
@@ -422,20 +430,20 @@ html:not(.loaded) body { overflow: hidden; }
 .hero {
   --title-size: clamp(44px, 7vw, 76px);
   --subtitle-size: clamp(20px, 2.6vw, 27px);
-  --hero-rest: 590px;
+  --hero-rest: 606px;   /* +16px for the taller header */
 }
 /* Short windows: drop the description so the rest still fits */
 @media (max-height: 760px) {
-  .hero { --hero-rest: 482px; }
+  .hero { --hero-rest: 498px; }
   .hero-note { display: none; }
 }
 /* Mid widths: the design controls sit just above the menu, under the text
    column's start, so the hero keeps room below its text for them */
 @media (min-width: 641px) and (max-width: 1280px) {
-  .hero { padding-bottom: 68px; --hero-rest: 634px; }
+  .hero { padding-bottom: 68px; --hero-rest: 650px; }
 }
 @media (min-width: 641px) and (max-width: 1280px) and (max-height: 760px) {
-  .hero { --hero-rest: 526px; }
+  .hero { --hero-rest: 542px; }
 }
 .hero h1 {
   margin: 0;
@@ -602,13 +610,6 @@ html:not(.loaded) body { overflow: hidden; }
    column runs under the site title (narrower windows), the title gets a
    small backing in the page colour so it stays readable. */
 @media (max-width: 1100px) {
-  .site-title {
-    margin-right: -8px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
-  }
-  .past-menu .site-title { background: var(--bg); }
   .page-title-fixed {
     margin-left: -8px;
     padding: 4px 8px;
@@ -1566,7 +1567,7 @@ html:not(.loaded) body { overflow: hidden; }
 
 /* ───────────── Phones */
 @media (max-width: 640px) {
-  :root { --header-h: 72px; --menu-h: 88px; }
+  :root { --header-h: 80px; --menu-h: 88px; --corner-w: 190px; --corner-h: 104px; }
   :root { --menu-gap: 16px; }
   .menu .menu-inner { gap: 18px; }
   .menu a { font-size: 17px; }
@@ -1575,22 +1576,29 @@ html:not(.loaded) body { overflow: hidden; }
   .header-inner { padding: 0 16px; }
   /* The pills fill the menu row on phones, so the controls sit just above
      it instead */
-  .page-controls { left: 7px; bottom: 0; height: 48px; }
-  .news { left: 16px; width: calc(100vw - 32px - 124px); gap: 12px; font-size: 13px; }
+  .page-controls { left: 7px; bottom: 0; height: 48px; }   /* the column edge is 16px here */
+  .news { left: 16px; width: calc(100vw - 32px - var(--corner-w)); gap: 12px; font-size: 14px; }
   .news-label-long { display: none; }
   .news-label-short { display: inline; }
   .control-set { gap: 4px; }
   .controls-toggle { margin-right: 4px; }
   .icon-btn { width: 32px; height: 32px; }
-  .site-title { font-size: 13px; }
+  .site-title { font-size: 15px; }
   .page-title-fixed { font-size: 21px; }
   .filter-row { flex-direction: column; align-items: stretch; gap: 2px; }
   .filter-row + .filter-row { margin-top: 10px; }
   .filter-label { width: auto; padding: 0 2px; }
-  .hero { padding-top: calc(var(--header-h) + 24px); padding-bottom: 24px; }
+  /* The design controls sit just above the menu, under the text column's
+     start, so the hero keeps room below its text for them */
+  .hero { padding-top: calc(var(--header-h) + 24px); padding-bottom: 60px; --hero-rest: 642px; }
   .tl-year { grid-template-columns: 1fr; }
   .tl-year-label { position: static; margin-bottom: 20px; }
   .tl-item { --tl-indent: 24px; padding-bottom: 56px; }
   .tl-title { font-size: 23px; }
   .to-top { right: 16px; bottom: 24px; }
+}
+
+/* Short phones: the description is left out, so less room is needed */
+@media (max-width: 640px) and (max-height: 760px) {
+  .hero { --hero-rest: 534px; }
 }
