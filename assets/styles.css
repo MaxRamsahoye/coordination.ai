@@ -2150,3 +2150,34 @@ html:not(.loaded) body { overflow: hidden; }
 .im-reset:hover, .im-reset:focus-visible { border-color: var(--accent); color: var(--accent); }
 /* A filter pill that would show nothing with the other row's choice */
 .filter-pill.is-empty:not([aria-pressed="true"]) { opacity: 0.45; }
+
+/* Positions: everyone without a recorded position, below the recorded ones */
+.pu-intro { margin: 0 0 8px; color: var(--ink-2); font-size: 16px; }
+.pu-group { padding: 16px 0 8px; border-top: 1px solid var(--line); }
+.pu-party { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 18px; font-weight: 500; }
+.pu-party .pd-party { margin: 0; }
+.pu-items {
+  columns: 3 200px;
+  column-gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pu-items li { break-inside: avoid; }
+.pu-name {
+  display: block;
+  width: 100%;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+}
+.pu-name:hover { color: var(--accent); }
+.pu-name.is-static { cursor: auto; padding: 6px 0; }
+.pu-name.is-static:hover { color: var(--ink); }
+.pu-area { display: block; color: var(--ink-2); font-family: var(--font-ui); font-size: 12px; }

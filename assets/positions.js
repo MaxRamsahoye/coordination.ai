@@ -322,14 +322,34 @@
             <span class="pl-meta">${esc(partyName(m.party))}${m.area ? ` · ${esc(m.area)}` : ""} · ${esc(stanceLabel(m.position.stance))}</span>
             <p class="pl-note">${esc(m.position.note)} ${m.position.source ? `<a class="tl-source" href="${esc(m.position.source.url)}" target="_blank" rel="noopener noreferrer">${esc(m.position.source.label)} ↗</a>` : ""}</p>
           </li>`)
-        .join("")}</ul>` : `<p class="pl-empty">None recorded yet.</p>`}`;
-    $("positions-list").querySelectorAll(".pl-name").forEach((b) =>
+        .join("")}</ul>` : `<p class="pl-empty">None recorded yet.</p>`}
+      ${unrecordedChamber()}`;
+    $("positions-list").querySelectorAll(".pl-name, .pu-name").forEach((b) =>
       b.addEventListener("click", () => {
         state.selected = +b.dataset.i;
         showMember(seats[state.selected], state.selected);
         $("positions-view").scrollIntoView({ block: "center" });
       })
     );
+  }
+
+  // Everyone without a recorded position, by party (largest first), each
+  // name opening their seat
+  function unrecordedChamber() {
+    const none = seats.map((m, i) => ({ m, i })).filter(({ m }) => !m.position);
+    if (!none.length) return "";
+    const parties = new Map();
+    none.forEach((x) => { if (!parties.has(x.m.party)) parties.set(x.m.party, []); parties.get(x.m.party).push(x); });
+    return `
+      <h3 class="pl-title">No recorded position <span class="filter-count">${none.length.toLocaleString()} of ${seats.length.toLocaleString()} members</span></h3>
+      <p class="pu-intro">None has been found yet for these members, which doesn't mean they have none.</p>
+      ${[...parties].sort((a, b) => b[1].length - a[1].length).map(([party, list]) => `
+        <section class="pu-group">
+          <h4 class="pu-party"><span class="pd-party" style="--pc:${partyColour(party)}"></span>${esc(partyName(party))} <span class="filter-count">${list.length}</span></h4>
+          <ul class="pu-items">${list.slice().sort((a, b) => a.m.name.localeCompare(b.m.name)).map(({ m, i }) => `
+            <li><button type="button" class="pu-name" data-i="${i}">${esc(m.name)}${m.area ? `<span class="pu-area">${esc(m.area)}</span>` : ""}</button></li>`).join("")}
+          </ul>
+        </section>`).join("")}`;
   }
 
   function renderNotes() {
@@ -564,8 +584,19 @@
           <span class="pl-name is-static"><span class="pd-dot"></span>${esc(n.name)}</span>
           <span class="pl-meta">${esc(n.role)} · ${esc(stanceLabel(n.stance))}</span>
           <p class="pl-note">${esc(n.note || "")} ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">${esc(n.source.label)} ↗</a>` : ""}</p>
-        </li>`).join("")}</ul>`;
+        </li>`).join("")}</ul>
+      ${unrecordedIndustry(people.filter((n) => !n.stance), people.length)}`;
     applySearch();
+  }
+  // Everyone in the chart without a recorded position, in chart order
+  function unrecordedIndustry(none, total) {
+    if (!none.length) return "";
+    return `
+      <h3 class="pl-title">No recorded position <span class="filter-count">${none.length} of ${total} ${total === 1 ? "person" : "people"}</span></h3>
+      <p class="pu-intro">None has been found yet for these people, which doesn't mean they have none.</p>
+      <ul class="pu-items">${none.map((n) => `
+        <li><span class="pu-name is-static">${esc(n.name)}<span class="pu-area">${esc(n.role)}${n.where ? ` · ${esc(n.where)}` : ""}</span></span></li>`).join("")}
+      </ul>`;
   }
 
   // Company behaviour: notes from the data, then the incidents on this site
