@@ -341,7 +341,7 @@ a { color: inherit; }
   padding-top: var(--header-h);   /* content sits 24px higher than centred */
   padding-bottom: 48px;
 }
-.hero > .container { width: 100%; transform: translateX(var(--hero-shift, 0px)); }   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js) */
+.hero > .container { width: 100%; position: relative; left: var(--hero-shift, 0px); }   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js). Not a transform: that would isolate the artwork's blend mode from the page */
 
 /* ───────────── Latest developments ticker: the hero's top-left corner,
    level with the site title, scrolling away with the page. The track holds
