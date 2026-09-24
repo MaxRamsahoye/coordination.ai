@@ -268,8 +268,20 @@
       } else a.removeAttribute("aria-current");
     });
 
-    // Long lists scroll inside the sidebar: keep the current entry in view
+    // The sidebar is sticky within its page, so near the end of the page the
+    // page's bottom padding and the footer would push it up under the corner
+    // page title. Instead it shrinks (scrolling inside) to end where the page
+    // content ends, keeping its top edge clear of the header.
     const toc = activeScope().querySelector(".toc");
+    if (toc) {
+      const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
+      const tocTop = Math.max(headerH, parseFloat(getComputedStyle(toc).top) || 0);
+      const room = toc.parentElement.getBoundingClientRect().bottom - tocTop;
+      const normal = window.innerHeight - 2 * headerH;
+      toc.style.maxHeight = room < normal ? `${Math.max(96, room)}px` : "";
+    }
+
+    // Long lists scroll inside the sidebar: keep the current entry in view
     if (currentLink && toc && toc.scrollHeight > toc.clientHeight) {
       const top = currentLink.getBoundingClientRect().top - toc.getBoundingClientRect().top + toc.scrollTop;
       const bottom = top + currentLink.offsetHeight;
@@ -281,7 +293,11 @@
   // Keep the contents sidebar in the vertical middle of the screen
   function placeToc() {
     const toc = activeScope().querySelector(".toc");
-    const h = toc ? toc.offsetHeight : 0;
+    if (!toc) return;
+    // Centre on its full height (capped as in the CSS), not a height it has
+    // shrunk to near the end of the page
+    const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h"));
+    const h = Math.min(toc.scrollHeight, window.innerHeight - 2 * headerH);
     if (h) root.style.setProperty("--toc-top", `${Math.max(0, (window.innerHeight - h) / 2)}px`);
   }
 
