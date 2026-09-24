@@ -345,13 +345,15 @@
     const node = (n) => {
       const i = nodes.push(n) - 1;
       return `<li>
-        <button type="button" class="org-node" data-i="${i}" data-s="${n.stance || "none"}">
+        <button type="button" class="org-node${n.company ? " org-node-company" : ""}" data-i="${i}" data-s="${n.stance || "none"}">
           <span class="org-name"><span class="pd-dot"></span>${esc(n.name)}</span>
           <span class="org-role">${esc(n.role)}</span>
         </button>
         ${n.children && n.children.length ? `<ul>${n.children.map(node).join("")}</ul>` : ""}
       </li>`;
     };
+    // The company itself heads the chart, as an umbrella over its people
+    const companyNode = { company: true, name: lab.name, role: "Company", stance: lab.stance, children: [lab.chart] };
     $("positions-view").classList.remove("is-chamber");
     $("positions-view").innerHTML = `
       <div class="org-company" data-s="${lab.stance}">
@@ -361,7 +363,7 @@
       </div>
       ${behaviourBlock(lab)}
       ${evaluationBlock(lab)}
-      <div class="org-scroll"><ul class="org-tree">${node(lab.chart)}</ul></div>`;
+      <div class="org-scroll"><ul class="org-tree">${node(companyNode)}</ul></div>`;
     $("positions-view").querySelectorAll("[data-incident]").forEach((a) =>
       a.addEventListener("click", (e) => {
         e.preventDefault();
@@ -369,6 +371,7 @@
       })
     );
     const show = (n) => {
+      if (n.company) return showCompany();
       $("positions-detail").innerHTML = `
         <div class="pd-card">
           <p class="pd-name">${esc(n.name)}</p>
@@ -378,9 +381,25 @@
           ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(n.source.label)} ↗</a>` : ""}
         </div>`;
     };
-    // The person at the top of the chart is selected to begin with;
-    // hovering previews someone else, clicking selects them
-    let selected = 0;
+    // The company's own card: its position, behaviour and evaluation in brief
+    const showCompany = () => {
+      const incidents = labIncidents(lab);
+      const e = lab.evaluation;
+      $("positions-detail").innerHTML = `
+        <div class="pd-card">
+          <p class="pd-name">${esc(lab.name)}</p>
+          <p class="pd-meta">Company</p>
+          <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(stanceLabel(lab.stance))}</p>
+          <p class="pd-note">${esc(lab.note)}</p>
+          <p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${incidents.length} incident${incidents.length === 1 ? "" : "s"} on record</p>
+          ${(lab.behaviour || []).map((b) => `<p class="pd-note">${esc(b.note)}</p>`).join("")}
+          ${e ? `<p class="pd-stance" data-s="${lab.stance}"><span class="pd-dot"></span>${esc(e.verdict)}</p><p class="pd-note">${esc(e.summary)}</p>` : ""}
+          ${lab.source ? `<a class="tl-source" href="${esc(lab.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(lab.source.label)} ↗</a>` : ""}
+        </div>`;
+    };
+    // The person at the top of the chart (under the company) is selected to
+    // begin with; hovering previews someone else, clicking selects them
+    let selected = 1;
     const buttons = [...$("positions-view").querySelectorAll(".org-node")];
     const select = (i) => {
       selected = i;
@@ -394,16 +413,17 @@
       b.addEventListener("click", () => select(i));
     });
     $("positions-view").querySelector(".org-tree").addEventListener("mouseleave", () => show(nodes[selected]));
-    const recorded = nodes.filter((n) => n.stance);
+    const people = nodes.filter((n) => !n.company);
+    const recorded = people.filter((n) => n.stance);
     $("positions-legend").innerHTML = ["ban", "pace", "oppose", "none"]
-      .map((s) => [s, nodes.filter((n) => (n.stance || "none") === s).length])
+      .map((s) => [s, people.filter((n) => (n.stance || "none") === s).length])
       .filter(([, c]) => c)
       .map(([s, c]) => `<span class="lg-item" data-s="${s}"><span class="lg-swatch"></span>${esc(stanceLabel(s))} <span class="filter-count">${c}</span></span>`)
       .join("");
-    select(0);
+    select(1);
     $("positions-notes").innerHTML = `<p>Public leadership only, grouped by area; reporting lines are approximate and roles may have changed. Staff below leadership aren't listed.</p>`;
     $("positions-list").innerHTML = `
-      <h3 class="pl-title">Recorded positions <span class="filter-count">${recorded.length} of ${nodes.length} people</span></h3>
+      <h3 class="pl-title">Recorded positions <span class="filter-count">${recorded.length} of ${people.length} ${people.length === 1 ? "person" : "people"}</span></h3>
       <ul class="pl-items">${recorded.map((n) => `
         <li class="pl-item" data-s="${n.stance}">
           <span class="pl-name is-static"><span class="pd-dot"></span>${esc(n.name)}</span>
@@ -416,10 +436,10 @@
   // Company behaviour: notes from the data, then the incidents on this site
   // involving the lab's models — counted by category, with the latest few
   const CATEGORY_NAMES = { misalignment: "misalignment", misuse: "misuse", malfunction: "malfunction", misinformation: "misinformation", ethics: "ethics" };
+  const labIncidents = (lab) =>
+    (window.CC_INCIDENTS || []).filter((i) => (i.orgs || []).includes(lab.org)).sort((a, b) => b.date.localeCompare(a.date));
   function behaviourBlock(lab) {
-    const incidents = (window.CC_INCIDENTS || [])
-      .filter((i) => (i.orgs || []).includes(lab.org))
-      .sort((a, b) => b.date.localeCompare(a.date));
+    const incidents = labIncidents(lab);
     const counts = {};
     incidents.forEach((i) => (counts[i.category] = (counts[i.category] || 0) + 1));
     const breakdown = Object.entries(counts)

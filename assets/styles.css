@@ -1186,6 +1186,11 @@ html:not(.loaded) body { overflow: hidden; }
 .org-node[data-s="ban"], .org-node[data-s="pace"], .org-node[data-s="oppose"] { border-color: var(--st); }
 .org-node:hover, .org-node:focus-visible { border-color: var(--ink-2); }
 .org-node.is-active { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+/* The company box heads the chart: wider, with a heavier name */
+.org-node-company { width: 230px; padding: 14px 16px; border-width: 1.5px; }
+.org-node-company .org-name { font-size: 21px; }
+.org-node-company .org-role { letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; }
+.pd-card .pd-stance + .pd-note + .pd-stance { margin-top: 16px !important; }
 .org-name { display: inline-flex; align-items: center; font-size: 17px; font-weight: 500; line-height: 1.25; }
 .org-role { color: var(--ink-2); font-size: 14px; line-height: 1.35; }
 .is-searching .org-node:not(.is-match) { opacity: 0.3; }
