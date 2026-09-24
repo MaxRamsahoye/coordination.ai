@@ -351,31 +351,90 @@
   }
 
   // ───────────── Industry: leadership chart as a nested tree
+  const flatten = (n) => [n, ...(n.children || []).flatMap(flatten)];
+  const byName = (chart) => new Map(flatten(chart).map((n) => [n.name, n]));
+  const uniquePeople = (list) => {
+    const seen = new Map();
+    list.forEach((n) => { if (!seen.has(n.name)) seen.set(n.name, n); });
+    return [...seen.values()];
+  };
+  // Everyone tracked at a lab: its leadership, then its board (and Trust),
+  // once each, with positions recorded in the chart
+  const labPeople = (lab) => {
+    const chart = flatten(lab.chart);
+    const inChart = byName(lab.chart);
+    const others = [lab.trust, lab.board].filter(Boolean).flatMap((g) => g.members)
+      .filter((m) => !inChart.has(m.name));
+    return uniquePeople([...chart, ...others]);
+  };
+
   function renderIndustry() {
     const lab = P.industry[state.body];
     const nodes = [];
-    const node = (n) => {
+    const node = (n, depth = 0) => {
       const i = nodes.push(n) - 1;
+      const kids = n.children || [];
+      // A team of three or more with no reports of their own (below the top
+      // of the chart) is stacked in one box, which keeps the chart narrow
+      const stack = depth > 0 && kids.length >= 3 && kids.every((c) => !(c.children || []).length);
       return `<li>
         <button type="button" class="org-node${n.company ? " org-node-company" : ""}" data-i="${i}" data-s="${n.stance || "none"}">
           <span class="org-name"><span class="pd-dot"></span>${esc(n.name)}</span>
           <span class="org-role">${esc(n.role)}</span>
         </button>
-        ${n.children && n.children.length ? `<ul>${n.children.map(node).join("")}</ul>` : ""}
+        ${stack ? `<ul><li><div class="org-group org-stack"><div class="org-members">${kids.map(member).join("")}</div></div></li></ul>`
+          : kids.length ? `<ul>${kids.map((c) => node(c, depth + 1)).join("")}</ul>` : ""}
       </li>`;
     };
-    // The company itself heads the chart, as an umbrella over its people
-    const companyNode = { company: true, name: lab.name, role: "Company", stance: lab.stance, children: [lab.chart] };
+    const member = (n) => {
+      const i = nodes.push(n) - 1;
+      return `<button type="button" class="org-node org-member" data-i="${i}" data-s="${n.stance || "none"}">
+          <span class="org-name"><span class="pd-dot"></span>${esc(n.name)}</span>
+          <span class="org-role">${esc(n.role)}</span>
+        </button>`;
+    };
+    // Board members are listed in a box of their own; anyone who also sits in
+    // the leadership chart keeps their recorded position there
+    const inChart = byName(lab.chart);
+    const group = (g, below) => {
+      const where = /^board/i.test(g.label) ? `${lab.name} ${g.label.toLowerCase()}` : g.label;
+      const members = g.members.map((m) => {
+        const p = inChart.get(m.name) || {};
+        return member({ name: m.name, role: m.role, where, stance: p.stance, note: p.note, source: m.source || p.source || g.source });
+      }).join("");
+      return `<li>
+        <div class="org-group${g.members.length <= 4 ? " is-small" : ""}">
+          <p class="org-group-label">${esc(g.label)} <span class="filter-count">${g.members.length}</span></p>
+          <div class="org-members">${members}</div>
+        </div>
+        ${below ? `<ul>${below}</ul>` : ""}
+      </li>`;
+    };
+    // The company itself heads the chart, then its board (under Anthropic's
+    // Trust, which appoints most of it), then its leadership
+    const companyNode = { company: true, name: lab.name, role: "Company", stance: lab.stance };
+    const companyI = nodes.push(companyNode) - 1;
+    const topI = nodes.length;
+    const chartHtml = node(lab.chart);
+    const boardHtml = lab.board ? group(lab.board, chartHtml) : chartHtml;
+    const branches = lab.trust ? group(lab.trust, boardHtml) : boardHtml;
+    const tree = `<li>
+        <button type="button" class="org-node org-node-company" data-i="${companyI}" data-s="${lab.stance || "none"}">
+          <span class="org-name"><span class="pd-dot"></span>${esc(lab.name)}</span>
+          <span class="org-role">Company</span>
+        </button>
+        <ul>${branches}</ul>
+      </li>`;
     $("positions-view").classList.remove("is-chamber");
     // The company's position, behaviour and evaluation live in its box at
     // the top of the chart (shown in the detail card when it's selected)
-    $("positions-view").innerHTML = `<div class="org-scroll"><ul class="org-tree">${node(companyNode)}</ul></div>`;
+    $("positions-view").innerHTML = `<div class="org-scroll"><ul class="org-tree">${tree}</ul></div>`;
     const show = (n) => {
       if (n.company) return showCompany();
       $("positions-detail").innerHTML = `
         <div class="pd-card">
           <p class="pd-name">${esc(n.name)}</p>
-          <p class="pd-meta">${esc(n.role)}, ${esc(lab.name)}</p>
+          <p class="pd-meta">${esc(n.role)}${n.where ? ` · ${esc(n.where)}` : `, ${esc(lab.name)}`}</p>
           <p class="pd-stance" data-s="${n.stance || "none"}"><span class="pd-dot"></span>${esc(stanceLabel(n.stance))}</p>
           ${n.note ? `<p class="pd-note">${esc(n.note)}</p>` : ""}
           ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">Source: ${esc(n.source.label)} ↗</a>` : ""}
@@ -398,9 +457,9 @@
         })
       );
     };
-    // The person at the top of the chart (under the company) is selected to
-    // begin with; hovering previews someone else, clicking selects them
-    let selected = 1;
+    // The person at the top of the leadership chart is selected to begin
+    // with; hovering previews someone else, clicking selects them
+    let selected = topI;
     const buttons = [...$("positions-view").querySelectorAll(".org-node")];
     const select = (i) => {
       selected = i;
@@ -414,15 +473,16 @@
       b.addEventListener("click", () => select(i));
     });
     $("positions-view").querySelector(".org-tree").addEventListener("mouseleave", () => show(nodes[selected]));
-    const people = nodes.filter((n) => !n.company);
+    // Each person counts once, though some sit on the board and lead too
+    const people = uniquePeople(nodes.filter((n) => !n.company));
     const recorded = people.filter((n) => n.stance);
     $("positions-legend").innerHTML = ["ban", "pace", "oppose", "none"]
       .map((s) => [s, people.filter((n) => (n.stance || "none") === s).length])
       .filter(([, c]) => c)
       .map(([s, c]) => `<span class="lg-item" data-s="${s}"><span class="lg-swatch"></span>${esc(stanceLabel(s))} <span class="filter-count">${c}</span></span>`)
       .join("");
-    select(1);
-    $("positions-notes").innerHTML = `<p>Public leadership only, grouped by area; reporting lines are approximate and roles may have changed. Staff below leadership aren't listed.</p>`;
+    select(topI);
+    $("positions-notes").innerHTML = `<p>Public leadership only, grouped by area; boards as publicly listed. Reporting lines are approximate and roles may have changed; staff below leadership aren't listed.</p>`;
     $("positions-list").innerHTML = `
       <h3 class="pl-title">Recorded positions <span class="filter-count">${recorded.length} of ${people.length} ${people.length === 1 ? "person" : "people"}</span></h3>
       <ul class="pl-items">${recorded.map((n) => `
@@ -573,7 +633,6 @@
 
   // Industry overview: a comparison table, one row per lab
   function renderIndustryOverview() {
-    const people = (n) => [n, ...(n.children || []).flatMap(people)];
     const labs = GROUPS.industry.bodies.filter(([k]) => k !== "overview").map(([k]) => [k, P.industry[k]]);
     const count = (st) => labs.filter(([, l]) => l.stance === st).length;
     const incidentsOf = labs.map(([, l]) => labIncidents(l).length);
@@ -581,7 +640,7 @@
     const anyLab = new Set(labs.map(([, l]) => l.org));
     const totalIncidents = (window.CC_INCIDENTS || []).filter((i) => (i.orgs || []).some((o) => anyLab.has(o))).length;
     // The executives in the labs' leadership charts, and their positions
-    const executives = labs.flatMap(([, l]) => people(l.chart));
+    const executives = labs.flatMap(([, l]) => labPeople(l));
     const execCount = (st) => executives.filter((x) => x.stance === st).length;
     $("positions-view").classList.remove("is-chamber");
     $("positions-view").innerHTML = `
@@ -592,7 +651,7 @@
         [totalIncidents, "incidents involving their models"],
       ])}
       ${statStrip([
-        [executives.length, "executives tracked"],
+        [executives.length, "leaders and board members tracked"],
         [executives.filter((x) => x.stance).length, "with a recorded position"],
         [execCount("pace") + execCount("ban"), "with stated support for pacing or binding rules", "pace"],
         [execCount("oppose"), "with stated opposition to a slowdown", "oppose"],
@@ -603,7 +662,7 @@
         </div>
         ${labs.map(([k, lab], idx) => {
           const n = incidentsOf[idx];
-          const everyone = people(lab.chart);
+          const everyone = labPeople(lab);
           const ceo = findPerson(lab.chart, lab.ceo);
           return `
           <button type="button" class="ov-row" role="row" data-open="industry:${k}" data-s="${lab.stance}">
@@ -618,7 +677,7 @@
         }).join("")}
       </div>`;
     bindOverview();
-    $("positions-notes").innerHTML = `<p>CEO: the lab's own chief executive, coloured by their recorded position. Recorded positions: how many of the people in its leadership chart have one. Incidents: those on this site involving each lab's models (the bar is scaled to the most). Select a company to see its chart.</p>`;
+    $("positions-notes").innerHTML = `<p>CEO: the lab's own chief executive (at Google DeepMind, its head), coloured by their recorded position. Recorded positions: how many of the people in its chart (leadership and board) have one. Incidents: those on this site involving each lab's models (the bar is scaled to the most). Select a company to see its chart.</p>`;
   }
 
   // Governments overview: a table, one row per chamber

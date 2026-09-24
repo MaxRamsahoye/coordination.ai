@@ -32,6 +32,21 @@
   const PACE_ESSAY = { label: "darioamodei.com", url: "https://darioamodei.com/post/we-must-pace-the-frontier" };
   const RESPONSES = { label: "Forbes", url: "https://www.forbes.com/sites/rahuldogra/2026/09/18/the-ai-pacing-debate-goes-mainstream-after-amodei-altman-and-musk-all-agree-to-slow-down/" };
   const SPLIT = { label: "BNN Bloomberg", url: "https://www.bnnbloomberg.ca/business/artificial-intelligence/2026/09/21/tech-leaders-governments-split-over-ai-doom-fears/" };
+  // Boards and leadership (roles as publicly listed; they change often)
+  const ANTHROPIC_CO = { label: "Anthropic, Company", url: "https://www.anthropic.com/company" };
+  const ANTHROPIC_BOARD = { label: "Anthropic", url: "https://www.anthropic.com/news/narasimhan-board" };
+  const ANTHROPIC_CTO = { label: "Anthropic", url: "https://www.anthropic.com/news/rahul-patil-joins-anthropic" };
+  const ANTHROPIC_LABS = { label: "TechCrunch", url: "https://techcrunch.com/?p=2779592" };
+  const OPENAI_BOARD = { label: "OpenAI, Our structure", url: "https://openai.com/our-structure/" };
+  const OPENAI_BOARD_NEW = { label: "OpenAI", url: "https://openai.com/index/david-velez-robin-vince-join-openai-boards/" };
+  const OPENAI_EXITS = { label: "Axios", url: "https://www.axios.com/2026/08/14/openai-executive-greg-brockman-ipo" };
+  const ALPHABET_PROXY = { label: "Alphabet proxy statement, 2026", url: "https://www.sec.gov/Archives/edgar/data/0001652044/000130817926000342/goog-20260424.htm" };
+  const GDM_RESHUFFLE = { label: "Fortune", url: "https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/" };
+  const GDM_KORAY = { label: "CNBC", url: "https://www.cnbc.com/2026/08/12/google-deepmind-koray-kavukcuoglu.html" };
+  const META_PROXY = { label: "Meta proxy statement, 2026", url: "https://www.sec.gov/Archives/edgar/data/1326801/000162828026025532/meta-20260416.htm" };
+  const META_MSL = { label: "CNBC", url: "https://www.cnbc.com/2025/07/25/zuckerberg-shengjia-zhao-meta-ai-lab-chief-scientist-openai.html" };
+  const SPACEX_BOARD = { label: "TechCrunch", url: "https://techcrunch.com/2026/06/17/roelof-botha-joins-spacexs-board-of-directors/" };
+  const XAI_PRESIDENT = { label: "Startup Fortune", url: "https://startupfortune.com/xai-president-michael-nicolls-admits-the-company-is-clearly-behind-claude/" };
   const FLI_INDEX = { label: "FLI AI Safety Index, Summer 2026", url: "https://futureoflife.org/ai-safety-index-summer-2026/" };
   const MILITARY = "Previously barred military uses of its AI, but has reversed course and now seeks defence partnerships, according to the AI Safety Index.";
   const PACING_SIGNED = "Signed the Pacing the Frontier employee statement (28 July 2026), asking the US government to support an international effort to pace frontier AI development.";
@@ -117,12 +132,39 @@
         stance: "pace",
         note: "Endorsed the Pacing the Frontier statement as a company, and committed unilaterally to give third-party evaluators permanent, employee-level access to its systems.",
         source: PACE_ESSAY,
+        // The Long-Term Benefit Trust appoints most of the board (four of seven)
+        trust: {
+          label: "Long-Term Benefit Trust", source: ANTHROPIC_CO,
+          members: [
+            { name: "Neil Buddy Shah", role: "Trustee, chair of the Trust" },
+            { name: "Richard Fontaine", role: "Trustee" },
+            { name: "Mariano-Florentino Cuéllar", role: "Trustee" },
+            { name: "Ben Bernanke", role: "Trustee" },
+          ],
+        },
+        board: {
+          label: "Board of directors", source: ANTHROPIC_BOARD,
+          members: [
+            { name: "Dario Amodei", role: "Director; Chief Executive Officer" },
+            { name: "Daniela Amodei", role: "Director; President" },
+            { name: "Yasmin Razavi", role: "Director, elected by stockholders" },
+            { name: "Jay Kreps", role: "Director, appointed by the Trust" },
+            { name: "Reed Hastings", role: "Director, appointed by the Trust" },
+            { name: "Chris Liddell", role: "Director, appointed by the Trust" },
+            { name: "Vas Narasimhan", role: "Director, appointed by the Trust" },
+          ],
+        },
         chart: {
           name: "Dario Amodei", role: "Chief Executive Officer, co-founder", stance: "pace",
           note: "Wrote 'We Must Pace the Frontier' (12 Sep 2026), arguing the industry should slow the rate at which capabilities increase, with a three-step plan; also signed the Pacing the Frontier statement.", source: PACE_ESSAY,
           children: [
             { name: "Daniela Amodei", role: "President, co-founder",
-              children: [{ name: "Krishna Rao", role: "Chief Financial Officer" }] },
+              children: [
+                { name: "Krishna Rao", role: "Chief Financial Officer" },
+                { name: "Paul Smith", role: "Chief Commercial Officer" },
+                { name: "Mike Krieger", role: "Co-lead, Labs", source: ANTHROPIC_LABS },
+                { name: "Ben Mann", role: "Co-lead, Labs; co-founder", source: ANTHROPIC_LABS },
+              ] },
             { name: "Jared Kaplan", role: "Chief Science Officer, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING,
               children: [
                 { name: "Chris Olah", role: "Interpretability research, co-founder" },
@@ -130,6 +172,8 @@
                 { name: "Sam McCandlish", role: "Research, co-founder" },
                 { name: "Tom Brown", role: "Research and compute, co-founder" },
               ] },
+            { name: "Rahul Patil", role: "Chief Technology Officer", source: ANTHROPIC_CTO },
+            { name: "Ami Vora", role: "Chief Product Officer", source: ANTHROPIC_LABS },
             { name: "Jack Clark", role: "Head of Policy, co-founder", stance: "pace", note: PACING_SIGNED, source: PACING },
           ],
         },
@@ -146,26 +190,40 @@
         stance: "pace",
         note: "Endorsed the Pacing the Frontier statement as a company; Sam Altman said OpenAI would also give independent evaluators employee-like access.",
         source: RESPONSES,
+        // The OpenAI Foundation's board controls the OpenAI Group PBC
+        board: {
+          label: "OpenAI Foundation board", source: OPENAI_BOARD,
+          members: [
+            { name: "Bret Taylor", role: "Chair of the board" },
+            { name: "Sam Altman", role: "Director; Chief Executive Officer" },
+            { name: "Adam D'Angelo", role: "Director" },
+            { name: "Paul Christiano", role: "Director" },
+            { name: "Sue Desmond-Hellmann", role: "Director" },
+            { name: "Zico Kolter", role: "Director; chair of the Safety and Security Committee (Foundation board only)" },
+            { name: "Paul M. Nakasone", role: "Director" },
+            { name: "Adebayo Ogunlesi", role: "Director" },
+            { name: "Nicole Seligman", role: "Director" },
+            { name: "David Vélez", role: "Director", source: OPENAI_BOARD_NEW },
+            { name: "Robin Vince", role: "Director", source: OPENAI_BOARD_NEW },
+          ],
+        },
         chart: {
-          name: "Bret Taylor", role: "Chair of the board",
-          children: [{
-            name: "Sam Altman", role: "Chief Executive Officer, co-founder", stance: "pace",
-            note: "Endorsed 'We Must Pace the Frontier': 'committing to having independent evaluators with employee-like access is a great idea, and we will do the same.'", source: RESPONSES,
-            children: [
-              { name: "Greg Brockman", role: "President, co-founder" },
-              { name: "Jakub Pachocki", role: "Chief Scientist", stance: "pace", note: PACING_SIGNED, source: PACING },
-              { name: "Mark Chen", role: "Chief Research Officer" },
-              { name: "Fidji Simo", role: "CEO of Applications" },
-              { name: "Brad Lightcap", role: "Chief Operating Officer" },
-              { name: "Sarah Friar", role: "Chief Financial Officer" },
-            ],
-          }],
+          name: "Sam Altman", role: "Chief Executive Officer, co-founder", stance: "pace",
+          note: "Endorsed 'We Must Pace the Frontier': 'committing to having independent evaluators with employee-like access is a great idea, and we will do the same.'", source: RESPONSES,
+          children: [
+            { name: "Greg Brockman", role: "President, co-founder; leads product", source: OPENAI_EXITS },
+            { name: "Jakub Pachocki", role: "Chief Scientist", stance: "pace", note: PACING_SIGNED, source: PACING },
+            { name: "Mark Chen", role: "Chief Research Officer" },
+            { name: "Sarah Friar", role: "Chief Financial Officer" },
+            { name: "Jason Kwon", role: "Chief Strategy Officer" },
+            { name: "Dali Rajic", role: "Chief Revenue Officer", source: OPENAI_EXITS },
+          ],
         },
       },
       deepmind: {
         name: "Google DeepMind",
         org: "Google DeepMind",
-        ceo: "Demis Hassabis",   // the lab's own chief executive (named in its chart)
+        ceo: "Koray Kavukcuoglu",   // the lab's own head (named in its chart); Hassabis became chair in Aug 2026
         behaviour: [{ note: MILITARY, source: FLI_INDEX }],
         evaluation: {
           verdict: "Supported in words, not yet in commitments",
@@ -174,17 +232,38 @@
         stance: "pace",
         note: "Demis Hassabis endorsed 'We Must Pace the Frontier' as the 'right path forward'. Many Google employees signed the Pacing the Frontier statement; Google has not endorsed it as a company.",
         source: RESPONSES,
+        // Google DeepMind has no board of its own; Alphabet's board oversees it
+        board: {
+          label: "Alphabet board of directors", source: ALPHABET_PROXY,
+          members: [
+            { name: "John L. Hennessy", role: "Chair of the board" },
+            { name: "Larry Page", role: "Director, co-founder" },
+            { name: "Sergey Brin", role: "Director, co-founder" },
+            { name: "Sundar Pichai", role: "Director; Chief Executive Officer" },
+            { name: "Frances H. Arnold", role: "Director" },
+            { name: "R. Martin Chávez", role: "Director" },
+            { name: "L. John Doerr", role: "Director" },
+            { name: "Roger W. Ferguson Jr.", role: "Director" },
+            { name: "K. Ram Shriram", role: "Director" },
+            { name: "Robin L. Washington", role: "Director" },
+          ],
+        },
         chart: {
           name: "Sundar Pichai", role: "Chief Executive Officer, Google and Alphabet",
           children: [
-            { name: "Demis Hassabis", role: "Chief Executive Officer, Google DeepMind; co-founder", stance: "pace",
-              note: "Called 'We Must Pace the Frontier' the 'right path forward' at a 'critical moment'.", source: RESPONSES,
+            { name: "Koray Kavukcuoglu", role: "Senior Vice President, head of Google DeepMind", source: GDM_KORAY,
               children: [
-                { name: "Lila Ibrahim", role: "Chief Operating Officer" },
-                { name: "Shane Legg", role: "Chief AGI Scientist, co-founder" },
                 { name: "Anca Dragan", role: "Head of AI Safety and Alignment" },
               ] },
-            { name: "Koray Kavukcuoglu", role: "Chief AI Architect, Google" },
+            { name: "Demis Hassabis", role: "Chair of Google DeepMind; Chief Scientist, Alphabet; co-founder", stance: "pace",
+              note: "Called 'We Must Pace the Frontier' the 'right path forward' at a 'critical moment'. Stepped down as Google DeepMind's chief executive in August 2026 to become its chair.", source: RESPONSES,
+              children: [
+                { name: "Shane Legg", role: "Chief AGI Scientist, co-founder", source: GDM_RESHUFFLE },
+              ] },
+            { name: "James Manyika", role: "Senior Vice President, Research, Labs, Technology and Society",
+              children: [
+                { name: "Lila Ibrahim", role: "Chief AI Readiness Officer, Google DeepMind", source: GDM_RESHUFFLE },
+              ] },
           ],
         },
       },
@@ -200,15 +279,35 @@
         stance: "oppose",
         note: "Mark Zuckerberg broke with other AI leaders over pacing the frontier, favouring market-led safeguards.",
         source: SPLIT,
+        board: {
+          label: "Board of directors", source: META_PROXY,
+          members: [
+            { name: "Mark Zuckerberg", role: "Chair of the board; Chief Executive Officer" },
+            { name: "Robert M. Kimmitt", role: "Lead independent director" },
+            { name: "Peggy Alford", role: "Director" },
+            { name: "Marc Andreessen", role: "Director" },
+            { name: "John Arnold", role: "Director" },
+            { name: "Patrick Collison", role: "Director" },
+            { name: "John Elkann", role: "Director" },
+            { name: "Drew Houston", role: "Director" },
+            { name: "Nancy Killefer", role: "Director" },
+            { name: "Charles Songhurst", role: "Director" },
+            { name: "Dana White", role: "Director" },
+            { name: "Tony Xu", role: "Director" },
+          ],
+        },
         chart: {
           name: "Mark Zuckerberg", role: "Chief Executive Officer, founder", stance: "oppose",
           note: "Broke with other AI leaders over 'We Must Pace the Frontier', favouring market-led safeguards.", source: SPLIT,
           children: [
-            { name: "Alexandr Wang", role: "Chief AI Officer, Meta Superintelligence Labs",
+            { name: "Alexandr Wang", role: "Chief AI Officer, Meta Superintelligence Labs", source: META_MSL,
               children: [
                 { name: "Shengjia Zhao", role: "Chief Scientist, Meta Superintelligence Labs" },
                 { name: "Nat Friedman", role: "Products and applied research, Meta Superintelligence Labs" },
+                { name: "Rob Fergus", role: "Head of FAIR (fundamental AI research)" },
               ] },
+            { name: "Javier Olivan", role: "Chief Operating Officer" },
+            { name: "Susan Li", role: "Chief Financial Officer" },
             { name: "Andrew Bosworth", role: "Chief Technology Officer" },
             { name: "Chris Cox", role: "Chief Product Officer" },
           ],
@@ -226,9 +325,28 @@
         stance: "pace",
         note: "Elon Musk endorsed 'We Must Pace the Frontier' ('Dario is right'). He also signed the 2023 open letter calling for a six-month pause.",
         source: RESPONSES,
+        // xAI merged into SpaceX in February 2026; SpaceX's board oversees it
+        board: {
+          label: "SpaceX board of directors", source: SPACEX_BOARD,
+          members: [
+            { name: "Elon Musk", role: "Chair of the board; Chief Executive Officer" },
+            { name: "Gwynne Shotwell", role: "Director; President and Chief Operating Officer, SpaceX" },
+            { name: "Ira Ehrenpreis", role: "Director" },
+            { name: "Antonio Gracias", role: "Director" },
+            { name: "Steve Jurvetson", role: "Director" },
+            { name: "Luke Nosek", role: "Director" },
+            { name: "Donald Harrison", role: "Director" },
+            { name: "Randy Glein", role: "Director" },
+            { name: "Roelof Botha", role: "Director" },
+          ],
+        },
         chart: {
-          name: "Elon Musk", role: "Founder", stance: "pace",
+          name: "Elon Musk", role: "Founder; Chief Executive Officer, SpaceX and xAI", stance: "pace",
           note: "Quote-posted 'We Must Pace the Frontier' with 'Dario is right.' Signed the 2023 Pause Giant AI Experiments letter.", source: RESPONSES,
+          children: [
+            { name: "Michael Nicolls", role: "President, xAI", source: XAI_PRESIDENT },
+            { name: "Gwynne Shotwell", role: "President and Chief Operating Officer, SpaceX" },
+          ],
         },
       },
     },
