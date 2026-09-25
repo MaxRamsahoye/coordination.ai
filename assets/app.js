@@ -434,7 +434,7 @@
   }
 
   // Favicon: a clock face, a circle outline in the accent colour with a hand
-  // that sweeps round once a minute (redrawn each second). The browser's
+  // that sweeps round every 30 seconds (redrawn each half second). The browser's
   // tab strip doesn't follow the site's theme, so colours use their stronger
   // light-theme values, and mono is black or white to suit the browser.
   const FAVICON_FILLS = { red: "#c8102e", blue: "#1d4ed8", orange: "#c2410c" };
@@ -443,7 +443,7 @@
     const link = document.getElementById("favicon");
     if (!link) return;
     const colour = FAVICON_FILLS[faviconAccent];
-    const angle = (new Date().getSeconds() * 6) % 360;
+    const angle = (Math.floor(Date.now() / 500) * 6) % 360;   // 6° every half second: once round in 30 seconds
     const paint = colour ? `stroke="${colour}"` : 'class="c"';
     const out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${colour ? "" : "<style>.c{stroke:#000}@media (prefers-color-scheme:dark){.c{stroke:#fff}}</style>"}`
       + `<circle cx="32" cy="32" r="25" fill="none" ${paint} stroke-width="7"/>`
@@ -455,7 +455,7 @@
     drawFavicon();
   }
   drawFavicon();
-  setInterval(drawFavicon, 1000);
+  setInterval(drawFavicon, 500);
 
   // Font cycles hybrid (the default: Bembo text, Plex details) → all ET
   // Bembo → all IBM Plex Sans Arabic; not remembered
