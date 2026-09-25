@@ -2402,7 +2402,7 @@ html:not(.loaded) body { overflow: hidden; }
 .cp-link:hover { color: var(--accent); }
 
 /* The menu's last item, Site Map, stands a little apart from the rest */
-.menu a.menu-apart { margin-left: 64px; }
+.menu a.menu-apart { margin-left: 64px; }   /* a gap between the short list and the pages */
 
 /* ───────────── Site Map: a bento grid of tiles, one per page, each with a
    small drawing in the manner of its page (assets/sitemap.js) */

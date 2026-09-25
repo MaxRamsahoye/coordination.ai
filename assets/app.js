@@ -443,7 +443,7 @@
     const link = document.getElementById("favicon");
     if (!link) return;
     const colour = FAVICON_FILLS[faviconAccent];
-    const angle = (Math.floor(Date.now() / 500) * 6) % 360;   // 6° every half second: once round in 30 seconds
+    const angle = (Math.floor(Date.now() / 500) * 12) % 360;   // 12° every half second: once round in 15 seconds
     const paint = colour ? `stroke="${colour}"` : 'class="c"';
     const out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${colour ? "" : "<style>.c{stroke:#000}@media (prefers-color-scheme:dark){.c{stroke:#fff}}</style>"}`
       + `<circle cx="32" cy="32" r="25" fill="none" ${paint} stroke-width="7"/>`
@@ -507,7 +507,26 @@
   document.getElementById("font-toggle").addEventListener("click", toggleFont);
   toTop.addEventListener("click", toTopNow);
 
-  // Shortcuts: T theme, C accent, F font, H hudless, 1–9 and 0 pages, Backspace back to top
+  // Page shortcuts: type a menu item's number. Where a digit could start a
+  // longer number ("1" of "12", or a leading "0"), wait briefly for the next
+  // one before going to the page.
+  let typed = "", typedTimer = 0;
+  function typeNumber(d) {
+    clearTimeout(typedTimer);
+    typed += d;
+    const items = [...document.querySelectorAll(".menu a[data-page]")];
+    const nums = items.map((a) => +(a.querySelector(".menu-num") || {}).textContent);
+    const go = () => {
+      const i = nums.indexOf(+typed);
+      typed = "";
+      if (i >= 0) items[i].click();
+    };
+    const longer = nums.some((n) => n >= 10 && String(n).startsWith(String(+typed)) && String(n).length > String(+typed).length);
+    if (typed.length < 2 && (longer || typed === "0")) typedTimer = setTimeout(go, 600);
+    else go();
+  }
+
+  // Shortcuts: T theme, C accent, F font, H hudless, digits pages, Backspace back to top
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
@@ -516,10 +535,7 @@
     else if (e.key === "c" || e.key === "C") toggleAccent();
     else if (e.key === "f" || e.key === "F") toggleFont();
     else if (e.key === "h" || e.key === "H") root.classList.toggle("hudless");   // hide the dividing lines
-    else if (/^[0-9]$/.test(e.key)) {   // 1–9 and 0 (the tenth): the menu's pages, in order
-      const item = document.querySelectorAll(".menu a[data-page]")[(+e.key || 10) - 1];
-      if (item) item.click();
-    }
+    else if (/^[0-9]$/.test(e.key)) typeNumber(e.key);   // the menu's numbers, one or two digits
     else if (e.key === "Backspace") {
       e.preventDefault();
       if (toTop.classList.contains("visible")) pressFeedback(toTop);
