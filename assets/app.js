@@ -433,21 +433,29 @@
     updateFavicon(next);
   }
 
-  // Favicon: a circle outline in the accent colour. The browser's
+  // Favicon: a clock face, a circle outline in the accent colour with a hand
+  // that sweeps round once a minute (redrawn each second). The browser's
   // tab strip doesn't follow the site's theme, so colours use their stronger
   // light-theme values, and mono is black or white to suit the browser.
-  const FAVICON_C = document.getElementById("favicon") && fetch(document.getElementById("favicon").href).then((r) => r.text()).catch(() => null);
   const FAVICON_FILLS = { red: "#c8102e", blue: "#1d4ed8", orange: "#c2410c" };
-  async function updateFavicon(accent) {
+  let faviconAccent = "red";
+  function drawFavicon() {
     const link = document.getElementById("favicon");
-    const svg = link && (await FAVICON_C);
-    if (!svg) return;
-    const colour = FAVICON_FILLS[accent];
-    const out = colour
-      ? svg.replace(/stroke="#[0-9a-f]+"/i, `stroke="${colour}"`)
-      : svg.replace(/stroke="#[0-9a-f]+"/i, 'class="c"').replace(/<circle/, "<style>.c{stroke:#000}@media (prefers-color-scheme:dark){.c{stroke:#fff}}</style><circle");
+    if (!link) return;
+    const colour = FAVICON_FILLS[faviconAccent];
+    const angle = (new Date().getSeconds() * 6) % 360;
+    const paint = colour ? `stroke="${colour}"` : 'class="c"';
+    const out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${colour ? "" : "<style>.c{stroke:#000}@media (prefers-color-scheme:dark){.c{stroke:#fff}}</style>"}`
+      + `<circle cx="32" cy="32" r="25" fill="none" ${paint} stroke-width="7"/>`
+      + `<line x1="32" y1="32" x2="32" y2="15" ${paint} stroke-width="6" stroke-linecap="round" transform="rotate(${angle} 32 32)"/></svg>`;
     link.href = `data:image/svg+xml,${encodeURIComponent(out)}`;
   }
+  function updateFavicon(accent) {
+    faviconAccent = accent || "red";
+    drawFavicon();
+  }
+  drawFavicon();
+  setInterval(drawFavicon, 1000);
 
   // Font cycles hybrid (the default: Bembo text, Plex details) → all ET
   // Bembo → all IBM Plex Sans Arabic; not remembered
@@ -833,6 +841,16 @@
       glideTo(Math.round(lineY));
     })
   );
+
+  // The page's title in the top-left corner goes back to the top of the page
+  // (where the menu's line meets the top of the screen); the hero's title
+  // goes back to the top of the site
+  pageTitleFixed.addEventListener("click", () => {
+    if (!root.classList.contains("title-past")) return;
+    glideTo(Math.round(menuEl.getBoundingClientRect().top + window.scrollY + (parseFloat(menuEl.style.getPropertyValue("--menu-line-y")) || menuEl.offsetHeight)));
+  });
+  const heroH1 = document.querySelector(".hero h1");
+  if (heroH1) heroH1.addEventListener("click", () => glideTo(0));
 
   // ───────────── Footer: live figures from the site's data
   function renderFooter() {

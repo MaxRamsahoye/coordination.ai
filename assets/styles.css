@@ -54,7 +54,7 @@
 :root { --font-ui: var(--font); }
 :root[data-font="hybrid"] { --font-ui: var(--font-plex); }
 :root[data-font="plex"] { --font: var(--font-plex); }
-.news, .site-title, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
+.news, .site-title, .page-title-fixed, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
 .toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta, .footer-col, .gl-area,
 .page-head h2, .page-intro {
   font-family: var(--font-ui);
@@ -327,6 +327,11 @@ a { color: inherit; }
   transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
 }
 .title-past .page-title-fixed { opacity: 1; transform: none; }
+/* It's clickable once shown: back to the top of the page (app.js) */
+.title-past .page-title-fixed { pointer-events: auto; cursor: pointer; }
+.title-past .page-title-fixed:hover { color: var(--accent); }
+/* The hero's title goes back to the top of the site */
+.hero h1 { cursor: pointer; }
 
 /* ───────────── Hero */
 .hero {
