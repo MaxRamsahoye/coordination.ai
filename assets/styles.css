@@ -2397,7 +2397,8 @@ html:not(.loaded) body { overflow: hidden; }
 /* The menu's last item, Site Map, stands a little apart from the rest */
 .menu a.menu-apart { margin-left: 28px; }
 
-/* ───────────── Site Map: a card per page, three across */
+/* ───────────── Site Map: a bento grid of tiles, one per page, each with a
+   small drawing in the manner of its page (assets/sitemap.js) */
 #page-sitemap .page-head, .sm-grid {
   --wide: min(1160px, calc(100vw - 96px));
   width: var(--wide);
@@ -2406,28 +2407,77 @@ html:not(.loaded) body { overflow: hidden; }
 @media (max-width: 1100px) { #page-sitemap .page-head, .sm-grid { --wide: calc(100vw - 32px); } }
 .sm-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 16px;
   padding: 0;
   list-style: none;
 }
-@media (max-width: 900px) { .sm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .sm-grid { grid-template-columns: 1fr; } }
-.sm-card {
-  display: flex;
-  flex-direction: column;
-  padding: 22px 24px 24px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  transition: border-color 0.2s ease;
+.sm-lg { grid-column: span 3; }
+.sm-md { grid-column: span 2; }
+.sm-wide { grid-column: 1 / -1; }
+@media (max-width: 900px) {
+  .sm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sm-lg, .sm-wide { grid-column: 1 / -1; }
+  .sm-md { grid-column: span 1; }
 }
-.sm-card:hover { border-color: var(--ink-2); }
-.sm-link { display: flex; flex-direction: column; gap: 6px; color: var(--ink); text-decoration: none; }
+@media (max-width: 600px) { .sm-grid { grid-template-columns: 1fr; } .sm-md { grid-column: 1 / -1; } }
+
+.sm-tile {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.sm-tile:hover, .sm-tile:focus-within { border-color: var(--ink-2); }
+.sm-link { display: flex; flex-direction: column; height: 100%; color: var(--ink); text-decoration: none; outline: none; }
+.sm-art {
+  display: block;
+  padding: 22px 22px 14px;
+  background: color-mix(in srgb, var(--ink) 3%, var(--bg));
+  border-bottom: 1px solid var(--line);
+}
+.sm-art svg { display: block; width: 100%; height: 150px; }
+.sm-lg .sm-art svg { height: 170px; }
+.sm-text { display: flex; flex-direction: column; gap: 8px; padding: 18px 22px 22px; flex: 1; }
+.sm-head { display: flex; align-items: baseline; gap: 10px; }
 .sm-num { color: var(--accent); font-family: var(--font-ui); font-size: 13px; letter-spacing: 0.06em; }
 .sm-name { font-family: var(--font-ui); font-size: 24px; font-weight: 500; line-height: 1.2; }
-.sm-arrow { display: inline-block; color: var(--ink-2); font-size: 18px; transition: transform 0.2s ease, color 0.2s ease; }
-.sm-link:hover .sm-name, .sm-link:focus-visible .sm-name { color: var(--accent); }
-.sm-link:hover .sm-arrow { color: var(--accent); transform: translateX(4px); }
-.sm-about { margin: 12px 0 0; font-size: 17px; line-height: 1.5; }
-.sm-parts { margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); list-style: none; color: var(--ink-2); font-family: var(--font-ui); font-size: 13px; line-height: 1.45; }
-.sm-parts li + li { margin-top: 6px; }
+.sm-arrow { margin-left: auto; color: var(--ink-2); font-size: 20px; transition: transform 0.25s ease, color 0.25s ease; }
+.sm-link:hover .sm-name, .sm-link:focus-visible .sm-name, .sm-link:hover .sm-arrow, .sm-link:focus-visible .sm-arrow { color: var(--accent); }
+.sm-link:hover .sm-arrow, .sm-link:focus-visible .sm-arrow { transform: translateX(4px); }
+.sm-about { font-size: 17px; line-height: 1.5; }
+.sm-parts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.sm-parts span { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); font-family: var(--font-ui); font-size: 12px; }
+/* Contact: a slim tile across the grid, its drawing to the side */
+.sm-wide .sm-link { flex-direction: row; align-items: stretch; }
+.sm-wide .sm-art { flex: 0 0 min(320px, 36%); border-bottom: 0; border-right: 1px solid var(--line); }
+.sm-wide .sm-art svg { height: 110px; }
+.sm-wide .sm-text { justify-content: center; }
+@media (max-width: 600px) { .sm-wide .sm-link { flex-direction: column; } .sm-wide .sm-art { flex: none; border-right: 0; border-bottom: 1px solid var(--line); } }
+
+/* The drawings' marks, in the site's colours */
+.sm-art .v-line { stroke: var(--line); stroke-width: 1.5; }
+.sm-art .v-dots { stroke: var(--ink-2); stroke-width: 2; stroke-dasharray: 1 5; stroke-linecap: round; }
+.sm-art .v-acc { fill: var(--accent); }
+.sm-art .v-ink { fill: var(--ink); }
+.sm-art .v-mute { fill: var(--ink-2); }
+.sm-art .v-seat { fill: color-mix(in srgb, var(--ink) 18%, var(--bg)); }
+.sm-art .v-acc-line { stroke: var(--accent); stroke-width: 1.5; }
+.sm-art .v-ink-line { stroke: var(--ink); stroke-width: 1.5; }
+.sm-art .v-mute-line { stroke: var(--ink-2); stroke-width: 1.5; }
+.sm-art .v-lead { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 1 2; opacity: 0.7; }
+.sm-art .v-box { fill: var(--bg); stroke: var(--ink-2); stroke-width: 1.2; }
+.sm-art .v-box-acc { fill: var(--bg); stroke: var(--accent); stroke-width: 1.5; }
+.sm-art .v-paper { fill: var(--bg); stroke: var(--ink); stroke-width: 1.2; }
+.sm-art .v-land { fill: color-mix(in srgb, var(--ink) 16%, var(--bg)); }
+.sm-art .v-pin { fill: var(--accent); stroke: var(--bg); stroke-width: 3; }
+.sm-art .v-num { fill: var(--on-accent); font-family: var(--font-ui); font-size: 8px; font-weight: 600; text-anchor: middle; }
+.sm-art .v-letter { fill: var(--accent); font-family: var(--font-bembo); font-size: 34px; }
+.sm-art .v-arrow { stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; }
+.sm-art .v-step { fill: var(--ink); font-family: var(--font-ui); font-size: 14px; font-weight: 600; text-anchor: middle; }
+.sm-art .v-step.is-on { fill: var(--on-accent); }
+.sm-art .v-send { stroke: var(--on-accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* On hover the drawing lifts a little */
+.sm-art svg { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.sm-link:hover .sm-art svg, .sm-link:focus-visible .sm-art svg { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .sm-art svg, .sm-arrow { transition: none; } }
