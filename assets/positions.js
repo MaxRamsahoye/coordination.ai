@@ -253,6 +253,7 @@
     stepNav = {
       count: seats.length,
       index: () => (state.selected == null ? -1 : state.selected),
+      el: (i) => $("positions-view").querySelector(`.seat[data-i="${i}"]`),
       go: (i) => {
         state.selected = i;
         showMember(seats[i], i);
@@ -552,6 +553,7 @@
     stepNav = {
       count: buttons.length,
       index: () => buttons.findIndex((b) => +b.dataset.i === selected),
+      el: (k) => buttons[k],
       go: (k) => {
         select(+buttons[k].dataset.i);
         revealInFrame(buttons[k]);
@@ -847,14 +849,47 @@
       })
     );
     $("positions-step").querySelectorAll("[data-step]").forEach((b) => b.addEventListener("click", () => step(+b.dataset.step)));
+    // Arrow keys move through the diagram by position: to the nearest box or
+    // seat in that direction (← and →, where there's none, step on in
+    // order). ↑ and ↓ only do so while the diagram is on screen, so they
+    // still scroll the page otherwise.
+    const DIRS = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
     document.addEventListener("keydown", (e) => {
-      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-      if (e.metaKey || e.ctrlKey || e.altKey || !stepNav || $("page-positions").hidden) return;
+      const d = DIRS[e.key];
+      if (!d || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey || !stepNav || $("page-positions").hidden) return;
       const t = e.target;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (d[1]) {
+        const v = $("positions-view").getBoundingClientRect();
+        if (v.bottom < 80 || v.top > window.innerHeight - 80) return;
+      }
       e.preventDefault();
-      step(e.key === "ArrowLeft" ? -1 : 1);
+      const k = stepNav.index();
+      const next = k < 0 ? -1 : nearest(k, d);
+      if (next >= 0) stepNav.go(next);
+      else if (!d[1]) step(d[0]);
     });
+    // The index of the nearest box or seat from item k in direction d:
+    // closest along that direction, with sideways drift counting extra
+    function nearest(k, [dx, dy]) {
+      const centre = (el) => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
+      const from = stepNav.el(k);
+      if (!from) return -1;
+      const [x0, y0] = centre(from);
+      let best = -1, bestScore = Infinity;
+      for (let j = 0; j < stepNav.count; j++) {
+        if (j === k) continue;
+        const el = stepNav.el(j);
+        if (!el) continue;
+        const [x, y] = centre(el);
+        const along = (x - x0) * dx + (y - y0) * dy;
+        if (along < 2) continue;
+        const across = Math.abs((x - x0) * dy) + Math.abs((y - y0) * dx);
+        const score = along + across * 2.5;
+        if (score < bestScore) { bestScore = score; best = j; }
+      }
+      return best;
+    }
     render();
     // Load the member lists in the background so the chambers open instantly
     loadMembers().catch(() => {});
