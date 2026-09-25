@@ -800,12 +800,18 @@
   }
   // The site address keeps its open width while the brackets close, so they
   // meet in the middle; measured with the name showing
+  // (with its animation paused while measuring: if the brackets were closed
+  // or closing, the name would otherwise be caught part-way and the address
+  // stuck at that width, as "[ c ]")
   function sizeSiteTitle() {
     const wasClosed = siteTitle.classList.contains("st-closed");
+    siteTitle.classList.add("st-measuring");
     siteTitle.classList.remove("st-closed");
     siteTitle.style.removeProperty("--st-w");
     siteTitle.style.setProperty("--st-w", `${Math.ceil(siteTitle.getBoundingClientRect().width)}px`);
     siteTitle.classList.toggle("st-closed", wasClosed);
+    void siteTitle.offsetWidth;   // settle the closed state before the animation returns
+    siteTitle.classList.remove("st-measuring");
   }
   document.fonts.ready.then(sizeSiteTitle);
   document.fonts.addEventListener("loadingdone", sizeSiteTitle);
