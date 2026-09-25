@@ -719,9 +719,9 @@
     });
   }
 
-  // ───────────── Routing: #<page>, defaulting to Positions
+  // ───────────── Routing: #<page>, defaulting to Mission (the homepage)
   const PAGES = ["statements", "materials", "glossary", "incidents", "race", "milestones", "positions", "plans", "actors", "companions", "coordinate", "contact", "mission", "sitemap"];
-  const DEFAULT_PAGE = "positions";
+  const DEFAULT_PAGE = "mission";
 
   let indicatorReady = false;   // the first placement doesn't animate
   function showPage() {
