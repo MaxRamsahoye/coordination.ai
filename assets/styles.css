@@ -346,7 +346,7 @@ a { color: inherit; }
 }
 /* The artwork, subtitle, title and description share one column, as wide
    as the widest of them and centred; the text within it is left-aligned */
-.hero > .container { width: 100%; display: grid; grid-template-columns: minmax(0, max-content); justify-content: center; text-align: left; }   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js). Not a transform: that would isolate the artwork's blend mode from the page */
+.hero > .container { width: 100%; display: grid; grid-template-columns: minmax(0, max-content); justify-content: center; align-content: start; text-align: left; }   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js). Not a transform: that would isolate the artwork's blend mode from the page */
 
 /* ───────────── Latest developments ticker: the hero's top-left corner,
    level with the site title, scrolling away with the page. The track holds
@@ -476,11 +476,11 @@ html:not(.loaded) body { overflow: hidden; }
 .hero {
   --title-size: clamp(44px, 7vw, 76px);
   --subtitle-size: clamp(20px, 2.6vw, 27px);
+  --hero-rest: 606px;   /* +16px for the taller header */
 }
 /* Small phones: a little smaller, so each sentence fits on two lines */
 @media (max-width: 400px) {
   .hero { --subtitle-size: 18px; }
-  --hero-rest: 606px;   /* +16px for the taller header */
 }
 /* Short windows: drop the description so the rest still fits */
 @media (max-height: 760px) {

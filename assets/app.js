@@ -646,7 +646,13 @@
       lines.set(key, { left: Math.min(l.left, r.left), right: Math.max(l.right, r.right) });
     });
     const widest = Math.max(...[...lines.values()].map((l) => l.right - l.left));
-    if (widest > 0) heroArt.style.width = `${Math.round(widest)}px`;
+    if (widest > 0) {
+      heroArt.style.width = `${Math.round(widest)}px`;
+      // …then pin it to the width it actually takes under its CSS cap, so
+      // every browser sizes its box (and the space for it) the same; Safari
+      // otherwise reserves the uncapped height and leaves a gap below the title
+      heroArt.style.width = `${Math.round(heroArt.getBoundingClientRect().width)}px`;
+    }
     // …and the description runs as wide as the title
     if (widest > 0) heroTitle.closest(".hero").style.setProperty("--title-w", `${Math.round(widest)}px`);
   }
