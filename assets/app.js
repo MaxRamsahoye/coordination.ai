@@ -694,7 +694,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Positions
-  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "milestones", "positions", "actors", "companions", "coordinate", "contact"];
+  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "milestones", "positions", "actors", "companions", "coordinate", "contact", "sitemap"];
   const DEFAULT_PAGE = "positions";
 
   let indicatorReady = false;   // the first placement doesn't animate
