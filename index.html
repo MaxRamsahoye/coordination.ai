@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=27e28d92">
+  <link rel="stylesheet" href="assets/styles.css?v=015f3f53">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -91,19 +91,20 @@
 
     <nav class="menu" aria-label="Sections">
       <div class="container menu-inner">
-        <a href="#positions" data-page="positions" aria-keyshortcuts="1"><span class="menu-num" aria-hidden="true">01</span>Positions</a>
-        <a href="#race" data-page="race" aria-keyshortcuts="2"><span class="menu-num" aria-hidden="true">02</span>Race</a>
-        <a href="#incidents" data-page="incidents" aria-keyshortcuts="3"><span class="menu-num" aria-hidden="true">03</span>Incidents</a>
-        <a href="#milestones" data-page="milestones" aria-keyshortcuts="4"><span class="menu-num" aria-hidden="true">04</span>Milestones</a>
-        <a href="#actors" data-page="actors" aria-keyshortcuts="5"><span class="menu-num" aria-hidden="true">05</span>Actors</a>
-        <a href="#statements" data-page="statements" aria-keyshortcuts="6"><span class="menu-num" aria-hidden="true">06</span>Statements</a>
-        <a href="#materials" data-page="materials" aria-keyshortcuts="7"><span class="menu-num" aria-hidden="true">07</span>Materials</a>
-        <a href="#glossary" data-page="glossary" aria-keyshortcuts="8"><span class="menu-num" aria-hidden="true">08</span>Glossary</a>
-        <a href="#companions" data-page="companions" aria-keyshortcuts="9"><span class="menu-num" aria-hidden="true">09</span>Companions</a>
-        <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="0"><span class="menu-num" aria-hidden="true">10</span>Coordinate</a>
-        <a href="#contact" data-page="contact"><span class="menu-num" aria-hidden="true">11</span>Contact</a>
-        <a href="#mission" data-page="mission" class="menu-apart"><span class="menu-num" aria-hidden="true">12</span>Mission</a>
-        <a href="#sitemap" data-page="sitemap"><span class="menu-num" aria-hidden="true">13</span>Site Map</a>
+        <a href="#positions" aria-keyshortcuts="1" data-page="positions"><span class="menu-num" aria-hidden="true">01</span>Positions</a>
+        <a href="#plans" aria-keyshortcuts="2" data-page="plans"><span class="menu-num" aria-hidden="true">02</span>Plans</a>
+        <a href="#race" aria-keyshortcuts="3" data-page="race"><span class="menu-num" aria-hidden="true">03</span>Race</a>
+        <a href="#incidents" aria-keyshortcuts="4" data-page="incidents"><span class="menu-num" aria-hidden="true">04</span>Incidents</a>
+        <a href="#milestones" aria-keyshortcuts="5" data-page="milestones"><span class="menu-num" aria-hidden="true">05</span>Milestones</a>
+        <a href="#actors" aria-keyshortcuts="6" data-page="actors"><span class="menu-num" aria-hidden="true">06</span>Actors</a>
+        <a href="#statements" aria-keyshortcuts="7" data-page="statements"><span class="menu-num" aria-hidden="true">07</span>Statements</a>
+        <a href="#materials" aria-keyshortcuts="8" data-page="materials"><span class="menu-num" aria-hidden="true">08</span>Materials</a>
+        <a href="#glossary" aria-keyshortcuts="9" data-page="glossary"><span class="menu-num" aria-hidden="true">09</span>Glossary</a>
+        <a href="#companions" aria-keyshortcuts="0" data-page="companions"><span class="menu-num" aria-hidden="true">10</span>Companions</a>
+        <a href="#coordinate" data-page="coordinate"><span class="menu-num" aria-hidden="true">11</span>Coordinate</a>
+        <a href="#contact" data-page="contact"><span class="menu-num" aria-hidden="true">12</span>Contact</a>
+        <a href="#mission" data-page="mission" class="menu-apart"><span class="menu-num" aria-hidden="true">13</span>Mission</a>
+        <a href="#sitemap" data-page="sitemap"><span class="menu-num" aria-hidden="true">14</span>Site Map</a>
         <span class="menu-indicator" aria-hidden="true"></span>
       </div>
     </nav>
@@ -320,6 +321,26 @@
       </div>
     </section>
 
+    <!-- Plans: proposals for handling advanced AI (assets/plans.js) -->
+    <section id="page-plans" class="page" aria-labelledby="plans-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="plans-heading">Plans</h2>
+            <p class="page-intro" id="plans-intro"></p>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Filter plans by source">
+              <span class="filter-label" aria-hidden="true">From</span>
+              <div class="filter-scroll" id="plans-filters"></div>
+            </div>
+          </div>
+          <ul class="pl-legend" id="plans-legend" aria-label="What each plan asks of the race"></ul>
+          <ul class="org-grid" id="plans-list"></ul>
+        </div>
+      </div>
+    </section>
+
     <!-- Companions: other websites worth following (assets/companions.js) -->
     <section id="page-companions" class="page" aria-labelledby="companions-heading" hidden>
       <div class="page-layout">
@@ -399,6 +420,7 @@
               <div class="mi-body">
                 <ul class="mi-guide">
                   <li><a href="#positions" data-goto="positions">Positions</a> maps where the labs' leaders and boards, and every member of the UK and US legislatures, stand.</li>
+                  <li><a href="#plans" data-goto="plans">Plans</a> sets out the proposals for handling advanced AI, and what each asks of the race: a halt, pacing or speeding up.</li>
                   <li><a href="#race" data-goto="race">Race</a> and <a href="#milestones" data-goto="milestones">Milestones</a> show how fast the frontier is moving, and the moments that have shaped it.</li>
                   <li><a href="#incidents" data-goto="incidents">Incidents</a> records the times AI systems have already slipped out of control, misbehaved or been misused.</li>
                   <li><a href="#actors" data-goto="actors">Actors</a>, <a href="#statements" data-goto="statements">Statements</a> and <a href="#materials" data-goto="materials">Materials</a> gather the people, public commitments and writing that frame the debate; the <a href="#glossary" data-goto="glossary">Glossary</a> explains its terms.</li>
@@ -672,6 +694,7 @@
         <p class="footer-head">Explore</p>
         <ul>
           <li><a href="#positions" data-goto="positions">Positions</a></li>
+          <li><a href="#plans" data-goto="plans">Plans</a></li>
           <li><a href="#race" data-goto="race">Race</a></li>
           <li><a href="#incidents" data-goto="incidents">Incidents</a></li>
           <li><a href="#milestones" data-goto="milestones">Milestones</a></li>
@@ -722,6 +745,8 @@
   <script src="assets/milestones.js?v=8db6b525"></script>
   <script src="data/race.js?v=ceb53dc7"></script>
   <script src="assets/race.js?v=033c1bed"></script>
+  <script src="data/plans.js?v=60ffbced"></script>
+  <script src="assets/plans.js?v=e721f547"></script>
   <script src="data/companions.js?v=ecbad905"></script>
   <script src="assets/companions.js?v=ba8e90f3"></script>
   <script src="data/glossary.js?v=fef93df7"></script>
@@ -730,7 +755,7 @@
   <script src="assets/actors.js?v=df326552"></script>
   <script src="assets/positions.js?v=8d041dcc"></script>
   <script src="assets/coordinate.js?v=c4d4f771"></script>
-  <script src="assets/sitemap.js?v=b1922f2d"></script>
-  <script src="assets/app.js?v=6e489894"></script>
+  <script src="assets/sitemap.js?v=650ce099"></script>
+  <script src="assets/app.js?v=60bc66c8"></script>
 </body>
 </html>

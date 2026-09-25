@@ -146,6 +146,16 @@
       }
       return svg(300, 160, out);
     },
+    // Three routes from here, one of them halting before the edge
+    plans() {
+      return svg(300, 160, `
+        <circle class="v-box" cx="34" cy="80" r="10"/>
+        <path class="v-mute-line" d="M44 80 C110 80 150 30 270 30" fill="none"/>
+        <path class="v-mute-line" d="M44 80 L270 80" fill="none" stroke-dasharray="3 4"/>
+        <path class="v-acc-line" d="M44 80 C110 80 140 130 200 130" fill="none" stroke-width="3"/>
+        <line class="v-acc-line" x1="208" y1="118" x2="208" y2="142" stroke-width="3"/>
+        <circle class="v-acc" cx="200" cy="130" r="5"/>`);
+    },
     // Numbered steps along a path
     coordinate() {
       let out = `<path class="v-line" d="M40 40 C120 40 110 120 190 120 S260 60 270 60" fill="none"/>`;
@@ -176,11 +186,13 @@
   const PAGES = {
     positions: { size: "lg", about: "Where AI labs and legislators stand on a coordinated slowdown and existential risk from AI.",
       parts: ["Industry: the leadership, boards and departures of five labs", "Governments: every member of four chambers, UK and US"] },
+    plans: { size: "lg", about: `${n(W.CC_PLANS)} plans for handling advanced AI, and what each asks of the race.`,
+      parts: ["From researchers and campaigns, the labs and governments"] },
     race: { size: "lg", about: "The race to build ever more capable AI, drawn as a track with a lane for each lab and state.",
       parts: [`${n((W.CC_RACE || {}).events)} frontier releases and inter-state competition signals`] },
     incidents: { size: "lg", about: `${n(W.CC_INCIDENTS)} incidents of loss of control, unintended behaviour and AI cyberattacks, by developer.`,
       parts: ["By category and by developer"] },
-    milestones: { size: "lg", about: `${n(W.CC_MILESTONES)} of the most significant moments in the story of AI risk.`,
+    milestones: { size: "md", about: `${n(W.CC_MILESTONES)} of the most significant moments in the story of AI risk.`,
       parts: ["From Turing's warnings to the push to ban superintelligence"] },
     actors: { size: "md", about: "The people and institutions shaping AI risk and its governance.",
       parts: [`${n(A.individuals)} individuals`, `${n(A.institutions)} institutions, on a world map`] },
@@ -193,8 +205,8 @@
     companions: { size: "md", about: `${n(W.CC_COMPANIONS)} other websites worth following.`,
       parts: ["Guides, trackers, research and newsletters"] },
     coordinate: { size: "md", about: "How to take part in a coordinated slowdown, whoever you are.", parts: ["Next steps", "International coordination", "Collective action"] },
-    contact: { size: "half", about: "Corrections, sources and suggestions are welcome.", parts: [] },
-    mission: { size: "half", about: "What this site is for, why coordination matters, and how to read it.", parts: [] },
+    contact: { size: "md", about: "Corrections, sources and suggestions are welcome.", parts: [] },
+    mission: { size: "md", about: "What this site is for, why coordination matters, and how to read it.", parts: [] },
   };
 
   // Menu order and numbers, from the menu itself
