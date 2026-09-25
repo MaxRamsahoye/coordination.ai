@@ -853,6 +853,13 @@
   });
   const heroH1 = document.querySelector(".hero h1");
   if (heroH1) heroH1.addEventListener("click", () => glideTo(0));
+  // Links to the site itself (the name, in Mission's text) glide back up to the hero too
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-to-top]");
+    if (!a) return;
+    e.preventDefault();
+    glideTo(0);
+  });
 
   // ───────────── Footer: live figures from the site's data
   function renderFooter() {

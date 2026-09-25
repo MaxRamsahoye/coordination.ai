@@ -2597,3 +2597,8 @@ html:not(.loaded) body { overflow: hidden; }
 .pl-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin: 14px 0 0; }
 .pl-links .tl-source { margin-top: 0; }
 .pl-empty { grid-column: 1 / -1; color: var(--ink-2); font-size: 18px; }
+
+/* The site's name in Mission's text: italic, in the accent colour, and a
+   link back to the top of the site */
+.mi-name { color: var(--accent); font-style: italic; text-decoration: none; }
+.mi-name:hover { text-decoration: underline; text-underline-offset: 3px; }
