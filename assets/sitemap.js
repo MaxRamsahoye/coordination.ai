@@ -154,6 +154,14 @@
       });
       return svg(300, 160, out);
     },
+    // A rising curve that levels off: the race, paced
+    mission() {
+      return svg(300, 160, `
+        <line class="v-line" x1="20" y1="140" x2="286" y2="140"/><line class="v-line" x1="20" y1="20" x2="20" y2="140"/>
+        <path class="v-mute-line" d="M20 136 C110 132 150 100 180 40 L196 12" fill="none" stroke-dasharray="3 4"/>
+        <path class="v-acc-line" d="M20 136 C100 130 150 104 196 78 S260 58 286 56" fill="none" stroke-width="3"/>
+        <circle class="v-acc" cx="196" cy="78" r="5"/>`);
+    },
     // A form: fields and a send button
     contact() {
       return svg(300, 160, `
@@ -185,7 +193,8 @@
     companions: { size: "md", about: `${n(W.CC_COMPANIONS)} other websites worth following.`,
       parts: ["Guides, trackers, research and newsletters"] },
     coordinate: { size: "md", about: "How to take part in a coordinated slowdown, whoever you are.", parts: [] },
-    contact: { size: "wide", about: "Corrections, sources and suggestions are welcome.", parts: [] },
+    contact: { size: "half", about: "Corrections, sources and suggestions are welcome.", parts: [] },
+    mission: { size: "half", about: "What this site is for, why coordination matters, and how to read it.", parts: [] },
   };
 
   // Menu order and numbers, from the menu itself

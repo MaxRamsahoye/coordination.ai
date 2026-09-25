@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=14018cf3">
+  <link rel="stylesheet" href="assets/styles.css?v=f21a82aa">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -102,7 +102,8 @@
         <a href="#companions" data-page="companions" aria-keyshortcuts="9"><span class="menu-num" aria-hidden="true">09</span>Companions</a>
         <a href="#coordinate" data-page="coordinate" aria-keyshortcuts="0"><span class="menu-num" aria-hidden="true">10</span>Coordinate</a>
         <a href="#contact" data-page="contact"><span class="menu-num" aria-hidden="true">11</span>Contact</a>
-        <a href="#sitemap" data-page="sitemap" class="menu-apart"><span class="menu-num" aria-hidden="true">12</span>Site Map</a>
+        <a href="#mission" data-page="mission" class="menu-apart"><span class="menu-num" aria-hidden="true">12</span>Mission</a>
+        <a href="#sitemap" data-page="sitemap"><span class="menu-num" aria-hidden="true">13</span>Site Map</a>
         <span class="menu-indicator" aria-hidden="true"></span>
       </div>
     </nav>
@@ -365,6 +366,65 @@
       </div>
     </section>
 
+    <!-- Mission: what the site is for, and how to read it -->
+    <section id="page-mission" class="page" aria-labelledby="mission-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="mission-heading">Mission</h2>
+            <p class="page-intro">What this site is for, and how to read it.</p>
+          </div>
+
+          <p class="mi-lead">No one can slow the race to superintelligence alone. Coordination starts with <em>seeing clearly</em>: who stands where, what has been said, and what has already gone wrong.</p>
+
+          <div class="mi-sections">
+            <section class="mi-section">
+              <h3 class="mi-head"><span class="mi-num">01</span>The mission</h3>
+              <div class="mi-body">
+                <p>Coordination on AI Risk is an open record of where the people and institutions building and governing frontier AI stand on a coordinated slowdown, and on the risk that advanced AI could cause human extinction.</p>
+                <p>It exists to make that picture legible: so that legislators, researchers, lab staff and the public can see how much agreement there already is, where the gaps are, and what it would take for everyone to move together.</p>
+              </div>
+            </section>
+
+            <section class="mi-section">
+              <h3 class="mi-head"><span class="mi-num">02</span>Why it matters</h3>
+              <div class="mi-body">
+                <p>The leading labs are racing to build AI that can do the work of AI researchers, which could make progress run faster than anyone's ability to understand or control it. Many of the people closest to that work say it could go catastrophically wrong.</p>
+                <p>Each lab, and each country, can argue that slowing down alone only hands the lead to someone less careful. That is a coordination problem: a slowdown only works if it is shared, and it can only be shared if everyone can see that others are willing too.</p>
+              </div>
+            </section>
+
+            <section class="mi-section">
+              <h3 class="mi-head"><span class="mi-num">03</span>How to read this site</h3>
+              <div class="mi-body">
+                <ul class="mi-guide">
+                  <li><a href="#positions" data-goto="positions">Positions</a> maps where the labs' leaders and boards, and every member of the UK and US legislatures, stand.</li>
+                  <li><a href="#race" data-goto="race">Race</a> and <a href="#milestones" data-goto="milestones">Milestones</a> show how fast the frontier is moving, and the moments that have shaped it.</li>
+                  <li><a href="#incidents" data-goto="incidents">Incidents</a> records the times AI systems have already slipped out of control, misbehaved or been misused.</li>
+                  <li><a href="#actors" data-goto="actors">Actors</a>, <a href="#statements" data-goto="statements">Statements</a> and <a href="#materials" data-goto="materials">Materials</a> gather the people, public commitments and writing that frame the debate; the <a href="#glossary" data-goto="glossary">Glossary</a> explains its terms.</li>
+                  <li><a href="#coordinate" data-goto="coordinate">Coordinate</a> and <a href="#companions" data-goto="companions">Companions</a> point to what you can do, and where else to follow along.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="mi-section">
+              <h3 class="mi-head"><span class="mi-num">04</span>Principles</h3>
+              <div class="mi-body">
+                <dl class="mi-principles">
+                  <div><dt>Sourced</dt><dd>Every position, statement and incident links to where it comes from.</dd></div>
+                  <div><dt>Recorded, not inferred</dt><dd>“No recorded position” means none has been found yet, not that a person has none. People are described by what they have said and done in public.</dd></div>
+                  <div><dt>Open to correction</dt><dd>Roles change and records go out of date. Corrections and new sources are always welcome.</dd></div>
+                  <div><dt>For coordination</dt><dd>The aim is not to single anyone out, but to show that a shared slowdown has more support than any one actor can see from where they stand.</dd></div>
+                </dl>
+              </div>
+            </section>
+          </div>
+
+          <p class="mi-close">Something missing or wrong? <a href="#contact" data-goto="contact">Get in touch →</a></p>
+        </div>
+      </div>
+    </section>
+
     <!-- Site Map: every page and what's in it (assets/sitemap.js) -->
     <section id="page-sitemap" class="page" aria-labelledby="sitemap-heading" hidden>
       <div class="page-layout">
@@ -509,6 +569,7 @@
           <li><a href="#companions" data-goto="companions">Companions</a></li>
           <li><a href="#coordinate" data-goto="coordinate">Coordinate</a></li>
           <li><a href="#contact" data-goto="contact">Contact</a></li>
+          <li><a href="#mission" data-goto="mission">Mission</a></li>
           <li><a href="#sitemap" data-goto="sitemap">Site Map</a></li>
         </ul>
       </nav>
@@ -543,7 +604,7 @@
   <script src="data/positions.js?v=bbca77cb"></script>
   <script src="assets/actors.js?v=df326552"></script>
   <script src="assets/positions.js?v=8d041dcc"></script>
-  <script src="assets/sitemap.js?v=ffbe37aa"></script>
-  <script src="assets/app.js?v=82541e57"></script>
+  <script src="assets/sitemap.js?v=5007e9f7"></script>
+  <script src="assets/app.js?v=00f0387b"></script>
 </body>
 </html>
