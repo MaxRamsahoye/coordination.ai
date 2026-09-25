@@ -543,8 +543,8 @@ html:not(.loaded) body { overflow: hidden; }
   padding-left: calc(var(--title-size) * 0.06);
   max-width: var(--title-w, calc(var(--subtitle-size) * 28.2 + var(--title-size) * 0.06));   /* as wide as the title (app.js) */
   color: var(--ink-strong);
-  font-size: clamp(20px, 2.3vw, 25px);
-  line-height: 1.5;
+  font-size: clamp(22px, 2.7vw, 30px);
+  line-height: 1.45;
 }
 
 /* ───────────── Menu bar */
@@ -2395,7 +2395,7 @@ html:not(.loaded) body { overflow: hidden; }
 .cp-link:hover { color: var(--accent); }
 
 /* The menu's last item, Site Map, stands a little apart from the rest */
-.menu a.menu-apart { margin-left: 28px; }
+.menu a.menu-apart { margin-left: 64px; }
 
 /* ───────────── Site Map: a bento grid of tiles, one per page, each with a
    small drawing in the manner of its page (assets/sitemap.js) */
