@@ -763,18 +763,6 @@
     const execCount = (st) => executives.filter((x) => x.stance === st).length;
     $("positions-view").classList.remove("is-chamber");
     $("positions-view").innerHTML = `
-      ${statStrip([
-        [labs.length, "frontier labs tracked"],
-        [count("pace") + count("ban"), "with stated support for pacing or binding rules", "pace"],
-        [count("oppose"), "with stated opposition to a slowdown", "oppose"],
-        [totalIncidents, "incidents involving their models"],
-      ])}
-      ${statStrip([
-        [executives.length, "leaders and board members tracked"],
-        [execCount("pace") + execCount("ban"), "with stated support for pacing or binding rules", "pace"],
-        [execCount("oppose"), "with stated opposition to a slowdown", "oppose"],
-        [uniquePeople(labs.flatMap(([, l]) => l.departed || [])).length, "former staff who left over safety or risk concerns"],
-      ])}
       <div class="ov-table ov-industry" role="table" aria-label="Frontier labs compared">
         <div class="ov-head" role="row">
           <span role="columnheader">Company</span><span role="columnheader">CEO</span><span role="columnheader">Position</span><span role="columnheader">Evaluation</span><span role="columnheader">Recorded positions</span><span role="columnheader">Incidents</span>
@@ -794,6 +782,19 @@
             <span class="ov-arrow" aria-hidden="true">→</span>
           </button>`;
         }).join("")}
+      </div><div class="ov-after">
+      ${statStrip([
+        [labs.length, "frontier labs tracked"],
+        [count("pace") + count("ban"), "with stated support for pacing or binding rules", "pace"],
+        [count("oppose"), "with stated opposition to a slowdown", "oppose"],
+        [totalIncidents, "incidents involving their models"],
+      ])}
+      ${statStrip([
+        [executives.length, "leaders and board members tracked"],
+        [execCount("pace") + execCount("ban"), "with stated support for pacing or binding rules", "pace"],
+        [execCount("oppose"), "with stated opposition to a slowdown", "oppose"],
+        [uniquePeople(labs.flatMap(([, l]) => l.departed || [])).length, "former staff who left over safety or risk concerns"],
+      ])}
       </div>`;
     bindOverview();
     $("positions-notes").innerHTML = `<p>CEO: the lab's own chief executive (at Google DeepMind, its head), coloured by their recorded position. Recorded positions: how many of the people in its chart (leadership and board) have one. Incidents: those on this site involving each lab's models (the bar is scaled to the most). Select a company to see its chart.</p>`;
@@ -861,17 +862,18 @@
         </button>`;
     }).join("");
     $("positions-view").innerHTML = `
+      <div class="ov-table ov-gov" role="table" aria-label="Chambers compared">
+        <div class="ov-head" role="row">
+          <span role="columnheader">Chamber</span><span role="columnheader">Recorded positions</span><span role="columnheader">Leading advocate</span>
+        </div>
+        ${rows}
+      </div><div class="ov-after">
       ${statStrip([
         [total.members.toLocaleString(), "legislators in four chambers"],
         [total.ban + total.pace + total.oppose, "with a recorded position"],
         [total.ban, "with stated support for a ban or pause", "ban"],
         [total.pace, "with stated support for pacing or binding rules", "pace"],
       ])}
-      <div class="ov-table ov-gov" role="table" aria-label="Chambers compared">
-        <div class="ov-head" role="row">
-          <span role="columnheader">Chamber</span><span role="columnheader">Recorded positions</span><span role="columnheader">Leading advocate</span>
-        </div>
-        ${rows}
       </div>`;
     bindOverview();
     $("positions-notes").innerHTML = `<p>Recorded positions: how many of each chamber's members have one, out of all its members. “No recorded position” means none has been found yet, not that a member has none. Select a chamber to see every member's seat.</p>`;

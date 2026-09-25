@@ -1306,6 +1306,8 @@ html:not(.loaded) body { overflow: hidden; }
   list-style: none;
 }
 .ov-stats + .ov-stats { margin-top: -20px; }   /* a second row of figures sits closer */
+.ov-after { margin-top: 48px; }   /* Industry and Government: the figures follow the table */
+.ov-after .ov-stats:last-child { margin-bottom: 0; }
 .ov-stats li { display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 1px solid var(--line); }
 .ov-stats li[data-s] { border-top: 2px solid var(--st); }
 .ov-stats strong { font-size: 44px; font-weight: 500; line-height: 1; }
