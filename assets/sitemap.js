@@ -192,7 +192,7 @@
       parts: ["Capabilities, risks, safety research and governance"] },
     companions: { size: "md", about: `${n(W.CC_COMPANIONS)} other websites worth following.`,
       parts: ["Guides, trackers, research and newsletters"] },
-    coordinate: { size: "md", about: "How to take part in a coordinated slowdown, whoever you are.", parts: [] },
+    coordinate: { size: "md", about: "How to take part in a coordinated slowdown, whoever you are.", parts: ["Next steps", "International coordination", "Collective action"] },
     contact: { size: "half", about: "Corrections, sources and suggestions are welcome.", parts: [] },
     mission: { size: "half", about: "What this site is for, why coordination matters, and how to read it.", parts: [] },
   };

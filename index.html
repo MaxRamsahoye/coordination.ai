@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=f21a82aa">
+  <link rel="stylesheet" href="assets/styles.css?v=27e28d92">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -444,8 +444,20 @@
         <div class="page-main single-main">
           <div class="page-head">
             <h2 id="coordinate-heading">Coordinate</h2>
-            <p class="page-intro">A coordinated slowdown needs people across government, industry and the public to act together. Here is where to start.</p>
+            <p class="page-intro" id="coordinate-intro">A coordinated slowdown needs people across government, industry and the public to act together. Here is where to start.</p>
           </div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Coordinate: choose a section">
+              <span class="filter-label" aria-hidden="true">Section</span>
+              <div class="filter-scroll" id="coordinate-subs">
+                <button type="button" class="filter-pill" data-sub="next" aria-pressed="true">Next steps</button>
+                <button type="button" class="filter-pill" data-sub="international" aria-pressed="false">International coordination</button>
+                <button type="button" class="filter-pill" data-sub="collective" aria-pressed="false">Collective action</button>
+              </div>
+            </div>
+          </div>
+          <!-- Next steps -->
+          <div class="co-panel" data-sub="next">
           <ol class="steps">
             <li class="step">
               <h3>Tell your representatives</h3>
@@ -481,6 +493,119 @@
               </ul>
             </li>
           </ol>
+          </div>
+
+          <!-- International coordination -->
+          <div class="co-panel" data-sub="international" hidden>
+            <p class="co-lead">A slowdown only holds if the countries at the frontier move together. Here is what already exists, what has been proposed, and what an agreement would need.</p>
+
+            <h3 class="co-group">What exists</h3>
+            <ol class="co-items">
+              <li class="co-item">
+                <p class="co-meta">Bletchley Park 2023 · Seoul 2024 · Paris 2025 · New Delhi 2026</p>
+                <h4 class="co-title">The AI safety summits</h4>
+                <p class="co-text">The series where 28 countries, including the US and China, first agreed that frontier AI could cause serious harm, and where labs signed safety commitments. Its focus has since drifted from safety to adoption.</p>
+                <a class="co-link" href="#statements" data-entry="statements:bletchley-declaration">The Bletchley Declaration →</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">Since 2024</p>
+                <h4 class="co-title">A network of AI safety institutes</h4>
+                <p class="co-text">Government institutes in the UK, US, EU, Japan, Korea, Canada and elsewhere that test frontier models and share evaluation methods: the beginnings of shared technical capacity.</p>
+                <a class="co-link" href="#actors" data-goto="actors">Government institutions on Actors →</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2025</p>
+                <h4 class="co-title">A UN scientific panel and global dialogue</h4>
+                <p class="co-text">The UN General Assembly set up an Independent International Scientific Panel on AI and an annual Global Dialogue on AI Governance among all member states.</p>
+                <a class="co-link" href="#statements" data-entry="statements:un-scientific-panel">The General Assembly's resolution →</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2024</p>
+                <h4 class="co-title">The first binding AI treaty</h4>
+                <p class="co-text">The Council of Europe's Framework Convention requires AI systems to respect human rights, democracy and the rule of law. It shows states can bind themselves on AI, though it doesn't limit frontier capabilities.</p>
+                <a class="co-link" href="#statements" data-entry="statements:coe-convention">The Framework Convention →</a>
+              </li>
+            </ol>
+
+            <h3 class="co-group">What's proposed</h3>
+            <ol class="co-items">
+              <li class="co-item">
+                <p class="co-meta">2024 – 2025</p>
+                <h4 class="co-title">Red lines for AI</h4>
+                <p class="co-text">Western and Chinese scientists proposed red lines no AI system should cross, such as copying or improving itself autonomously; over 200 public figures then asked governments to agree verifiable red lines by the end of 2026.</p>
+                <a class="co-link" href="#statements" data-entry="statements:red-lines">The Global Call for AI Red Lines →</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2025</p>
+                <h4 class="co-title">A treaty to prevent superintelligence</h4>
+                <p class="co-text">MIRI's draft agreement, led by the US and China, would cap training compute and chip clusters, with a verification regime built for rivals who don't trust each other.</p>
+                <a class="tl-source" href="https://techgov.intelligence.org/research/an-international-agreement-to-prevent-the-premature-creation-of-artificial-superintelligence" target="_blank" rel="noopener noreferrer">MIRI Technical Governance Team ↗</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2026</p>
+                <h4 class="co-title">A US–China deal to delay superintelligence</h4>
+                <p class="co-text">AI 2040: Plan A imagines the two powers agreeing to hold back superintelligence until 2040, with chip tracking and all AI research made public.</p>
+                <a class="tl-source" href="https://ai-2040.com/" target="_blank" rel="noopener noreferrer">ai-2040.com ↗</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2026</p>
+                <h4 class="co-title">Tools to pace the frontier</h4>
+                <p class="co-text">More than 1,100 staff of the frontier labs asked the US government to support an international effort to build the technical and governance tools to deliberately pace frontier AI.</p>
+                <a class="co-link" href="#statements" data-entry="statements:pacing-the-frontier">Pacing the Frontier →</a>
+              </li>
+            </ol>
+
+            <h3 class="co-group">What an agreement would need</h3>
+            <dl class="co-needs">
+              <div><dt>Verification</dt><dd>A way for each side to check the other keeps its word, such as tracking advanced chips and large training runs.</dd></div>
+              <div><dt>Shared red lines</dt><dd>Agreed capabilities that no one builds or deploys, precise enough to check.</dd></div>
+              <div><dt>A body to watch</dt><dd>An international agency, often compared to the nuclear watchdog, to monitor compliance and share findings.</dd></div>
+              <div><dt>The leaders first</dt><dd>The US and China, where almost all frontier development happens, agreeing together; others can follow.</dd></div>
+            </dl>
+          </div>
+
+          <!-- Collective action -->
+          <div class="co-panel" data-sub="collective" hidden>
+            <p class="co-lead">A slowdown is a collective action problem: everyone may be better off if all slow down, but no one wants to slow down alone. Collective action is how that changes.</p>
+
+            <h3 class="co-group">How it works</h3>
+            <dl class="co-needs">
+              <div><dt>Common knowledge</dt><dd>Public statements let everyone see that others share their concern, so no one has to guess whether they'd be alone.</dd></div>
+              <div><dt>Conditional commitment</dt><dd>Pledges that take effect when others join, so no one has to move first.</dd></div>
+              <div><dt>Voices from inside</dt><dd>When the people building the frontier speak together, and by name, it's harder to say that a slowdown has no support.</dd></div>
+              <div><dt>Pressure from outside</dt><dd>Campaigns, letters and votes turn private worry into a public mandate that governments can act on.</dd></div>
+            </dl>
+
+            <h3 class="co-group">On the record</h3>
+            <ol class="co-items">
+              <li class="co-item">
+                <p class="co-meta">2026 · 1,134 staff of frontier labs</p>
+                <h4 class="co-title">Pacing the Frontier</h4>
+                <p class="co-text">Employees of Anthropic, OpenAI, Google and Meta, among them chief executives and chief scientists, asked for the tools to pace frontier AI together.</p>
+                <a class="co-link" href="#statements" data-entry="statements:pacing-the-frontier">The statement →</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2025</p>
+                <h4 class="co-title">Statement on Superintelligence</h4>
+                <p class="co-text">Scientists, public figures and people from across politics called for a prohibition on developing superintelligence until it can be done safely and with public support.</p>
+                <a class="co-link" href="#statements" data-entry="statements:superintelligence-statement">The statement →</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2023</p>
+                <h4 class="co-title">Statement on AI Risk</h4>
+                <p class="co-text">A single sentence placing the risk of extinction from AI alongside pandemics and nuclear war, signed by leading scientists and the chief executives of the frontier labs.</p>
+                <a class="co-link" href="#statements" data-entry="statements:cais-statement">The statement →</a>
+              </li>
+              <li class="co-item">
+                <p class="co-meta">2023 · over 30,000 signatures</p>
+                <h4 class="co-title">Pause Giant AI Experiments</h4>
+                <p class="co-text">The open letter asking labs to pause training systems more powerful than GPT-4 for six months, and governments to step in if they wouldn't.</p>
+                <a class="co-link" href="#statements" data-entry="statements:pause-letter">The letter →</a>
+              </li>
+            </ol>
+
+            <p class="co-next">Ready to add your voice? <a class="co-link" href="#coordinate" data-sub-go="next">See the next steps →</a></p>
+          </div>
         </div>
       </div>
     </section>
@@ -604,7 +729,8 @@
   <script src="data/positions.js?v=bbca77cb"></script>
   <script src="assets/actors.js?v=df326552"></script>
   <script src="assets/positions.js?v=8d041dcc"></script>
-  <script src="assets/sitemap.js?v=5007e9f7"></script>
+  <script src="assets/coordinate.js?v=c4d4f771"></script>
+  <script src="assets/sitemap.js?v=b1922f2d"></script>
   <script src="assets/app.js?v=6e489894"></script>
 </body>
 </html>
