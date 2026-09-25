@@ -347,7 +347,9 @@ a { color: inherit; }
   padding-top: var(--header-h);   /* content sits 24px higher than centred */
   padding-bottom: 48px;
 }
-.hero > .container { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }   /* the artwork, subtitle, title and description, centred */   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js). Not a transform: that would isolate the artwork's blend mode from the page */
+/* The artwork, subtitle, title and description share one column, as wide
+   as the widest of them and centred; the text within it is left-aligned */
+.hero > .container { width: 100%; display: grid; grid-template-columns: minmax(0, max-content); justify-content: center; text-align: left; }   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js). Not a transform: that would isolate the artwork's blend mode from the page */
 
 /* ───────────── Latest developments ticker: the hero's top-left corner,
    level with the site title, scrolling away with the page. The track holds
@@ -428,7 +430,8 @@ a { color: inherit; }
 
 /* Title lockup: the artwork is capped at the title's longest line
    (set in app.js) and at its own native width */
-.hero-lockup { display: flex; flex-direction: column; align-items: center; width: fit-content; max-width: 100%; }
+.hero-lockup { display: flex; flex-direction: column; align-items: center; }   /* the artwork centred above the text */
+.hero-lockup > .hero-description, .hero-lockup > h1 { align-self: stretch; }   /* the text runs from the block's left edge */
 
 .hero-art {
   width: 100%;
@@ -536,6 +539,7 @@ html:not(.loaded) body { overflow: hidden; }
   margin: 22px 0 8px;
   /* The title's "C" starts about 0.06em in from the column edge (its side
      bearing), so the subtitle is indented to line up with the letter itself */
+  padding-left: calc(var(--title-size) * 0.06);
   max-width: 36em;
   color: var(--ink-strong);
   font-size: var(--subtitle-size);
@@ -544,7 +548,8 @@ html:not(.loaded) body { overflow: hidden; }
 /* A short description under the subtitle, indented to match it and as
    wide as its longest sentence (28.2em of the subtitle in Plex) */
 .hero-note {
-  margin: 30px auto 0;
+  margin: 30px 0 0;
+  padding-left: calc(var(--title-size) * 0.06);
   max-width: var(--title-w, calc(var(--subtitle-size) * 28.2 + var(--title-size) * 0.06));   /* as wide as the title (app.js) */
   color: var(--ink-strong);
   font-size: clamp(22px, 2.7vw, 30px);
