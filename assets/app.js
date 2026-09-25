@@ -784,7 +784,6 @@
     const heroEl = document.querySelector(".hero");
     const text = [...a.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
     if (!heroEl || !text) return;
-    alignHero(heroEl);
     // Only where the open controls fit to the left of the menu; otherwise
     // they stay in the hero's bottom-left corner
     const menuInner = document.querySelector(".menu-inner");
@@ -794,17 +793,6 @@
     range.selectNodeContents(text);
     const r = range.getBoundingClientRect();
     heroEl.style.setProperty("--ctl-top", `${Math.round(r.top + r.height / 2 - heroEl.getBoundingClientRect().top)}px`);
-  }
-  // On wide screens the menu is centred on the page, so it runs past the
-  // text column on both sides; the hero's artwork, title and text move
-  // left to start where the menu does (--hero-shift)
-  function alignHero(heroEl) {
-    const menuInner = document.querySelector(".menu-inner");
-    const inner = heroEl.querySelector(":scope > .container");
-    if (!menuInner || !inner) return;
-    heroEl.style.removeProperty("--hero-shift");
-    const shift = menuInner.getBoundingClientRect().left - inner.getBoundingClientRect().left;
-    if (Math.abs(shift) > 0.5) heroEl.style.setProperty("--hero-shift", `${Math.round(shift)}px`);
   }
   // The site address keeps its open width while the brackets close, so they
   // meet in the middle; measured with the name showing

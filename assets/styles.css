@@ -347,7 +347,7 @@ a { color: inherit; }
   padding-top: var(--header-h);   /* content sits 24px higher than centred */
   padding-bottom: 48px;
 }
-.hero > .container { width: 100%; position: relative; left: var(--hero-shift, 0px); }   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js). Not a transform: that would isolate the artwork's blend mode from the page */
+.hero > .container { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }   /* the artwork, subtitle, title and description, centred */   /* keep the shared left edge inside the flex column; on wide screens, moved to the menu's start (app.js). Not a transform: that would isolate the artwork's blend mode from the page */
 
 /* ───────────── Latest developments ticker: the hero's top-left corner,
    level with the site title, scrolling away with the page. The track holds
@@ -428,14 +428,14 @@ a { color: inherit; }
 
 /* Title lockup: the artwork is capped at the title's longest line
    (set in app.js) and at its own native width */
-.hero-lockup { width: fit-content; max-width: 100%; }
+.hero-lockup { display: flex; flex-direction: column; align-items: center; width: fit-content; max-width: 100%; }
 
 .hero-art {
   width: 100%;
   /* Never upscaled past its native 478px; on short screens it shrinks so
      the artwork, title, subtitle and menu still fit on the first screen
      (--hero-rest is everything in that screen except the artwork's height) */
-  max-width: max(160px, min(478px, calc((100svh - var(--hero-rest)) * 478 / 346)));
+  max-width: max(140px, min(330px, calc((100svh - var(--hero-rest)) * 478 / 346)));   /* smaller than its native 478px */
   aspect-ratio: 478 / 346;
   margin-bottom: 48px;   /* space above the title */
 }
@@ -536,7 +536,6 @@ html:not(.loaded) body { overflow: hidden; }
   margin: 22px 0 8px;
   /* The title's "C" starts about 0.06em in from the column edge (its side
      bearing), so the subtitle is indented to line up with the letter itself */
-  padding-left: calc(var(--title-size) * 0.06);
   max-width: 36em;
   color: var(--ink-strong);
   font-size: var(--subtitle-size);
@@ -545,8 +544,7 @@ html:not(.loaded) body { overflow: hidden; }
 /* A short description under the subtitle, indented to match it and as
    wide as its longest sentence (28.2em of the subtitle in Plex) */
 .hero-note {
-  margin: 30px 0 0;
-  padding-left: calc(var(--title-size) * 0.06);
+  margin: 30px auto 0;
   max-width: var(--title-w, calc(var(--subtitle-size) * 28.2 + var(--title-size) * 0.06));   /* as wide as the title (app.js) */
   color: var(--ink-strong);
   font-size: clamp(22px, 2.7vw, 30px);
@@ -977,16 +975,16 @@ html:not(.loaded) body { overflow: hidden; }
 
 .footer-inner {
   display: grid;
-  grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(0, 1fr));
-  gap: 40px 32px;
+  grid-template-columns: minmax(0, 1fr) repeat(4, auto);
+  gap: 40px 56px;
   max-width: 1160px;   /* the width of the wide sections, for four columns */
   margin: 0 auto;
   padding: 0 24px;
 }
-.footer-brand { padding-right: 56px; }   /* room before the first column */
+.footer-brand { padding-right: 24px; }   /* room before the first column */
 .footer-title { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.15; }
 .footer-title { white-space: nowrap; }   /* always on one line */
-.footer-tagline { margin: 12px 0 0; color: var(--ink); font-size: 16px; line-height: 1.6; }
+.footer-tagline { margin: 12px 0 0; color: var(--ink); font-size: 16px; line-height: 1.6; max-width: 36em; text-wrap: balance; }   /* two even lines */
 .footer-url { display: inline-block; margin-top: 14px; color: var(--accent); font-family: var(--font-ui); font-size: 14px; text-decoration: none; }
 .footer-url:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -1021,13 +1019,13 @@ html:not(.loaded) body { overflow: hidden; }
 /* Plex runs larger than Bembo at the same size */
 :root[data-font="hybrid"] .footer-col a { font-size: 15px; }
 
-@media (max-width: 860px) {
-  .footer-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .footer-inner { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .footer-brand { grid-column: 1 / -1; padding-right: 0; }
 }
 @media (max-width: 640px) {
   .site-footer { padding-top: 56px; }
-  .footer-inner { padding: 0 16px; }
+  .footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 16px; }
 }
 
 /* ───────────── Positions: chamber diagrams and lab charts (positions.js) */
