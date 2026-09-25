@@ -1151,6 +1151,7 @@ html:not(.loaded) body { overflow: hidden; }
 .pd-hint { margin: 0; padding: 16px 0; color: var(--ink-2); font-size: 18px; }
 
 .positions-notes p { margin: 20px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+.positions-desc p { margin: 16px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.6; max-width: 62em; }   /* World leaders and Major actors: what the table shows, above it */
 
 .pl-title { margin: 56px 0 10px; font-size: 26px; font-weight: 500; }
 .pl-items { list-style: none; margin: 0; padding: 0; }
@@ -1335,13 +1336,13 @@ html:not(.loaded) body { overflow: hidden; }
 .ov-sources { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; font-size: 14px; }
 /* The figures and tables may be wider than the text column (up to
    1160px, centred) */
-.ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head {
+.ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-desc, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head {
   --wide: min(1160px, calc(100vw - 96px));
   width: var(--wide);
   margin-left: calc((100% - var(--wide)) / 2);
 }
 @media (max-width: 1100px) {
-  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head { --wide: calc(100vw - 32px); }
+  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-desc, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head { --wide: calc(100vw - 32px); }
 }
 /* A proportion bar: a track for the total, filled for the share */
 .ov-share { display: inline-flex; align-items: center; gap: 10px; width: 100%; }
@@ -1411,7 +1412,7 @@ html:not(.loaded) body { overflow: hidden; }
   .ov-head { display: none; }
   .ov-industry .ov-row, .ov-gov .ov-row { grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 16px 12px 16px 18px; }
   .ov-people .ov-row { grid-template-columns: 1fr; gap: 8px; padding: 16px 12px 16px 18px; }
-  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head { width: auto; margin-left: 0; }
+  .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-desc, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head { width: auto; margin-left: 0; }
   .ov-name { grid-column: 1 / -1; }
   .ov-arrow { display: none; }
 }

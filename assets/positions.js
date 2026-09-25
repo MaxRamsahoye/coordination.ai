@@ -706,6 +706,7 @@
     $("positions-search").placeholder = industry ? "Find a person" : "Find a member or seat";
     stepNav = null;
     renderStepper();
+    $("positions-desc").innerHTML = $("positions-notes").innerHTML = "";
     if (overview) clearBelow();
     if (people) return renderPeople(state.group);
     if (industry && overview) return renderIndustryOverview();
@@ -834,7 +835,7 @@
             <span class="ov-cell ov-said" role="cell"><span class="pd-date">${esc(fmtDate(x.date))}</span> ${esc(x.note)}<span class="ov-sources">${sources(x)}</span></span>
           </div>`).join("")}
       </div>`;
-    $("positions-notes").innerHTML = kind === "leaders"
+    $("positions-desc").innerHTML = kind === "leaders"
       ? `<p>Heads of state and government, and the leaders of the UN and the European Commission, by what they have said or signed about slowing or governing frontier AI. Positions are as recorded on the date shown.</p>`
       : `<p>Influential people outside the labs' leadership and the legislatures: the heads of other technology companies, scientists, investors and public figures. People who lead the frontier labs are under Industry.</p>`;
   }
