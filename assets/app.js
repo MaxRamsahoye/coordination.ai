@@ -30,14 +30,16 @@
     materials: {
       items: window.CC_MATERIALS || [],
       filters: [
-        { by: "category", value: "scenario", all: false, tag: false, order: ["scenario", "essay", "book"],
-          labels: { scenario: "Scenarios", essay: "Essays", book: "Books" } },
+        { by: "category", value: "scenario", all: false, tag: false, order: ["scenario", "essay", "paper", "book"],
+          labels: { scenario: "Scenarios", essay: "Essays", paper: "Research papers", book: "Books" } },
       ],
-      types: { forecast: "Forecast", plan: "Plan", essay: "Essay", book: "Book" },
+      types: { forecast: "Forecast", plan: "Plan", essay: "Essay", paper: "Research paper", book: "Book" },
       prefix: "material",
       intro: (n, span, [category]) =>
         category === "Scenarios"
           ? `${n} scenario${n === 1 ? "" : "s"} for how advanced AI could unfold and plans for steering it, ${span}. Newest first.`
+          : category === "Research papers"
+            ? `${n} research paper${n === 1 ? "" : "s"} on the race to build superintelligence and how it might be stopped, ${span}. Newest first.`
           : category === "Books"
             ? `${n} book${n === 1 ? "" : "s"} on the risks of advanced AI, ${span}. Newest first.`
             : `${n} essay${n === 1 ? "" : "s"} on the future of AI, ${span}. Newest first.`,
@@ -869,7 +871,7 @@
     const figures = [
       [positions, "recorded positions"],
       [TIMELINES.statements.items.length, "statements"],
-      [TIMELINES.materials.items.length, "scenarios, essays and books"],
+      [TIMELINES.materials.items.length, "scenarios, essays, papers and books"],
       [TIMELINES.incidents.items.length, "incidents"],
       [((window.CC_ACTORS || {}).institutions || []).length, "institutions"],
     ].filter(([n]) => n);

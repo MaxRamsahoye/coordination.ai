@@ -589,7 +589,7 @@ html:not(.loaded) body { overflow: hidden; }
    sideways and the right edge fades until the end is reached */
 /* On wide screens there's room to the right of the text column, so the
    items run on past it rather than scrolling */
-@media (min-width: 1560px) {
+@media (min-width: 1640px) {
   .menu-inner {
     width: max-content;
     max-width: none;
