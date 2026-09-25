@@ -476,6 +476,10 @@ html:not(.loaded) body { overflow: hidden; }
 .hero {
   --title-size: clamp(44px, 7vw, 76px);
   --subtitle-size: clamp(20px, 2.6vw, 27px);
+}
+/* Small phones: a little smaller, so each sentence fits on two lines */
+@media (max-width: 400px) {
+  .hero { --subtitle-size: 18px; }
   --hero-rest: 606px;   /* +16px for the taller header */
 }
 /* Short windows: drop the description so the rest still fits */
@@ -514,6 +518,7 @@ html:not(.loaded) body { overflow: hidden; }
 .hero-cycle { display: grid; }
 .hero-cycle > span {
   grid-area: 1 / 1;
+  align-self: end;   /* sits on the title; a shorter sentence leaves its spare line above, not between it and the title */
   opacity: 0;
   transform: translateY(0.5em);
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
