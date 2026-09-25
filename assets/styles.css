@@ -166,14 +166,11 @@ a { color: inherit; }
   align-items: center;
   height: 56px;
 }
-/* Wide screens: level with the menu items' text below the hero, at the
-   page's left edge (app.js measures --ctl-top) */
-@media (min-width: 1281px) {
+/* Above phone widths: always in the hero's bottom-left corner, level with
+   the menu items' text (app.js measures --ctl-top); the menu starts to
+   their right (--ctl-reserve) */
+@media (min-width: 641px) {
   .hero[style*="--ctl-top"] .page-controls { top: calc(var(--ctl-top) - 28px); bottom: auto; }
-}
-/* Narrower screens: in line with the text column's left edge instead */
-@media (max-width: 1280px) {
-  .page-controls { left: calc(max(0px, (100% - var(--column)) / 2) + 24px - 9px); }
 }
 
 .control-set { display: flex; gap: 6px; }
@@ -486,14 +483,6 @@ html:not(.loaded) body { overflow: hidden; }
   .hero { --hero-rest: 498px; }
   .hero-note { display: none; }
 }
-/* Mid widths: the design controls sit just above the menu, under the text
-   column's start, so the hero keeps room below its text for them */
-@media (min-width: 641px) and (max-width: 1280px) {
-  .hero { padding-bottom: 116px; --hero-rest: 674px; }
-}
-@media (min-width: 641px) and (max-width: 1280px) and (max-height: 760px) {
-  .hero { --hero-rest: 566px; }
-}
 .hero h1 {
   margin: 0;
   font-weight: 600;
@@ -590,15 +579,28 @@ html:not(.loaded) body { overflow: hidden; }
   overflow-x: auto;
   scrollbar-width: none;
 }
+/* Above phone widths the items start at the text column's edge, or to the
+   right of the design controls if that's further (margin, not padding, so
+   scrolled items are clipped before they reach the controls) */
+@media (min-width: 641px) {
+  :root { --ctl-reserve: 212px; }   /* the page edge to the open controls' end, plus a gap */
+  .menu .menu-inner {
+    max-width: none;
+    margin: 0 max(0px, calc((100% - var(--column)) / 2)) 0 max(var(--ctl-reserve), calc((100% - var(--column)) / 2 + 24px));
+    padding: 0 24px 0 0;
+  }
+}
 /* When the pills don't all fit (app.js adds .overflows), they scroll
    sideways and the right edge fades until the end is reached */
 /* On wide screens there's room to the right of the text column, so the
    items run on past it rather than scrolling */
-@media (min-width: 1640px) {
-  .menu-inner {
+@media (min-width: 1760px) {
+  .menu { padding-left: var(--ctl-reserve); }
+  .menu .menu-inner {
     width: max-content;
     max-width: none;
-    margin: 0 auto;   /* centred, with equal space on either side */
+    margin: 0 auto;   /* centred in the space to the right of the controls */
+    padding: 0;
     overflow-x: visible;
   }
 }

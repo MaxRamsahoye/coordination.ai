@@ -795,18 +795,14 @@
     document.querySelector(".menu").style.setProperty("--menu-line-y", `${a.offsetTop + a.offsetHeight - 3}px`);
     levelControls(a);
   }
-  // On wide screens the design controls sit at the page's left edge, level
+  // The design controls sit at the page's left edge, level
   // with the menu items' text: --ctl-top is the text's middle, measured from
   // the top of the hero (which holds the controls)
   function levelControls(a) {
     const heroEl = document.querySelector(".hero");
     const text = [...a.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
     if (!heroEl || !text) return;
-    // Only where the open controls fit to the left of the menu; otherwise
-    // they stay in the hero's bottom-left corner
-    const menuInner = document.querySelector(".menu-inner");
-    const room = menuInner.getBoundingClientRect().left + 24 - 39;
-    if (room < 200) return heroEl.style.removeProperty("--ctl-top");
+    // (the menu leaves room for them; on phones they sit above it instead)
     const range = document.createRange();
     range.selectNodeContents(text);
     const r = range.getBoundingClientRect();
