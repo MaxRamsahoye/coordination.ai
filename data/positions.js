@@ -68,7 +68,70 @@
   const signedWith = (comment) => `${PACING_SIGNED} Commented: '${comment}'`;
   const PACING_SIGNED = "Signed the Pacing the Frontier employee statement (28 July 2026), asking the US government to support an international effort to pace frontier AI development.";
 
+  // World leaders and major actors
+  const TRUMP_UN = { label: "Fortune", url: "https://fortune.com/2026/09/23/trump-un-ai-globalist-scheme-altman-amodei-security-council/" };
+  const TRUMP_HOAX = { label: "PolitiFact", url: "https://politifact.com/factchecks/2026/sep/22/donald-trump/united-nations-artificial-intelligence-hoax-russia/" };
+  const XI_TRUMP = { label: "The Hill", url: "https://thehill.com/homenews/administration/6109283-xi-china-us-ai-responsibility-trump/" };
+  const GUTERRES_UN = { label: "US News (Reuters)", url: "https://www.usnews.com/news/world/articles/2026-09-22/un-chief-calls-for-ai-curbs-and-end-to-wars-in-his-last-assembly-address" };
+  const UN_DECLARATION = { label: "Al Jazeera", url: "https://www.aljazeera.com/economy/2026/9/22/20-countries-propose-global-oversight-body-to-manage-ai-dangers" };
+  const ALBANESE_DECL = { label: "CathNews", url: "https://cathnews.com/2026/09/22/albanese-joins-world-leaders-in-call-for-ai-safeguards/" };
+  const STUBB_DECL = { label: "President of the Republic of Finland", url: "https://www.presidentti.fi/en/a-call-for-control-of-frontier-ai-models/" };
+  const VDL_SOTEU = { label: "Cryptopolitan", url: "https://www.cryptopolitan.com/eu-von-der-leyen-ai-slowdown-safety-talks/" };
+  const BURNHAM_UN = { label: "TheJournal.ie", url: "https://www.thejournal.ie/burnham-trump-ai-safety-un-7170340-Sep2026/" };
+  const MACRON_UN = { label: "CP24 (AP)", url: "https://www.cp24.com/news/world/2026/09/22/is-it-killer-robots-or-super-intelligence-at-the-un-leaders-see-both/" };
+  const POPE_LEO = { label: "Vatican News", url: "https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-encyclical-magnifica-humanitas-ai.html" };
+  const NADELLA = { label: "TechCrunch", url: "https://techcrunch.com/2026/09/14/microsofts-new-ai-code-of-conduct-tells-models-not-to-hack-systems-or-trick-humans/" };
+  const HUANG = { label: "TechCrunch", url: "https://techcrunch.com/2026/09/20/is-the-ai-industry-really-ready-to-slow-down/" };
+  const SI_STATEMENT = { label: "CNBC", url: "https://www.cnbc.com/2025/10/22/800-petition-signatures-apple-steve-wozniak-and-virgin-richard-branson-superintelligence-race.html" };
+  const SI_STATEMENT_2 = { label: "CyberScoop", url: "https://cyberscoop.com/ai-superintelligence-ban-open-letter-future-of-life-harry-meghan-tech-leaders/" };
+  const ANDREESSEN = { label: "a16z", url: "https://a16z.com/the-techno-optimist-manifesto/" };
+  const IABIED = { label: "ifanyonebuildsit.com", url: "https://ifanyonebuildsit.com/" };
+  const signedSI = "Signed the Statement on Superintelligence (October 2025), calling for a prohibition on developing superintelligence until there is broad scientific consensus that it can be done safely and controllably, and strong public buy-in.";
+  const declaration = (who) => `${who} the declaration of 22 September 2026 at the UN General Assembly, with leaders of some 20 countries and the EU, calling for mandatory safety testing, independent evaluations and international oversight of frontier AI: 'AI must remain under human direction, oversight and control.'`;
+
   window.CC_POSITIONS = {
+    // Heads of state and government, and the leaders of international
+    // bodies, by what they have said about slowing or governing frontier AI
+    leaders: [
+      { name: "António Guterres", role: "Secretary-General of the United Nations", stance: "pace", date: "2026-09-22",
+        note: "Opened the General Assembly by calling on the world to 'advance the conditions for the responsible pacing of AI and the additional safeguards needed to address risks', warning that 'life-and-death decisions must never be surrendered to machines'.", source: GUTERRES_UN },
+      { name: "Ursula von der Leyen", role: "President of the European Commission", stance: "pace", date: "2026-09-16",
+        note: "Backed the call for a coordinated slowdown in her State of the Union address, saying she would invite the frontier labs to discuss how to 'pace the frontier'. Signed the UN declaration on frontier AI six days later.", source: [VDL_SOTEU, UN_DECLARATION] },
+      { name: "Andy Burnham", role: "Prime Minister of the United Kingdom", stance: "pace", date: "2026-09-23",
+        note: "Told the UN that the UK would 'work towards agreeing a single set of global principles and standards … to ensure that AI development is safe', putting AI at the heart of its 2027 G20 presidency.", source: BURNHAM_UN },
+      { name: "Friedrich Merz", role: "Chancellor of Germany", stance: "pace", date: "2026-09-22", note: declaration("Signed"), source: ALBANESE_DECL },
+      { name: "Mark Carney", role: "Prime Minister of Canada", stance: "pace", date: "2026-09-22", note: declaration("Signed"), source: ALBANESE_DECL },
+      { name: "Anthony Albanese", role: "Prime Minister of Australia", stance: "pace", date: "2026-09-22", note: declaration("Signed"), source: ALBANESE_DECL },
+      { name: "Alexander Stubb", role: "President of Finland", stance: "pace", date: "2026-09-22", note: declaration("Signed"), source: STUBB_DECL },
+      { name: "Pope Leo XIV", role: "Head of the Catholic Church and of Vatican City State", stance: "pace", date: "2026-05-25",
+        note: "In his first encyclical, Magnifica humanitas, urged governments and technology leaders to 'disarm' AI — 'the word is strong, I know, but deliberately chosen' — warning against autonomous weapons and the concentration of power.", source: POPE_LEO },
+      { name: "Xi Jinping", role: "President of China", stance: null, date: "2026-09-24",
+        note: "Told President Trump at the White House that the two countries have 'the capability and responsibility to develop and manage AI for good and ensure that the development of AI is always under human control'. China did not sign the UN declaration, and neither side committed to slowing the frontier.", source: XI_TRUMP },
+      { name: "Emmanuel Macron", role: "President of France", stance: null, date: "2026-09-22",
+        note: "Proposed at the UN that countries pool investment in an open-source frontier model, so that no one becomes 'the vassal of one of the great powers'. Has urged a 'massive acceleration' of AI adoption in Europe.", source: MACRON_UN },
+      { name: "Donald Trump", role: "President of the United States", stance: "oppose", date: "2026-09-22",
+        note: "Told the UN that the US 'totally rejects any attempt to construct a globalist scheme' to control AI, and likened those 'now saying that AI is going to kill us all' to the promoters of past 'hoaxes'. Said before meeting Xi Jinping that he would not negotiate limits on AI.", source: [TRUMP_UN, TRUMP_HOAX] },
+    ],
+
+    // Influential people outside the labs' charts and the chambers: the
+    // heads of other tech companies, scientists, investors and public figures
+    actors: [
+      { name: "Geoffrey Hinton", role: "Computer scientist; Nobel laureate in physics", stance: "ban", date: "2025-10-22", note: signedSI, source: SI_STATEMENT },
+      { name: "Yoshua Bengio", role: "Computer scientist; Turing Award laureate", stance: "ban", date: "2025-10-22", note: signedSI, source: SI_STATEMENT },
+      { name: "Eliezer Yudkowsky and Nate Soares", role: "Machine Intelligence Research Institute", stance: "ban", date: "2025-09-16",
+        note: "Argue in If Anyone Builds It, Everyone Dies that building superintelligence with anything like current methods would end humanity, and call for an international treaty to halt it.", source: IABIED },
+      { name: "Steve Wozniak", role: "Co-founder, Apple", stance: "ban", date: "2025-10-22", note: signedSI, source: SI_STATEMENT },
+      { name: "Richard Branson", role: "Founder, Virgin Group", stance: "ban", date: "2025-10-22", note: signedSI, source: SI_STATEMENT },
+      { name: "Steve Bannon", role: "Former White House chief strategist", stance: "ban", date: "2025-10-22", note: signedSI, source: SI_STATEMENT_2 },
+      { name: "Prince Harry and Meghan", role: "The Duke and Duchess of Sussex", stance: "ban", date: "2025-10-22", note: signedSI, source: SI_STATEMENT_2 },
+      { name: "Satya Nadella", role: "Chief Executive, Microsoft", stance: "pace", date: "2026-09-13",
+        note: "Responding to 'We Must Pace the Frontier', said Microsoft welcomes 'the research, focus, and deliberate pacing needed to get alignment right', and that 'if the AI we build is not helping humanity and under human control, it's not worth pursuing'. Published a code of conduct for its models for public consultation.", source: NADELLA },
+      { name: "Jensen Huang", role: "Chief Executive, Nvidia", stance: "oppose", date: "2026-09",
+        note: "Agreed that 'slowing down is definitely the wrong strategy', saying each company should instead pace itself; told CBS that existing liability laws should be applied first: 'don't let this doomsday narrative' replace them.", source: [HUANG, SPLIT] },
+      { name: "Marc Andreessen", role: "Co-founder, Andreessen Horowitz", stance: "oppose", date: "2023-10-16",
+        note: "Wrote in The Techno-Optimist Manifesto that 'any deceleration of AI will cost lives', calling deaths the AI could have prevented 'a form of murder'.", source: ANDREESSEN },
+    ],
+
     stances: {
       ban: "Stated support for a ban or pause",
       pace: "Stated support for pacing or binding rules",

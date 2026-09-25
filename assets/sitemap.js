@@ -185,7 +185,7 @@
   // What each page holds, the sections inside it, and its tile's size
   const PAGES = {
     positions: { size: "lg", about: "Where AI labs and legislators stand on a coordinated slowdown and existential risk from AI.",
-      parts: ["Industry: the leadership, boards and departures of five labs", "Governments: every member of four chambers, UK and US"] },
+      parts: ["Industry: the leadership, boards and departures of five labs", "Governments: every member of four chambers, UK and US", "World leaders and major actors"] },
     plans: { size: "lg", about: `${n(W.CC_PLANS)} plans for handling advanced AI, and what each asks of the race.`,
       parts: ["From researchers and campaigns, the labs and governments"] },
     race: { size: "lg", about: "The race to build ever more capable AI, drawn as a track with a lane for each lab and state.",

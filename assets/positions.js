@@ -19,7 +19,10 @@
     gov: { label: "Governments", bodyLabel: "", bodies: [["overview", "Overview"]] },
     uk: { label: "UK", bodyLabel: "Chamber", bodies: [["commons", "House of Commons"], ["lords", "House of Lords"]] },
     us: { label: "US", bodyLabel: "Chamber", bodies: [["senate", "Senate"], ["house", "House of Representatives"]] },
+    leaders: { label: "World leaders", bodyLabel: "", bodies: [["overview", "World leaders"]] },
+    actors: { label: "Major actors", bodyLabel: "", bodies: [["overview", "Major actors"]] },
   };
+  const PEOPLE = { leaders: "World leaders", actors: "Major actors" };   // the groups that are a single table of people
 
   // Party names and colours (seats use these in "Party" mode)
   const PARTIES = {
@@ -674,11 +677,15 @@
       render();
     };
     const industry0 = state.group === "industry";
-    // Tier 1: Industry or Governments
-    pills($("positions-groups"), [["industry", "Industry"], ["gov", "Governments"]], industry0 ? "industry" : "gov", (v) => go(v));
-    // Tier 2: a lab, or Overview / UK / US
+    const people = PEOPLE[state.group];
+    // Tier 1: Industry, Governments, World leaders or Major actors
+    pills($("positions-groups"), [["industry", "Industry"], ["gov", "Governments"], ["leaders", "World leaders"], ["actors", "Major actors"]],
+      industry0 || people ? state.group : "gov", (v) => go(v));
+    // Tier 2: a lab, or Overview / UK / US (none for the tables of people)
+    $("positions-bodies").closest(".filter-row").hidden = !!people;
     $("positions-body-label").textContent = industry0 ? "Lab" : "Country";
-    if (industry0) pills($("positions-bodies"), g.bodies, state.body, (v) => go("industry", v));
+    if (people) $("positions-bodies").innerHTML = "";
+    else if (industry0) pills($("positions-bodies"), g.bodies, state.body, (v) => go("industry", v));
     else pills($("positions-bodies"), [["gov", "Overview"], ["uk", "UK"], ["us", "US"]], state.group, (v) => go(v));
     // Tier 3: the chamber, for UK or US
     const chamberRow = $("positions-chambers").closest(".filter-row");
@@ -688,7 +695,8 @@
     const bodyName = g.bodies.find(([k]) => k === state.body)[1];
     const overview = state.body === "overview";
     $("positions-title").textContent =
-      state.group === "gov" ? "Governments: all chambers"
+      people ? people
+      : state.group === "gov" ? "Governments: all chambers"
       : state.group === "industry" ? (overview ? "Industry: all companies" : bodyName)
       : `${g.label} Government: ${bodyName}`;
     const industry = state.group === "industry";
@@ -699,6 +707,7 @@
     stepNav = null;
     renderStepper();
     if (overview) clearBelow();
+    if (people) return renderPeople(state.group);
     if (industry && overview) return renderIndustryOverview();
     if (industry) return renderIndustry();
     if (state.group === "gov" && members) return renderGovOverview();
@@ -775,7 +784,7 @@
           const ceo = findPerson(lab.chart, lab.ceo);
           return `
           <button type="button" class="ov-row" role="row" data-open="industry:${k}" data-s="${lab.stance}">
-            <span class="ov-cell ov-name" role="cell">${esc(lab.name)}</span>
+            <span class="ov-cell ov-name" role="cell">${labLogo(k)}${esc(lab.name)}</span>
             <span class="ov-cell ov-pos" role="cell">${ceo ? `<span class="pd-dot" data-s="${ceo.stance || "none"}"></span><span>${esc(ceo.name)}</span>` : "—"}</span>
             <span class="ov-cell ov-pos" role="cell"><span class="pd-dot"></span><span>${esc(stanceLabel(lab.stance))}</span></span>
             <span class="ov-cell ov-verdict" role="cell">${lab.evaluation ? esc(lab.evaluation.verdict) : "—"}</span>
@@ -787,6 +796,47 @@
       </div>`;
     bindOverview();
     $("positions-notes").innerHTML = `<p>CEO: the lab's own chief executive (at Google DeepMind, its head), coloured by their recorded position. Recorded positions: how many of the people in its chart (leadership and board) have one. Incidents: those on this site involving each lab's models (the bar is scaled to the most). Select a company to see its chart.</p>`;
+  }
+
+  // A lab's mark, in the text colour (data/lab-logos.js)
+  const labLogo = (k) => {
+    const paths = (window.CC_LAB_LOGOS || {})[k];
+    return paths ? `<svg class="ov-logo" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" fill-rule="evenodd">${paths.map((d) => `<path d="${d}"/>`).join("")}</svg>` : "";
+  };
+
+  // World leaders and major actors: a table of people, grouped by position
+  // (support for a ban, then pacing, then neither, then opposition), each
+  // with what they said and its source
+  function renderPeople(kind) {
+    const list = P[kind] || [];
+    const ORDER = ["ban", "pace", "none", "oppose"];
+    const LABEL = { ...P.stances, none: "No stated position on a slowdown" };
+    const st = (x) => x.stance || "none";
+    const sorted = list.slice().sort((a, b) => ORDER.indexOf(st(a)) - ORDER.indexOf(st(b)) || (b.date || "").localeCompare(a.date || ""));
+    const n = (s) => list.filter((x) => st(x) === s).length;
+    const sources = (x) => [].concat(x.source || []).map((s) => `<a class="tl-source" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)} ↗</a>`).join("");
+    $("positions-view").classList.remove("is-chamber");
+    $("positions-view").innerHTML = `
+      ${statStrip([
+        [list.length, kind === "leaders" ? "leaders tracked" : "actors tracked"],
+        [n("ban"), "with stated support for a ban or pause", "ban"],
+        [n("pace"), "with stated support for pacing or binding rules", "pace"],
+        [n("oppose"), "with stated opposition to a slowdown or new rules", "oppose"],
+      ])}
+      <div class="ov-table ov-people" role="table" aria-label="${esc(PEOPLE[kind])} and their positions">
+        <div class="ov-head" role="row">
+          <span role="columnheader">${kind === "leaders" ? "Leader" : "Actor"}</span><span role="columnheader">Position</span><span role="columnheader">What they said or did</span>
+        </div>
+        ${sorted.map((x) => `
+          <div class="ov-row" role="row" data-s="${st(x)}">
+            <span class="ov-cell ov-name" role="cell"><span>${esc(x.name)}<span class="ov-role">${esc(x.role)}</span></span></span>
+            <span class="ov-cell ov-pos" role="cell"><span class="pd-dot"></span><span>${esc(LABEL[st(x)])}</span></span>
+            <span class="ov-cell ov-said" role="cell"><span class="pd-date">${esc(fmtDate(x.date))}</span> ${esc(x.note)}<span class="ov-sources">${sources(x)}</span></span>
+          </div>`).join("")}
+      </div>`;
+    $("positions-notes").innerHTML = kind === "leaders"
+      ? `<p>Heads of state and government, and the leaders of the UN and the European Commission, by what they have said or signed about slowing or governing frontier AI. Positions are as recorded on the date shown.</p>`
+      : `<p>Influential people outside the labs' leadership and the legislatures: the heads of other technology companies, scientists, investors and public figures. People who lead the frontier labs are under Industry.</p>`;
   }
 
   // Governments overview: a table, one row per chamber

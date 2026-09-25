@@ -1313,6 +1313,19 @@ html:not(.loaded) body { overflow: hidden; }
 }
 .ov-industry .ov-head, .ov-industry .ov-row { grid-template-columns: 1.1fr 1.15fr 1.6fr 1.5fr 1.05fr 1fr 20px; }
 .ov-gov .ov-head, .ov-gov .ov-row { grid-template-columns: 1.5fr 1.5fr 1.2fr 20px; }
+.ov-people .ov-head, .ov-people .ov-row { grid-template-columns: 1.15fr 1fr 2.6fr; }
+/* Each lab's mark beside its name, in the text colour */
+.ov-industry .ov-name { flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 12px; }
+.ov-logo { flex: none; width: 22px; height: 22px; }
+/* World leaders and major actors: rows of people, not links */
+.ov-people .ov-row { align-items: start; padding-top: 20px; padding-bottom: 20px; cursor: auto; }
+.ov-people .ov-row:hover { background: transparent; }
+.ov-people .ov-name { font-size: 20px; }
+.ov-role { display: block; margin-top: 4px; color: var(--ink-2); font-family: var(--font-ui); font-size: 13px; font-weight: 400; line-height: 1.35; }
+.ov-people .ov-pos { padding-top: 3px; font-size: 16px; }
+.ov-said { display: block; font-size: 17px; line-height: 1.55; }
+.ov-said .pd-date { margin-right: 6px; color: var(--ink-2); font-family: var(--font-ui); font-size: 13px; }
+.ov-sources { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; font-size: 14px; }
 /* The figures and tables may be wider than the text column (up to
    1160px, centred) */
 .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head {
@@ -1390,6 +1403,7 @@ html:not(.loaded) body { overflow: hidden; }
   .ov-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ov-head { display: none; }
   .ov-industry .ov-row, .ov-gov .ov-row { grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 16px 12px 16px 18px; }
+  .ov-people .ov-row { grid-template-columns: 1fr; gap: 8px; padding: 16px 12px 16px 18px; }
   .ov-table, .ov-stats, .is-overview .positions-title, .is-overview .positions-notes, .is-overview .filter-bar, .is-overview .page-head { width: auto; margin-left: 0; }
   .ov-name { grid-column: 1 / -1; }
   .ov-arrow { display: none; }
