@@ -709,14 +709,14 @@ html:not(.loaded) body { overflow: hidden; }
 
 .page-main { padding: 0 24px; min-width: 0; }
 
-.page-head { margin-bottom: 56px; }
+.page-head { margin-bottom: 64px; }
 .page-head h2 {
   margin: 0;
   font-size: 32px;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
-.page-intro { margin: 8px 0 0; color: var(--ink); }
+.page-intro { margin: 14px 0 0; color: var(--ink); line-height: 1.6; }
 /* In IBM Plex (the hybrid and Plex fonts) the page title is a little
    lighter, as Plex runs heavier than Bembo */
 :root[data-font="hybrid"] .page-head h2, :root[data-font="plex"] .page-head h2 { font-weight: 500; letter-spacing: -0.015em; }
@@ -939,7 +939,7 @@ html:not(.loaded) body { overflow: hidden; }
 }
 
 .tl-title {
-  margin: 10px 0 8px;
+  margin: 12px 0 12px;
   font-size: 28px;
   font-weight: 600;
   line-height: 1.2;
@@ -947,7 +947,7 @@ html:not(.loaded) body { overflow: hidden; }
 }
 
 .tl-by {
-  margin: 0 0 16px;
+  margin: 0 0 20px;
   font-size: 14px;
   line-height: 1.55;
   color: var(--ink-2);
@@ -970,7 +970,7 @@ html:not(.loaded) body { overflow: hidden; }
 
 .tl-source {
   display: inline-block;
-  margin-top: 16px;
+  margin-top: 20px;
   font-size: 14px;
   color: var(--accent);        /* links within entries use the accent colour */
 }
@@ -1120,8 +1120,8 @@ html:not(.loaded) body { overflow: hidden; }
 .positions-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 20px;
-  margin: 20px 0 24px;
+  gap: 10px 24px;
+  margin: 32px 0 36px;
   font-size: 16px;
   color: var(--ink-2);
 }
@@ -1141,26 +1141,26 @@ html:not(.loaded) body { overflow: hidden; }
 .positions-detail { min-height: 170px; }
 .positions-detail:empty { min-height: 0; }   /* nothing selected (the overviews) */
 .pd-card {
-  padding: 16px 20px;
+  padding: 26px 30px 28px;
   border: 1px solid var(--line);
   border-radius: 12px;
 }
 .pd-card p { margin: 0; }
 .pd-name { font-size: 25px; font-weight: 500; line-height: 1.2; }
-.pd-meta { margin-top: 4px !important; color: var(--ink-2); font-size: 16px; }
+.pd-meta { margin-top: 8px !important; color: var(--ink-2); font-size: 16px; }
 .pd-party { display: inline-block; width: 9px; height: 9px; margin-right: 8px; border-radius: 2px; background: var(--pc); }
-.pd-stance { margin-top: 12px !important; font-size: 18px; }
+.pd-stance { margin-top: 20px !important; font-size: 18px; }
 .pd-date { color: var(--ink-2); font-size: 15px; }
-.pd-note { margin-top: 6px !important; font-size: 18px; line-height: 1.55; }
-.pd-card .tl-source { display: inline-block; margin-top: 10px; font-size: 16px; }
+.pd-note { margin-top: 10px !important; font-size: 18px; line-height: 1.6; }
+.pd-card .tl-source { display: inline-block; margin-top: 18px; font-size: 16px; }
 .pd-hint { margin: 0; padding: 16px 0; color: var(--ink-2); font-size: 18px; }
 
-.positions-notes p { margin: 20px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+.positions-notes p { margin: 36px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.65; }
 .positions-desc p { margin: 16px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.6; max-width: 62em; }   /* World leaders and Major actors: what the table shows, above it */
 
-.pl-title { margin: 56px 0 10px; font-size: 26px; font-weight: 500; }
+.pl-title { margin: 88px 0 20px; font-size: 26px; font-weight: 500; }
 .pl-items { list-style: none; margin: 0; padding: 0; }
-.pl-item { padding: 14px 0; border-top: 1px solid var(--line); }
+.pl-item { padding: 24px 0; border-top: 1px solid var(--line); }
 .pl-name {
   display: inline-flex;
   align-items: center;
@@ -1175,8 +1175,8 @@ html:not(.loaded) body { overflow: hidden; }
 .pl-name:hover { color: var(--accent); }
 .pl-name.is-static { cursor: auto; }
 .pl-name.is-static:hover { color: var(--ink); }
-.pl-meta { display: block; margin-left: 17px; color: var(--ink-2); font-size: 15px; }
-.pl-note { margin: 6px 0 0 17px; font-size: 18px; line-height: 1.55; }
+.pl-meta { display: block; margin: 6px 0 0 17px; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+.pl-note { margin: 12px 0 0 17px; font-size: 18px; line-height: 1.6; }
 .pl-note .tl-source { font-size: 15px; }
 .pd-note .tl-source, .pl-note .tl-source { display: inline; margin: 0; }
 .pl-empty { color: var(--ink-2); }
@@ -1287,7 +1287,7 @@ html:not(.loaded) body { overflow: hidden; }
 .org-node-company { width: 230px; padding: 14px 16px; border-width: 1.5px; }
 .org-node-company .org-name { font-size: 21px; }
 .org-node-company .org-role { letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; }
-.pd-card .pd-stance + .pd-note + .pd-stance { margin-top: 16px !important; }
+.pd-card .pd-stance + .pd-note + .pd-stance { margin-top: 24px !important; }
 .org-name { display: inline-flex; align-items: center; font-size: 17px; font-weight: 500; line-height: 1.25; }
 .org-role { color: var(--ink-2); font-size: 14px; line-height: 1.35; }
 .is-searching .org-node:not(.is-match) { opacity: 0.3; }
@@ -1428,7 +1428,7 @@ html:not(.loaded) body { overflow: hidden; }
 .org-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
+  gap: 20px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1436,16 +1436,16 @@ html:not(.loaded) body { overflow: hidden; }
 .org-card {
   display: flex;
   flex-direction: column;
-  padding: 20px 22px;
+  padding: 24px 26px 26px;
   border: 1px solid var(--line);
   border-radius: 12px;
   transition: border-color 0.2s ease;
 }
 .org-card:hover { border-color: var(--ink-2); }
 .org-card-meta { margin: 0; color: var(--ink-2); font-size: 13px; }
-.org-card-name { margin: 6px 0 8px; font-size: 22px; font-weight: 500; line-height: 1.2; }
+.org-card-name { margin: 8px 0 12px; font-size: 22px; font-weight: 500; line-height: 1.2; }
 .org-card-summary { margin: 0; font-size: 16px; line-height: 1.55; flex: 1; }
-.org-card .tl-source { margin-top: 14px; align-self: flex-start; }
+.org-card .tl-source { margin-top: 18px; align-self: flex-start; }
 
 /* ───────────── Coordinate and Contact: numbered steps */
 .steps { margin: 0; padding: 0; list-style: none; counter-reset: step; }
@@ -1781,7 +1781,7 @@ html:not(.loaded) body { overflow: hidden; }
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 24px 0 14px;
+  margin: 32px 0 20px;
 }
 .positions-step[hidden] { display: none; }
 .step-btn {
@@ -2196,13 +2196,13 @@ html:not(.loaded) body { overflow: hidden; }
 .filter-pill.is-empty:not([aria-pressed="true"]) { opacity: 0.45; }
 
 /* Positions: everyone without a recorded position, below the recorded ones */
-.pu-intro { margin: 0 0 8px; color: var(--ink-2); font-size: 16px; }
-.pu-group { padding: 16px 0 8px; border-top: 1px solid var(--line); }
-.pu-party { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 18px; font-weight: 500; }
+.pu-intro { margin: 0 0 24px; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+.pu-group { padding: 24px 0 20px; border-top: 1px solid var(--line); }
+.pu-party { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; font-size: 18px; font-weight: 500; }
 .pu-party .pd-party { margin: 0; }
 .pu-items {
   columns: 3 200px;
-  column-gap: 24px;
+  column-gap: 36px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -2211,7 +2211,7 @@ html:not(.loaded) body { overflow: hidden; }
 .pu-name {
   display: block;
   width: 100%;
-  padding: 4px 0;
+  padding: 8px 0;
   border: 0;
   background: none;
   color: var(--ink);
@@ -2222,9 +2222,9 @@ html:not(.loaded) body { overflow: hidden; }
   cursor: pointer;
 }
 .pu-name:hover { color: var(--accent); }
-.pu-name.is-static { cursor: auto; padding: 6px 0; }
+.pu-name.is-static { cursor: auto; padding: 9px 0; }
 .pu-name.is-static:hover { color: var(--ink); }
-.pu-area { display: block; color: var(--ink-2); font-family: var(--font-ui); font-size: 12px; }
+.pu-area { display: block; margin-top: 3px; color: var(--ink-2); font-family: var(--font-ui); font-size: 12px; }
 
 /* ───────────── Actors: cards (shared with the old directory) and, for
    institutions, a world map with a pin per place */
