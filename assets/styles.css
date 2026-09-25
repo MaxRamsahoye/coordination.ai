@@ -526,8 +526,8 @@ html:not(.loaded) body { overflow: hidden; }
   .hero-cycle > span { transform: none; transition: opacity 0.4s ease; }
 }
 
-.hero-description {
-  margin: 20px 0 0;
+.hero-description {   /* above the title */
+  margin: 22px 0 8px;
   /* The title's "C" starts about 0.06em in from the column edge (its side
      bearing), so the subtitle is indented to line up with the letter itself */
   padding-left: calc(var(--title-size) * 0.06);
