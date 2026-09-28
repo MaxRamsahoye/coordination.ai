@@ -56,9 +56,13 @@
 :root[data-font="plex"] { --font: var(--font-plex); }
 .news, .site-title, .page-title-fixed, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
 .toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta, .footer-col, .gl-area,
-.page-head h2, .page-intro {
+.page-head h2, .page-intro, .pl-meta {
   font-family: var(--font-ui);
 }
+:root[data-font="hybrid"] .pl-meta { font-size: 14px; }   /* Plex runs larger than Bembo */
+
+/* Selected text: highlighted in the accent colour */
+::selection { background: var(--accent); color: var(--bg); }
 :root[data-accent="blue"] { --accent: #1d4ed8; }     /* signal blue */
 :root[data-accent="orange"] { --accent: #c2410c; }   /* ember orange */
 :root[data-accent="mono"] { --accent: #000000; --st-pace: #7a7a7a; }     /* black (white in dark mode); pacing in grey */
