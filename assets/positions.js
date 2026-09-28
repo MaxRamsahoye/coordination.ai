@@ -21,6 +21,7 @@
     us: { label: "US", bodyLabel: "Chamber", bodies: [["senate", "Senate"], ["house", "House of Representatives"]] },
     leaders: { label: "World leaders", bodyLabel: "", bodies: [["overview", "World leaders"]] },
     actors: { label: "Major actors", bodyLabel: "", bodies: [["overview", "Major actors"]] },
+    timelines: { label: "Timelines", bodyLabel: "Person", bodies: [["overview", "All"], ...(window.CC_TIMELINES || []).map((t) => [t.id, t.name])] },
   };
   const PEOPLE = { leaders: "World leaders", actors: "Major actors" };   // the groups that are a single table of people
 
@@ -680,14 +681,15 @@
     };
     const industry0 = state.group === "industry";
     const people = PEOPLE[state.group];
-    // Tier 1: Industry, Governments, World leaders or Major actors
-    pills($("positions-groups"), [["industry", "Industry"], ["gov", "Governments"], ["leaders", "World leaders"], ["actors", "Major actors"]],
-      industry0 || people ? state.group : "gov", (v) => go(v));
-    // Tier 2: a lab, or Overview / UK / US (none for the tables of people)
+    const timelines = state.group === "timelines";
+    // Tier 1: Industry, Governments, World leaders, Major actors or Timelines
+    pills($("positions-groups"), [["industry", "Industry"], ["gov", "Governments"], ["leaders", "World leaders"], ["actors", "Major actors"], ["timelines", "Timelines"]],
+      industry0 || people || timelines ? state.group : "gov", (v) => go(v));
+    // Tier 2: a lab, a person, or Overview / UK / US (none for the tables of people)
     $("positions-bodies").closest(".filter-row").hidden = !!people;
-    $("positions-body-label").textContent = industry0 ? "Lab" : "Country";
+    $("positions-body-label").textContent = industry0 ? "Lab" : timelines ? "Person" : "Country";
     if (people) $("positions-bodies").innerHTML = "";
-    else if (industry0) pills($("positions-bodies"), g.bodies, state.body, (v) => go("industry", v));
+    else if (industry0 || timelines) pills($("positions-bodies"), g.bodies, state.body, (v) => go(state.group, v));
     else pills($("positions-bodies"), [["gov", "Overview"], ["uk", "UK"], ["us", "US"]], state.group, (v) => go(v));
     // Tier 3: the chamber, for UK or US
     const chamberRow = $("positions-chambers").closest(".filter-row");
@@ -698,12 +700,13 @@
     const overview = state.body === "overview";
     $("positions-title").textContent =
       people ? people
+      : timelines ? (overview ? "Timelines: what they've said over the years" : bodyName)
       : state.group === "gov" ? "Governments: all chambers"
       : state.group === "industry" ? (overview ? "Industry: all companies" : bodyName)
       : `${g.label} Government: ${bodyName}`;
     const industry = state.group === "industry";
-    $("positions-tools").hidden = overview;
-    $("positions-view").closest(".positions-main").classList.toggle("is-overview", overview);
+    $("positions-tools").hidden = overview || timelines;
+    $("positions-view").closest(".positions-main").classList.toggle("is-overview", overview && !timelines);   /* Timelines stays in the text column */
     $("positions-tools").querySelector(".positions-mode").hidden = industry;
     $("positions-search").placeholder = industry ? "Find a person" : "Find a member or seat";
     stepNav = null;
@@ -711,6 +714,7 @@
     $("positions-desc").innerHTML = $("positions-notes").innerHTML = "";
     if (overview) clearBelow();
     if (people) return renderPeople(state.group);
+    if (timelines) { clearBelow(); return renderTimelines(state.body); }
     if (industry && overview) return renderIndustryOverview();
     if (industry) return renderIndustry();
     if (state.group === "gov" && members) return renderGovOverview();
@@ -841,6 +845,90 @@
     $("positions-desc").innerHTML = kind === "leaders"
       ? `<p>Heads of state and government, and the leaders of the UN and the European Commission, by what they have said or signed about slowing or governing frontier AI. Positions are as recorded on the date shown.</p>`
       : `<p>Influential people outside the labs' leadership and the legislatures: the heads of other technology companies, scientists, investors and public figures. People who lead the frontier labs are under Industry.</p>`;
+  }
+
+  // Timelines: what selected leaders have said over the years
+  // (data/timelines.js). All: a chart with a row per person and a dot per
+  // statement, coloured by the position it took; then each person's
+  // statements in date order. A person: just their statements.
+  function renderTimelines(id) {
+    const all = window.CC_TIMELINES || [];
+    const list = id === "overview" ? all : all.filter((t) => t.id === id);
+    const st = (e) => e.stance || "none";
+    const label = (e) => (e.stance ? P.stances[e.stance] : "A warning about risk, with no position on a slowdown");
+    const sources = (e) => [].concat(e.source || []).map((s) => `<a class="tl-source" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)} ↗</a>`).join("");
+    const PAGE_NAME = { statements: "Statements", materials: "Materials" };
+    const inSite = (e) => {
+      if (!e.entry) return "";
+      const [page] = e.entry.split(":");
+      return `<a class="co-link" href="#${esc(page)}" data-entry="${esc(e.entry)}">In ${esc(PAGE_NAME[page] || page)} →</a>`;
+    };
+    const sorted = (t) => t.entries.slice().sort((a, b) => a.date.localeCompare(b.date));
+    // The chart: years along the bottom, a row per person
+    const chart = () => {
+      const years = all.flatMap((t) => t.entries.map((e) => +e.date.slice(0, 4)));
+      const y0 = Math.min(...years), y1 = Math.max(...years);
+      // (the names sit in their own column beside the chart, so on phones the
+      // chart can scroll sideways while they stay put)
+      const W = 830, left = 8, right = 24, rowH = 46, top = 16, H = top + all.length * rowH + 34;
+      const x = (d) => {
+        const [y, m = 6, day = 15] = d.split("-").map(Number);
+        return left + ((y + (m - 1) / 12 + (day - 1) / 365 - y0) / (y1 + 1 - y0)) * (W - left - right);
+      };
+      let out = "";
+      for (let y = y0; y <= y1 + 1; y++) {
+        const gx = x(`${y}-01-01`);
+        out += `<line class="tlc-grid" x1="${gx}" y1="${top - 6}" x2="${gx}" y2="${H - 30}"/>`;
+        if (y <= y1) out += `<text class="tlc-year" x="${gx + 4}" y="${H - 12}">${y}</text>`;
+      }
+      all.forEach((t, i) => {
+        const cy = top + i * rowH + rowH / 2;
+        out += `<g class="tlc-row" data-open="${esc(t.id)}" aria-hidden="true">
+          <rect class="tlc-hit" x="0" y="${cy - rowH / 2}" width="${W}" height="${rowH}"/>
+          <line class="tlc-track" x1="${left}" y1="${cy}" x2="${W - right}" y2="${cy}"/>
+          ${sorted(t).map((e) => `<circle class="tlc-dot" data-s="${st(e)}" cx="${x(e.date)}" cy="${cy}" r="6"><title>${esc(fmtDate(e.date))}: ${esc(e.title)}</title></circle>`).join("")}
+        </g>`;
+      });
+      // each name at its row's height, as a share of the chart's (which scales with the page)
+      const names = all.map((t, i) => `<button type="button" class="tlc-name" data-open="${esc(t.id)}" style="top:${(((top + i * rowH + rowH / 2) / H) * 100).toFixed(3)}%">${esc(t.name)}</button>`).join("");
+      return `<div class="tlc-wrap">
+        <div class="tlc-names">${names}</div>
+        <div class="tlc-scroll"><svg class="tlc" viewBox="0 0 ${W} ${H}" role="img" aria-label="Statements over time, by person">${out}</svg></div>
+      </div>`;
+    };
+    const legend = `<div class="positions-legend">${["ban", "pace", "oppose", "none"].map((s) =>
+      `<span class="lg-item" data-s="${s}"><span class="lg-swatch"></span>${esc(s === "none" ? "Warned of risk, no position on a slowdown" : P.stances[s])}</span>`).join("")}</div>`;
+    const person = (t) => `
+      <section class="tlp" id="timeline-${esc(t.id)}">
+        ${id === "overview" ? `<h4 class="tlp-name"><button type="button" class="tlp-open" data-open="${esc(t.id)}">${esc(t.name)} <span aria-hidden="true">→</span></button><span class="tlp-role">${esc(t.role)}</span></h4>` : ""}
+        <ol class="tlp-items">${sorted(t).map((e) => `
+          <li class="tlp-item" data-s="${st(e)}">
+            <p class="tlp-date">${esc(fmtDate(e.date))}</p>
+            <h5 class="tlp-title">${esc(e.title)}</h5>
+            <p class="tlp-stance"><span class="pd-dot"></span>${esc(label(e))}</p>
+            <p class="tlp-note">${esc(e.note)}</p>
+            <p class="tlp-links">${sources(e)}${inSite(e)}</p>
+          </li>`).join("")}</ol>
+      </section>`;
+    $("positions-view").classList.remove("is-chamber");
+    $("positions-view").innerHTML = (id === "overview" ? chart() : "") + legend + list.map(person).join("");
+    $("positions-desc").innerHTML = id === "overview"
+      ? `<p>What the leaders of the frontier labs have said about the risks of AI, and about slowing or regulating it, over the years: each dot is a statement, coloured by the position it took. Select a name to see one person's timeline.</p>`
+      : `<p class="tlp-role-solo">${esc(list[0] ? list[0].role : "")}</p>`;
+    $("positions-notes").innerHTML = `<p>Selected statements, in date order; quotes are verbatim. Grey marks a warning about risk that took no position on slowing down or new rules.</p>`;
+    // On phones the chart scrolls: open it on the most recent years
+    const sc = $("positions-view").querySelector(".tlc-scroll");
+    if (sc) sc.scrollLeft = sc.scrollWidth;
+    $("positions-view").querySelectorAll("[data-open]").forEach((el) => {
+      const open = () => { state.body = el.dataset.open; render(); $("positions-title").scrollIntoView({ block: "start" }); window.scrollBy(0, -120); };
+      el.addEventListener("click", open);
+      el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+    });
+    $("positions-view").querySelectorAll("[data-entry]").forEach((a) => a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const [page, eid] = a.dataset.entry.split(":");
+      if (window.CC_openEntry) window.CC_openEntry(page, eid);
+    }));
   }
 
   // Governments overview: a table, one row per chamber

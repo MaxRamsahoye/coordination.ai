@@ -2622,3 +2622,55 @@ html:not(.loaded) body { overflow: hidden; }
    link back to the top of the site */
 .mi-name { color: var(--accent); font-style: italic; text-decoration: none; }
 .mi-name:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ───────────── Positions › Timelines: a chart of statements over time (a
+   row per person, a dot per statement), then each person's statements */
+.tlc-wrap { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0 16px; margin: 8px 0 8px; }
+.tlc-names { position: relative; width: 9.5em; font-family: var(--font-ui); font-size: 16px; }   /* as tall as the chart beside it */
+.tlc-scroll { min-width: 0; }
+.tlc { display: block; width: 100%; height: auto; overflow: visible; }
+.tlc-grid { stroke: var(--line); stroke-width: 1; }
+.tlc-year { fill: var(--ink-2); font-family: var(--font-ui); font-size: 13px; }
+.tlc-track { stroke: color-mix(in srgb, var(--ink) 22%, var(--bg)); stroke-width: 1.5; }
+.tlc-name { position: absolute; left: 0; translate: 0 -50%; padding: 4px 0; white-space: nowrap; border: 0; background: none; color: var(--ink); font-family: var(--font-ui); font-size: 16px; text-align: left; cursor: pointer; transition: color 0.2s ease; }
+.tlc-name:hover { color: var(--accent); }
+.tlc-hit { fill: transparent; }
+.tlc-row { cursor: pointer; outline: none; }
+.tlc-row:hover .tlc-hit { fill: color-mix(in srgb, var(--ink) 4%, transparent); }
+.tlc-dot { fill: var(--st); stroke: var(--bg); stroke-width: 2.5; }
+
+.tlp { margin-top: 64px; }
+.tlp + .tlp { margin-top: 80px; }
+.tlp-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0 0 8px; font-size: 26px; font-weight: 500; }
+.tlp-open { padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.tlp-open span { color: var(--ink-2); font-size: 0.75em; transition: color 0.2s ease; }
+.tlp-open:hover, .tlp-open:hover span { color: var(--accent); }
+.tlp-role { color: var(--ink-2); font-family: var(--font-ui); font-size: 14px; font-weight: 400; }
+.positions-desc .tlp-role-solo { margin-top: 10px; color: var(--ink-2); font-family: var(--font-ui); font-size: 15px; }
+.tlp-items { margin: 20px 0 0; padding: 0 0 0 28px; list-style: none; border-left: 1px solid var(--line); }
+.tlp-item { position: relative; padding: 0 0 44px; }
+.tlp-item:last-child { padding-bottom: 8px; }
+.tlp-item::before {   /* a dot on the line, in the colour of the position taken */
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 5px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--st);
+  box-shadow: 0 0 0 4px var(--bg);
+}
+.tlp-date { margin: 0; color: var(--ink-2); font-family: var(--font-ui); font-size: 13px; }
+.tlp-title { margin: 8px 0 0; font-size: 22px; font-weight: 500; line-height: 1.25; }
+.tlp-stance { margin: 10px 0 0; color: var(--ink-2); font-size: 15px; }
+.tlp-note { margin: 10px 0 0; font-size: 18px; line-height: 1.6; }
+.tlp-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin: 12px 0 0; }
+.tlp-links .tl-source { margin-top: 0; }
+/* Phones: the chart keeps a readable size and scrolls sideways */
+@media (max-width: 640px) {
+  .tlc-wrap { gap: 0 10px; }
+  .tlc-names, .tlc-name { font-size: 14px; }
+  .tlc-scroll { overflow-x: auto; margin-right: -16px; padding-right: 16px; scrollbar-width: none; }
+  .tlc { width: 600px; max-width: none; }
+}
