@@ -346,7 +346,7 @@
     none.forEach((x) => { if (!parties.has(x.m.party)) parties.set(x.m.party, []); parties.get(x.m.party).push(x); });
     return `
       <h3 class="pl-title">No recorded position <span class="filter-count">${none.length.toLocaleString()} of ${seats.length.toLocaleString()} members</span></h3>
-      <p class="pu-intro">None has been found yet for these members, which doesn't mean they have none.</p>
+      <p class="pu-intro">None has been documented here yet for these members, which doesn't mean they have none.</p>
       ${[...parties].sort((a, b) => b[1].length - a[1].length).map(([party, list]) => `
         <section class="pu-group">
           <h4 class="pu-party"><span class="pd-party" style="--pc:${partyColour(party)}"></span>${esc(partyName(party))} <span class="filter-count">${list.length}</span></h4>
@@ -364,7 +364,7 @@
       house: "House members don't have assigned seats: Democrats sit to the Speaker's right and Republicans to the left, as shown here. Includes non-voting delegates.",
     };
     const src = state.group === "uk" ? "Members: mySociety Parliament data, as of 24 Sep 2026." : "Members: unitedstates/congress-legislators, as of 24 Sep 2026.";
-    $("positions-notes").innerHTML = `<p>${esc(notes[state.body] || "")} ${esc(src)} Everyone without a recorded position is shown as “No recorded position”: it means none has been found yet, not that they have none.</p>`;
+    $("positions-notes").innerHTML = `<p>${esc(notes[state.body] || "")} ${esc(src)} Everyone without a recorded position is shown as “No recorded position”: it means none has been documented here yet, not that they have none.</p>`;
   }
 
   // ───────────── Search: highlight members whose name or seat matches
@@ -598,7 +598,7 @@
     if (!none.length) return "";
     return `
       <h3 class="pl-title">No recorded position <span class="filter-count">${none.length} of ${total} ${total === 1 ? "person" : "people"}</span></h3>
-      <p class="pu-intro">None has been found yet for these people, which doesn't mean they have none.</p>
+      <p class="pu-intro">None has been documented here yet for these people, which doesn't mean they have none.</p>
       <ul class="pu-items">${none.map((n) => `
         <li><span class="pu-name is-static">${esc(n.name)}<span class="pu-area">${esc(n.role)}${n.where ? ` · ${esc(n.where)}` : ""}</span></span></li>`).join("")}
       </ul>`;
@@ -876,7 +876,7 @@
       ])}
       </div>`;
     bindOverview();
-    $("positions-notes").innerHTML = `<p>Recorded positions: how many of each chamber's members have one, out of all its members. “No recorded position” means none has been found yet, not that a member has none. Select a chamber to see every member's seat.</p>`;
+    $("positions-notes").innerHTML = `<p>Recorded positions: how many of each chamber's members have one, out of all its members. “No recorded position” means none has been documented here yet, not that a member has none. Select a chamber to see every member's seat.</p>`;
   }
 
   function init() {
