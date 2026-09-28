@@ -955,26 +955,26 @@
   // with its one-line description from the Site Map. Opened by the button in
   // the bottom-left corner (or M); closed by the same button, Escape, or
   // choosing a page.
+  // The groups and their pages follow the footer's columns (About, Explore,
+  // Resources, Engage); names and numbers come from the main menu
   function menuGroupsHTML(current) {
-    const groups = [];
-    document.querySelectorAll(".menu a[data-page]").forEach((a) => {
-      if (!groups.length || a.classList.contains("menu-apart")) groups.push([]);
-      groups[groups.length - 1].push(a);
-    });
-    const NAMES = ["About", "Explore", "Engage"];
     const about = (page) => (document.querySelector(`.sm-tile[data-page="${page}"] .sm-about`) || {}).textContent
       || (page === "sitemap" ? "Every page on the site, and what you'll find there." : "");
-    return groups.map((g, i) => `
-      <div class="mp-group${g.length > 4 ? " is-wide" : ""}">
-        <p class="mp-head">${esc(NAMES[i] || "")}</p>
-        <ul class="mp-list">${g.map((a) => {
+    return [...document.querySelectorAll(".site-footer .footer-col")].map((col) => {
+      const pages = [...col.querySelectorAll("a[data-goto]")].map((l) => l.dataset.goto);
+      return `
+      <div class="mp-group">
+        <p class="mp-head">${esc((col.querySelector(".footer-head") || {}).textContent || "")}</p>
+        <ul class="mp-list">${pages.map((page) => {
+          const a = document.querySelector(`.menu a[data-page="${page}"]`);
+          if (!a) return "";
           const num = (a.querySelector(".menu-num") || {}).textContent || "";
           const name = a.textContent.replace(/^\s*\d+\s*/, "").trim();
-          const page = a.dataset.page;
           return `<li><a class="mp-link" href="#${esc(page)}" data-goto="${esc(page)}"${page === current ? ' aria-current="page"' : ""}>
             <span class="mp-num">${esc(num)}</span><span class="mp-name">${esc(name)}</span>${about(page) ? `<span class="mp-about">${esc(about(page))}</span>` : ""}</a></li>`;
         }).join("")}</ul>
-      </div>`).join("");
+      </div>`;
+    }).join("");
   }
   function fillMenuPage() {
     document.getElementById("menu-page-groups").innerHTML = menuGroupsHTML(activePage);

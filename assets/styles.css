@@ -2753,7 +2753,7 @@ html:not(.loaded) body { overflow: hidden; }
   padding: 120px 0 140px;
 }
 .menu-page-title { margin: 0 0 64px; font-size: clamp(32px, 4vw, 44px); font-weight: 500; line-height: 1.1; }
-.menu-page-groups { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 48px 56px; }
+.menu-page-groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 40px; }   /* the footer's four columns */
 .mp-head {
   margin: 0 0 20px;
   padding-bottom: 12px;
@@ -2765,7 +2765,6 @@ html:not(.loaded) body { overflow: hidden; }
   text-transform: uppercase;
 }
 .mp-list { margin: 0; padding: 0; list-style: none; }
-.mp-group.is-wide .mp-list { columns: 2; column-gap: 40px; }
 .mp-list li { break-inside: avoid; }
 .mp-link {
   display: grid;
@@ -2780,12 +2779,14 @@ html:not(.loaded) body { overflow: hidden; }
 .mp-about { grid-column: 2; color: var(--ink-2); font-size: 15px; line-height: 1.45; }
 .mp-link:hover .mp-name, .mp-link:focus-visible .mp-name { color: var(--accent); }
 .mp-link[aria-current="page"] .mp-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
+  .menu-page-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
   .menu-page-groups { grid-template-columns: 1fr; gap: 40px; }
 }
 @media (max-width: 640px) {
   .menu-btn { left: 22px; bottom: 30px; }
   .menu-page-inner { width: calc(100vw - 32px); padding: 88px 0 120px; }
-  .mp-group.is-wide .mp-list { columns: 1; }
   .mp-name { font-size: 22px; }
 }
