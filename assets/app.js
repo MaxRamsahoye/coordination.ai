@@ -955,7 +955,7 @@
   // with its one-line description from the Site Map. Opened by the button in
   // the bottom-left corner (or M); closed by the same button, Escape, or
   // choosing a page.
-  function fillMenuPage() {
+  function menuGroupsHTML(current) {
     const groups = [];
     document.querySelectorAll(".menu a[data-page]").forEach((a) => {
       if (!groups.length || a.classList.contains("menu-apart")) groups.push([]);
@@ -964,18 +964,26 @@
     const NAMES = ["About", "Explore", "Engage"];
     const about = (page) => (document.querySelector(`.sm-tile[data-page="${page}"] .sm-about`) || {}).textContent
       || (page === "sitemap" ? "Every page on the site, and what you'll find there." : "");
-    document.getElementById("menu-page-groups").innerHTML = groups.map((g, i) => `
+    return groups.map((g, i) => `
       <div class="mp-group${g.length > 4 ? " is-wide" : ""}">
         <p class="mp-head">${esc(NAMES[i] || "")}</p>
         <ul class="mp-list">${g.map((a) => {
           const num = (a.querySelector(".menu-num") || {}).textContent || "";
           const name = a.textContent.replace(/^\s*\d+\s*/, "").trim();
           const page = a.dataset.page;
-          return `<li><a class="mp-link" href="#${esc(page)}" data-goto="${esc(page)}"${page === activePage ? ' aria-current="page"' : ""}>
+          return `<li><a class="mp-link" href="#${esc(page)}" data-goto="${esc(page)}"${page === current ? ' aria-current="page"' : ""}>
             <span class="mp-num">${esc(num)}</span><span class="mp-name">${esc(name)}</span>${about(page) ? `<span class="mp-about">${esc(about(page))}</span>` : ""}</a></li>`;
         }).join("")}</ul>
       </div>`).join("");
   }
+  function fillMenuPage() {
+    document.getElementById("menu-page-groups").innerHTML = menuGroupsHTML(activePage);
+  }
+  // The Site Map opens with the same list, above its cards
+  document.addEventListener("cc:pageshow", (e) => {
+    const index = document.getElementById("sitemap-index");
+    if (e.detail.page === "sitemap" && index) index.innerHTML = menuGroupsHTML();
+  });
   let menuReturn = null;
   function toggleMenuPage(open = menuPage.hidden) {
     if (open === !menuPage.hidden) return;
