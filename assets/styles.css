@@ -1181,7 +1181,8 @@ html:not(.loaded) body { overflow: hidden; }
 .pl-name.is-static:hover { color: var(--ink); }
 .pl-meta { display: block; margin: 6px 0 0 17px; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
 .pl-note { margin: 12px 0 0 17px; font-size: 18px; line-height: 1.6; }
-.pl-note .tl-source { font-size: 15px; }
+.pl-source { margin: 10px 0 0 17px; }   /* the source, on its own line below the note */
+.pl-source .tl-source { margin: 0; font-size: 15px; }
 .pd-note .tl-source, .pl-note .tl-source { display: inline; margin: 0; }
 .pl-empty { color: var(--ink-2); }
 

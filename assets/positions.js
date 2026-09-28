@@ -324,7 +324,8 @@
           <li class="pl-item" data-s="${m.position.stance}">
             <button type="button" class="pl-name" data-i="${i}"><span class="pd-dot"></span>${esc(m.name)}</button>
             <span class="pl-meta">${esc(partyName(m.party))}${m.area ? ` · ${esc(m.area)}` : ""} · ${esc(stanceLabel(m.position.stance))}</span>
-            <p class="pl-note">${esc(m.position.note)} ${m.position.source ? `<a class="tl-source" href="${esc(m.position.source.url)}" target="_blank" rel="noopener noreferrer">${esc(m.position.source.label)} ↗</a>` : ""}</p>
+            <p class="pl-note">${esc(m.position.note)}</p>
+            ${m.position.source ? `<p class="pl-source"><a class="tl-source" href="${esc(m.position.source.url)}" target="_blank" rel="noopener noreferrer">${esc(m.position.source.label)} ↗</a></p>` : ""}
           </li>`)
         .join("")}</ul>` : `<p class="pl-empty">None recorded yet.</p>`}
       ${unrecordedChamber()}`;
@@ -588,7 +589,8 @@
         <li class="pl-item" data-s="${n.stance}">
           <span class="pl-name is-static"><span class="pd-dot"></span>${esc(n.name)}</span>
           <span class="pl-meta">${esc(n.role)} · ${esc(stanceLabel(n.stance))}</span>
-          <p class="pl-note">${esc(n.note || "")} ${n.source ? `<a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">${esc(n.source.label)} ↗</a>` : ""}</p>
+          <p class="pl-note">${esc(n.note || "")}</p>
+          ${n.source ? `<p class="pl-source"><a class="tl-source" href="${esc(n.source.url)}" target="_blank" rel="noopener noreferrer">${esc(n.source.label)} ↗</a></p>` : ""}
         </li>`).join("")}</ul>
       ${unrecordedIndustry(people.filter((n) => !n.stance), people.length)}`;
     applySearch();
