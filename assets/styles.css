@@ -2689,3 +2689,102 @@ html:not(.loaded) body { overflow: hidden; }
 .positions-desc .tlp-summary { margin: 8px 0 0; color: var(--ink); font-size: 17px; line-height: 1.65; }
 .tlp-order { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 0; }
 .tlp-order .filter-label { margin-right: 6px; }
+
+/* ───────────── Menu button (bottom-left, once past the hero; the back-to-
+   top button's counterpart) and the full-screen menu page it opens */
+.menu-btn {
+  position: fixed;
+  left: 54px;
+  bottom: 38px;
+  z-index: 41;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+  color: var(--ink);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s, color 0.2s;
+}
+.menu-btn.visible { opacity: 1; visibility: visible; }
+.menu-open .menu-btn { background: var(--bg); }   /* clear of the list scrolling beneath it */
+.menu-btn:hover { color: var(--accent); }
+.menu-btn-lines { position: relative; display: block; width: 14px; height: 10px; }
+.menu-btn-lines span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+}
+.menu-btn-lines span:nth-child(1) { top: 0; }
+.menu-btn-lines span:nth-child(2) { top: 4.25px; }
+.menu-btn-lines span:nth-child(3) { top: 8.5px; }
+/* Open: the lines cross into a close mark */
+.menu-open .menu-btn-lines span:nth-child(1) { transform: translateY(4.25px) rotate(45deg); }
+.menu-open .menu-btn-lines span:nth-child(2) { opacity: 0; }
+.menu-open .menu-btn-lines span:nth-child(3) { transform: translateY(-4.25px) rotate(-45deg); }
+
+.menu-page {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.menu-page[hidden] { display: none; }
+.menu-open .menu-page { opacity: 1; }
+.menu-open body { overflow: hidden; }
+.menu-page-inner {
+  width: min(1160px, calc(100vw - 96px));
+  margin: 0 auto;
+  padding: 120px 0 140px;
+}
+.menu-page-title { margin: 0 0 64px; font-size: clamp(32px, 4vw, 44px); font-weight: 500; line-height: 1.1; }
+.menu-page-groups { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 48px 56px; }
+.mp-head {
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mp-list { margin: 0; padding: 0; list-style: none; }
+.mp-group.is-wide .mp-list { columns: 2; column-gap: 40px; }
+.mp-list li { break-inside: avoid; }
+.mp-link {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 2px 0;
+  padding: 10px 0 14px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.mp-num { grid-row: 1; padding-top: 6px; color: var(--accent); font-family: var(--font-ui); font-size: 11px; }
+.mp-name { font-size: 24px; font-weight: 500; line-height: 1.2; transition: color 0.2s ease; }
+.mp-about { grid-column: 2; color: var(--ink-2); font-size: 15px; line-height: 1.45; }
+.mp-link:hover .mp-name, .mp-link:focus-visible .mp-name { color: var(--accent); }
+.mp-link[aria-current="page"] .mp-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+@media (max-width: 900px) {
+  .menu-page-groups { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 640px) {
+  .menu-btn { left: 22px; bottom: 30px; }
+  .menu-page-inner { width: calc(100vw - 32px); padding: 88px 0 120px; }
+  .mp-group.is-wide .mp-list { columns: 1; }
+  .mp-name { font-size: 22px; }
+}

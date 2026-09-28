@@ -291,6 +291,8 @@
 
   // ───────────── Scroll: reading progress, current contents entry, back-to-top
   const toTop = document.getElementById("to-top");
+  const menuBtn = document.getElementById("menu-btn");
+  const menuPage = document.getElementById("menu-page");
   const menu = document.querySelector(".menu");
   const hero = document.querySelector(".hero");
   const pageTitleFixed = document.getElementById("page-title-fixed");
@@ -331,6 +333,11 @@
     const underTop = wide.some((r) => r.top < headerH0 && r.bottom > headerH0 / 2);
     const underToTop = wide.some((r) => r.top < tt.bottom && r.bottom > tt.top);
     toTop.classList.toggle("visible", window.scrollY > 400 && !underToTop);
+    // The menu button, in the opposite corner: only once past the hero
+    const mb = menuBtn.getBoundingClientRect();
+    const underMenuBtn = wide.some((r) => r.top < mb.bottom && r.bottom > mb.top);
+    const pastHero = window.scrollY >= hero.getBoundingClientRect().bottom + window.scrollY - 0.5;
+    menuBtn.classList.toggle("visible", (pastHero && !underMenuBtn) || menuPage.hidden === false);
 
     // Once scrolled to the menu bar, the contents sidebar and progress pill
     // appear (and, on narrower windows, the site title gets a backing)
@@ -528,7 +535,7 @@
     else go();
   }
 
-  // Shortcuts: T theme, C accent, F font, H hudless, digits pages, Backspace back to top
+  // Shortcuts: T theme, C accent, F font, H hudless, M menu page, digits pages, Backspace back to top
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
@@ -537,6 +544,7 @@
     else if (e.key === "c" || e.key === "C") toggleAccent();
     else if (e.key === "f" || e.key === "F") toggleFont();
     else if (e.key === "h" || e.key === "H") root.classList.toggle("hudless");   // hide the dividing lines
+    else if (e.key === "m" || e.key === "M") toggleMenuPage();
     else if (/^[0-9]$/.test(e.key)) typeNumber(e.key);   // the menu's numbers, one or two digits
     else if (e.key === "Backspace") {
       e.preventDefault();
@@ -942,6 +950,70 @@
       }
     });
   }
+
+  // ───────────── Menu page: every page, in the menu's order and groups, each
+  // with its one-line description from the Site Map. Opened by the button in
+  // the bottom-left corner (or M); closed by the same button, Escape, or
+  // choosing a page.
+  function fillMenuPage() {
+    const groups = [];
+    document.querySelectorAll(".menu a[data-page]").forEach((a) => {
+      if (!groups.length || a.classList.contains("menu-apart")) groups.push([]);
+      groups[groups.length - 1].push(a);
+    });
+    const NAMES = ["About", "Explore", "Engage"];
+    const about = (page) => (document.querySelector(`.sm-tile[data-page="${page}"] .sm-about`) || {}).textContent
+      || (page === "sitemap" ? "Every page on the site, and what you'll find there." : "");
+    document.getElementById("menu-page-groups").innerHTML = groups.map((g, i) => `
+      <div class="mp-group${g.length > 4 ? " is-wide" : ""}">
+        <p class="mp-head">${esc(NAMES[i] || "")}</p>
+        <ul class="mp-list">${g.map((a) => {
+          const num = (a.querySelector(".menu-num") || {}).textContent || "";
+          const name = a.textContent.replace(/^\s*\d+\s*/, "").trim();
+          const page = a.dataset.page;
+          return `<li><a class="mp-link" href="#${esc(page)}" data-goto="${esc(page)}"${page === activePage ? ' aria-current="page"' : ""}>
+            <span class="mp-num">${esc(num)}</span><span class="mp-name">${esc(name)}</span>${about(page) ? `<span class="mp-about">${esc(about(page))}</span>` : ""}</a></li>`;
+        }).join("")}</ul>
+      </div>`).join("");
+  }
+  let menuReturn = null;
+  function toggleMenuPage(open = menuPage.hidden) {
+    if (open === !menuPage.hidden) return;
+    if (open) {
+      fillMenuPage();
+      menuReturn = document.activeElement;
+      menuPage.hidden = false;
+      requestAnimationFrame(() => root.classList.add("menu-open"));
+      menuBtn.setAttribute("aria-expanded", "true");
+      menuBtn.querySelector(".sr-only").textContent = "Close the menu";
+      menuBtn.classList.add("visible");
+      (menuPage.querySelector('[aria-current="page"]') || menuPage.querySelector(".mp-link"))?.focus({ preventScroll: true });
+    } else {
+      root.classList.remove("menu-open");
+      menuPage.hidden = true;
+      menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.querySelector(".sr-only").textContent = "Open the menu";
+      if (menuReturn && document.contains(menuReturn)) menuReturn.focus({ preventScroll: true });
+      onScroll();
+    }
+  }
+  menuBtn.addEventListener("click", () => toggleMenuPage());
+  // Choosing a page closes the menu first; the link then works like the main menu's
+  menuPage.addEventListener("click", (e) => {
+    if (e.target.closest(".mp-link")) toggleMenuPage(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (menuPage.hidden) return;
+    if (e.key === "Escape") { e.preventDefault(); toggleMenuPage(false); }
+    // Keep Tab within the menu page and its button
+    if (e.key === "Tab") {
+      const items = [menuBtn, ...menuPage.querySelectorAll(".mp-link")];
+      const i = items.indexOf(document.activeElement);
+      const next = (i + (e.shiftKey ? -1 : 1) + items.length) % items.length;
+      e.preventDefault();
+      items[next].focus();
+    }
+  });
 
   // In-page links to another page (data-goto) behave like the menu
   document.addEventListener("click", (e) => {
