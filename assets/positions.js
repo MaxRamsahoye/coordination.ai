@@ -863,7 +863,8 @@
       const [page] = e.entry.split(":");
       return `<a class="co-link" href="#${esc(page)}" data-entry="${esc(e.entry)}">In ${esc(PAGE_NAME[page] || page)} →</a>`;
     };
-    const sorted = (t) => t.entries.slice().sort((a, b) => a.date.localeCompare(b.date));
+    const byDate = (t) => t.entries.slice().sort((a, b) => a.date.localeCompare(b.date));   // for the chart
+    const sorted = (t) => { const l = byDate(t); return state.tlOrder === "desc" ? l.reverse() : l; };
     // The chart: years along the bottom, a row per person
     const chart = () => {
       const years = all.flatMap((t) => t.entries.map((e) => +e.date.slice(0, 4)));
@@ -886,7 +887,7 @@
         out += `<g class="tlc-row" data-open="${esc(t.id)}" aria-hidden="true">
           <rect class="tlc-hit" x="0" y="${cy - rowH / 2}" width="${W}" height="${rowH}"/>
           <line class="tlc-track" x1="${left}" y1="${cy}" x2="${W - right}" y2="${cy}"/>
-          ${sorted(t).map((e) => `<circle class="tlc-dot" data-s="${st(e)}" cx="${x(e.date)}" cy="${cy}" r="6"><title>${esc(fmtDate(e.date))}: ${esc(e.title)}</title></circle>`).join("")}
+          ${byDate(t).map((e) => `<circle class="tlc-dot" data-s="${st(e)}" cx="${x(e.date)}" cy="${cy}" r="6"><title>${esc(fmtDate(e.date))}: ${esc(e.title)}</title></circle>`).join("")}
         </g>`;
       });
       // each name at its row's height, as a share of the chart's (which scales with the page)
@@ -898,9 +899,14 @@
     };
     const legend = `<div class="positions-legend">${["ban", "pace", "oppose", "none"].map((s) =>
       `<span class="lg-item" data-s="${s}"><span class="lg-swatch"></span>${esc(s === "none" ? "Warned of risk, no position on a slowdown" : P.stances[s])}</span>`).join("")}</div>`;
+    // How their position has held or moved: a short label, then the analysis
+    const analysis = (t) => t.summary ? `<div class="tlp-analysis"><p class="tlp-pattern">${esc(t.pattern || "")}</p><p class="tlp-summary">${esc(t.summary)}</p></div>` : "";
+    // Oldest or newest first
+    const order = `<div class="tlp-order" role="group" aria-label="Order of statements"><span class="filter-label" aria-hidden="true">Order</span>${[["asc", "Oldest first"], ["desc", "Newest first"]]
+      .map(([v, l]) => `<button type="button" class="filter-pill" data-order="${v}" aria-pressed="${(state.tlOrder || "asc") === v}">${l}</button>`).join("")}</div>`;
     const person = (t) => `
       <section class="tlp" id="timeline-${esc(t.id)}">
-        ${id === "overview" ? `<h4 class="tlp-name"><button type="button" class="tlp-open" data-open="${esc(t.id)}">${esc(t.name)} <span aria-hidden="true">→</span></button><span class="tlp-role">${esc(t.role)}</span></h4>` : ""}
+        ${id === "overview" ? `<h4 class="tlp-name"><button type="button" class="tlp-open" data-open="${esc(t.id)}">${esc(t.name)} <span aria-hidden="true">→</span></button><span class="tlp-role">${esc(t.role)}</span></h4>${analysis(t)}` : ""}
         <ol class="tlp-items">${sorted(t).map((e) => `
           <li class="tlp-item" data-s="${st(e)}">
             <p class="tlp-date">${esc(fmtDate(e.date))}</p>
@@ -911,11 +917,20 @@
           </li>`).join("")}</ol>
       </section>`;
     $("positions-view").classList.remove("is-chamber");
-    $("positions-view").innerHTML = (id === "overview" ? chart() : "") + legend + list.map(person).join("");
+    $("positions-view").innerHTML = (id === "overview" ? chart() : "") + legend + order + list.map(person).join("");
     $("positions-desc").innerHTML = id === "overview"
       ? `<p>What the leaders of the frontier labs have said about the risks of AI, and about slowing or regulating it, over the years: each dot is a statement, coloured by the position it took. Select a name to see one person's timeline.</p>`
-      : `<p class="tlp-role-solo">${esc(list[0] ? list[0].role : "")}</p>`;
+      : list[0] ? `<p class="tlp-role-solo">${esc(list[0].role)}</p>${analysis(list[0])}` : "";
     $("positions-notes").innerHTML = `<p>Selected statements, in date order; quotes are verbatim. Grey marks a warning about risk that took no position on slowing down or new rules.</p>`;
+    $("positions-view").querySelectorAll("[data-order]").forEach((b) => b.addEventListener("click", () => {
+      if (b.dataset.order === (state.tlOrder || "asc")) return;
+      const y = b.getBoundingClientRect().top;
+      state.tlOrder = b.dataset.order;
+      renderTimelines(id);
+      // keep the order buttons where they were on screen
+      const nb = $("positions-view").querySelector(`[data-order="${state.tlOrder}"]`);
+      if (nb) window.scrollBy(0, nb.getBoundingClientRect().top - y);
+    }));
     // On phones the chart scrolls: open it on the most recent years
     const sc = $("positions-view").querySelector(".tlc-scroll");
     if (sc) sc.scrollLeft = sc.scrollWidth;

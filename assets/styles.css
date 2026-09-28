@@ -56,7 +56,7 @@
 :root[data-font="plex"] { --font: var(--font-plex); }
 .news, .site-title, .page-title-fixed, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
 .toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta, .footer-col, .gl-area,
-.page-head h2, .page-intro, .pl-meta {
+.page-head h2, .page-intro, .pl-meta, .tlp-order {
   font-family: var(--font-ui);
 }
 :root[data-font="hybrid"] .pl-meta { font-size: 14px; }   /* Plex runs larger than Bembo */
@@ -2674,3 +2674,14 @@ html:not(.loaded) body { overflow: hidden; }
   .tlc-scroll { overflow-x: auto; margin-right: -16px; padding-right: 16px; scrollbar-width: none; }
   .tlc { width: 600px; max-width: none; }
 }
+
+/* Timelines: how each person's position has held or moved, under their
+   name; and the order of their statements */
+.tlp-analysis { max-width: 46em; margin: 14px 0 0; padding: 16px 20px 18px; border-left: 3px solid var(--line); background: color-mix(in srgb, var(--ink) 3%, transparent); border-radius: 0 10px 10px 0; }
+.tlp-pattern { margin: 0; color: var(--accent); font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.tlp-summary { margin: 8px 0 0; font-size: 17px; line-height: 1.65; color: var(--ink); }
+.positions-desc .tlp-analysis { margin-top: 20px; }
+.positions-desc .tlp-pattern { margin: 0; color: var(--accent); font-size: 12px; line-height: 1.4; }
+.positions-desc .tlp-summary { margin: 8px 0 0; color: var(--ink); font-size: 17px; line-height: 1.65; }
+.tlp-order { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 0; }
+.tlp-order .filter-label { margin-right: 6px; }

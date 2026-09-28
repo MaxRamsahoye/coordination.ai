@@ -4,6 +4,8 @@
  *
  * Each person:
  *   id, name, role
+ *   pattern  in a few words, how their position has held or moved
+ *   summary  an analysis of how it has stayed the same or changed over time
  *   entries: each
  *     date    YYYY, YYYY-MM or YYYY-MM-DD
  *     stance  ban | pace | oppose — the position the statement took, if any
@@ -23,6 +25,8 @@
   window.CC_TIMELINES = [
     {
       id: "altman", name: "Sam Altman", role: "Chief Executive, OpenAI",
+      pattern: "Shifted, then shifted back",
+      summary: "Has moved more than anyone here. He warned in 2015 that superhuman AI was probably the greatest threat to humanity, and in 2023 asked the Senate to license the most powerful systems. By 2025 he was telling senators that pre-approval would be \"disastrous\" for America's lead. In September 2026 he swung back, backing the pacing proposal and taking the case for international oversight to the UN. What has held is his acknowledgement of the risk; what has changed is whether he wants rules that slow the race.",
       entries: [
         { date: "2015-02-25", title: "Calls superhuman AI the greatest threat",
           note: "Wrote that 'development of superhuman machine intelligence (SMI) is probably the greatest threat to the continued existence of humanity.'",
@@ -44,6 +48,8 @@
     },
     {
       id: "amodei", name: "Dario Amodei", role: "Chief Executive, Anthropic",
+      pattern: "Consistent, and firming",
+      summary: "The most consistent of the five. Since 2023 he has paired warnings about catastrophic risk (he puts the chance of things going \"really, really badly\" at 25%) with calls for testing and oversight, while making the case for AI's benefits. \"We Must Pace the Frontier\" in 2026 took that a step further, from testing and transparency to an explicit call to slow the rate at which capabilities grow.",
       entries: [
         { date: "2023-05-30", title: "Signs the Statement on AI Risk", note: CAIS_NOTE, source: CAIS, entry: "statements:cais-statement" },
         { date: "2023-07-25", stance: "pace", title: "Warns the Senate on bioweapons",
@@ -65,6 +71,8 @@
     },
     {
       id: "hassabis", name: "Demis Hassabis", role: "Chair, Google DeepMind",
+      pattern: "Consistent",
+      summary: "Consistent, if quieter than the others. He has acknowledged the risk of extinction since 2023 and has long argued for international institutions modelled on the IPCC, CERN and the International Atomic Energy Agency. In 2026 he endorsed pacing as the \"right path forward\", in line with what he had said before.",
       entries: [
         { date: "2023-05-30", title: "Signs the Statement on AI Risk", note: CAIS_NOTE, source: CAIS, entry: "statements:cais-statement" },
         { date: "2023-10-24", stance: "pace", title: "Compares AI risk to the climate crisis",
@@ -80,6 +88,8 @@
     },
     {
       id: "musk", name: "Elon Musk", role: "Chief Executive, SpaceX and xAI",
+      pattern: "Consistent in words, mixed in action",
+      summary: "Among the earliest and loudest to warn, from \"summoning the demon\" in 2014 to asking governors to regulate in 2017 and signing the call for a pause in 2023. His words have been consistent; his actions less so. He founded xAI months after calling for a pause, and put the odds of AI going badly at 10 to 20% while raising money to build it. In 2026 he backed pacing.",
       entries: [
         { date: "2014-10-24", title: "'Summoning the demon'",
           note: "Called AI probably humanity's 'biggest existential threat': 'With artificial intelligence we are summoning the demon.'",
@@ -100,6 +110,8 @@
     },
     {
       id: "zuckerberg", name: "Mark Zuckerberg", role: "Chief Executive, Meta",
+      pattern: "Consistently against",
+      summary: "Consistently sceptical of AI risk and of slowing down. He called doomsday talk \"pretty irresponsible\" in 2017, championed releasing model weights openly in 2024 and set out Meta's aim of personal superintelligence in 2025. In 2026 he was the one frontier lab leader to reject a coordinated slowdown, preferring each company to act on its own.",
       entries: [
         { date: "2017-07-23", title: "Calls doomsday talk 'irresponsible'",
           note: "Said of AI 'naysayers' who 'drum up these doomsday scenarios': 'I think it's really negative and in some ways I actually think it is pretty irresponsible.'",
