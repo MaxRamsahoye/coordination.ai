@@ -1628,14 +1628,14 @@ html:not(.loaded) body { overflow: hidden; }
 .has-custom-cursor.cursor-away .cursor-dot,
 .has-custom-cursor.cursor-away .cursor-ring { opacity: 0; }
 
-/* Hover over anything clickable: the dot disappears into a larger,
-   accent-tinted ring */
+/* Hover over anything clickable: a gentle cue — the ring grows a little
+   and takes the accent colour, with the faintest tint, and the dot shrinks */
 .cursor-hover .cursor-ring {
-  scale: 1.7;
+  scale: 1.25;
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
-.cursor-hover .cursor-dot { scale: 0; }
+.cursor-hover .cursor-dot { scale: 0.6; }
 
 /* Click: the ring snaps shut into a solid accent disc, and a ripple
    (added by app.js) spreads out from the click point */
