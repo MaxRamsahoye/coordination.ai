@@ -56,10 +56,14 @@
 :root[data-font="plex"] { --font: var(--font-plex); }
 .news, .site-title, .page-title-fixed, .tl-source, .hero-description, .filter-bar, .positions-tools, .menu a,
 .toc-title, .tl-year-label, .tl-meta time, .toc-date, .pd-date, .org-card-meta, .footer-col, .gl-area,
-.page-head h2, .page-intro, .pl-meta, .tlp-order {
+.page-head h2, .page-intro, .pl-meta, .tlp-order, .positions-legend, .pd-meta, .tlp-stance {
   font-family: var(--font-ui);
 }
-:root[data-font="hybrid"] .pl-meta { font-size: 14px; }   /* Plex runs larger than Bembo */
+/* Plex runs larger than Bembo */
+:root[data-font="hybrid"] .pl-meta { font-size: 14px; }
+:root[data-font="hybrid"] .positions-legend { font-size: 14.5px; }
+:root[data-font="hybrid"] .pd-meta { font-size: 14.5px; }
+:root[data-font="hybrid"] .tlp-stance { font-size: 13.5px; }
 
 /* Selected text: highlighted in the accent colour */
 ::selection { background: var(--accent); color: var(--bg); }
