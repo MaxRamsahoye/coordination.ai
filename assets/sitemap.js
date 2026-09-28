@@ -156,6 +156,14 @@
         <line class="v-acc-line" x1="208" y1="118" x2="208" y2="142" stroke-width="3"/>
         <circle class="v-acc" cx="200" cy="130" r="5"/>`);
     },
+    // Forecast ranges against the years, with today marked
+    timelines() {
+      let out = `<line class="v-line" x1="20" y1="140" x2="286" y2="140"/><line class="v-acc-line" x1="70" y1="18" x2="70" y2="140" stroke-dasharray="3 4"/>`;
+      [[40, 92, 118], [60, 104, 150], [80, 96, 190], [100, 130, 240], [120, 200, 280]].forEach(([y, a, bb], i) => {
+        out += `<line class="v-mute-line" x1="${a}" y1="${y}" x2="${bb}" y2="${y}" stroke-width="3"/><circle class="${i < 2 ? "v-acc" : "v-box"}" cx="${(a + bb) / 2}" cy="${y}" r="5"/>`;
+      });
+      return svg(300, 160, out);
+    },
     // Numbered steps along a path
     coordinate() {
       let out = `<path class="v-line" d="M40 40 C120 40 110 120 190 120 S260 60 270 60" fill="none"/>`;
@@ -192,6 +200,8 @@
       parts: [`${n((W.CC_RACE || {}).events)} frontier releases and inter-state competition signals`] },
     incidents: { size: "lg", about: `${n(W.CC_INCIDENTS)} incidents of loss of control, unintended behaviour and AI cyberattacks, by developer.`,
       parts: ["By category and by developer"] },
+    timelines: { size: "lg", about: `${n(W.CC_FORECASTS)} forecasts of when AGI or superintelligence will arrive, and how they have moved.`,
+      parts: ["Lab leaders, researchers, surveys and forecasting platforms"] },
     milestones: { size: "md", about: `${n(W.CC_MILESTONES)} of the most significant moments in the story of AI risk.`,
       parts: ["From Turing's warnings to the push to ban superintelligence"] },
     actors: { size: "md", about: "The people and institutions shaping AI risk and its governance.",
@@ -202,11 +212,11 @@
       parts: ["Scenarios, essays, research papers and books"] },
     glossary: { size: "md", about: `${n(W.CC_GLOSSARY)} terms used across the site, in plain language.`,
       parts: ["Capabilities, risks, safety research and governance"] },
-    companions: { size: "md", about: `${n(W.CC_COMPANIONS)} other websites worth following.`,
+    companions: { size: "half", about: `${n(W.CC_COMPANIONS)} other websites worth following.`,
       parts: ["Guides, trackers, research and newsletters"] },
     coordinate: { size: "md", about: "How to take part in a coordinated slowdown, whoever you are.", parts: ["Next steps", "International coordination", "Collective action"] },
-    contact: { size: "md", about: "Corrections, sources and suggestions are welcome.", parts: [] },
-    mission: { size: "md", about: "What this site is for, why coordination matters, and how to read it.", parts: [] },
+    contact: { size: "half", about: "Corrections, sources and suggestions are welcome.", parts: [] },
+    mission: { size: "half", about: "What this site is for, why coordination matters, and how to read it.", parts: [] },
   };
 
   // Menu order and numbers, from the menu itself

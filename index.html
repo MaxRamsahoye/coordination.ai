@@ -11,7 +11,7 @@
   <!-- Just the back-to-top glyph (U+1F891), which few system fonts include -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&text=%F0%9F%A2%91&display=block">
   <link rel="icon" href="favicon.svg?v=7e75a649" type="image/svg+xml" id="favicon">
-  <link rel="stylesheet" href="assets/styles.css?v=2ee60f73">
+  <link rel="stylesheet" href="assets/styles.css?v=f8857d40">
 </head>
 <body>
   <!-- Loading screen: the hero animation, centred, until the page has loaded (app.js) -->
@@ -97,14 +97,15 @@
         <a href="#plans" aria-keyshortcuts="4" data-page="plans"><span class="menu-num" aria-hidden="true">04</span>Plans</a>
         <a href="#race" aria-keyshortcuts="5" data-page="race"><span class="menu-num" aria-hidden="true">05</span>Race</a>
         <a href="#incidents" aria-keyshortcuts="6" data-page="incidents"><span class="menu-num" aria-hidden="true">06</span>Incidents</a>
-        <a href="#milestones" aria-keyshortcuts="7" data-page="milestones"><span class="menu-num" aria-hidden="true">07</span>Milestones</a>
-        <a href="#actors" aria-keyshortcuts="8" data-page="actors"><span class="menu-num" aria-hidden="true">08</span>Actors</a>
-        <a href="#statements" aria-keyshortcuts="9" data-page="statements"><span class="menu-num" aria-hidden="true">09</span>Statements</a>
-        <a href="#materials" data-page="materials"><span class="menu-num" aria-hidden="true">10</span>Materials</a>
-        <a href="#glossary" data-page="glossary"><span class="menu-num" aria-hidden="true">11</span>Glossary</a>
-        <a href="#coordinate" data-page="coordinate"><span class="menu-num" aria-hidden="true">12</span>Coordinate</a>
-        <a href="#contact" data-page="contact" class="menu-apart"><span class="menu-num" aria-hidden="true">13</span>Contact</a>
-        <a href="#companions" data-page="companions"><span class="menu-num" aria-hidden="true">14</span>Companions</a>
+        <a href="#timelines" aria-keyshortcuts="7" data-page="timelines"><span class="menu-num" aria-hidden="true">07</span>Timelines</a>
+        <a href="#milestones" aria-keyshortcuts="8" data-page="milestones"><span class="menu-num" aria-hidden="true">08</span>Milestones</a>
+        <a href="#actors" aria-keyshortcuts="9" data-page="actors"><span class="menu-num" aria-hidden="true">09</span>Actors</a>
+        <a href="#statements" data-page="statements"><span class="menu-num" aria-hidden="true">10</span>Statements</a>
+        <a href="#materials" data-page="materials"><span class="menu-num" aria-hidden="true">11</span>Materials</a>
+        <a href="#glossary" data-page="glossary"><span class="menu-num" aria-hidden="true">12</span>Glossary</a>
+        <a href="#coordinate" data-page="coordinate"><span class="menu-num" aria-hidden="true">13</span>Coordinate</a>
+        <a href="#contact" data-page="contact" class="menu-apart"><span class="menu-num" aria-hidden="true">14</span>Contact</a>
+        <a href="#companions" data-page="companions"><span class="menu-num" aria-hidden="true">15</span>Companions</a>
         <span class="menu-indicator" aria-hidden="true"></span>
       </div>
     </nav>
@@ -322,6 +323,25 @@
       </div>
     </section>
 
+    <!-- Timelines: forecasts of when AGI or superintelligence will arrive (assets/forecasts.js) -->
+    <section id="page-timelines" class="page" aria-labelledby="timelines-heading" hidden>
+      <div class="page-layout">
+        <div class="page-main single-main">
+          <div class="page-head">
+            <h2 id="timelines-heading">Timelines</h2>
+            <p class="page-intro" id="ft-intro"></p>
+          </div>
+          <div class="filter-bar">
+            <div class="filter-row" role="toolbar" aria-label="Filter forecasts by who made them">
+              <span class="filter-label" aria-hidden="true">From</span>
+              <div class="filter-scroll" id="ft-filters"></div>
+            </div>
+          </div>
+          <div id="ft-view"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- Plans: proposals for handling advanced AI (assets/plans.js) -->
     <section id="page-plans" class="page" aria-labelledby="plans-heading" hidden>
       <div class="page-layout">
@@ -422,7 +442,7 @@
                 <ul class="mi-guide">
                   <li><a href="#positions" data-goto="positions">Positions</a> maps where the labs' leaders and boards, and every member of the UK and US legislatures, stand.</li>
                   <li><a href="#plans" data-goto="plans">Plans</a> sets out the proposals for handling advanced AI, and what each asks of the race: a halt, pacing or speeding up.</li>
-                  <li><a href="#race" data-goto="race">Race</a> and <a href="#milestones" data-goto="milestones">Milestones</a> show how fast the frontier is moving, and the moments that have shaped it.</li>
+                  <li><a href="#race" data-goto="race">Race</a>, <a href="#timelines" data-goto="timelines">Timelines</a> and <a href="#milestones" data-goto="milestones">Milestones</a> show how fast the frontier is moving, when AGI is expected, and the moments that have shaped it.</li>
                   <li><a href="#incidents" data-goto="incidents">Incidents</a> records the times AI systems have already slipped out of control, misbehaved or been misused.</li>
                   <li><a href="#actors" data-goto="actors">Actors</a>, <a href="#statements" data-goto="statements">Statements</a> and <a href="#materials" data-goto="materials">Materials</a> gather the people, public commitments and writing that frame the debate; the <a href="#glossary" data-goto="glossary">Glossary</a> explains its terms.</li>
                   <li><a href="#coordinate" data-goto="coordinate">Coordinate</a> and <a href="#companions" data-goto="companions">Companions</a> point to what you can do, and where else to follow along.</li>
@@ -709,13 +729,14 @@
           <li><a href="#plans" data-goto="plans">Plans</a></li>
           <li><a href="#race" data-goto="race">Race</a></li>
           <li><a href="#incidents" data-goto="incidents">Incidents</a></li>
-          <li><a href="#milestones" data-goto="milestones">Milestones</a></li>
+          <li><a href="#timelines" data-goto="timelines">Timelines</a></li>
         </ul>
       </nav>
 
       <nav class="footer-col" aria-label="Resources">
         <p class="footer-head">Resources</p>
         <ul>
+          <li><a href="#milestones" data-goto="milestones">Milestones</a></li>
           <li><a href="#actors" data-goto="actors">Actors</a></li>
           <li><a href="#statements" data-goto="statements">Statements</a></li>
           <li><a href="#materials" data-goto="materials">Materials</a></li>
@@ -767,6 +788,8 @@
   <script src="assets/milestones.js?v=8db6b525"></script>
   <script src="data/race.js?v=ceb53dc7"></script>
   <script src="assets/race.js?v=033c1bed"></script>
+  <script src="data/forecasts.js?v=0629c791"></script>
+  <script src="assets/forecasts.js?v=7980bbcf"></script>
   <script src="data/plans.js?v=60ffbced"></script>
   <script src="assets/plans.js?v=e721f547"></script>
   <script src="data/companions.js?v=ecbad905"></script>
@@ -779,7 +802,7 @@
   <script src="assets/actors.js?v=df326552"></script>
   <script src="assets/positions.js?v=77515ebb"></script>
   <script src="assets/coordinate.js?v=c4d4f771"></script>
-  <script src="assets/sitemap.js?v=a1ceb4a4"></script>
-  <script src="assets/app.js?v=12a3dc18"></script>
+  <script src="assets/sitemap.js?v=4e2a51d2"></script>
+  <script src="assets/app.js?v=0c3b6802"></script>
 </body>
 </html>

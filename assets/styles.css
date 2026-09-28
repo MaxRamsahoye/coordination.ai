@@ -2790,3 +2790,51 @@ html:not(.loaded) body { overflow: hidden; }
   .menu-page-inner { width: calc(100vw - 32px); padding: 88px 0 120px; }
   .mp-name { font-size: 22px; }
 }
+
+/* ───────────── Timelines page: forecasts of AGI, as a chart (a row per
+   forecast: a dot for its central year, a line for its range), then cards */
+#page-timelines [data-k="leaders"] { --k: var(--accent); }
+#page-timelines [data-k="forecasters"] { --k: var(--ink); }
+#page-timelines [data-k="surveys"] { --k: color-mix(in srgb, var(--ink) 45%, var(--bg)); }
+#page-timelines .page-head, #page-timelines .filter-bar, .ft-chart-scroll, .ft-legend, .ft-cards, .ft-sub, .ft-moved {
+  --wide: min(1160px, calc(100vw - 96px));
+  width: var(--wide);
+  margin-left: calc((100% - var(--wide)) / 2);
+}
+@media (max-width: 1100px) {
+  #page-timelines .page-head, #page-timelines .filter-bar, .ft-chart-scroll, .ft-legend, .ft-cards, .ft-sub, .ft-moved { --wide: calc(100vw - 32px); }
+}
+.ft-chart { display: block; width: 100%; height: auto; overflow: visible; }
+.ft-grid { stroke: var(--line); }
+.ft-year { fill: var(--ink-2); font-family: var(--font-ui); font-size: 12px; text-anchor: middle; }
+.ft-today { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 4; }
+.ft-today-label { fill: var(--accent); font-family: var(--font-ui); font-size: 12px; }
+.ft-hit { fill: transparent; }
+.ft-row { cursor: pointer; }
+.ft-row:hover .ft-hit { fill: color-mix(in srgb, var(--ink) 4%, transparent); }
+.ft-row:hover .ft-who { fill: var(--accent); }
+.ft-who { fill: var(--ink); font-family: var(--font-ui); font-size: 14px; }
+.ft-track { stroke: color-mix(in srgb, var(--ink) 12%, var(--bg)); }
+.ft-range { stroke: var(--k); stroke-width: 5; stroke-linecap: round; opacity: 0.45; }
+.ft-open { stroke: var(--k); stroke-width: 2; stroke-dasharray: 2 4; opacity: 0.7; }
+.ft-dot { fill: var(--k); stroke: var(--bg); stroke-width: 2.5; }
+.ft-legend { margin-top: 28px; margin-bottom: 48px; }
+.ft-legend .lg-swatch { background: var(--k); }
+.ft-lg-line { display: inline-block; width: 22px; height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 30%, var(--bg)); }
+.ft-card { border-top: 3px solid var(--k); }
+.ft-when { margin: 10px 0 0; color: var(--k); font-family: var(--font-ui); font-size: 26px; font-weight: 500; line-height: 1.1; }
+#page-timelines [data-k="surveys"] .ft-when { color: var(--ink-2); }
+.ft-card .org-card-name { margin-top: 10px; }
+.ft-what { margin: -4px 0 12px; color: var(--ink-2); font-family: var(--font-ui); font-size: 14px; line-height: 1.4; }
+.ft-card.is-flash { animation: ft-flash 1.4s ease-out; }
+@keyframes ft-flash { 0%, 30% { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); } 100% { box-shadow: 0 0 0 2px transparent; } }
+.ft-sub { margin-top: 96px; margin-bottom: 24px; font-size: 26px; font-weight: 500; }
+.ft-moved { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px 32px; padding: 0; list-style: none; }
+.ft-moved li { padding-top: 16px; border-top: 1px solid var(--line); }
+.ft-moved strong { display: block; font-family: var(--font-ui); font-size: 22px; font-weight: 500; }
+.ft-moved span { display: block; margin-top: 8px; color: var(--ink-2); font-size: 16px; line-height: 1.55; }
+/* Phones: the chart keeps a readable size and scrolls sideways */
+@media (max-width: 640px) {
+  .ft-chart-scroll { overflow-x: auto; scrollbar-width: none; }
+  .ft-chart { width: 760px; max-width: none; }
+}

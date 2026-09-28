@@ -734,7 +734,7 @@
   }
 
   // ───────────── Routing: #<page>, defaulting to Mission (the homepage)
-  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "milestones", "positions", "plans", "actors", "companions", "coordinate", "contact", "mission", "sitemap"];
+  const PAGES = ["statements", "materials", "glossary", "incidents", "race", "milestones", "positions", "plans", "timelines", "actors", "companions", "coordinate", "contact", "mission", "sitemap"];
   const DEFAULT_PAGE = "mission";
 
   let indicatorReady = false;   // the first placement doesn't animate
