@@ -671,6 +671,15 @@
     };
   }
 
+  // Back to the start of the subpage (its menus and heading), if the page
+  // has been scrolled past it, so a newly chosen view opens at its top
+  function toSubpageTop() {
+    const bar = document.querySelector("#page-positions .filter-bar");
+    const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 0;
+    const y = bar.getBoundingClientRect().top + window.scrollY - header - 16;
+    if (window.scrollY > y) window.scrollTo({ top: y, behavior: "instant" });
+  }
+
   function render() {
     const g = GROUPS[state.group];
     const go = (group, body) => {
@@ -678,6 +687,7 @@
       state.body = body || GROUPS[group].bodies[0][0];
       state.selected = null;
       render();
+      if (group === "timelines") toSubpageTop();   // each person's timeline opens at its top
     };
     const industry0 = state.group === "industry";
     const people = PEOPLE[state.group];
@@ -935,7 +945,7 @@
     const sc = $("positions-view").querySelector(".tlc-scroll");
     if (sc) sc.scrollLeft = sc.scrollWidth;
     $("positions-view").querySelectorAll("[data-open]").forEach((el) => {
-      const open = () => { state.body = el.dataset.open; render(); $("positions-title").scrollIntoView({ block: "start" }); window.scrollBy(0, -120); };
+      const open = () => { state.body = el.dataset.open; render(); toSubpageTop(); };
       el.addEventListener("click", open);
       el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
     });
