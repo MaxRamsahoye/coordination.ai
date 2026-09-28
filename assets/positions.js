@@ -21,7 +21,7 @@
     us: { label: "US", bodyLabel: "Chamber", bodies: [["senate", "Senate"], ["house", "House of Representatives"]] },
     leaders: { label: "World leaders", bodyLabel: "", bodies: [["overview", "World leaders"]] },
     actors: { label: "Major actors", bodyLabel: "", bodies: [["overview", "Major actors"]] },
-    timelines: { label: "Timelines", bodyLabel: "Person", bodies: [["overview", "All"], ...(window.CC_TIMELINES || []).map((t) => [t.id, t.name])] },
+    timelines: { label: "Histories", bodyLabel: "Person", bodies: [["overview", "All"], ...(window.CC_TIMELINES || []).map((t) => [t.id, t.name])] },
   };
   const PEOPLE = { leaders: "World leaders", actors: "Major actors" };   // the groups that are a single table of people
 
@@ -693,7 +693,7 @@
     const people = PEOPLE[state.group];
     const timelines = state.group === "timelines";
     // Tier 1: Industry, Governments, World leaders, Major actors or Timelines
-    pills($("positions-groups"), [["industry", "Industry"], ["gov", "Governments"], ["leaders", "World leaders"], ["actors", "Major actors"], ["timelines", "Timelines"]],
+    pills($("positions-groups"), [["industry", "Industry"], ["gov", "Governments"], ["leaders", "World leaders"], ["actors", "Major actors"], ["timelines", "Histories"]],
       industry0 || people || timelines ? state.group : "gov", (v) => go(v));
     // Tier 2: a lab, a person, or Overview / UK / US (none for the tables of people)
     $("positions-bodies").closest(".filter-row").hidden = !!people;
@@ -710,7 +710,7 @@
     const overview = state.body === "overview";
     $("positions-title").textContent =
       people ? people
-      : timelines ? (overview ? "Timelines: what they've said over the years" : bodyName)
+      : timelines ? (overview ? "Histories: what they've said over the years" : bodyName)
       : state.group === "gov" ? "Governments: all chambers"
       : state.group === "industry" ? (overview ? "Industry: all companies" : bodyName)
       : `${g.label} Government: ${bodyName}`;
@@ -857,7 +857,7 @@
       : `<p>Influential people outside the labs' leadership and the legislatures: the heads of other technology companies, scientists, investors and public figures. People who lead the frontier labs are under Industry.</p>`;
   }
 
-  // Timelines: what selected leaders have said over the years
+  // Histories: what selected leaders have said over the years
   // (data/timelines.js). All: a chart with a row per person and a dot per
   // statement, coloured by the position it took; then each person's
   // statements in date order. A person: just their statements.

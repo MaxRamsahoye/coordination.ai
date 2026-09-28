@@ -1,6 +1,6 @@
 /*
- * Timelines — what selected leaders have said about AI risk, and about
- * slowing or regulating AI, over the years (Positions › Timelines).
+ * Histories — what selected leaders have said about AI risk, and about
+ * slowing or regulating AI, over the years (Positions › Histories).
  *
  * Each person:
  *   id, name, role
